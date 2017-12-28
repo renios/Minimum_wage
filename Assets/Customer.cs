@@ -6,13 +6,17 @@ using UnityEngine.UI;
 
 public class Customer : MonoBehaviour {
 
+	public int indexInArray;
+
 	public float waitingTime;
 	float remainWaitingTime;
 	public Image timerImage;
 
 	List<GameObject> orderedFoods;
 
-	void InitializeTimer() {
+	bool initialized = false;
+
+	void InitializeTimer(float waitingTime) {
 		remainWaitingTime = waitingTime;
 		timerImage.fillAmount = remainWaitingTime / waitingTime;
 	}
@@ -28,13 +32,19 @@ public class Customer : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public void Initialize (int indexInArray, float waitingTime) {
+		this.indexInArray = indexInArray;
+
 		MakeOrder();
-		InitializeTimer();
+		InitializeTimer(waitingTime);
+
+		initialized = true;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!initialized) return;
+	
 		UpdateTimer();
 	}
 }

@@ -4113,6 +4113,13 @@ MonoBehaviour:
   - {fileID: 692047478}
   - {fileID: 421577027}
   - {fileID: 29888983}
+  waitingTime: 10
+  customerCooldown: 2
+  currentWaitingCustomers:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1035026080
 GameObject:
   m_ObjectHideFlags: 0
@@ -6280,7 +6287,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1295168820457308, guid: 6a707291eebf64fc89dd89eb32721e7e, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114425137928681976, guid: 6a707291eebf64fc89dd89eb32721e7e,
         type: 2}
