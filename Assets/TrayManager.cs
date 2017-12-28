@@ -1,12 +1,76 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using Enums;
 
 public class TrayManager : MonoBehaviour {
 
-	List<GameObject> trays;
+	List<Tray> trays;
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
+
+	CustomerManager customerManager;
+
+	public void TryMatch() {
+		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
+		customers.OrderBy(customer => customer.remainWaitingTime);
+
+		// string str = "";
+		// customers.ForEach(customer => {
+		// 	str += customer.remainWaitingTime.ToString();
+		// 	str += ", ";
+		// });
+		// Debug.Log("Customer(OrderedByTime) : " + str);
+
+		// 하나씩 맞춰보고 삭제
+		foreach (var tray in trays) {
+			Customer matchedCustomer = customers.Find(customer => MatchTrayWithCustomer(tray, customer));
+			if (matchedCustomer != null) {
+				// 손님 보내고
+				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
+				customers.Remove(matchedCustomer);
+				// 해당되는 트레이 리필
+				tray.Refresh();
+			}
+		}
+	}
+
+	bool MatchTrayWithCustomer(Tray tray, Customer customer) {
+		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
+		List<FoodOnTray> foodsOnTray = tray.foods;
+		
+		List<FoodType> foodsTypeOnTray = new List<FoodType>();
+		foodsOnTray.ForEach(food => {
+			foodsTypeOnTray.Add(food.foodType);
+		});
+
+		// string str = "";
+		// foodsOnTray.ForEach(food => {
+		// 	str += food.foodType.ToString();
+		// 	str += ", ";
+		// });
+		// Debug.Log("FoodsOnTray : " + str);
+
+		// str = "";
+		// foodsInOrder.ForEach(food => {
+		// 	str += food.foodType.ToString();
+		// 	str += ", ";
+		// });
+		// Debug.Log("foodsInOrder : " + str);
+
+		foreach (var foodInOrder in foodsInOrder) {
+			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
+			if (isThereMatchedFoodType) {
+				foodsTypeOnTray.Remove(foodInOrder.foodType);
+			}
+			else {
+				return false;
+			}
+		}
+		
+		return true;
+	}
 
 	void ChangeFoodPosition(GameObject food1, GameObject food2) {
 		// 트레이와 위치를 둘 다 바꿔야 함
@@ -23,11 +87,16 @@ public class TrayManager : MonoBehaviour {
 
 		food1.transform.position = positionOfFood2;
 		food2.transform.position = positionTemp;
+
+		trays.ForEach(tray => tray.UpdateFoodsOnTray());
+
+		TryMatch();
 	}
 
 	// Use this for initialization
 	void Start () {
-		
+		customerManager = FindObjectOfType<CustomerManager>();
+		trays = FindObjectsOfType<Tray>().ToList();
 	}
 	
 	// Update is called once per frame
@@ -58,6 +127,11 @@ public class TrayManager : MonoBehaviour {
 			if ((pickedFood1 != null) && (pickedFood2 != null)) {
 				ChangeFoodPosition(pickedFood1, pickedFood2);
 			}
+		}
+
+		if (Input.GetKeyDown(KeyCode.Tab)) {
+			trays.ForEach(tray => tray.Refresh());
+			TryMatch();
 		}
 	}
 }

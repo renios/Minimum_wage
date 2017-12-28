@@ -9,16 +9,17 @@ public class Customer : MonoBehaviour {
 	public int indexInArray;
 
 	public float waitingTime;
-	float remainWaitingTime;
+	public float remainWaitingTime;
 	public Image timerImage;
 
-	List<GameObject> orderedFoods = new List<GameObject>();
+	public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
 	bool initialized = false;
 
 	CustomerManager customerManager;
 
-	void InitializeTimer(float waitingTime) {
+	void InitializeTimer(float inputTime) {
+		waitingTime = inputTime;
 		remainWaitingTime = waitingTime;
 		timerImage.fillAmount = remainWaitingTime / waitingTime;
 	}
@@ -29,15 +30,15 @@ public class Customer : MonoBehaviour {
 	}
 
 	void MakeOrder() {
-		GetComponentsInChildren<FoodInOrder>().ToList().ForEach(fio => orderedFoods.Add(fio.gameObject));
+		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
 	}
 
 	// Use this for initialization
-	public void Initialize (int indexInArray, float waitingTime) {
+	public void Initialize (int indexInArray, float inputTime) {
 		this.indexInArray = indexInArray;
 
 		MakeOrder();
-		InitializeTimer(waitingTime);
+		InitializeTimer(inputTime);
 
 		initialized = true;
 	}

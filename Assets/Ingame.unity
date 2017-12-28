@@ -2160,6 +2160,7 @@ GameObject:
   m_Component:
   - component: {fileID: 633180780}
   - component: {fileID: 633180781}
+  - component: {fileID: 633180782}
   m_Layer: 0
   m_Name: Tray (5)
   m_TagString: Tray
@@ -2225,6 +2226,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &633180782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 633180779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &637166006
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,6 +2507,7 @@ GameObject:
   m_Component:
   - component: {fileID: 694934371}
   - component: {fileID: 694934372}
+  - component: {fileID: 694934373}
   m_Layer: 0
   m_Name: Tray (2)
   m_TagString: Tray
@@ -2559,6 +2573,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &694934373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 694934370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &698104746
 GameObject:
   m_ObjectHideFlags: 0
@@ -2882,6 +2908,7 @@ GameObject:
   m_Component:
   - component: {fileID: 740543154}
   - component: {fileID: 740543155}
+  - component: {fileID: 740543156}
   m_Layer: 0
   m_Name: Tray (1)
   m_TagString: Tray
@@ -2947,6 +2974,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &740543156
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 740543153}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &758837425
 GameObject:
   m_ObjectHideFlags: 0
@@ -4048,7 +4087,7 @@ MonoBehaviour:
   - {fileID: 692047478}
   - {fileID: 421577027}
   - {fileID: 29888983}
-  waitingTime: 10
+  waitingTime: 30
   customerCooldown: 2
   currentWaitingCustomers:
   - {fileID: 0}
@@ -5296,6 +5335,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1392838231}
   - component: {fileID: 1392838232}
+  - component: {fileID: 1392838233}
   m_Layer: 0
   m_Name: Tray (4)
   m_TagString: Tray
@@ -5361,6 +5401,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &1392838233
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1392838230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &1407241032
 GameObject:
   m_ObjectHideFlags: 0
@@ -6433,6 +6485,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1599486814}
   - component: {fileID: 1599486815}
+  - component: {fileID: 1599486816}
   m_Layer: 0
   m_Name: Tray (3)
   m_TagString: Tray
@@ -6498,6 +6551,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &1599486816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1599486813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &1608191664
 GameObject:
   m_ObjectHideFlags: 0
@@ -6545,9 +6610,9 @@ MonoBehaviour:
   heartPrefab: {fileID: 1837342041942116, guid: 332bc6a37c6e840299ddc448282c965b,
     type: 2}
   heartSlot:
-  - {fileID: 24818312}
-  - {fileID: 565322672}
-  - {fileID: 984893581}
+  - {fileID: 24818313}
+  - {fileID: 565322673}
+  - {fileID: 984893582}
 --- !u!1 &1624733216
 GameObject:
   m_ObjectHideFlags: 0
@@ -7210,6 +7275,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1799757818}
   - component: {fileID: 1799757819}
+  - component: {fileID: 1799757820}
   m_Layer: 0
   m_Name: Tray
   m_TagString: Tray
@@ -7275,6 +7341,18 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
+--- !u!114 &1799757820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1799757817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa8dd957bd7b04310bec1a2eab4d12ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  foods: []
 --- !u!1 &1809563418
 GameObject:
   m_ObjectHideFlags: 0

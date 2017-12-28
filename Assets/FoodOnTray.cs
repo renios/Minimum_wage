@@ -7,8 +7,6 @@ public class FoodOnTray : MonoBehaviour {
 
 	public FoodType foodType;
 
-	TrayManager trayManager;
-
 	// 음식과 색을 매치시키는 임시 코드
 	public Color EnumToColor (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)
@@ -30,16 +28,18 @@ public class FoodOnTray : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Start () {
-		trayManager = FindObjectOfType<TrayManager>();
-
+	public void Initialize() {
 		// 랜덤 음식으로 변환
 		int foodTypeIndex = Random.Range(0, 6);
 		foodType = (FoodType)foodTypeIndex;
 		
 		// 음식에 따른 색으로 변환(임시)
 		GetComponent<SpriteRenderer>().color = EnumToColor(foodType);
+	}
+
+	// Use this for initialization
+	void Start () {
+		Initialize();
 	}
 	
 	// Update is called once per frame

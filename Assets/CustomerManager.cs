@@ -11,24 +11,30 @@ public class CustomerManager : MonoBehaviour {
 	public float customerCooldown;
 	float lastCustomerMakeTime;
 
-	public GameObject[] currentWaitingCustomers;
+	public Customer[] currentWaitingCustomers;
 
 	HeartManager heartManager;
+	TrayManager trayManager;
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		Destroy(currentWaitingCustomers[indexInArray]);
+		Destroy(currentWaitingCustomers[indexInArray].gameObject);
 		heartManager.ReduceHeart(1);
 	}
 
+	public void RemoveCustomerByMatching(int indexInArray) {
+		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+	}
+
 	void MakeNewCustomer(int indexInArray, Vector3 position) {
-		GameObject customer = Instantiate(customerPrefab, position, Quaternion.identity);
-		customer.transform.parent = this.transform;
-		customer.GetComponent<Customer>().Initialize(indexInArray, this.waitingTime);
+		GameObject customerObj = Instantiate(customerPrefab, position, Quaternion.identity);
+		customerObj.transform.parent = this.transform;
+		Customer customer = customerObj.GetComponent<Customer>();
+		customer.Initialize(indexInArray, this.waitingTime);
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}
 
-	void AddCustomerInEmptySlot(GameObject newCustomer) {
+	void AddCustomerInEmptySlot(Customer newCustomer) {
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
 			if (currentWaitingCustomers[i] == null) {
 				currentWaitingCustomers[i] = newCustomer;
@@ -60,6 +66,7 @@ public class CustomerManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		heartManager = FindObjectOfType<HeartManager>();
+		trayManager = FindObjectOfType<TrayManager>();
 
 		lastCustomerMakeTime = 0;
 		// customerSlot.ForEach(t => {
@@ -76,6 +83,8 @@ public class CustomerManager : MonoBehaviour {
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex].position);
+		
+			trayManager.TryMatch();
 		}		
 	}
 }
