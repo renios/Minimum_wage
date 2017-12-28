@@ -12,9 +12,11 @@ public class Customer : MonoBehaviour {
 	float remainWaitingTime;
 	public Image timerImage;
 
-	List<GameObject> orderedFoods;
+	List<GameObject> orderedFoods = new List<GameObject>();
 
 	bool initialized = false;
+
+	CustomerManager customerManager;
 
 	void InitializeTimer(float waitingTime) {
 		remainWaitingTime = waitingTime;
@@ -27,7 +29,6 @@ public class Customer : MonoBehaviour {
 	}
 
 	void MakeOrder() {
-		orderedFoods = new List<GameObject>();
 		GetComponentsInChildren<FoodInOrder>().ToList().ForEach(fio => orderedFoods.Add(fio.gameObject));
 	}
 
@@ -40,11 +41,20 @@ public class Customer : MonoBehaviour {
 
 		initialized = true;
 	}
+
+	// Use this for initialization
+	void Start () {
+		customerManager = FindObjectOfType<CustomerManager>();
+	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (!initialized) return;
 	
 		UpdateTimer();
+
+		if (remainWaitingTime <= 0) {
+			customerManager.RemoveCustomerByTimeout(indexInArray);
+		}
 	}
 }

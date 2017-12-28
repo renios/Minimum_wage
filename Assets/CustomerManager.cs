@@ -13,6 +13,13 @@ public class CustomerManager : MonoBehaviour {
 
 	public GameObject[] currentWaitingCustomers;
 
+	HeartManager heartManager;
+
+	public void RemoveCustomerByTimeout(int indexInArray) {
+		Destroy(currentWaitingCustomers[indexInArray]);
+		heartManager.ReduceHeart(1);
+	}
+
 	void MakeNewCustomer(int indexInArray, Vector3 position) {
 		GameObject customer = Instantiate(customerPrefab, position, Quaternion.identity);
 		customer.transform.parent = this.transform;
@@ -52,6 +59,8 @@ public class CustomerManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		heartManager = FindObjectOfType<HeartManager>();
+
 		lastCustomerMakeTime = 0;
 		// customerSlot.ForEach(t => {
 		// 	MakeNewCustomer(t.position);
