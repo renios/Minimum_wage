@@ -15,6 +15,7 @@ public class CustomerManager : MonoBehaviour {
 
 	HeartManager heartManager;
 	TrayManager trayManager;
+	CoinManager coinManager;
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
@@ -23,6 +24,7 @@ public class CustomerManager : MonoBehaviour {
 
 	public void RemoveCustomerByMatching(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+		coinManager.AddCoin(100);
 	}
 
 	void MakeNewCustomer(int indexInArray, Vector3 position) {
@@ -67,6 +69,7 @@ public class CustomerManager : MonoBehaviour {
 	void Start () {
 		heartManager = FindObjectOfType<HeartManager>();
 		trayManager = FindObjectOfType<TrayManager>();
+		coinManager = FindObjectOfType<CoinManager>();
 
 		lastCustomerMakeTime = 0;
 		// customerSlot.ForEach(t => {

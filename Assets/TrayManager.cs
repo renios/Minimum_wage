@@ -10,6 +10,9 @@ public class TrayManager : MonoBehaviour {
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
 
+	public int resetTime;
+	int lastResetTime = 0;
+
 	CustomerManager customerManager;
 
 	public void TryMatch() {
@@ -130,8 +133,11 @@ public class TrayManager : MonoBehaviour {
 		}
 
 		if (Input.GetKeyDown(KeyCode.Tab)) {
+			if (lastResetTime < resetTime) return;
+
 			trays.ForEach(tray => tray.Refresh());
 			TryMatch();
+			lastResetTime = 0;
 		}
 	}
 }
