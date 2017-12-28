@@ -19,11 +19,13 @@ public class CustomerManager : MonoBehaviour {
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+		currentWaitingCustomers[indexInArray] = null;
 		heartManager.ReduceHeart(1);
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+		currentWaitingCustomers[indexInArray] = null;
 		coinManager.AddCoin(100);
 	}
 
