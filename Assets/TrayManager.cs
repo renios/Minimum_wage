@@ -10,8 +10,8 @@ public class TrayManager : MonoBehaviour {
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
 
-	public int resetTime;
-	int lastResetTime = 0;
+	public float resetTime;
+	float lastResetTime = 0;
 
 	CustomerManager customerManager;
 
@@ -131,6 +131,8 @@ public class TrayManager : MonoBehaviour {
 				ChangeFoodPosition(pickedFood1, pickedFood2);
 			}
 		}
+
+		lastResetTime += Time.deltaTime;
 
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			if (lastResetTime < resetTime) return;
