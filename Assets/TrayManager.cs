@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Enums;
+using UnityEngine.UI;
 
 public class TrayManager : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class TrayManager : MonoBehaviour {
 
 	public float resetTime;
 	float lastResetTime = 0;
+	public Image resetTimerImage;
 
 	CustomerManager customerManager;
 
@@ -133,6 +135,7 @@ public class TrayManager : MonoBehaviour {
 		}
 
 		lastResetTime += Time.deltaTime;
+		resetTimerImage.fillAmount = lastResetTime / resetTime;
 
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			if (lastResetTime < resetTime) return;
@@ -140,6 +143,7 @@ public class TrayManager : MonoBehaviour {
 			trays.ForEach(tray => tray.Refresh());
 			TryMatch();
 			lastResetTime = 0;
+			resetTimerImage.fillAmount = lastResetTime / resetTime;
 		}
 	}
 }
