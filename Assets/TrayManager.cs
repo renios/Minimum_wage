@@ -93,6 +93,10 @@ public class TrayManager : MonoBehaviour {
 		food1.transform.position = positionOfFood2;
 		food2.transform.position = positionTemp;
 
+		// 이동 성공 후 초기화
+		pickedFood1 = null;
+		pickedFood2 = null;
+
 		trays.ForEach(tray => tray.UpdateFoodListOnTray());
 
 		TryMatch();
