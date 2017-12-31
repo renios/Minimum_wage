@@ -7,7 +7,7 @@ public class Tray : MonoBehaviour {
 
 	public List<FoodOnTray> foods = new List<FoodOnTray>();
 
-	public void UpdateFoodsOnTray() {
+	public void UpdateFoodListOnTray() {
 		foods = GetComponentsInChildren<FoodOnTray>().ToList();
 	}
 

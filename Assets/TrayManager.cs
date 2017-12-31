@@ -93,7 +93,7 @@ public class TrayManager : MonoBehaviour {
 		food1.transform.position = positionOfFood2;
 		food2.transform.position = positionTemp;
 
-		trays.ForEach(tray => tray.UpdateFoodsOnTray());
+		trays.ForEach(tray => tray.UpdateFoodListOnTray());
 
 		TryMatch();
 	}
