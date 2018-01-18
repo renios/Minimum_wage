@@ -17,6 +17,32 @@ public class TrayManager : MonoBehaviour {
 
 	CustomerManager customerManager;
 
+	bool NoMatchingFoods() {
+		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
+		List<FoodOnTray> foods = new List<FoodOnTray>();
+
+		bool result = true;
+
+		// 모든 손님이 전부 주문 불가일 경우에만 true
+		foreach (var customer in customers) {
+			trays.ForEach(tray => tray.foods.ForEach(food => foods.Add(food)));
+			bool partialResult = false;
+			foreach (var orderedFood in customer.orderedFoods) {
+				var matchedFood = foods.Find(food => food.foodType == orderedFood.foodType);
+				if (matchedFood != null) {
+					foods.Remove(matchedFood);
+				}
+				else {
+					partialResult = true;
+				}
+			}
+
+			if (!partialResult) result = partialResult;
+		}
+
+		return result;
+	}
+
 	public void TryMatch() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime);
@@ -31,6 +57,11 @@ public class TrayManager : MonoBehaviour {
 				// 해당되는 트레이 리필
 				tray.Refresh();
 			}
+		}
+
+		// 판 자동 리셋 체크
+		if (NoMatchingFoods()) {
+			trays.ForEach(tray => tray.Refresh());
 		}
 	}
 
