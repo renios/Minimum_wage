@@ -21,13 +21,6 @@ public class TrayManager : MonoBehaviour {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime);
 
-		// string str = "";
-		// customers.ForEach(customer => {
-		// 	str += customer.remainWaitingTime.ToString();
-		// 	str += ", ";
-		// });
-		// Debug.Log("Customer(OrderedByTime) : " + str);
-
 		// 하나씩 맞춰보고 삭제
 		foreach (var tray in trays) {
 			Customer matchedCustomer = customers.Find(customer => MatchTrayWithCustomer(tray, customer));
@@ -49,20 +42,6 @@ public class TrayManager : MonoBehaviour {
 		foodsOnTray.ForEach(food => {
 			foodsTypeOnTray.Add(food.foodType);
 		});
-
-		// string str = "";
-		// foodsOnTray.ForEach(food => {
-		// 	str += food.foodType.ToString();
-		// 	str += ", ";
-		// });
-		// Debug.Log("FoodsOnTray : " + str);
-
-		// str = "";
-		// foodsInOrder.ForEach(food => {
-		// 	str += food.foodType.ToString();
-		// 	str += ", ";
-		// });
-		// Debug.Log("foodsInOrder : " + str);
 
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
