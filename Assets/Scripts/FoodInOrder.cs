@@ -7,24 +7,23 @@ public class FoodInOrder : MonoBehaviour {
 
 	public FoodType foodType;
 
-	// 음식과 색을 매치시키는 임시 코드
-	public Color EnumToColor (FoodType foodTypeEnum) {
+	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)
 		{
 			case FoodType.A:
-				return Color.black;
+				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
 			case FoodType.B:
-				return Color.blue;
+				return Resources.Load("Foods/food02", typeof(Sprite)) as Sprite;
 			case FoodType.C:
-				return Color.cyan;
+				return Resources.Load("Foods/food03", typeof(Sprite)) as Sprite;
 			case FoodType.D:
-				return Color.gray;
+				return Resources.Load("Foods/food04", typeof(Sprite)) as Sprite;
 			case FoodType.E:
-				return Color.magenta;
+				return Resources.Load("Foods/food05", typeof(Sprite)) as Sprite;
 			case FoodType.F:
-				return Color.yellow;
+				return Resources.Load("Foods/food06", typeof(Sprite)) as Sprite;
 			default:
-				return Color.white;
+				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
 		}
 	}
 
@@ -33,9 +32,9 @@ public class FoodInOrder : MonoBehaviour {
 		// 랜덤 음식으로 변환
 		int foodTypeIndex = Random.Range(0, 6);
 		foodType = (FoodType)foodTypeIndex;
-		
-		// 음식에 따른 색으로 변환(임시)
-		GetComponent<SpriteRenderer>().color = EnumToColor(foodType);
+
+		// 임시 음식 이미지로 변환
+		GetComponent<SpriteRenderer>().sprite = EnumToSprite(foodType);
 	}
 	
 	// Update is called once per frame
