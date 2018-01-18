@@ -11,6 +11,7 @@ public class Customer : MonoBehaviour {
 	public float waitingTime;
 	public float remainWaitingTime;
 	public Image timerImage;
+	public Image customerImage;
 
 	public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
@@ -33,9 +34,19 @@ public class Customer : MonoBehaviour {
 		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
 	}
 
+	void SetRandomImage() {
+		Object[] spriteObjects = Resources.LoadAll("Bunnies", typeof(Sprite));
+		int pickedIndex = Random.Range(0, spriteObjects.Length);
+		Debug.Log("length : " + spriteObjects.Length + ", picked : " + Random.Range(0, spriteObjects.Length));
+		Sprite pickedSprite = spriteObjects[pickedIndex] as Sprite;
+		customerImage.sprite = pickedSprite;
+	}
+
 	// Use this for initialization
 	public void Initialize (int indexInArray, float inputTime) {
 		this.indexInArray = indexInArray;
+
+		SetRandomImage();
 
 		MakeOrder();
 		InitializeTimer(inputTime);

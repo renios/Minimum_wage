@@ -416,6 +416,7 @@ MonoBehaviour:
   waitingTime: 10
   remainWaitingTime: 0
   timerImage: {fileID: 114616579222139526}
+  customerImage: {fileID: 114425137928681976}
   orderedFoods: []
 --- !u!212 &212022986091500556
 SpriteRenderer:
