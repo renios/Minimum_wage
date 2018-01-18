@@ -81,9 +81,10 @@ public class CustomerManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		lastCustomerMakeTime += Time.deltaTime;
-
 		if (IsEmptyPosInCustomerSlot()) {
+			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
+			lastCustomerMakeTime += Time.deltaTime; 
+
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();

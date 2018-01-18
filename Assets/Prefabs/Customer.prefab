@@ -368,8 +368,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc79e73d07d5a4af983acdf1ac83b4ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  indexInArray: 0
   waitingTime: 10
+  remainWaitingTime: 0
   timerImage: {fileID: 114425137928681976}
+  orderedFoods: []
 --- !u!212 &212022986091500556
 SpriteRenderer:
   m_ObjectHideFlags: 1
