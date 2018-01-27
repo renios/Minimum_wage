@@ -8,6 +8,9 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
+	readonly int ROW = 5;
+	readonly int COL = 6;
+
 	Transform[,] foodPoses;
 	FoodOnTray[,] foods;
 	public GameObject foodObj;
@@ -33,7 +36,6 @@ public class TrayManager : MonoBehaviour {
 
 		// 모든 손님이 전부 주문 불가일 경우에만 true
 		foreach (var customer in customers) {
-			// trays.ForEach(tray => tray.foods.ForEach(food => foods.Add(food)));
 			bool partialResult = false;
 			foreach (var orderedFood in customer.orderedFoods) {
 				var matchedFood = foods.Find(food => food.foodType == orderedFood.foodType);
@@ -51,21 +53,36 @@ public class TrayManager : MonoBehaviour {
 		return result;
 	}
 
+	void TryMatchEachPart(Vector2 pos, List<Customer> customers) {
+		
+	}
+
 	public void TryMatch() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime);
 
 		// 하나씩 맞춰보고 삭제
-		// foreach (var tray in trays) {
-		// 	Customer matchedCustomer = customers.Find(customer => MatchTrayWithCustomer(tray, customer));
-		// 	if (matchedCustomer != null) {
-		// 		// 손님 보내고
-		// 		customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
-		// 		customers.Remove(matchedCustomer);
-		// 		// 해당되는 트레이 리필
-		// 		tray.Refresh();
-		// 	}
-		// }
+		for (int row = 0; row < ROW-1; row++) {
+			for (int col = 0; col < COL-1; col++) {
+				List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
+				foodsInPart.Add(foods[row, col]);
+				foodsInPart.Add(foods[row+1, col]);
+				foodsInPart.Add(foods[row, col+1]);
+				foodsInPart.Add(foods[row+1, col+1]);
+				foodsInPart = foodsInPart.FindAll(food => foodObj != null);
+
+				Customer matchedCustomer = customers.Find(customer => MatchEachPartWithCustomer(foodsInPart, customer));
+				if (matchedCustomer != null) {
+					// 손님 보내고
+					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
+					customers.Remove(matchedCustomer);
+					// 맞춰진 음식 삭제
+					foodsInPart.ForEach(food => Destroy(food.gameObject));
+					// 해당되는 음식 리필 (아직 미구현)
+					
+				}
+			}
+		}
 
 		// // 판 자동 리셋 체크
 		// if (NoMatchingFoods()) {
@@ -73,12 +90,11 @@ public class TrayManager : MonoBehaviour {
 		// }
 	}
 
-	bool MatchTrayWithCustomer(Tray tray, Customer customer) {
+	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
-		List<FoodOnTray> foodsOnTray = tray.foods;
 		
 		List<FoodType> foodsTypeOnTray = new List<FoodType>();
-		foodsOnTray.ForEach(food => {
+		foodsInPart.ForEach(food => {
 			foodsTypeOnTray.Add(food.foodType);
 		});
 
@@ -110,6 +126,18 @@ public class TrayManager : MonoBehaviour {
 
 		yield return tw.WaitForCompletion();
 
+		Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
+		Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
+
+		Vector2 tempCoord = food1.GetComponent<FoodOnTray>().foodCoord;
+
+		FoodOnTray tempFood = foods[(int)coordOfFood1.x, (int)coordOfFood1.y];
+		foods[(int)coordOfFood1.x, (int)coordOfFood1.y] = foods[(int)coordOfFood2.x, (int)coordOfFood2.y];
+		foods[(int)coordOfFood2.x, (int)coordOfFood2.y] = tempFood;
+
+		food1.GetComponent<FoodOnTray>().foodCoord = coordOfFood2;
+		food2.GetComponent<FoodOnTray>().foodCoord = tempCoord;
+
 		// 이동 성공 후 초기화
 		pickedFood1 = null;
 		pickedFood2 = null;
@@ -130,23 +158,18 @@ public class TrayManager : MonoBehaviour {
 		foodPosesList.ForEach(fp => fp.GetComponent<SpriteRenderer>().enabled = false);
 
 		// 2차원 배열일때 array[row(층수)][col(호수)]
-		foodPoses = new Transform[5, 6];
-		for (int row = 0; row < 5; row++) {
-			for (int col = 0; col < 6; col++) {
-				foodPoses[row, col] = foodPosesList[row*6 + col];
+		foodPoses = new Transform[ROW, COL];
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
+				foodPoses[row, col] = foodPosesList[row*COL + col];
 			}
 		}
 
-		// for (int row = 0; row < 5; row++) {
-		// 	for (int col = 0; col < 6; col++) {
-		// 		Debug.Log(foodPoses[row,col].position);
-		// 	}
-		// }
-
-		foods = new FoodOnTray[5, 6];
-		for (int row = 0; row < 5; row++) {
-			for (int col = 0; col < 6; col++) {
+		foods = new FoodOnTray[ROW, COL];
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
+				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
 			}
 		}
