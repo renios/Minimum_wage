@@ -37,7 +37,6 @@ public class Customer : MonoBehaviour {
 	void SetRandomImage() {
 		Object[] spriteObjects = Resources.LoadAll("Bunnies", typeof(Sprite));
 		int pickedIndex = Random.Range(0, spriteObjects.Length);
-		Debug.Log("length : " + spriteObjects.Length + ", picked : " + Random.Range(0, spriteObjects.Length));
 		Sprite pickedSprite = spriteObjects[pickedIndex] as Sprite;
 		customerImage.sprite = pickedSprite;
 	}
