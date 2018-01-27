@@ -8,7 +8,10 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
-	List<Tray> trays;
+	Transform[,] foodPoses;
+	FoodOnTray[,] foods;
+	public GameObject foodObj;
+
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
 
@@ -30,7 +33,7 @@ public class TrayManager : MonoBehaviour {
 
 		// 모든 손님이 전부 주문 불가일 경우에만 true
 		foreach (var customer in customers) {
-			trays.ForEach(tray => tray.foods.ForEach(food => foods.Add(food)));
+			// trays.ForEach(tray => tray.foods.ForEach(food => foods.Add(food)));
 			bool partialResult = false;
 			foreach (var orderedFood in customer.orderedFoods) {
 				var matchedFood = foods.Find(food => food.foodType == orderedFood.foodType);
@@ -53,21 +56,21 @@ public class TrayManager : MonoBehaviour {
 		customers.OrderBy(customer => customer.remainWaitingTime);
 
 		// 하나씩 맞춰보고 삭제
-		foreach (var tray in trays) {
-			Customer matchedCustomer = customers.Find(customer => MatchTrayWithCustomer(tray, customer));
-			if (matchedCustomer != null) {
-				// 손님 보내고
-				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
-				customers.Remove(matchedCustomer);
-				// 해당되는 트레이 리필
-				tray.Refresh();
-			}
-		}
+		// foreach (var tray in trays) {
+		// 	Customer matchedCustomer = customers.Find(customer => MatchTrayWithCustomer(tray, customer));
+		// 	if (matchedCustomer != null) {
+		// 		// 손님 보내고
+		// 		customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
+		// 		customers.Remove(matchedCustomer);
+		// 		// 해당되는 트레이 리필
+		// 		tray.Refresh();
+		// 	}
+		// }
 
-		// 판 자동 리셋 체크
-		if (NoMatchingFoods()) {
-			trays.ForEach(tray => tray.Refresh());
-		}
+		// // 판 자동 리셋 체크
+		// if (NoMatchingFoods()) {
+		// 	trays.ForEach(tray => tray.Refresh());
+		// }
 	}
 
 	bool MatchTrayWithCustomer(Tray tray, Customer customer) {
@@ -97,17 +100,10 @@ public class TrayManager : MonoBehaviour {
 	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2) {
 		isPlayMovingAnim = true;
 
-		// 트레이와 위치를 둘 다 바꿔야 함
-		Transform parentOfFood1 = food1.transform.parent;
 		Vector3 positionOfFood1 = food1.transform.position;
-		Transform parentOfFood2 = food2.transform.parent;
 		Vector3 positionOfFood2 = food2.transform.position;
 
-		Transform parentTemp = food1.transform.parent;
 		Vector3 positionTemp = food1.transform.position;
-
-		food1.transform.parent = parentOfFood2;
-		food2.transform.parent = parentTemp;
 
 		Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
 		food2.transform.DOMove(positionTemp, moveSpeed);
@@ -118,17 +114,49 @@ public class TrayManager : MonoBehaviour {
 		pickedFood1 = null;
 		pickedFood2 = null;
 
-		trays.ForEach(tray => tray.UpdateFoodListOnTray());
-
 		TryMatch();
 
 		isPlayMovingAnim = false;
 	}
 
+	void InitializeFoods() {
+		List<Transform> foodPosesList = new List<Transform>();
+		FindObjectsOfType<FoodPos>().ToList()
+									.ForEach(fp => foodPosesList.Add(fp.transform));
+		foodPosesList = foodPosesList.OrderBy(fp => fp.transform.position.y)
+									 .ThenBy(fp => fp.transform.position.x)
+									 .ToList();
+
+		foodPosesList.ForEach(fp => fp.GetComponent<SpriteRenderer>().enabled = false);
+
+		// 2차원 배열일때 array[row(층수)][col(호수)]
+		foodPoses = new Transform[5, 6];
+		for (int row = 0; row < 5; row++) {
+			for (int col = 0; col < 6; col++) {
+				foodPoses[row, col] = foodPosesList[row*6 + col];
+			}
+		}
+
+		// for (int row = 0; row < 5; row++) {
+		// 	for (int col = 0; col < 6; col++) {
+		// 		Debug.Log(foodPoses[row,col].position);
+		// 	}
+		// }
+
+		foods = new FoodOnTray[5, 6];
+		for (int row = 0; row < 5; row++) {
+			for (int col = 0; col < 6; col++) {
+				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
+				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+			}
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
-		trays = FindObjectsOfType<Tray>().ToList();
+
+		InitializeFoods();
 	}
 	
 	// Update is called once per frame
@@ -173,7 +201,6 @@ public class TrayManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.Tab)) {
 			if (lastResetTime < resetTime) return;
 
-			trays.ForEach(tray => tray.Refresh());
 			TryMatch();
 			lastResetTime = 0;
 			resetTimerImage.fillAmount = lastResetTime / resetTime;
