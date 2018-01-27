@@ -53,13 +53,49 @@ public class TrayManager : MonoBehaviour {
 		return result;
 	}
 
-	void TryMatchEachPart(Vector2 pos, List<Customer> customers) {
-		
+	void CheckAndRefill(int row, int col) {
+		if (foods[row, col] == null) {
+			// 맨 윗줄이 아닐 경우
+			if (row+1 < ROW) {
+				foods[row, col] = foods[row+1, col];
+				
+				if (foods[row+1, col] != null) {
+					foods[row, col].foodCoord = new Vector2(row, col);
+					foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
+					foods[row+1, col] = null;
+				}
+			}
+			// 맨 윗줄일 경우
+			else {
+				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
+				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
+				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+			}
+		} 
 	}
 
-	public void TryMatch() {
+	bool IsTrayFull() {
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
+				if (foods[row, col] == null) return false;
+			}
+		}
+		return true;
+	}
+
+	void RefillFoods() {
+		while (!IsTrayFull()) {	
+			for (int row = 0; row < ROW; row++) {
+				for (int col = 0; col < COL; col++) {
+					CheckAndRefill(row, col);
+				}
+			}
+		}
+	}
+
+	public void TryMatch() { 
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
-		customers.OrderBy(customer => customer.remainWaitingTime);
+		customers.OrderBy(customer => customer.remainWaitingTime); 
 
 		// 하나씩 맞춰보고 삭제
 		for (int row = 0; row < ROW-1; row++) {
@@ -69,17 +105,23 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart.Add(foods[row+1, col]);
 				foodsInPart.Add(foods[row, col+1]);
 				foodsInPart.Add(foods[row+1, col+1]);
-				foodsInPart = foodsInPart.FindAll(food => foodObj != null);
-
+				foodsInPart = foodsInPart.FindAll(food => food != null);
+				
 				Customer matchedCustomer = customers.Find(customer => MatchEachPartWithCustomer(foodsInPart, customer));
-				if (matchedCustomer != null) {
+				if (matchedCustomer != null) { 
 					// 손님 보내고
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
 					customers.Remove(matchedCustomer);
 					// 맞춰진 음식 삭제
-					foodsInPart.ForEach(food => Destroy(food.gameObject));
-					// 해당되는 음식 리필 (아직 미구현)
+					foodsInPart.ForEach(food => {
+						int posX = (int)food.foodCoord.x;
+						int posY = (int)food.foodCoord.y;
+						foods[posX, posY] = null;
+						Destroy(food.gameObject);
+					});
 					
+					// 해당되는 음식 리필
+					RefillFoods();
 				}
 			}
 		}
@@ -123,9 +165,7 @@ public class TrayManager : MonoBehaviour {
 
 		Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
 		food2.transform.DOMove(positionTemp, moveSpeed);
-
 		yield return tw.WaitForCompletion();
-
 		Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
 		Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
 
@@ -141,7 +181,6 @@ public class TrayManager : MonoBehaviour {
 		// 이동 성공 후 초기화
 		pickedFood1 = null;
 		pickedFood2 = null;
-
 		TryMatch();
 
 		isPlayMovingAnim = false;
@@ -211,22 +250,22 @@ public class TrayManager : MonoBehaviour {
 			if ((pickedFood1 != null) && (pickedFood2 != null)) {
 				StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2));
 			}
-
 			// 집었던거 초기화
 			if (pickedFood1 != null)
 				pickedFood1.GetComponent<SpriteRenderer>().DOFade(1, 0);
 			pickedFood1 = null;
+
 		}
 
 		lastResetTime += Time.deltaTime;
 		resetTimerImage.fillAmount = lastResetTime / resetTime;
 
-		if (Input.GetKeyDown(KeyCode.Tab)) {
-			if (lastResetTime < resetTime) return;
+		// if (Input.GetKeyDown(KeyCode.Tab)) {
+		// 	if (lastResetTime < resetTime) return;
 
-			TryMatch();
-			lastResetTime = 0;
-			resetTimerImage.fillAmount = lastResetTime / resetTime;
-		}
+		// 	TryMatch();
+		// 	lastResetTime = 0;
+		// 	resetTimerImage.fillAmount = lastResetTime / resetTime;
+		// }
 	}
 }

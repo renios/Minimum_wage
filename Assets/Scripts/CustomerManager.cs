@@ -74,9 +74,6 @@ public class CustomerManager : MonoBehaviour {
 		coinManager = FindObjectOfType<CoinManager>();
 
 		lastCustomerMakeTime = 0;
-		// customerSlot.ForEach(t => {
-		// 	MakeNewCustomer(t.position);
-		// });
 	}
 	
 	// Update is called once per frame
@@ -89,7 +86,6 @@ public class CustomerManager : MonoBehaviour {
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex].position);
-		
 			trayManager.TryMatch();
 		}		
 	}
