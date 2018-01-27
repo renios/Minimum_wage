@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Linq;
 using Enums;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
@@ -15,11 +16,15 @@ public class TrayManager : MonoBehaviour {
 	float lastResetTime = 0;
 	public Image resetTimerImage;
 
+	bool isPlayMovingAnim = false;
+
 	CustomerManager customerManager;
 
 	bool NoMatchingFoods() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		List<FoodOnTray> foods = new List<FoodOnTray>();
+
+		if (customers.Count == 0) return false;
 
 		bool result = true;
 
@@ -87,7 +92,11 @@ public class TrayManager : MonoBehaviour {
 		return true;
 	}
 
-	void ChangeFoodPosition(GameObject food1, GameObject food2) {
+	float moveSpeed = 0.2f;
+
+	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2) {
+		isPlayMovingAnim = true;
+
 		// 트레이와 위치를 둘 다 바꿔야 함
 		Transform parentOfFood1 = food1.transform.parent;
 		Vector3 positionOfFood1 = food1.transform.position;
@@ -100,8 +109,10 @@ public class TrayManager : MonoBehaviour {
 		food1.transform.parent = parentOfFood2;
 		food2.transform.parent = parentTemp;
 
-		food1.transform.position = positionOfFood2;
-		food2.transform.position = positionTemp;
+		Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
+		food2.transform.DOMove(positionTemp, moveSpeed);
+
+		yield return tw.WaitForCompletion();
 
 		// 이동 성공 후 초기화
 		pickedFood1 = null;
@@ -110,6 +121,8 @@ public class TrayManager : MonoBehaviour {
 		trays.ForEach(tray => tray.UpdateFoodListOnTray());
 
 		TryMatch();
+
+		isPlayMovingAnim = false;
 	}
 
 	// Use this for initialization
@@ -126,9 +139,10 @@ public class TrayManager : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
             //If something was hit, the RaycastHit2D.collider will not be null.
-            if (hit.collider != null)
+            if ((hit.collider != null) && (!isPlayMovingAnim))
             {
 				pickedFood1 = hit.collider.gameObject;
+				pickedFood1.GetComponent<SpriteRenderer>().DOFade(0.5f, 0);
             }
 		}	
 
@@ -144,8 +158,13 @@ public class TrayManager : MonoBehaviour {
             }
 
 			if ((pickedFood1 != null) && (pickedFood2 != null)) {
-				ChangeFoodPosition(pickedFood1, pickedFood2);
+				StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2));
 			}
+
+			// 집었던거 초기화
+			if (pickedFood1 != null)
+				pickedFood1.GetComponent<SpriteRenderer>().DOFade(1, 0);
+			pickedFood1 = null;
 		}
 
 		lastResetTime += Time.deltaTime;
