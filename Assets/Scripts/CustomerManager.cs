@@ -86,7 +86,7 @@ public class CustomerManager : MonoBehaviour {
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex].position);
-			trayManager.TryMatch();
+			// trayManager.TryMatch();
 		}		
 	}
 }
