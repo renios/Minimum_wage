@@ -2608,7 +2608,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1837342041942116, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4846420915701414, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
       propertyPath: m_LocalScale.x
@@ -4283,6 +4283,7 @@ GameObject:
   - component: {fileID: 1025461201}
   - component: {fileID: 1025461200}
   - component: {fileID: 1025461199}
+  - component: {fileID: 1025461198}
   m_Layer: 5
   m_Name: MissionManager
   m_TagString: Untagged
@@ -4290,6 +4291,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &1025461198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1025461197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10527a507efbe48cfadbe63a352732c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeText: {fileID: 1613166850}
+  customerText: {fileID: 1355510955}
+  remainTime: 90
+  successCustomer: 0
+  missionCustomer: 20
 --- !u!114 &1025461199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5810,6 +5827,10 @@ Prefab:
       propertyPath: m_Name
       value: Customer (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 1295168820457308, guid: 6a707291eebf64fc89dd89eb32721e7e, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6a707291eebf64fc89dd89eb32721e7e, type: 2}
   m_IsPrefabParent: 0
@@ -6080,7 +6101,7 @@ GameObject:
   - component: {fileID: 1355510956}
   - component: {fileID: 1355510955}
   m_Layer: 5
-  m_Name: Text1
+  m_Name: CustomerText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6375,6 +6396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameoverCanvas: {fileID: 2127739811}
+  textInCanvas: {fileID: 1704991369}
 --- !u!4 &1437095418
 Transform:
   m_ObjectHideFlags: 0
@@ -7476,7 +7498,7 @@ GameObject:
   - component: {fileID: 1613166851}
   - component: {fileID: 1613166850}
   m_Layer: 5
-  m_Name: Text2
+  m_Name: TimeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7581,6 +7603,10 @@ Prefab:
     - target: {fileID: 1837342041942116, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
       propertyPath: m_Name
       value: Heart (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1837342041942116, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
@@ -9885,7 +9911,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1837342041942116, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4846420915701414, guid: 332bc6a37c6e840299ddc448282c965b, type: 2}
       propertyPath: m_LocalScale.x

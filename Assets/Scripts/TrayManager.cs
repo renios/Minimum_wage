@@ -136,6 +136,7 @@ public class TrayManager : MonoBehaviour {
 						Destroy(food.gameObject, animDelay);
 					});
 					yield return new WaitForSeconds(animDelay);
+					FindObjectOfType<MissionManager_temp>().successCustomer++;
 					
 					// 해당되는 음식 리필
 					yield return StartCoroutine(RefillFoods());
