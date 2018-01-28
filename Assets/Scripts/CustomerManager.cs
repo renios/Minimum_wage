@@ -29,9 +29,10 @@ public class CustomerManager : MonoBehaviour {
 		coinManager.AddCoin(100);
 	}
 
-	void MakeNewCustomer(int indexInArray, Vector3 position) {
-		GameObject customerObj = Instantiate(customerPrefab, position, Quaternion.identity);
-		customerObj.transform.parent = this.transform;
+	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
+		GameObject customerObj = Instantiate(customerPrefab, parentTransform.position, Quaternion.identity);
+		customerObj.transform.parent = parentTransform;
+		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 		customer.Initialize(indexInArray, this.waitingTime);
 		AddCustomerInEmptySlot(customer);
@@ -85,7 +86,7 @@ public class CustomerManager : MonoBehaviour {
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex].position);
+			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
 			// trayManager.TryMatch();
 		}		
 	}
