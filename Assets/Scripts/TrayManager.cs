@@ -28,7 +28,7 @@ public class TrayManager : MonoBehaviour {
 
 	bool NoMatchingFoods() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
-		List<FoodOnTray> foods = new List<FoodOnTray>();
+		List<FoodOnTray> foodsList = new List<FoodOnTray>();
 
 		if (customers.Count == 0) return false;
 
@@ -37,10 +37,18 @@ public class TrayManager : MonoBehaviour {
 		// 모든 손님이 전부 주문 불가일 경우에만 true
 		foreach (var customer in customers) {
 			bool partialResult = false;
+
+			foodsList.Clear();
+			for (int row = 0; row < ROW; row++) {
+				for (int col = 0; col < COL; col++) {
+					foodsList.Add(foods[row, col]);
+				}
+			}
+
 			foreach (var orderedFood in customer.orderedFoods) {
-				var matchedFood = foods.Find(food => food.foodType == orderedFood.foodType);
+				var matchedFood = foodsList.Find(food => food.foodType == orderedFood.foodType);
 				if (matchedFood != null) {
-					foods.Remove(matchedFood);
+					foodsList.Remove(matchedFood);
 				}
 				else {
 					partialResult = true;
@@ -61,8 +69,9 @@ public class TrayManager : MonoBehaviour {
 				
 				if (foods[row+1, col] != null) {
 					foods[row, col].foodCoord = new Vector2(row, col);
-					foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
+					Tween tw = foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
 					foods[row+1, col] = null;
+					// yield return tw.WaitForCompletion();
 				}
 			}
 			// 맨 윗줄일 경우
@@ -70,6 +79,9 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+				newFood.transform.DOScale(0.1f, 0);
+				Tween tw = newFood.transform.DOScale(0.4f, 0.2f);
+				// yield return tw.WaitForCompletion();
 			}
 		} 
 	}
@@ -83,17 +95,18 @@ public class TrayManager : MonoBehaviour {
 		return true;
 	}
 
-	void RefillFoods() {
+	IEnumerator RefillFoods() {
 		while (!IsTrayFull()) {	
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
 					CheckAndRefill(row, col);
 				}
 			}
+			yield return new WaitForSeconds(0.2f);
 		}
 	}
 
-	public void TryMatch() { 
+	public IEnumerator TryMatch() { 
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
 
@@ -107,29 +120,40 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart.Add(foods[row+1, col+1]);
 				foodsInPart = foodsInPart.FindAll(food => food != null);
 				
+				float animDelay = 1;
 				Customer matchedCustomer = customers.Find(customer => MatchEachPartWithCustomer(foodsInPart, customer));
 				if (matchedCustomer != null) { 
 					// 손님 보내고
-					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
+					matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
 					// 맞춰진 음식 삭제
 					foodsInPart.ForEach(food => {
 						int posX = (int)food.foodCoord.x;
 						int posY = (int)food.foodCoord.y;
+						foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
 						foods[posX, posY] = null;
-						Destroy(food.gameObject);
+						Destroy(food.gameObject, animDelay);
 					});
+					yield return new WaitForSeconds(animDelay);
 					
 					// 해당되는 음식 리필
-					RefillFoods();
+					yield return StartCoroutine(RefillFoods());
 				}
 			}
 		}
 
-		// // 판 자동 리셋 체크
-		// if (NoMatchingFoods()) {
-		// 	trays.ForEach(tray => tray.Refresh());
-		// }
+		// 판 자동 리셋 체크
+		if (NoMatchingFoods()) {
+			for (int row = 0; row < ROW; row++) {
+				for (int col = 0; col < COL; col++) {
+					Destroy(foods[row, col].gameObject);
+					foods[row, col] = null;
+				}
+			}
+
+			yield return StartCoroutine(RefillFoods());
+		}
 	}
 
 	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
@@ -181,7 +205,7 @@ public class TrayManager : MonoBehaviour {
 		// 이동 성공 후 초기화
 		pickedFood1 = null;
 		pickedFood2 = null;
-		TryMatch();
+		yield return StartCoroutine(TryMatch());
 
 		isPlayMovingAnim = false;
 	}
@@ -259,13 +283,5 @@ public class TrayManager : MonoBehaviour {
 
 		lastResetTime += Time.deltaTime;
 		resetTimerImage.fillAmount = lastResetTime / resetTime;
-
-		// if (Input.GetKeyDown(KeyCode.Tab)) {
-		// 	if (lastResetTime < resetTime) return;
-
-		// 	TryMatch();
-		// 	lastResetTime = 0;
-		// 	resetTimerImage.fillAmount = lastResetTime / resetTime;
-		// }
 	}
 }
