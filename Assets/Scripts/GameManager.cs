@@ -13,13 +13,13 @@ public class GameManager : MonoBehaviour {
 
 	public void ShowGameoverCanvas() {
 		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch to Restart";
+		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
 		Time.timeScale = 0;
 	}
 
 	public void ShowClearCanvas() {
 		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch to Restart";
+		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
 		Time.timeScale = 0;
 	}
 

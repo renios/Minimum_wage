@@ -10,7 +10,7 @@ public class MissionManager_temp : MonoBehaviour {
 
 	public float remainTime = 90;
 	public int successCustomer = 0;
-	int missionCustomer = 20;
+	public int missionCustomer = 20;
 
 	GameManager gameManager;
 

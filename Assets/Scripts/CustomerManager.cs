@@ -74,7 +74,7 @@ public class CustomerManager : MonoBehaviour {
 		trayManager = FindObjectOfType<TrayManager>();
 		coinManager = FindObjectOfType<CoinManager>();
 
-		lastCustomerMakeTime = 0;
+		lastCustomerMakeTime = customerCooldown-0.01f;
 		isPlayingCustomerAnim = false;
 	}
 	

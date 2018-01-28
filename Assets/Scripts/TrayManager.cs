@@ -109,7 +109,7 @@ public class TrayManager : MonoBehaviour {
 	public IEnumerator TryMatch() { 
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
-		
+
 		customerManager.isPlayingCustomerAnim = true;
 
 		// 하나씩 맞춰보고 삭제
@@ -261,7 +261,7 @@ public class TrayManager : MonoBehaviour {
             if ((hit.collider != null) && (!isPlayMovingAnim))
             {
 				pickedFood1 = hit.collider.gameObject;
-				pickedFood1.GetComponent<SpriteRenderer>().DOFade(0.5f, 0);
+				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
             }
 		}	
 
@@ -281,7 +281,7 @@ public class TrayManager : MonoBehaviour {
 			}
 			// 집었던거 초기화
 			if (pickedFood1 != null)
-				pickedFood1.GetComponent<SpriteRenderer>().DOFade(1, 0);
+				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
 			pickedFood1 = null;
 
 		}
