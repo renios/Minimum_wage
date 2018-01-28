@@ -10,7 +10,7 @@ public class MissionManager_temp : MonoBehaviour {
 
 	public float remainTime = 90;
 	public int successCustomer = 0;
-	public int missionCustomer = 20;
+	int missionCustomer = 20;
 
 	GameManager gameManager;
 
@@ -33,7 +33,7 @@ public class MissionManager_temp : MonoBehaviour {
 			gameManager.ShowGameoverCanvas();
 		}	
 
-		if (successCustomer == 20) {
+		if (successCustomer == missionCustomer) {
 			gameManager.ShowClearCanvas();
 		}
 	}

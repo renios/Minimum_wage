@@ -6396,7 +6396,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameoverCanvas: {fileID: 2127739811}
-  textInCanvas: {fileID: 0}
+  textInCanvas: {fileID: 1704991369}
 --- !u!4 &1437095418
 Transform:
   m_ObjectHideFlags: 0
