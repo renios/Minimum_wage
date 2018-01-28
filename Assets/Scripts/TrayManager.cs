@@ -120,18 +120,22 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart.Add(foods[row+1, col+1]);
 				foodsInPart = foodsInPart.FindAll(food => food != null);
 				
+				float animDelay = 1;
 				Customer matchedCustomer = customers.Find(customer => MatchEachPartWithCustomer(foodsInPart, customer));
 				if (matchedCustomer != null) { 
 					// 손님 보내고
-					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray);
+					matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
 					// 맞춰진 음식 삭제
 					foodsInPart.ForEach(food => {
 						int posX = (int)food.foodCoord.x;
 						int posY = (int)food.foodCoord.y;
+						foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
 						foods[posX, posY] = null;
-						Destroy(food.gameObject);
+						Destroy(food.gameObject, animDelay);
 					});
+					yield return new WaitForSeconds(animDelay);
 					
 					// 해당되는 음식 리필
 					yield return StartCoroutine(RefillFoods());

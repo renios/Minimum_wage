@@ -23,8 +23,8 @@ public class CustomerManager : MonoBehaviour {
 		heartManager.ReduceHeart(1);
 	}
 
-	public void RemoveCustomerByMatching(int indexInArray) {
-		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+	public void RemoveCustomerByMatching(int indexInArray, float delay) {
+		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
 		coinManager.AddCoin(100);
 	}
