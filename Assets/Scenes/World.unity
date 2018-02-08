@@ -375,12 +375,12 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1080, y: 1920}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -499,7 +499,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ': 20+'
+  m_Text: ': 15+'
 --- !u!222 &609630897
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -836,7 +836,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ': 90s'
+  m_Text: ': 1:30'
 --- !u!222 &1309217346
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1053,7 +1053,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "1) 3\uBA85 \uC774\uC0C1\uC758 \uC190\uB2D8\uC744 \uB3CC\uB824\uBCF4\uB0B4\uC9C0
-    \uC54A\uAE30\n\n2) 90\uCD08 \uC774\uB0B4\uC5D0 \n20\uBA85 \uC774\uC0C1 \uC11C\uBE59\uD558\uAE30\n"
+    \uC54A\uAE30\n\n2) 90\uCD08 \uC774\uB0B4\uC5D0 \n15\uBA85 \uC774\uC0C1 \uC11C\uBE59\uD558\uAE30\n"
 --- !u!222 &1764931913
 CanvasRenderer:
   m_ObjectHideFlags: 0

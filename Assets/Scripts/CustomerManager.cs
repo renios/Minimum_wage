@@ -74,9 +74,12 @@ public class CustomerManager : MonoBehaviour {
 		trayManager = FindObjectOfType<TrayManager>();
 		coinManager = FindObjectOfType<CoinManager>();
 
-		lastCustomerMakeTime = 0;
+		lastCustomerMakeTime = customerCooldown-0.01f;
+		isPlayingCustomerAnim = false;
 	}
 	
+	public bool isPlayingCustomerAnim = false;
+
 	// Update is called once per frame
 	void Update () {
 		if (IsEmptyPosInCustomerSlot()) {
@@ -85,9 +88,11 @@ public class CustomerManager : MonoBehaviour {
 
 			if (lastCustomerMakeTime < customerCooldown) return;
 
+			if (isPlayingCustomerAnim) return;
+
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			// trayManager.TryMatch();
+			// StartCoroutine(trayManager.TryMatch());
 		}		
 	}
 }

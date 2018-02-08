@@ -110,6 +110,8 @@ public class TrayManager : MonoBehaviour {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
 
+		customerManager.isPlayingCustomerAnim = true;
+
 		// 하나씩 맞춰보고 삭제
 		for (int row = 0; row < ROW-1; row++) {
 			for (int col = 0; col < COL-1; col++) {
@@ -121,8 +123,9 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart = foodsInPart.FindAll(food => food != null);
 				
 				float animDelay = 1;
-				Customer matchedCustomer = customers.Find(customer => MatchEachPartWithCustomer(foodsInPart, customer));
-				if (matchedCustomer != null) { 
+				List<Customer> matchedCustomers = customers.FindAll(customer => MatchEachPartWithCustomer(foodsInPart, customer));
+				if (matchedCustomers.Count > 0) {
+					Customer matchedCustomer = matchedCustomers.First(); 
 					// 손님 보내고
 					matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
@@ -137,6 +140,7 @@ public class TrayManager : MonoBehaviour {
 					});
 					yield return new WaitForSeconds(animDelay);
 					FindObjectOfType<MissionManager_temp>().successCustomer++;
+					customerManager.isPlayingCustomerAnim = false;
 					
 					// 해당되는 음식 리필
 					yield return StartCoroutine(RefillFoods());
@@ -257,7 +261,7 @@ public class TrayManager : MonoBehaviour {
             if ((hit.collider != null) && (!isPlayMovingAnim))
             {
 				pickedFood1 = hit.collider.gameObject;
-				pickedFood1.GetComponent<SpriteRenderer>().DOFade(0.5f, 0);
+				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
             }
 		}	
 
@@ -277,7 +281,7 @@ public class TrayManager : MonoBehaviour {
 			}
 			// 집었던거 초기화
 			if (pickedFood1 != null)
-				pickedFood1.GetComponent<SpriteRenderer>().DOFade(1, 0);
+				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
 			pickedFood1 = null;
 
 		}
