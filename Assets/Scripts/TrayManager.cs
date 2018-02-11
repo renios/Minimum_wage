@@ -17,6 +17,7 @@ public class TrayManager : MonoBehaviour {
 
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
+    public Vector3 pickedFood1Origin;
 
 	public float resetTime;
 	float lastResetTime = 0;
@@ -184,16 +185,13 @@ public class TrayManager : MonoBehaviour {
 
 	float moveSpeed = 0.2f;
 
-	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2) {
+	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2, Vector3 food1Origin) {
 		isPlayMovingAnim = true;
 
-		Vector3 positionOfFood1 = food1.transform.position;
 		Vector3 positionOfFood2 = food2.transform.position;
 
-		Vector3 positionTemp = food1.transform.position;
-
 		Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
-		food2.transform.DOMove(positionTemp, moveSpeed);
+		food2.transform.DOMove(food1Origin, moveSpeed);
 		yield return tw.WaitForCompletion();
 		Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
 		Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
@@ -262,27 +260,41 @@ public class TrayManager : MonoBehaviour {
             {
 				pickedFood1 = hit.collider.gameObject;
 				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
+                pickedFood1Origin = new Vector3(pickedFood1.transform.position.x, pickedFood1.transform.position.y, 0);
             }
-		}	
+		}
+        
+        if(Input.GetMouseButton(0))
+        {
+            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if(pickedFood1!=null)
+               pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, 0.5f);
+        }
 
 		if (Input.GetMouseButtonUp(0)) {
-			//Get the mouse position on the screen and send a raycast into the game world from that position.
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-            //If something was hit, the RaycastHit2D.collider will not be null.
-            if (hit.collider != null)
+            if (pickedFood1 != null)
             {
-				pickedFood2 = hit.collider.gameObject;
-            }
+                //Get the mouse position on the screen and send a raycast into the game world from that position.
+                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-			if ((pickedFood1 != null) && (pickedFood2 != null)) {
-				StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2));
-			}
+                //If something was hit, the RaycastHit2D.collider will not be null.
+                if (hit.collider != null)
+                {
+                    pickedFood2 = hit.collider.gameObject;
+                    print("pickedFood2: " + pickedFood2.transform);
+                }
+
+                if ((pickedFood1 != null) && (pickedFood2 != null))
+                {
+                    print("switch");
+                    StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2, pickedFood1Origin));
+                }
+            }
 			// 집었던거 초기화
 			if (pickedFood1 != null)
 				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
-			pickedFood1 = null;
 
 		}
 
