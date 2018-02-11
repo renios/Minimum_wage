@@ -18,7 +18,8 @@ public class TrayManager : MonoBehaviour {
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
     Vector3 pickedFood1Origin;
-    LayerMask layerMask;
+    float firstScaleX;
+    float firstScaleY;
 
 	public float resetTime;
 	float lastResetTime = 0;
@@ -215,6 +216,19 @@ public class TrayManager : MonoBehaviour {
 		isPlayMovingAnim = false;
 	}
 
+    IEnumerator EnlargePickedFood(GameObject food)
+    {
+        float mulFactor = 1f;
+        firstScaleX = food.transform.localScale.x;
+        firstScaleY = food.transform.localScale.y;
+        while (mulFactor < 1.4f)
+        {
+            mulFactor = Mathf.Lerp(mulFactor, 2f, 0.1f);
+            food.transform.localScale = new Vector3(firstScaleX*mulFactor, firstScaleY*mulFactor);
+            yield return null;
+        }
+    }
+
 	void InitializeFoods() {
 		List<Transform> foodPosesList = new List<Transform>();
 		FindObjectsOfType<FoodPos>().ToList()
@@ -246,7 +260,6 @@ public class TrayManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
-        layerMask = LayerMask.NameToLayer("Default");
 
 		InitializeFoods();
 	}
@@ -263,6 +276,7 @@ public class TrayManager : MonoBehaviour {
             {
 				pickedFood1 = hit.collider.gameObject;
 				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
+                StartCoroutine(EnlargePickedFood(pickedFood1));
                 pickedFood1Origin = new Vector3(pickedFood1.transform.position.x, pickedFood1.transform.position.y, 0);
             }
 		}
@@ -278,25 +292,31 @@ public class TrayManager : MonoBehaviour {
 		if (Input.GetMouseButtonUp(0)) {
             if (pickedFood1 != null)
             {
+                StopCoroutine(EnlargePickedFood(pickedFood1));
+                
                 //Get the mouse position on the screen and send a raycast into the game world from that position.
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
                 //If something was hit, the RaycastHit2D.collider will not be null.
-                if (hit[1].collider != null)
+                if(hit.Length>1)
                 {
-                    pickedFood2 = hit[1].collider.gameObject;
+                    if (hit[1].collider != null)
+                    {
+                        pickedFood2 = hit[1].collider.gameObject;
+                    }
+
+                    if ((pickedFood1 != null) && (pickedFood2 != null))
+                    {
+                        StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2, pickedFood1Origin));
+                    }
                 }
 
-                if ((pickedFood1 != null) && (pickedFood2 != null))
-                {
-                    StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2, pickedFood1Origin));
-                }
+                //집었던 거 초기화
+                pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
+                pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
+
             }
-			// 집었던거 초기화
-			if (pickedFood1 != null)
-				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
-
 		}
 
 		lastResetTime += Time.deltaTime;
