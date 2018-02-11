@@ -17,7 +17,8 @@ public class TrayManager : MonoBehaviour {
 
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
-    public Vector3 pickedFood1Origin;
+    Vector3 pickedFood1Origin;
+    LayerMask layerMask;
 
 	public float resetTime;
 	float lastResetTime = 0;
@@ -190,13 +191,14 @@ public class TrayManager : MonoBehaviour {
 
 		Vector3 positionOfFood2 = food2.transform.position;
 
-		Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
+        Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
 		food2.transform.DOMove(food1Origin, moveSpeed);
 		yield return tw.WaitForCompletion();
-		Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
-		Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
 
-		Vector2 tempCoord = food1.GetComponent<FoodOnTray>().foodCoord;
+        Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
+        Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
+
+        Vector2 tempCoord = food1.GetComponent<FoodOnTray>().foodCoord;
 
 		FoodOnTray tempFood = foods[(int)coordOfFood1.x, (int)coordOfFood1.y];
 		foods[(int)coordOfFood1.x, (int)coordOfFood1.y] = foods[(int)coordOfFood2.x, (int)coordOfFood2.y];
@@ -244,6 +246,7 @@ public class TrayManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
+        layerMask = LayerMask.NameToLayer("Default");
 
 		InitializeFoods();
 	}
@@ -269,7 +272,7 @@ public class TrayManager : MonoBehaviour {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             if(pickedFood1!=null)
-               pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, 0.5f);
+               pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
         }
 
 		if (Input.GetMouseButtonUp(0)) {
@@ -277,18 +280,16 @@ public class TrayManager : MonoBehaviour {
             {
                 //Get the mouse position on the screen and send a raycast into the game world from that position.
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+                RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
                 //If something was hit, the RaycastHit2D.collider will not be null.
-                if (hit.collider != null)
+                if (hit[1].collider != null)
                 {
-                    pickedFood2 = hit.collider.gameObject;
-                    print("pickedFood2: " + pickedFood2.transform);
+                    pickedFood2 = hit[1].collider.gameObject;
                 }
 
                 if ((pickedFood1 != null) && (pickedFood2 != null))
                 {
-                    print("switch");
                     StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2, pickedFood1Origin));
                 }
             }
