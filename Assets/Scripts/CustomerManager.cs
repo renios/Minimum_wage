@@ -89,10 +89,11 @@ public class CustomerManager : MonoBehaviour {
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			if (isPlayingCustomerAnim) return;
+			if (trayManager.isPlayingRefillAnim) return;
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			// StartCoroutine(trayManager.TryMatch());
-		}		
+			StartCoroutine(trayManager.TryMatch());
+		}
 	}
 }

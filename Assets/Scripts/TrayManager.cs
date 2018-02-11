@@ -25,7 +25,8 @@ public class TrayManager : MonoBehaviour {
 	float lastResetTime = 0;
 	public Image resetTimerImage;
 
-	bool isPlayMovingAnim = false;
+	bool isPlayingMovingAnim = false;
+	public bool isPlayingRefillAnim = false;
 
 	CustomerManager customerManager;
 
@@ -99,6 +100,7 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	IEnumerator RefillFoods() {
+		isPlayingRefillAnim = true;
 		while (!IsTrayFull()) {	
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
@@ -107,13 +109,12 @@ public class TrayManager : MonoBehaviour {
 			}
 			yield return new WaitForSeconds(0.2f);
 		}
+		isPlayingRefillAnim = false;
 	}
 
 	public IEnumerator TryMatch() { 
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
-
-		customerManager.isPlayingCustomerAnim = true;
 
 		// 하나씩 맞춰보고 삭제
 		for (int row = 0; row < ROW-1; row++) {
@@ -130,6 +131,7 @@ public class TrayManager : MonoBehaviour {
 				if (matchedCustomers.Count > 0) {
 					Customer matchedCustomer = matchedCustomers.First(); 
 					// 손님 보내고
+					customerManager.isPlayingCustomerAnim = true;
 					matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
@@ -188,7 +190,7 @@ public class TrayManager : MonoBehaviour {
 	float moveSpeed = 0.2f;
 
 	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2, Vector3 food1Origin) {
-		isPlayMovingAnim = true;
+		isPlayingMovingAnim = true;
 
 		Vector3 positionOfFood2 = food2.transform.position;
 
@@ -213,7 +215,7 @@ public class TrayManager : MonoBehaviour {
 		pickedFood2 = null;
 		yield return StartCoroutine(TryMatch());
 
-		isPlayMovingAnim = false;
+		isPlayingMovingAnim = false;
 	}
 
     IEnumerator EnlargePickedFood(GameObject food)
@@ -272,7 +274,7 @@ public class TrayManager : MonoBehaviour {
             RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
             //If something was hit, the RaycastHit2D.collider will not be null.
-            if ((hit.collider != null) && (!isPlayMovingAnim))
+            if ((hit.collider != null) && (!isPlayingMovingAnim))
             {
 				pickedFood1 = hit.collider.gameObject;
 				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
