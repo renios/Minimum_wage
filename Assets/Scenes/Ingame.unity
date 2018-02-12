@@ -2359,6 +2359,7 @@ MonoBehaviour:
   - {fileID: 29888983}
   waitingTime: 20
   toleranceRate: 2.5
+  maxFuryRate: 0.05
   customerCooldown: 3
   currentWaitingCustomers:
   - {fileID: 0}

@@ -13,9 +13,13 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
+    Vector3 backupBunnyPosition;
+    float furyRate;
+    public float maxFuryRate;
 
-	public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
+    public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
+    bool startedFury = false;
 	bool initialized = false;
 
 	CustomerManager customerManager;
@@ -66,13 +70,23 @@ public class Customer : MonoBehaviour {
 	
 		UpdateTimer();
 
-        if(remainWaitingTime<=waitingTime/toleranceRate)
+        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
+            backupBunnyPosition = gameObject.transform.position;
+            startedFury = true;
+            furyRate = 0.1f;
+        }
+
+        if(startedFury==true)
+        {
+            furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
+            transform.position = new Vector3(backupBunnyPosition.x + Random.Range(-1f, 1f) * furyRate, backupBunnyPosition.y, backupBunnyPosition.z);
         }
 
 		if (remainWaitingTime <= 0) {
-			customerManager.RemoveCustomerByTimeout(indexInArray);
+            startedFury = false;
+            customerManager.RemoveCustomerByTimeout(indexInArray);
 		}
 	}
 }

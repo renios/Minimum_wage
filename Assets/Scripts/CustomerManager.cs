@@ -9,6 +9,7 @@ public class CustomerManager : MonoBehaviour {
 	public List<Transform> customerSlot;
 	public float waitingTime;
     public float toleranceRate;
+    public float maxFuryRate;
 	public float customerCooldown;
 	float lastCustomerMakeTime;
 
@@ -37,6 +38,7 @@ public class CustomerManager : MonoBehaviour {
 		Customer customer = customerObj.GetComponent<Customer>();
 		customer.Initialize(indexInArray, this.waitingTime);
         customer.toleranceRate = toleranceRate;
+        customer.maxFuryRate = maxFuryRate;
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}
