@@ -189,26 +189,34 @@ public class TrayManager : MonoBehaviour {
 
 	float moveSpeed = 0.2f;
 
-	IEnumerator ChangeFoodPosition(GameObject food1, GameObject food2, Vector3 food1Origin) {
+	IEnumerator ChangeFoodPosition(GameObject food1, Vector3 food1Origin, GameObject food2 = null ) {
 		isPlayingMovingAnim = true;
 
-		Vector3 positionOfFood2 = food2.transform.position;
+        if(food2!=null)
+        {
+            Vector3 positionOfFood2 = food2.transform.position;
 
-        Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
-		food2.transform.DOMove(food1Origin, moveSpeed);
-		yield return tw.WaitForCompletion();
+            Tween tw = food1.transform.DOMove(positionOfFood2, moveSpeed);
+            food2.transform.DOMove(food1Origin, moveSpeed);
+            yield return tw.WaitForCompletion();
 
-        Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
-        Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
+            Vector2 coordOfFood1 = food1.GetComponent<FoodOnTray>().foodCoord;
+            Vector2 coordOfFood2 = food2.GetComponent<FoodOnTray>().foodCoord;
 
-        Vector2 tempCoord = food1.GetComponent<FoodOnTray>().foodCoord;
+            Vector2 tempCoord = food1.GetComponent<FoodOnTray>().foodCoord;
 
-		FoodOnTray tempFood = foods[(int)coordOfFood1.x, (int)coordOfFood1.y];
-		foods[(int)coordOfFood1.x, (int)coordOfFood1.y] = foods[(int)coordOfFood2.x, (int)coordOfFood2.y];
-		foods[(int)coordOfFood2.x, (int)coordOfFood2.y] = tempFood;
+            FoodOnTray tempFood = foods[(int)coordOfFood1.x, (int)coordOfFood1.y];
+            foods[(int)coordOfFood1.x, (int)coordOfFood1.y] = foods[(int)coordOfFood2.x, (int)coordOfFood2.y];
+            foods[(int)coordOfFood2.x, (int)coordOfFood2.y] = tempFood;
 
-		food1.GetComponent<FoodOnTray>().foodCoord = coordOfFood2;
-		food2.GetComponent<FoodOnTray>().foodCoord = tempCoord;
+            food1.GetComponent<FoodOnTray>().foodCoord = coordOfFood2;
+            food2.GetComponent<FoodOnTray>().foodCoord = tempCoord;
+        }
+        else
+        {
+            Tween tw = food1.transform.DOMove(food1Origin, moveSpeed);
+            yield return tw.WaitForCompletion();
+        }
 
 		// 이동 성공 후 초기화
 		pickedFood1 = null;
@@ -310,8 +318,12 @@ public class TrayManager : MonoBehaviour {
 
                     if ((pickedFood1 != null) && (pickedFood2 != null))
                     {
-                        StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood2, pickedFood1Origin));
+                        StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }
+                }
+                else
+                {
+                    StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin));
                 }
 
                 //집었던 거 초기화
