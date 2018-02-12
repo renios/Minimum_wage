@@ -10,6 +10,7 @@ public class Customer : MonoBehaviour {
 
 	public float waitingTime;
 	public float remainWaitingTime;
+    public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
 
@@ -22,6 +23,7 @@ public class Customer : MonoBehaviour {
 	void InitializeTimer(float inputTime) {
 		waitingTime = inputTime;
 		remainWaitingTime = waitingTime;
+        timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
 		timerImage.fillAmount = remainWaitingTime / waitingTime;
 	}
 
@@ -63,6 +65,11 @@ public class Customer : MonoBehaviour {
 		if (!initialized) return;
 	
 		UpdateTimer();
+
+        if(remainWaitingTime<=waitingTime/toleranceRate)
+        {
+            timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
+        }
 
 		if (remainWaitingTime <= 0) {
 			customerManager.RemoveCustomerByTimeout(indexInArray);

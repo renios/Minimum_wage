@@ -8,6 +8,7 @@ public class CustomerManager : MonoBehaviour {
 	public GameObject customerPrefab;
 	public List<Transform> customerSlot;
 	public float waitingTime;
+    public float toleranceRate;
 	public float customerCooldown;
 	float lastCustomerMakeTime;
 
@@ -35,6 +36,7 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 		customer.Initialize(indexInArray, this.waitingTime);
+        customer.toleranceRate = toleranceRate;
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}
