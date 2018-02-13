@@ -33,8 +33,11 @@ public class Customer : MonoBehaviour {
 	}
 
 	void UpdateTimer() {
-		remainWaitingTime -= Time.deltaTime;
-		timerImage.fillAmount = remainWaitingTime / waitingTime;
+        if(isServed==false)
+        {
+            remainWaitingTime -= Time.deltaTime;
+            timerImage.fillAmount = remainWaitingTime / waitingTime;
+        }
 	}
 
 	void MakeOrder() {
@@ -72,7 +75,7 @@ public class Customer : MonoBehaviour {
 	
 		UpdateTimer();
 
-        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false)
+        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false&&isServed==false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
             backupBunnyPosition = gameObject.transform.position;
@@ -80,7 +83,7 @@ public class Customer : MonoBehaviour {
             furyRate = 0.1f;
         }
 
-        if(startedFury==true&&isServed==false)
+        if(startedFury==true)
         {
             furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
             transform.position = new Vector3(backupBunnyPosition.x + Random.Range(-1f, 1f) * furyRate, backupBunnyPosition.y, backupBunnyPosition.z);
