@@ -286,7 +286,9 @@ public class TrayManager : MonoBehaviour {
             {
 				pickedFood1 = hit.collider.gameObject;
 				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
-                StartCoroutine(EnlargePickedFood(pickedFood1));
+                if(pickedFood1.GetComponent<FoodOnTray>().isEnlarging==false)
+                    StartCoroutine(EnlargePickedFood(pickedFood1));
+                pickedFood1.GetComponent<FoodOnTray>().isEnlarging = true;
                 pickedFood1Origin = new Vector3(pickedFood1.transform.position.x, pickedFood1.transform.position.y, 0);
             }
 		}
