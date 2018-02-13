@@ -302,9 +302,10 @@ public class TrayManager : MonoBehaviour {
         }
 
 		if (Input.GetMouseButtonUp(0)) {
-            if (pickedFood1 != null)
+            if (pickedFood1 != null && (!isPlayingMovingAnim))
             {
                 StopCoroutine(EnlargePickedFood(pickedFood1));
+                pickedFood1.transform.localScale = new Vector2(firstScaleX, firstScaleY);
                 
                 //Get the mouse position on the screen and send a raycast into the game world from that position.
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
