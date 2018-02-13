@@ -13,6 +13,7 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
+    public bool  isServed;
     Vector3 backupBunnyPosition;
     float furyRate;
     public float maxFuryRate;
@@ -61,7 +62,8 @@ public class Customer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		customerManager = FindObjectOfType<CustomerManager>();
+        isServed = false;
+        customerManager = FindObjectOfType<CustomerManager>();
 	}
 	
 	// Update is called once per frame
@@ -78,7 +80,7 @@ public class Customer : MonoBehaviour {
             furyRate = 0.1f;
         }
 
-        if(startedFury==true)
+        if(startedFury==true&&isServed==false)
         {
             furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
             transform.position = new Vector3(backupBunnyPosition.x + Random.Range(-1f, 1f) * furyRate, backupBunnyPosition.y, backupBunnyPosition.z);

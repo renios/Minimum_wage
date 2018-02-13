@@ -26,7 +26,8 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
-		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
+        currentWaitingCustomers[indexInArray].isServed = true;
+        Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
 		coinManager.AddCoin(100);
 	}
