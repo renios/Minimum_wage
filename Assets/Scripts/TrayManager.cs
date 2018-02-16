@@ -129,8 +129,8 @@ public class TrayManager : MonoBehaviour {
 
 		float animDelay = 1;
 
-		// 하나씩 맞춰보고
-		for (int row = 0; row < ROW-1; row++) {
+		// 하나씩 맞춰보고 (위 > 아래, 왼쪽 > 오른쪽)
+		for (int row = ROW-2; row >= 0; row--) {
 			for (int col = 0; col < COL-1; col++) {
 				List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
 				foodsInPart.Add(foods[row, col]);
