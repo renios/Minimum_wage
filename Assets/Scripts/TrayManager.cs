@@ -73,9 +73,8 @@ public class TrayManager : MonoBehaviour {
 				
 				if (foods[row+1, col] != null) {
 					foods[row, col].foodCoord = new Vector2(row, col);
-					Tween tw = foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
+					foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
 					foods[row+1, col] = null;
-					// yield return tw.WaitForCompletion();
 				}
 			}
 			// 맨 윗줄일 경우
@@ -84,8 +83,7 @@ public class TrayManager : MonoBehaviour {
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
 				newFood.transform.DOScale(0.1f, 0);
-				Tween tw = newFood.transform.DOScale(0.4f, 0.2f);
-				// yield return tw.WaitForCompletion();
+				newFood.transform.DOScale(0.4f, 0.2f);
 			}
 		} 
 	}
