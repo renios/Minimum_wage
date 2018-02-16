@@ -15,7 +15,7 @@ public class MenuButtonInStage : MonoBehaviour {
 
     public void StartFeedback()
     {
-        if(isHeld==false)
+        if(!isHeld)
         {
             isHeld = true;
             originalScale = buttonImage.transform.localScale;
@@ -38,11 +38,11 @@ public class MenuButtonInStage : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isHeld==true)
+        if (isHeld)
         {
-            print("is held");
+            // print("is held");
             feedbackTime += Time.deltaTime;
-            if(feedbackTime<maxFeedbackTime)
+            if(feedbackTime < maxFeedbackTime)
             {
                 buttonImage.transform.localScale = originalScale * (1f + feedbackRate * (feedbackTime / maxFeedbackTime));
             }
