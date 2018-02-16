@@ -13,9 +13,9 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
+	Vector3 customerImageOriginPos;
     public bool isServeCompleted; // 서빙 완료돼서 나갈때 true
 	public bool isServed = false; // 동시체크를 위한 변수
-    Vector3 backupBunnyPosition;
     float furyRate;
     public float maxFuryRate;
 
@@ -68,6 +68,7 @@ public class Customer : MonoBehaviour {
 	void Start () {
         isServeCompleted = false;
         customerManager = FindObjectOfType<CustomerManager>();
+		customerImageOriginPos = customerImage.transform.position;
 	}
 	
 	// Update is called once per frame
@@ -79,7 +80,7 @@ public class Customer : MonoBehaviour {
         if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false&&isServeCompleted==false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
-            backupBunnyPosition = gameObject.transform.position;
+            customerImageOriginPos = customerImage.transform.position;
             startedFury = true;
             furyRate = 0.1f;
         }
@@ -87,7 +88,7 @@ public class Customer : MonoBehaviour {
         if(startedFury==true)
         {
             furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
-            transform.position = new Vector3(backupBunnyPosition.x + Random.Range(-1f, 1f) * furyRate, backupBunnyPosition.y, backupBunnyPosition.z);
+            customerImage.transform.position = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
         }
 
 		if (remainWaitingTime <= 0) {
