@@ -317,10 +317,11 @@ public class TrayManager : MonoBehaviour {
             if ((hit.collider != null) && (!isPlayingMovingAnim))
             {
 				pickedFood1 = hit.collider.gameObject;
-				pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.blue, 0);
-                if(pickedFood1.GetComponent<FoodOnTray>().isEnlarging==false)
+                if(!pickedFood1.GetComponent<FoodOnTray>().isEnlarging) {
                     StartCoroutine(EnlargePickedFood(pickedFood1));
+				}
                 pickedFood1.GetComponent<FoodOnTray>().isEnlarging = true;
+				pickedFood1.GetComponent<HighlightBorder>().ActiveBorder();
                 pickedFood1Origin = new Vector3(pickedFood1.transform.position.x, pickedFood1.transform.position.y, 0);
             }
 		}
@@ -329,7 +330,7 @@ public class TrayManager : MonoBehaviour {
         {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
-            if(pickedFood1!=null)
+            if (pickedFood1 != null)
                pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
         }
 
@@ -338,6 +339,7 @@ public class TrayManager : MonoBehaviour {
             {
                 StopCoroutine(EnlargePickedFood(pickedFood1));
                 pickedFood1.transform.localScale = new Vector2(firstScaleX, firstScaleY);
+				pickedFood1.GetComponent<HighlightBorder>().InactiveBorder();
                 
                 //Get the mouse position on the screen and send a raycast into the game world from that position.
                 Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -362,9 +364,7 @@ public class TrayManager : MonoBehaviour {
                 }
 
                 //집었던 거 초기화
-                pickedFood1.GetComponent<SpriteRenderer>().DOColor(Color.white, 0);
                 pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
-
             }
 		}
 

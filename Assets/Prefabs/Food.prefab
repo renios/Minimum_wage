@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 212900477918387720}
   - component: {fileID: 61199723434263048}
   - component: {fileID: 114240059051628988}
+  - component: {fileID: 114139594623643148}
   m_Layer: 0
   m_Name: Food
   m_TagString: Food
@@ -67,6 +68,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 3, y: 3}
   m_EdgeRadius: 0
+--- !u!114 &114139594623643148
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1238987162197396}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f3cde96e087431c87d1428c0e464f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 212900477918387720}
+  highlightBorderMaterial: {fileID: 2100000, guid: 3edc1d0e167a94130b763542ff328e9f,
+    type: 2}
 --- !u!114 &114240059051628988
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -79,6 +94,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   foodType: 0
+  foodCoord: {x: 0, y: 0}
+  isEnlarging: 0
+  isServed: 0
 --- !u!212 &212900477918387720
 SpriteRenderer:
   m_ObjectHideFlags: 1
