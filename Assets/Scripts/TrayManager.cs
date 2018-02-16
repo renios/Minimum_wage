@@ -156,6 +156,8 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
+		float comboDelay = 0.2f;
+
 		if (pairs.Count > 0) {
 			customerManager.isPlayingCustomerAnim = true;
 			foreach (var pair in pairs) {
@@ -173,30 +175,13 @@ public class TrayManager : MonoBehaviour {
 					foods[posX, posY] = null;
 					Destroy(food.gameObject, animDelay);
 				});
+
+				yield return new WaitForSeconds(comboDelay);
 			}
 			yield return new WaitForSeconds(animDelay);
 			customerManager.isPlayingCustomerAnim = false;
 		}
-
-				// if (matchedCustomers.Count > 0) {
-				// 	Customer matchedCustomer = matchedCustomers.First(); 
-				// 	// 손님 보내고
-				// 	customerManager.isPlayingCustomerAnim = true;
-				// 	matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
-				// 	customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
-				// 	customers.Remove(matchedCustomer);
-				// 	// 맞춰진 음식 삭제
-				// 	foodsInPart.ForEach(food => {
-				// 		int posX = (int)food.foodCoord.x;
-				// 		int posY = (int)food.foodCoord.y;
-				// 		foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
-				// 		foods[posX, posY] = null;
-				// 		Destroy(food.gameObject, animDelay);
-				// 	});
-				// 	yield return new WaitForSeconds(animDelay);
-				// 	FindObjectOfType<MissionManager_temp>().successCustomer++;
-				// 	customerManager.isPlayingCustomerAnim = false;
-					
+			
 		// 해당되는 음식 리필
 		yield return StartCoroutine(RefillFoods());
 	
