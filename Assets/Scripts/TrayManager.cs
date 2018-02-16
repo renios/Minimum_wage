@@ -110,11 +110,26 @@ public class TrayManager : MonoBehaviour {
 		isPlayingRefillAnim = false;
 	}
 
+	public class ServedPair {
+		public Customer customer;
+		public List<FoodOnTray> foods;
+
+		public ServedPair (Customer customer, List<FoodOnTray> foods) {
+			this.customer = customer;
+			this.foods = foods;
+		}
+	}
+
+	List<ServedPair> pairs = new List<ServedPair>();
+
 	public IEnumerator TryMatch() { 
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
+		pairs.Clear();
 
-		// 하나씩 맞춰보고 삭제
+		float animDelay = 1;
+
+		// 하나씩 맞춰보고
 		for (int row = 0; row < ROW-1; row++) {
 			for (int col = 0; col < COL-1; col++) {
 				List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
@@ -122,35 +137,69 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart.Add(foods[row+1, col]);
 				foodsInPart.Add(foods[row, col+1]);
 				foodsInPart.Add(foods[row+1, col+1]);
-				foodsInPart = foodsInPart.FindAll(food => food != null);
+				// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정)을 제외
+				foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
 				
-				float animDelay = 1;
-				List<Customer> matchedCustomers = customers.FindAll(customer => MatchEachPartWithCustomer(foodsInPart, customer));
+				List<Customer> matchedCustomers = customers.FindAll(customer => !customer.isServed && MatchEachPartWithCustomer(foodsInPart, customer));
+				
+				// 서빙받을 손님과 서빙할 음식을 미리 마킹
 				if (matchedCustomers.Count > 0) {
-					Customer matchedCustomer = matchedCustomers.First(); 
-					// 손님 보내고
-					customerManager.isPlayingCustomerAnim = true;
-					matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
-					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
-					customers.Remove(matchedCustomer);
-					// 맞춰진 음식 삭제
-					foodsInPart.ForEach(food => {
-						int posX = (int)food.foodCoord.x;
-						int posY = (int)food.foodCoord.y;
-						foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
-						foods[posX, posY] = null;
-						Destroy(food.gameObject, animDelay);
-					});
-					yield return new WaitForSeconds(animDelay);
-					FindObjectOfType<MissionManager_temp>().successCustomer++;
-					customerManager.isPlayingCustomerAnim = false;
-					
-					// 해당되는 음식 리필
-					yield return StartCoroutine(RefillFoods());
+					Customer matchedCustomer = matchedCustomers.First();
+					List<FoodOnTray> matchedFoods = foodsInPart;
+
+					matchedCustomer.isServed = true;
+					matchedFoods.ForEach(food => food.isServed = true);
+
+					ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
+					pairs.Add(newPair);
 				}
 			}
 		}
 
+		if (pairs.Count > 0) {
+			customerManager.isPlayingCustomerAnim = true;
+			foreach (var pair in pairs) {
+				Customer matchedCustomer = pair.customer;
+				List<FoodOnTray> matchedFoods = pair.foods;
+				// 손님 보내고
+				matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
+				customers.Remove(matchedCustomer);
+				// 맞춰진 음식 삭제
+				matchedFoods.ForEach(food => {
+					int posX = (int)food.foodCoord.x;
+					int posY = (int)food.foodCoord.y;
+					foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
+					foods[posX, posY] = null;
+					Destroy(food.gameObject, animDelay);
+				});
+			}
+			yield return new WaitForSeconds(animDelay);
+			customerManager.isPlayingCustomerAnim = false;
+		}
+
+				// if (matchedCustomers.Count > 0) {
+				// 	Customer matchedCustomer = matchedCustomers.First(); 
+				// 	// 손님 보내고
+				// 	customerManager.isPlayingCustomerAnim = true;
+				// 	matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+				// 	customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
+				// 	customers.Remove(matchedCustomer);
+				// 	// 맞춰진 음식 삭제
+				// 	foodsInPart.ForEach(food => {
+				// 		int posX = (int)food.foodCoord.x;
+				// 		int posY = (int)food.foodCoord.y;
+				// 		foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
+				// 		foods[posX, posY] = null;
+				// 		Destroy(food.gameObject, animDelay);
+				// 	});
+				// 	yield return new WaitForSeconds(animDelay);
+				// 	FindObjectOfType<MissionManager_temp>().successCustomer++;
+				// 	customerManager.isPlayingCustomerAnim = false;
+					
+		// 해당되는 음식 리필
+		yield return StartCoroutine(RefillFoods());
+	
 		// 판 자동 리셋 체크
 		if (NoMatchingFoods()) {
 			for (int row = 0; row < ROW; row++) {

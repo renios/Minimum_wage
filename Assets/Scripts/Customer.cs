@@ -13,7 +13,8 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
-    public bool  isServed;
+    public bool isServeCompleted; // 서빙 완료돼서 나갈때 true
+	public bool isServed = false; // 동시체크를 위한 변수
     Vector3 backupBunnyPosition;
     float furyRate;
     public float maxFuryRate;
@@ -33,7 +34,7 @@ public class Customer : MonoBehaviour {
 	}
 
 	void UpdateTimer() {
-        if(isServed==false)
+        if(isServeCompleted==false)
         {
             remainWaitingTime -= Time.deltaTime;
             timerImage.fillAmount = remainWaitingTime / waitingTime;
@@ -65,7 +66,7 @@ public class Customer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        isServed = false;
+        isServeCompleted = false;
         customerManager = FindObjectOfType<CustomerManager>();
 	}
 	
@@ -75,7 +76,7 @@ public class Customer : MonoBehaviour {
 	
 		UpdateTimer();
 
-        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false&&isServed==false)
+        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false&&isServeCompleted==false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
             backupBunnyPosition = gameObject.transform.position;

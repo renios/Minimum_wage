@@ -8,6 +8,7 @@ public class FoodOnTray : MonoBehaviour {
 	public FoodType foodType;
 	public Vector2 foodCoord;
     public bool isEnlarging;
+	public bool isServed = false;
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)
