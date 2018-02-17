@@ -101,7 +101,7 @@ public class CustomerManager : MonoBehaviour {
 			if (trayManager.isPlayingRefillAnim) return;
 
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);Debug.Log("log1");
 			StartCoroutine(trayManager.TryMatch());
 		}
 	}

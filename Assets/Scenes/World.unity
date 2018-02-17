@@ -3143,7 +3143,8 @@ Prefab:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114737731719222702, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1070717358
@@ -3543,6 +3544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionPanel: {fileID: 1345770074}
   missionPanelBg: {fileID: 1073560687}
+  selectedStageName: 
 --- !u!224 &1151364057
 RectTransform:
   m_ObjectHideFlags: 0

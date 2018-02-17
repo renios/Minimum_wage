@@ -1287,7 +1287,7 @@ GameObject:
   - component: {fileID: 619351515}
   - component: {fileID: 619351514}
   m_Layer: 5
-  m_Name: Image1
+  m_Name: CustomerImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2438,6 +2438,7 @@ GameObject:
   - component: {fileID: 1025461200}
   - component: {fileID: 1025461199}
   - component: {fileID: 1025461198}
+  - component: {fileID: 1025461203}
   m_Layer: 5
   m_Name: MissionManager
   m_TagString: Untagged
@@ -2451,7 +2452,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1025461197}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 10527a507efbe48cfadbe63a352732c1, type: 3}
   m_Name: 
@@ -2540,6 +2541,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1025461203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1025461197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee7f9d28094144bae93ad61fb32d0033, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeImage: {fileID: 1676469069}
+  customerImage: {fileID: 619351514}
+  timeText: {fileID: 1613166850}
+  customerText: {fileID: 1355510955}
 --- !u!1 &1058728884
 GameObject:
   m_ObjectHideFlags: 0
@@ -4326,7 +4342,7 @@ GameObject:
   - component: {fileID: 1676469070}
   - component: {fileID: 1676469069}
   m_Layer: 5
-  m_Name: Image2
+  m_Name: TimeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
