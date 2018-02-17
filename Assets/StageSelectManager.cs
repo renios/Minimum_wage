@@ -8,10 +8,12 @@ public class StageSelectManager : MonoBehaviour {
 
 	public GameObject missionPanel;
 
-	public void ShowMissionPanel() {
+	public void ShowMissionPanel(string stageName) {
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		float delay = 0.5f;
 		missionPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+
+		missionPanel.GetComponent<MissionPanel>().LoadMissonInfo(stageName);
 	}
 
 	public void HideMissonPanel() {
