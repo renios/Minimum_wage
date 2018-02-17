@@ -2652,6 +2652,7 @@ MonoBehaviour:
   pickedFood2: {fileID: 0}
   resetTime: 5
   resetTimerImage: {fileID: 2040753979}
+  exitAmount: 3
   isPlayingRefillAnim: 0
 --- !u!1 &1112160298
 GameObject:

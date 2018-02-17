@@ -24,6 +24,7 @@ public class TrayManager : MonoBehaviour {
 	public float resetTime;
 	float lastResetTime = 0;
 	public Image resetTimerImage;
+    public float exitAmount;
 
 	bool isPlayingMovingAnim = false;
 	public bool isPlayingRefillAnim = false;
@@ -163,8 +164,10 @@ public class TrayManager : MonoBehaviour {
 			foreach (var pair in pairs) {
 				Customer matchedCustomer = pair.customer;
 				List<FoodOnTray> matchedFoods = pair.foods;
-				// 손님 보내고
-				matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+				// 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
+				matchedCustomer.transform.DOJump(
+                    new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
+                    matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 				customers.Remove(matchedCustomer);
 				// 맞춰진 음식 삭제
