@@ -56,7 +56,7 @@ public class MissionManager : MonoBehaviour {
 		LoadMissionData();
 
 		if (isUsedTime) {
-			timeText.text = (int)(remainTime / 60) + ":" + ((int)(remainTime % 60)).ToString("D2");
+			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 		else {
 			timeText.text = "--:--";
@@ -76,7 +76,7 @@ public class MissionManager : MonoBehaviour {
 
 		if (isUsedTime) {
 			remainTime -= Time.deltaTime;	
-			timeText.text = (int)(remainTime / 60) + ":" + ((int)(remainTime % 60)).ToString("D2");
+			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 
 			if (remainTime <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowGameoverCanvas());
