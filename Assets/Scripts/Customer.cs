@@ -35,7 +35,7 @@ public class Customer : MonoBehaviour {
 	}
 
 	void UpdateTimer() {
-        if(isServeCompleted==false)
+        if(!isServeCompleted)
         {
             remainWaitingTime -= Time.deltaTime;
             timerImage.fillAmount = remainWaitingTime / waitingTime;
@@ -44,6 +44,7 @@ public class Customer : MonoBehaviour {
 
 	void MakeOrder() {
 		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
+		orderedFoods.ForEach(food => food.Initialize());
 	}
 
 	void SetRandomImage() {
@@ -80,7 +81,9 @@ public class Customer : MonoBehaviour {
 	
 		UpdateTimer();
 
-        if(remainWaitingTime <= waitingTime / toleranceRate && startedFury == false && isServeCompleted == false)
+        if (remainWaitingTime <= waitingTime / toleranceRate && 
+		   startedFury == false && 
+		   isServeCompleted == false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
             customerImageOriginPos = customerImage.transform.localPosition;
@@ -88,7 +91,7 @@ public class Customer : MonoBehaviour {
             furyRate = 0.1f;
         }
 
-        if(startedFury == true)
+        if (startedFury == true)
         {
             furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
             customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);

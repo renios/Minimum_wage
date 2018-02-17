@@ -27,8 +27,7 @@ public class FoodInOrder : MonoBehaviour {
 		}
 	}
 
-	// Use this for initialization
-	void Start () {
+	public void Initialize () {
 		// 랜덤 음식으로 변환
 		int foodTypeIndex = Random.Range(0, 6);
 		foodType = (FoodType)foodTypeIndex;
