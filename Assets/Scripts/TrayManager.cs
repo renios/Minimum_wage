@@ -164,7 +164,9 @@ public class TrayManager : MonoBehaviour {
 				Customer matchedCustomer = pair.customer;
 				List<FoodOnTray> matchedFoods = pair.foods;
 				// 손님 보내고
-				matchedCustomer.transform.DOLocalJump(matchedCustomer.transform.position, 0.5f, 3, animDelay);
+				matchedCustomer.transform.DOLocalJump(
+                    new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + 3 : matchedCustomer.transform.position.x - 3,
+                    matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 				customers.Remove(matchedCustomer);
 				// 맞춰진 음식 삭제
