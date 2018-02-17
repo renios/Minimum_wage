@@ -13,7 +13,7 @@ public class MissionManager : MonoBehaviour {
 
 	float remainTime;
 	int customerCount;
-	int successCustomerCount = 0;
+	public int successCustomerCount = 0;
 
 	bool isUsedTime = false;
 	bool isUsedCustomerCount = false;
@@ -56,7 +56,7 @@ public class MissionManager : MonoBehaviour {
 		LoadMissionData();
 
 		if (isUsedTime) {
-			timeText.text = (int)(remainTime / 60) + ":" + ((int)(remainTime % 60)).ToString("D2");
+			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 		else {
 			timeText.text = "--:--";
@@ -76,7 +76,7 @@ public class MissionManager : MonoBehaviour {
 
 		if (isUsedTime) {
 			remainTime -= Time.deltaTime;	
-			timeText.text = (int)(remainTime / 60) + ":" + ((int)(remainTime % 60)).ToString("D2");
+			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 
 			if (remainTime <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowGameoverCanvas());

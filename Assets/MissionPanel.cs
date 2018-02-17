@@ -43,7 +43,7 @@ public class MissionPanel : MonoBehaviour {
 
 		if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
 			int remainTime = missionDataDict[MissionDataType.remainTime];
-			timeText.text = ": " + (remainTime / 60) + ":" + (remainTime % 60).ToString("D2");
+			timeText.text = ": " + (remainTime / 60).ToString("D2") + ":" + (remainTime % 60).ToString("D2");
 		}
 		else {
 			timeText.text = ": --";
