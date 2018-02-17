@@ -77,18 +77,18 @@ public class Customer : MonoBehaviour {
 	
 		UpdateTimer();
 
-        if(remainWaitingTime<=waitingTime/toleranceRate&&startedFury==false&&isServeCompleted==false)
+        if(remainWaitingTime <= waitingTime / toleranceRate && startedFury == false && isServeCompleted == false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
-            customerImageOriginPos = customerImage.transform.position;
+            customerImageOriginPos = customerImage.transform.localPosition;
             startedFury = true;
             furyRate = 0.1f;
         }
 
-        if(startedFury==true)
+        if(startedFury == true)
         {
             furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
-            customerImage.transform.position = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
+            customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
         }
 
 		if (remainWaitingTime <= 0) {
