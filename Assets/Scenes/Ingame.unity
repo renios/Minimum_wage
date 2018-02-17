@@ -2413,7 +2413,6 @@ GameObject:
   - component: {fileID: 1025461201}
   - component: {fileID: 1025461200}
   - component: {fileID: 1025461199}
-  - component: {fileID: 1025461198}
   - component: {fileID: 1025461203}
   m_Layer: 5
   m_Name: MissionManager
@@ -2422,22 +2421,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1025461198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1025461197}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10527a507efbe48cfadbe63a352732c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeText: {fileID: 1613166850}
-  customerText: {fileID: 1355510955}
-  remainTime: 90
-  successCustomer: 0
-  missionCustomer: 15
 --- !u!114 &1025461199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2532,6 +2515,7 @@ MonoBehaviour:
   customerImage: {fileID: 619351514}
   timeText: {fileID: 1613166850}
   customerText: {fileID: 1355510955}
+  successCustomerCount: 0
 --- !u!1 &1058728884
 GameObject:
   m_ObjectHideFlags: 0
