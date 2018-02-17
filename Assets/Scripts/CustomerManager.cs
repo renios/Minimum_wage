@@ -18,6 +18,7 @@ public class CustomerManager : MonoBehaviour {
 	HeartManager heartManager;
 	TrayManager trayManager;
 	CoinManager coinManager;
+	MissionManager missionManager;
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
@@ -29,6 +30,7 @@ public class CustomerManager : MonoBehaviour {
         currentWaitingCustomers[indexInArray].isServeCompleted = true;
         Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
+		missionManager.successCustomerCount++;
 		coinManager.AddCoin(100);
 	}
 
@@ -79,8 +81,9 @@ public class CustomerManager : MonoBehaviour {
 		trayManager = FindObjectOfType<TrayManager>();
 		coinManager = FindObjectOfType<CoinManager>();
 		gameManager = FindObjectOfType<GameManager>();
+		missionManager = FindObjectOfType<MissionManager>();
 
-		lastCustomerMakeTime = customerCooldown-0.01f;
+		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
 	}
 	

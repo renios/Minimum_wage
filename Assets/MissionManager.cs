@@ -13,7 +13,7 @@ public class MissionManager : MonoBehaviour {
 
 	float remainTime;
 	int customerCount;
-	int successCustomerCount = 0;
+	public int successCustomerCount = 0;
 
 	bool isUsedTime = false;
 	bool isUsedCustomerCount = false;
