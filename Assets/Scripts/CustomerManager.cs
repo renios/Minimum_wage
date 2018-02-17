@@ -78,15 +78,19 @@ public class CustomerManager : MonoBehaviour {
 		heartManager = FindObjectOfType<HeartManager>();
 		trayManager = FindObjectOfType<TrayManager>();
 		coinManager = FindObjectOfType<CoinManager>();
+		gameManager = FindObjectOfType<GameManager>();
 
 		lastCustomerMakeTime = customerCooldown-0.01f;
 		isPlayingCustomerAnim = false;
 	}
 	
 	public bool isPlayingCustomerAnim = false;
+	GameManager gameManager;
 
 	// Update is called once per frame
 	void Update () {
+		if (!gameManager.isPlaying) return;
+
 		if (IsEmptyPosInCustomerSlot()) {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
 			lastCustomerMakeTime += Time.deltaTime; 

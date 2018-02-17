@@ -9,13 +9,11 @@ public class HighlightBorder : MonoBehaviour {
 	public Material highlightBorderMaterial;
 	Material defaultMaterial;
 
-	Coroutine playingCoroutine;
-
 	readonly float delay = 1.0f;
 
 	public void ActiveBorder() {
 		spriteRenderer.material = highlightBorderMaterial;
-		Coroutine coroutine = StartCoroutine(ChangeColor());
+		StartCoroutine(ChangeColor());
 	}
 
 	public void InactiveBorder() {

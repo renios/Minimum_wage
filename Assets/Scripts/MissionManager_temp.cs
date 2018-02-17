@@ -24,17 +24,19 @@ public class MissionManager_temp : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (!gameManager.isPlaying) return;
+
 		remainTime -= Time.deltaTime;	
 
 		timeText.text = (int)(remainTime / 60) + ":" + (int)(remainTime % 60);
 		customerText.text = successCustomer + "/" + missionCustomer;
 
-		if (remainTime <= 0) {
-			gameManager.ShowGameoverCanvas();
+		if (remainTime <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
+			StartCoroutine(gameManager.ShowGameoverCanvas());
 		}	
 
-		if (successCustomer == missionCustomer) {
-			gameManager.ShowClearCanvas();
+		if (successCustomer == missionCustomer && !gameManager.gameoverCanvas.activeInHierarchy) {
+			StartCoroutine(gameManager.ShowClearCanvas());
 		}
 	}
 }

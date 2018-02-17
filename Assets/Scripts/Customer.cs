@@ -25,6 +25,7 @@ public class Customer : MonoBehaviour {
 	bool initialized = false;
 
 	CustomerManager customerManager;
+	GameManager gameManager;
 
 	void InitializeTimer(float inputTime) {
 		waitingTime = inputTime;
@@ -67,12 +68,14 @@ public class Customer : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         isServeCompleted = false;
+		gameManager = FindObjectOfType<GameManager>();
         customerManager = FindObjectOfType<CustomerManager>();
 		customerImageOriginPos = customerImage.transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		if (!gameManager.isPlaying) return;
 		if (!initialized) return;
 	
 		UpdateTimer();

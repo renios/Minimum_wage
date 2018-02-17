@@ -31,10 +31,12 @@ public class HeartManager : MonoBehaviour {
 		});
 	}
 	
+	
+
 	// Update is called once per frame
 	void Update () {
-		if (hearts.Count <= 0) {
-			gameManager.ShowGameoverCanvas();
+		if (hearts.Count <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
+			StartCoroutine(gameManager.ShowGameoverCanvas());
 		}
 	}
 }

@@ -3,37 +3,61 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using DG.Tweening;
 
 public class GameManager : MonoBehaviour {
 
 	public GameObject gameoverCanvas;
+	public Image bgPanel;
+	public Image mainPanel;
 	public Text textInCanvas;
+
+	public bool isPlaying = false;
 
 	bool isEnd;
 
-	public void ShowGameoverCanvas() {
+	float delay = 0.5f;
+
+	public IEnumerator ShowGameoverCanvas() {
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
-		Time.timeScale = 0;
+		bgPanel.DOFade(0.4f, delay);
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		mainPanel.transform.DOMove(endPos, delay);
+		mainPanel.DOFade(1, delay);
+		yield return new WaitForSeconds(delay);
+		isPlaying = false;
 	}
 
-	public void ShowClearCanvas() {
+	public IEnumerator ShowClearCanvas() {
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
-		Time.timeScale = 0;
+		bgPanel.DOFade(0.4f, delay);
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		mainPanel.transform.DOMove(endPos, delay);
+		mainPanel.DOFade(1, delay);
+		yield return new WaitForSeconds(delay);
+		isPlaying = false;
 	}
 
-	void ShowMissionStartCanvas() {
-		Time.timeScale = 0;
+	IEnumerator ShowMissionStartCanvas() {
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Mission Start!" + '\n' + '\n' + "Touch the Screen";
+		bgPanel.DOFade(0.4f, delay);
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		mainPanel.transform.DOMove(endPos, delay);
+		mainPanel.DOFade(1, delay);
+		yield return new WaitForSeconds(delay);
+	}
+
+	void Awake() {
+		isPlaying = false;
 	}
 
 	// Use this for initialization
 	void Start () {
 		isEnd = false;
-		Time.timeScale = 1;
-		ShowMissionStartCanvas();
+		StartCoroutine(ShowMissionStartCanvas());
 	}
 	
 	// Update is called once per frame
@@ -42,10 +66,25 @@ public class GameManager : MonoBehaviour {
 			if (isEnd)
 				SceneManager.LoadScene("World");
 			else {
-				gameoverCanvas.SetActive(false);
-				Time.timeScale = 1;
-				isEnd = true;
+				if (isPlayingAnim) return;
+				else
+					StartCoroutine(HideCanvas());
 			}
 		}
+	}
+
+	bool isPlayingAnim = false;
+
+	IEnumerator HideCanvas () {
+		isPlayingAnim = true;
+		bgPanel.DOFade(0, delay);
+		Vector3 endPos = new Vector3(Screen.width*1.5f, Screen.height/2, 0);
+		mainPanel.transform.DOMove(endPos, delay);
+		mainPanel.DOFade(0, delay);
+		yield return new WaitForSeconds(delay);
+		gameoverCanvas.SetActive(false);
+		isEnd = true;
+		isPlaying = true;
+		isPlayingAnim = false;
 	}
 }

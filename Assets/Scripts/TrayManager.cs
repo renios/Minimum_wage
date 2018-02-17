@@ -305,12 +305,17 @@ public class TrayManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
+		gameManager = FindObjectOfType<GameManager>();
 
 		InitializeFoods();
 	}
 	
+	GameManager gameManager;
+
 	// Update is called once per frame
 	void Update () {
+		if (!gameManager.isPlaying) return;
+
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
