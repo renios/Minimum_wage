@@ -30,6 +30,8 @@ public class TrayManager : MonoBehaviour {
 	bool isPlayingMovingAnim = false;
 	public bool isPlayingRefillAnim = false;
 
+	
+
 	CustomerManager customerManager;
 
 	bool NoMatchingFoods() {
@@ -158,7 +160,7 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		float comboDelay = 0.2f;
+		float comboAnimDelay = 0.2f;
 
 		if (pairs.Count > 0) {
 			customerManager.isPlayingCustomerAnim = true;
@@ -180,7 +182,7 @@ public class TrayManager : MonoBehaviour {
 					Destroy(food.gameObject, animDelay);
 				});
 
-				yield return new WaitForSeconds(comboDelay);
+				yield return new WaitForSeconds(comboAnimDelay);
 			}
 			yield return new WaitForSeconds(animDelay);
 			customerManager.isPlayingCustomerAnim = false;
