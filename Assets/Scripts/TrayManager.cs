@@ -14,6 +14,7 @@ public class TrayManager : MonoBehaviour {
 	Transform[,] foodPoses;
 	FoodOnTray[,] foods;
 	public GameObject foodObj;
+    public GameObject toBeSwitched;
 
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
@@ -337,12 +338,27 @@ public class TrayManager : MonoBehaviour {
         if(Input.GetMouseButton(0))
         {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
             if (pickedFood1 != null)
-               pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
+            {
+                // 집은 음식 마우스/손가락 따라다니게 하기
+                pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
+                // 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
+                if (hit.Length > 1 && hit[1].collider != null)
+                {
+                    toBeSwitched.SetActive(true);
+                    toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
+                    toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;
+                    toBeSwitched.transform.position = pickedFood1Origin;
+                }
+            }
         }
 
 		if (Input.GetMouseButtonUp(0)) {
+            // 교체 예상 이미지를 보여주지 않도록 비활성화
+            toBeSwitched.SetActive(false);
+
             if (pickedFood1 != null && (!isPlayingMovingAnim))
             {
                 StopCoroutine(EnlargePickedFood(pickedFood1));
