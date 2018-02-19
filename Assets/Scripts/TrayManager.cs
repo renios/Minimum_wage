@@ -217,22 +217,7 @@ public class TrayManager : MonoBehaviour {
 					ShowComboText(matchedFoods);
 				}
 
-                // 맞춰진 음식 삭제
-                matchedFoods.ForEach(food => {
-                    int posX = (int)food.foodCoord.x;
-                    int posY = (int)food.foodCoord.y;
-                    foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
-                    foods[posX, posY].transform.DOMove(foods[posX, posY].correspondent.transform.position, animDelay, false);
-                    foods[posX, posY] = null;
-                    Destroy(food.gameObject, animDelay);
-                });
-
-                // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
-                matchedCustomer.customerImage.transform.DOJump(
-                    new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
-                    matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
-				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
-				customers.Remove(matchedCustomer);
+                StartCoroutine(MatchAnimation(matchedFoods, matchedCustomer, customers, animDelay));
 
 				moveCountAfterMatching = 0;
 
@@ -258,7 +243,44 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
+    void MatchedFoodMoving(List<FoodOnTray> matchedFoods, float animDelay)
+    {
+        foreach (var matchedFood in matchedFoods)
+        {
+            int posX = (int)matchedFood.foodCoord.x;
+            int posY = (int)matchedFood.foodCoord.y;
+            matchedFood.transform.DOMove(matchedFood.correspondent.transform.position, animDelay / 2f, false);
+            foods[posX, posY] = null;
+        }
+    }
+
+    IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
+    {
+        // 음식 날아가는 애니메이션
+        MatchedFoodMoving(matchedFoods, animDelay);
+
+        // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
+        yield return new WaitForSeconds(animDelay / 2f);
+
+        // 날아간 음식 제거
+        foreach (var matchedFood in matchedFoods)
+        {
+            Destroy(matchedFood.gameObject);
+        }
+
+        // 주문판과 주문판에 있는 음식 제거
+        foreach(var orderAspect in matchedCustomer.orderToBeDestroyed)
+            orderAspect.SetActive(false);
+
+        // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
+        matchedCustomer.customerImage.transform.DOJump(
+            new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
+            matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
+        customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
+        customers.Remove(matchedCustomer);
+    }
+
+    bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
 		
 		List<FoodType> foodsTypeOnTray = new List<FoodType>();

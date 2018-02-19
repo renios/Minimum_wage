@@ -458,6 +458,12 @@ MonoBehaviour:
   toleranceRate: 0
   timerImage: {fileID: 114616579222139526}
   customerImage: {fileID: 114425137928681976}
+  orderToBeDestroyed:
+  - {fileID: 1180843717028650}
+  - {fileID: 1542504257059746}
+  - {fileID: 1507142894966118}
+  - {fileID: 1569138952827858}
+  - {fileID: 1837430076698808}
   isServeCompleted: 0
   isServed: 0
   maxFuryRate: 0

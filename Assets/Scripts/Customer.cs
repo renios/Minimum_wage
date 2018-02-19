@@ -13,6 +13,7 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
+    public GameObject[] orderToBeDestroyed;
 	Vector3 customerImageOriginPos;
     public bool isServeCompleted; // 서빙 완료돼서 나갈때 true
 	public bool isServed = false; // 동시체크를 위한 변수
