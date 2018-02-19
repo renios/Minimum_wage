@@ -9,6 +9,8 @@ public class FoodOnTray : MonoBehaviour {
 	public Vector2 foodCoord;
     public bool isEnlarging;
 	public bool isServed = false;
+    public Vector3 correspondentPos;
+    public FoodInOrder correspondent;
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)

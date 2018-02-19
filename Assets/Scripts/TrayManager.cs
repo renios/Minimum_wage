@@ -217,20 +217,22 @@ public class TrayManager : MonoBehaviour {
 					ShowComboText(matchedFoods);
 				}
 
-				// 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
-				matchedCustomer.transform.DOJump(
+                // 맞춰진 음식 삭제
+                matchedFoods.ForEach(food => {
+                    int posX = (int)food.foodCoord.x;
+                    int posY = (int)food.foodCoord.y;
+                    foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
+                    foods[posX, posY].transform.DOMove(foods[posX, posY].correspondent.transform.position, animDelay, false);
+                    foods[posX, posY] = null;
+                    Destroy(food.gameObject, animDelay);
+                });
+
+                // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
+                matchedCustomer.customerImage.transform.DOJump(
                     new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
                     matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 				customers.Remove(matchedCustomer);
-				// 맞춰진 음식 삭제
-				matchedFoods.ForEach(food => {
-					int posX = (int)food.foodCoord.x;
-					int posY = (int)food.foodCoord.y;
-					foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
-					foods[posX, posY] = null;
-					Destroy(food.gameObject, animDelay);
-				});
 
 				moveCountAfterMatching = 0;
 
@@ -267,14 +269,17 @@ public class TrayManager : MonoBehaviour {
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
 			if (isThereMatchedFoodType) {
-				foodsTypeOnTray.Remove(foodInOrder.foodType);
+                foodsTypeOnTray.Remove(foodInOrder.foodType);
 			}
 			else {
-				return false;
+                return false;
 			}
 		}
-		
-		return true;
+
+        // 타입이 같은 음식의 correspondent를 대응시킨다.
+        foreach(var foodInPart in foodsInPart)
+            foodInPart.correspondent = foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType);
+        return true;
 	}
 
 	float moveSpeed = 0.2f;
