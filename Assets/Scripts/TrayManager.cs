@@ -264,9 +264,7 @@ public class TrayManager : MonoBehaviour {
 
         // 날아간 음식 제거
         foreach (var matchedFood in matchedFoods)
-        {
             Destroy(matchedFood.gameObject);
-        }
 
         // 주문판과 주문판에 있는 음식 제거
         foreach(var orderAspect in matchedCustomer.orderToBeDestroyed)
@@ -300,7 +298,13 @@ public class TrayManager : MonoBehaviour {
 
         // 타입이 같은 음식의 correspondent를 대응시킨다.
         foreach(var foodInPart in foodsInPart)
-            foodInPart.correspondent = foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType);
+        {
+            FoodInOrder corrFoodInOrder =
+                foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType && FoodInOrder.foundCorrespondent == false);
+            foodInPart.correspondent = corrFoodInOrder;
+
+            corrFoodInOrder.foundCorrespondent = true;
+        }
         return true;
 	}
 

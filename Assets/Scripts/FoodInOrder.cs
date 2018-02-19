@@ -6,6 +6,7 @@ using Enums;
 public class FoodInOrder : MonoBehaviour {
 
 	public FoodType foodType;
+    public bool foundCorrespondent;
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)
