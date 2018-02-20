@@ -243,8 +243,9 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-    void MatchedFoodMoving(List<FoodOnTray> matchedFoods, float animDelay)
+    IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
     {
+        // 음식 날아가는 애니메이션
         foreach (var matchedFood in matchedFoods)
         {
             int posX = (int)matchedFood.foodCoord.x;
@@ -252,12 +253,6 @@ public class TrayManager : MonoBehaviour {
             matchedFood.transform.DOMove(matchedFood.correspondent.transform.position, animDelay / 2f, false);
             foods[posX, posY] = null;
         }
-    }
-
-    IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
-    {
-        // 음식 날아가는 애니메이션
-        MatchedFoodMoving(matchedFoods, animDelay);
 
         // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
         yield return new WaitForSeconds(animDelay / 2f);
@@ -303,6 +298,7 @@ public class TrayManager : MonoBehaviour {
                 foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType && FoodInOrder.foundCorrespondent == false);
             foodInPart.correspondent = corrFoodInOrder;
 
+            // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
             corrFoodInOrder.foundCorrespondent = true;
         }
         return true;
