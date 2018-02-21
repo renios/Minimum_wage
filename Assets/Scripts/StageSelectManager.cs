@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Linq;
 
 public class StageSelectManager : MonoBehaviour {
 
@@ -47,5 +48,25 @@ public class StageSelectManager : MonoBehaviour {
 		}
 
 		return missionDataDict;
-	} 
+	}
+
+	List<StageButton> stageButtons = new List<StageButton>();
+
+	void Awake () {
+		stageButtons = FindObjectsOfType<StageButton>().ToList();
+		stageButtons.ForEach(button => button.Initialize());
+		stageButtons.OrderBy(button => button.stageIndex);
+// PlayerPrefs.SetInt("Progress", 12);
+		int progress = PlayerPrefs.GetInt("Progress", -1);
+
+		if (progress == -1) {
+			PlayerPrefs.SetInt("Progress", 1);
+		}
+
+		stageButtons.ForEach(button => {
+			if (button.stageIndex <= progress) {
+				button.Active();
+			}
+		});
+	}
 }
