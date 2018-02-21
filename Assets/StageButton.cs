@@ -18,6 +18,10 @@ public class StageButton : MonoBehaviour {
 		GetComponent<Button>().interactable = true;
 	}
 
+	public void Inactive() {
+		GetComponent<Button>().interactable = false;
+	}
+
 	void TaskOnClick() {
 		FindObjectOfType<StageSelectManager>().ShowMissionPanel(stageIndex);
 	}

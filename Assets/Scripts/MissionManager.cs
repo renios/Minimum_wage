@@ -22,6 +22,15 @@ public class MissionManager : MonoBehaviour {
 
 	GameManager gameManager;
 
+	void UpdateProgress() {
+		int progress = PlayerPrefs.GetInt("Progress", -1);
+		if (progress == currentStage) {
+			int newProgress = progress + 1;
+			PlayerPrefs.SetInt("Progress", newProgress);
+			// Debug.Log("Progress change : " + progress + "->" + newProgress);
+		}
+	}
+
 	void SetDefaultValue() {
 		currentStage = 1;
 
@@ -94,8 +103,14 @@ public class MissionManager : MonoBehaviour {
 
 			if (successCustomerCount == customerCount && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowClearCanvas());
+				UpdateProgress();
 			}
 		}
 		
+		// 테스트용 클리어 치트
+		if (Input.GetKeyDown(KeyCode.P)) {
+			StartCoroutine(gameManager.ShowClearCanvas());
+			UpdateProgress();
+		}
 	}
 }

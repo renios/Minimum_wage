@@ -57,17 +57,35 @@ public class StageSelectManager : MonoBehaviour {
 		stageButtons = FindObjectsOfType<StageButton>().ToList();
 		stageButtons.ForEach(button => button.Initialize());
 		stageButtons.OrderBy(button => button.stageIndex);
-PlayerPrefs.SetInt("Progress", 3);
+// PlayerPrefs.SetInt("Progress", 1);
 		int progress = PlayerPrefs.GetInt("Progress", -1);
 
 		if (progress == -1) {
 			PlayerPrefs.SetInt("Progress", 1);
 		}
 
+		// Debug.Log("Current Progress : " + progress);
+
 		stageButtons.ForEach(button => {
 			if (button.stageIndex <= progress) {
 				button.Active();
 			}
 		});
+	}
+
+	void Update () {
+		if (Input.GetKeyDown(KeyCode.R)) {
+			Debug.Log("Progress reset to 1");
+			PlayerPrefs.SetInt("Progress", 1);
+			
+			int progress = PlayerPrefs.GetInt("Progress", -1);
+
+			stageButtons.ForEach(button => button.Inactive());
+			stageButtons.ForEach(button => {
+				if (button.stageIndex <= progress) {
+					button.Active();
+				}
+			});
+		}
 	}
 }

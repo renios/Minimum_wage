@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (gameoverCanvas.activeInHierarchy && Input.anyKeyDown) {
+		if (gameoverCanvas.activeInHierarchy && !isPlaying && Input.anyKeyDown) {
 			if (isEnd)
 				SceneManager.LoadScene("World");
 			else {
