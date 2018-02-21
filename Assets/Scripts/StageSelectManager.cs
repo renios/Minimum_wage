@@ -39,11 +39,11 @@ public class StageSelectManager : MonoBehaviour {
 
 		if (stageName == "1-1") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
+			missionDataDict.Add(MissionDataType.customerCount, 15);
 		}
 		else if (stageName == "1-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.customerCount, 30);
 		}
 
 		return missionDataDict;
