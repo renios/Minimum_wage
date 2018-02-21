@@ -13,7 +13,7 @@ public class MissionPanel : MonoBehaviour {
 
 	public void LoadMissonInfo(string stageName) {
 		string[] parsedStageName = stageName.Split('-');
-		int date = Convert.ToInt32(parsedStageName[0]) + Convert.ToInt32(parsedStageName[1]) -1;
+		int date = 10*(Convert.ToInt32(parsedStageName[0])) + Convert.ToInt32(parsedStageName[1]);
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
 		dayText.text = "DAY " + date;
