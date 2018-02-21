@@ -460,6 +460,7 @@ GameObject:
   - component: {fileID: 157521843}
   - component: {fileID: 157521842}
   - component: {fileID: 157521845}
+  - component: {fileID: 157521846}
   m_Layer: 5
   m_Name: 1-1
   m_TagString: Untagged
@@ -524,18 +525,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 157521843}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-1
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &157521843
@@ -588,6 +578,18 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &157521846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 157521840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &157843998
 GameObject:
   m_ObjectHideFlags: 0
@@ -600,6 +602,7 @@ GameObject:
   - component: {fileID: 157844002}
   - component: {fileID: 157844001}
   - component: {fileID: 157844000}
+  - component: {fileID: 157844004}
   m_Layer: 5
   m_Name: 1-10
   m_TagString: Untagged
@@ -681,18 +684,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 157844002}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &157844002
@@ -728,6 +720,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 157843998}
+--- !u!114 &157844004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 157843998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &179825952
 GameObject:
   m_ObjectHideFlags: 0
@@ -1019,6 +1023,7 @@ GameObject:
   - component: {fileID: 319209349}
   - component: {fileID: 319209348}
   - component: {fileID: 319209347}
+  - component: {fileID: 319209351}
   m_Layer: 5
   m_Name: 2-8
   m_TagString: Untagged
@@ -1100,18 +1105,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 319209349}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &319209349
@@ -1147,6 +1141,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 319209345}
+--- !u!114 &319209351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 319209345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &417838759
 GameObject:
   m_ObjectHideFlags: 0
@@ -1233,6 +1239,7 @@ GameObject:
   - component: {fileID: 420690303}
   - component: {fileID: 420690302}
   - component: {fileID: 420690301}
+  - component: {fileID: 420690305}
   m_Layer: 5
   m_Name: 2-7
   m_TagString: Untagged
@@ -1314,18 +1321,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 420690303}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &420690303
@@ -1361,6 +1357,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 420690299}
+--- !u!114 &420690305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 420690299}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &493797651
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,6 +1489,7 @@ GameObject:
   - component: {fileID: 511787638}
   - component: {fileID: 511787637}
   - component: {fileID: 511787636}
+  - component: {fileID: 511787640}
   m_Layer: 5
   m_Name: 2-2
   m_TagString: Untagged
@@ -1562,18 +1571,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 511787638}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &511787638
@@ -1609,6 +1607,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 511787634}
+--- !u!114 &511787640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 511787634}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &566365594
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,6 +1631,7 @@ GameObject:
   - component: {fileID: 566365598}
   - component: {fileID: 566365597}
   - component: {fileID: 566365596}
+  - component: {fileID: 566365600}
   m_Layer: 5
   m_Name: 1-2
   m_TagString: Untagged
@@ -1702,18 +1713,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 566365598}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &566365598
@@ -1749,6 +1749,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 566365594}
+--- !u!114 &566365600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 566365594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &610125961
 GameObject:
   m_ObjectHideFlags: 0
@@ -1835,6 +1847,7 @@ GameObject:
   - component: {fileID: 658027775}
   - component: {fileID: 658027774}
   - component: {fileID: 658027773}
+  - component: {fileID: 658027777}
   m_Layer: 5
   m_Name: 1-4
   m_TagString: Untagged
@@ -1916,18 +1929,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 658027775}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &658027775
@@ -1963,6 +1965,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 658027771}
+--- !u!114 &658027777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 658027771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &659730832
 GameObject:
   m_ObjectHideFlags: 0
@@ -2123,6 +2137,7 @@ GameObject:
   - component: {fileID: 682269153}
   - component: {fileID: 682269152}
   - component: {fileID: 682269151}
+  - component: {fileID: 682269155}
   m_Layer: 5
   m_Name: 2-1
   m_TagString: Untagged
@@ -2204,18 +2219,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 682269153}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &682269153
@@ -2251,6 +2255,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 682269149}
+--- !u!114 &682269155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 682269149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &716414613
 GameObject:
   m_ObjectHideFlags: 0
@@ -2337,6 +2353,7 @@ GameObject:
   - component: {fileID: 729356891}
   - component: {fileID: 729356890}
   - component: {fileID: 729356889}
+  - component: {fileID: 729356893}
   m_Layer: 5
   m_Name: 1-6
   m_TagString: Untagged
@@ -2418,18 +2435,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 729356891}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &729356891
@@ -2465,6 +2471,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729356887}
+--- !u!114 &729356893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 729356887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &772771625
 GameObject:
   m_ObjectHideFlags: 0
@@ -2701,6 +2719,7 @@ GameObject:
   - component: {fileID: 843630740}
   - component: {fileID: 843630739}
   - component: {fileID: 843630738}
+  - component: {fileID: 843630742}
   m_Layer: 5
   m_Name: 2-5
   m_TagString: Untagged
@@ -2782,18 +2801,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 843630740}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &843630740
@@ -2829,6 +2837,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 843630736}
+--- !u!114 &843630742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 843630736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &901480967
 GameObject:
   m_ObjectHideFlags: 0
@@ -2875,6 +2895,7 @@ GameObject:
   - component: {fileID: 934997429}
   - component: {fileID: 934997428}
   - component: {fileID: 934997427}
+  - component: {fileID: 934997431}
   m_Layer: 5
   m_Name: 2-3
   m_TagString: Untagged
@@ -2956,18 +2977,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 934997429}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &934997429
@@ -3003,6 +3013,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 934997425}
+--- !u!114 &934997431
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 934997425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1001 &977794603
 Prefab:
   m_ObjectHideFlags: 0
@@ -3239,6 +3261,7 @@ GameObject:
   - component: {fileID: 1116891546}
   - component: {fileID: 1116891545}
   - component: {fileID: 1116891544}
+  - component: {fileID: 1116891548}
   m_Layer: 5
   m_Name: 2-6
   m_TagString: Untagged
@@ -3320,18 +3343,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1116891546}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1116891546
@@ -3367,6 +3379,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1116891542}
+--- !u!114 &1116891548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1116891542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1128444161
 GameObject:
   m_ObjectHideFlags: 0
@@ -3544,7 +3568,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionPanel: {fileID: 1345770074}
   missionPanelBg: {fileID: 1073560687}
-  selectedStageName: 
 --- !u!224 &1151364057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3649,6 +3672,7 @@ GameObject:
   - component: {fileID: 1313204301}
   - component: {fileID: 1313204300}
   - component: {fileID: 1313204299}
+  - component: {fileID: 1313204303}
   m_Layer: 5
   m_Name: 1-7
   m_TagString: Untagged
@@ -3730,18 +3754,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1313204301}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1313204301
@@ -3777,6 +3790,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1313204297}
+--- !u!114 &1313204303
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1313204297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1345770074 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1469537364494984, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
@@ -3989,6 +4014,7 @@ GameObject:
   - component: {fileID: 1423768707}
   - component: {fileID: 1423768706}
   - component: {fileID: 1423768705}
+  - component: {fileID: 1423768709}
   m_Layer: 5
   m_Name: 1-9
   m_TagString: Untagged
@@ -4070,18 +4096,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1423768707}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1423768707
@@ -4117,6 +4132,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1423768703}
+--- !u!114 &1423768709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1423768703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1507140840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4203,6 +4230,7 @@ GameObject:
   - component: {fileID: 1514358957}
   - component: {fileID: 1514358956}
   - component: {fileID: 1514358955}
+  - component: {fileID: 1514358959}
   m_Layer: 5
   m_Name: 2-9
   m_TagString: Untagged
@@ -4284,18 +4312,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514358957}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1514358957
@@ -4331,6 +4348,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1514358953}
+--- !u!114 &1514358959
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1514358953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1556866834
 GameObject:
   m_ObjectHideFlags: 0
@@ -4491,6 +4520,7 @@ GameObject:
   - component: {fileID: 1712536338}
   - component: {fileID: 1712536337}
   - component: {fileID: 1712536336}
+  - component: {fileID: 1712536340}
   m_Layer: 5
   m_Name: 2-10
   m_TagString: Untagged
@@ -4572,18 +4602,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1712536338}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1712536338
@@ -4619,6 +4638,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1712536334}
+--- !u!114 &1712536340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1712536334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1815224898
 GameObject:
   m_ObjectHideFlags: 0
@@ -4855,6 +4886,7 @@ GameObject:
   - component: {fileID: 1919206460}
   - component: {fileID: 1919206459}
   - component: {fileID: 1919206458}
+  - component: {fileID: 1919206462}
   m_Layer: 5
   m_Name: 1-8
   m_TagString: Untagged
@@ -4936,18 +4968,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1919206460}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1919206460
@@ -4983,6 +5004,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1919206456}
+--- !u!114 &1919206462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1919206456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1932393900
 GameObject:
   m_ObjectHideFlags: 0
@@ -4995,6 +5028,7 @@ GameObject:
   - component: {fileID: 1932393904}
   - component: {fileID: 1932393903}
   - component: {fileID: 1932393902}
+  - component: {fileID: 1932393906}
   m_Layer: 5
   m_Name: 1-3
   m_TagString: Untagged
@@ -5076,18 +5110,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1932393904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1932393904
@@ -5123,6 +5146,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1932393900}
+--- !u!114 &1932393906
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1932393900}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &1985847861
 GameObject:
   m_ObjectHideFlags: 0
@@ -5135,6 +5170,7 @@ GameObject:
   - component: {fileID: 1985847865}
   - component: {fileID: 1985847864}
   - component: {fileID: 1985847863}
+  - component: {fileID: 1985847867}
   m_Layer: 5
   m_Name: 2-4
   m_TagString: Untagged
@@ -5216,18 +5252,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1985847865}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1985847865
@@ -5263,6 +5288,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1985847861}
+--- !u!114 &1985847867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1985847861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &2038501970
 GameObject:
   m_ObjectHideFlags: 0
@@ -5275,6 +5312,7 @@ GameObject:
   - component: {fileID: 2038501974}
   - component: {fileID: 2038501973}
   - component: {fileID: 2038501972}
+  - component: {fileID: 2038501976}
   m_Layer: 5
   m_Name: 1-5
   m_TagString: Untagged
@@ -5356,18 +5394,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2038501974}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 1151364056}
-        m_MethodName: ShowMissionPanel
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 1-2
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &2038501974
@@ -5403,6 +5430,18 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2038501970}
+--- !u!114 &2038501976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2038501970}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 238bfb030ec4746018973b25c5b55d32, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stageIndex: 0
 --- !u!1 &2101992603
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,9 +18,13 @@ public class MissionManager : MonoBehaviour {
 	bool isUsedTime = false;
 	bool isUsedCustomerCount = false;
 
+	int currentStage;
+
 	GameManager gameManager;
 
 	void SetDefaultValue() {
+		currentStage = 1;
+
 		remainTime = 90;
 		isUsedTime = true;
 
@@ -29,11 +33,13 @@ public class MissionManager : MonoBehaviour {
 	}
 
 	void LoadMissionData() {
-		if (MissionData.stageName == "") {
+		if (MissionData.stageIndex == -1) {
 			SetDefaultValue();
 		}
 		else {
 			Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+
+			currentStage = missionDataDict[MissionDataType.StageIndex];
 
 			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
 				customerCount = missionDataDict[MissionDataType.customerCount];

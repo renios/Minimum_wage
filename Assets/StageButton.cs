@@ -18,9 +18,13 @@ public class StageButton : MonoBehaviour {
 		GetComponent<Button>().interactable = true;
 	}
 
+	void TaskOnClick() {
+		FindObjectOfType<StageSelectManager>().ShowMissionPanel(stageIndex);
+	}
+
 	// Use this for initialization
 	void Start () {
-		
+		GetComponent<Button>().onClick.AddListener(TaskOnClick);
 	}
 	
 	// Update is called once per frame
