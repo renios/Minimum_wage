@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isEnd = false;
+		SoundManager.Play(MusicType.Main);
 		StartCoroutine(ShowMissionStartCanvas());
 	}
 	
