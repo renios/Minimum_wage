@@ -139,7 +139,7 @@ public class TrayManager : MonoBehaviour {
 
 	IEnumerator RefillFoods() {
 		isPlayingRefillAnim = true;
-		while (!IsTrayFull()) {	
+		while (!IsTrayFull()) {
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
 					CheckAndRefill(row, col);
@@ -457,7 +457,17 @@ public class TrayManager : MonoBehaviour {
                 {
                     if (hit[1].collider != null)
                     {
-                        pickedFood2 = hit[1].collider.gameObject;
+                        if (hit[1].collider.gameObject.tag == "Bin")
+                        {
+                            Destroy(pickedFood1);
+                            int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
+                            int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
+                            foods[posX, posY] = null;
+                            pickedFood1 = null;
+                            StartCoroutine(RefillFoods());
+                        }
+                        else
+                            pickedFood2 = hit[1].collider.gameObject;
                     }
 
                     if ((pickedFood1 != null) && (pickedFood2 != null))
@@ -473,7 +483,8 @@ public class TrayManager : MonoBehaviour {
                 }
 
                 //집었던 거 초기화
-                pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
+                if(pickedFood1 != null)
+                    pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
             }
 		}
 
