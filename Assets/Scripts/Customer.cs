@@ -13,9 +13,10 @@ public class Customer : MonoBehaviour {
     public float toleranceRate;
 	public Image timerImage;
 	public Image customerImage;
+    public GameObject[] orderToBeDestroyed;   // 매칭 애니메이션 때 손님 이미지와 주문판 이미지들을 분리하기 위해 미리 주문판 이미지들을 받아놓음
 	Vector3 customerImageOriginPos;
-    public bool isServeCompleted; // 서빙 완료돼서 나갈때 true
-	public bool isServed = false; // 동시체크를 위한 변수
+    public bool isServeCompleted;            // 서빙 완료돼서 나갈때 true
+	public bool isServed = false;            // 동시체크를 위한 변수
     float furyRate;
     public float maxFuryRate;
 

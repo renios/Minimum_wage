@@ -190,8 +190,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1507142894966118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.14, y: 0.73, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.35, z: 1.2569038}
+  m_LocalPosition: {x: 1.4, y: 0.06, z: 0}
+  m_LocalScale: {x: 0.48, y: 0.42, z: 1.2569038}
   m_Children: []
   m_Father: {fileID: 4684850947584584}
   m_RootOrder: 2
@@ -203,8 +203,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1569138952827858}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.35, y: -0.21, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.35, z: 1.2569038}
+  m_LocalPosition: {x: 3.5, y: 0.06, z: 0}
+  m_LocalScale: {x: 0.48, y: 0.42, z: 1.2569038}
   m_Children: []
   m_Father: {fileID: 4684850947584584}
   m_RootOrder: 3
@@ -235,8 +235,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1837430076698808}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 3.66, y: 0.67, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.35, z: 1.2569038}
+  m_LocalPosition: {x: 3.5, y: 1.63, z: 0}
+  m_LocalScale: {x: 0.48, y: 0.42, z: 1.2569038}
   m_Children: []
   m_Father: {fileID: 4684850947584584}
   m_RootOrder: 4
@@ -248,8 +248,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1542504257059746}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.39, y: 1.52, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.35, z: 1.2569038}
+  m_LocalPosition: {x: 1.4, y: 1.63, z: 0}
+  m_LocalScale: {x: 0.48, y: 0.42, z: 1.2569038}
   m_Children: []
   m_Father: {fileID: 4684850947584584}
   m_RootOrder: 1
@@ -455,8 +455,18 @@ MonoBehaviour:
   indexInArray: 0
   waitingTime: 10
   remainWaitingTime: 0
+  toleranceRate: 0
   timerImage: {fileID: 114616579222139526}
   customerImage: {fileID: 114425137928681976}
+  orderToBeDestroyed:
+  - {fileID: 1180843717028650}
+  - {fileID: 1542504257059746}
+  - {fileID: 1507142894966118}
+  - {fileID: 1569138952827858}
+  - {fileID: 1837430076698808}
+  isServeCompleted: 0
+  isServed: 0
+  maxFuryRate: 0
   orderedFoods: []
 --- !u!114 &114845208906660288
 MonoBehaviour:
@@ -514,7 +524,6 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212744595811396788
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -555,7 +564,6 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212764131469628446
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -596,7 +604,6 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212951963689478026
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -637,7 +644,6 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!212 &212953326115361200
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -678,7 +684,6 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!222 &222534082881850950
 CanvasRenderer:
   m_ObjectHideFlags: 1

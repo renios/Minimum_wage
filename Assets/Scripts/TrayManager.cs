@@ -14,6 +14,7 @@ public class TrayManager : MonoBehaviour {
 	Transform[,] foodPoses;
 	FoodOnTray[,] foods;
 	public GameObject foodObj;
+    public GameObject toBeSwitched;
 
 	public GameObject pickedFood1;
 	public GameObject pickedFood2;
@@ -29,7 +30,45 @@ public class TrayManager : MonoBehaviour {
 	bool isPlayingMovingAnim = false;
 	public bool isPlayingRefillAnim = false;
 
+	readonly float comboDelay = 1;
+	readonly float comboDelayByMoving = 5;
+	int comboCount = 0;
+	float lastComboTime = 0;
+	int moveCountAfterMatching = 0;
+
+	public GameObject comboTextPrefab;
+
 	CustomerManager customerManager;
+
+	void ShowComboText (List<FoodOnTray> foods) {
+		Vector3 avgPos = Vector3.zero;
+		foods.ForEach(food => avgPos += food.transform.position/4f);
+
+		GameObject comboTextObj = Instantiate(comboTextPrefab, avgPos, Quaternion.identity);
+		comboTextObj.GetComponentInChildren<Text>().text = comboCount + "Combo!";
+		Destroy(comboTextObj, 2);
+	}
+
+	bool IsComboCountUp () {
+		if (moveCountAfterMatching == 1) {
+			if (lastComboTime < comboDelayByMoving) {
+				Debug.Log("Combo by one move. ComboCount " + comboCount + " -> " + (comboCount+1));
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+		else {
+			if (lastComboTime < comboDelay) {
+				Debug.Log("Combo by time. ComboCount " + comboCount + " -> " + (comboCount+1));
+				return true;
+			}
+			else {
+				return false;
+			}
+		}
+	}
 
 	bool NoMatchingFoods() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -100,7 +139,7 @@ public class TrayManager : MonoBehaviour {
 
 	IEnumerator RefillFoods() {
 		isPlayingRefillAnim = true;
-		while (!IsTrayFull()) {	
+		while (!IsTrayFull()) {
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
 					CheckAndRefill(row, col);
@@ -157,29 +196,32 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		float comboDelay = 0.2f;
+		float comboAnimDelay = 0.2f;
 
 		if (pairs.Count > 0) {
 			customerManager.isPlayingCustomerAnim = true;
 			foreach (var pair in pairs) {
 				Customer matchedCustomer = pair.customer;
 				List<FoodOnTray> matchedFoods = pair.foods;
-				// 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
-				matchedCustomer.transform.DOJump(
-                    new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
-                    matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
-				customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
-				customers.Remove(matchedCustomer);
-				// 맞춰진 음식 삭제
-				matchedFoods.ForEach(food => {
-					int posX = (int)food.foodCoord.x;
-					int posY = (int)food.foodCoord.y;
-					foods[posX, posY].transform.DOLocalJump(foods[posX, posY].transform.position, 1, 1, animDelay);
-					foods[posX, posY] = null;
-					Destroy(food.gameObject, animDelay);
-				});
 
-				yield return new WaitForSeconds(comboDelay);
+				if (IsComboCountUp()) {
+					comboCount++;
+				}
+				else {
+					comboCount = 1;
+				}
+
+				lastComboTime = 0;
+
+				if (comboCount > 1) {
+					ShowComboText(matchedFoods);
+				}
+
+                StartCoroutine(MatchAnimation(matchedFoods, matchedCustomer, customers, animDelay));
+
+				moveCountAfterMatching = 0;
+
+				yield return new WaitForSeconds(comboAnimDelay);
 			}
 			yield return new WaitForSeconds(animDelay);
 			customerManager.isPlayingCustomerAnim = false;
@@ -201,7 +243,37 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
+    IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
+    {
+        // 음식 날아가는 애니메이션
+        foreach (var matchedFood in matchedFoods)
+        {
+            int posX = (int)matchedFood.foodCoord.x;
+            int posY = (int)matchedFood.foodCoord.y;
+            matchedFood.transform.DOMove(matchedFood.correspondent.transform.position, animDelay / 2f, false);
+            foods[posX, posY] = null;
+        }
+		SoundManager.Play((SoundType)Random.Range(3,5));
+        // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
+        yield return new WaitForSeconds(animDelay / 2f);
+
+        // 날아간 음식 제거
+        foreach (var matchedFood in matchedFoods)
+            Destroy(matchedFood.gameObject);
+
+        // 주문판과 주문판에 있는 음식 제거
+        foreach(var orderAspect in matchedCustomer.orderToBeDestroyed)
+            orderAspect.SetActive(false);
+
+        // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
+        matchedCustomer.customerImage.transform.DOJump(
+            new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
+            matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
+        customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
+        customers.Remove(matchedCustomer);
+    }
+
+    bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
 		
 		List<FoodType> foodsTypeOnTray = new List<FoodType>();
@@ -212,14 +284,24 @@ public class TrayManager : MonoBehaviour {
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
 			if (isThereMatchedFoodType) {
-				foodsTypeOnTray.Remove(foodInOrder.foodType);
+                foodsTypeOnTray.Remove(foodInOrder.foodType);
 			}
 			else {
-				return false;
+                return false;
 			}
 		}
-		
-		return true;
+
+        // 타입이 같은 음식의 correspondent를 대응시킨다.
+        foreach(var foodInPart in foodsInPart)
+        {
+            FoodInOrder corrFoodInOrder =
+                foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType && FoodInOrder.foundCorrespondent == false);
+            foodInPart.correspondent = corrFoodInOrder;
+
+            // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+            corrFoodInOrder.foundCorrespondent = true;
+        }
+        return true;
 	}
 
 	float moveSpeed = 0.2f;
@@ -308,6 +390,8 @@ public class TrayManager : MonoBehaviour {
 		gameManager = FindObjectOfType<GameManager>();
 
 		InitializeFoods();
+		
+		lastComboTime = comboDelayByMoving + 1;
 	}
 	
 	GameManager gameManager;
@@ -337,12 +421,27 @@ public class TrayManager : MonoBehaviour {
         if(Input.GetMouseButton(0))
         {
             Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
 
             if (pickedFood1 != null)
-               pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
+            {
+                // 집은 음식 마우스/손가락 따라다니게 하기
+                pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
+                // 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
+                if (hit.Length > 1 && hit[1].collider != null)
+                {
+                    toBeSwitched.SetActive(true);
+                    toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
+                    toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;
+                    toBeSwitched.transform.position = pickedFood1Origin;
+                }
+            }
         }
 
 		if (Input.GetMouseButtonUp(0)) {
+            // 교체 예상 이미지를 보여주지 않도록 비활성화
+            toBeSwitched.SetActive(false);
+
             if (pickedFood1 != null && (!isPlayingMovingAnim))
             {
                 StopCoroutine(EnlargePickedFood(pickedFood1));
@@ -358,12 +457,24 @@ public class TrayManager : MonoBehaviour {
                 {
                     if (hit[1].collider != null)
                     {
-                        pickedFood2 = hit[1].collider.gameObject;
+                        if (hit[1].collider.gameObject.tag == "Bin")
+                        {
+                            Destroy(pickedFood1);
+                            int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
+                            int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
+                            foods[posX, posY] = null;
+                            pickedFood1 = null;
+                            StartCoroutine(RefillFoods());
+                        }
+                        else
+                            pickedFood2 = hit[1].collider.gameObject;
                     }
 
                     if ((pickedFood1 != null) && (pickedFood2 != null))
                     {
-                        StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
+						// 유효이동일 경우에만 카운트 상승
+                        moveCountAfterMatching++;
+						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }
                 }
                 else
@@ -372,9 +483,12 @@ public class TrayManager : MonoBehaviour {
                 }
 
                 //집었던 거 초기화
-                pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
+                if(pickedFood1 != null)
+                    pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
             }
 		}
+
+		lastComboTime += Time.deltaTime;
 
 		lastResetTime += Time.deltaTime;
 		resetTimerImage.fillAmount = lastResetTime / resetTime;

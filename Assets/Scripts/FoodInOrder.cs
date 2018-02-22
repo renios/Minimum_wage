@@ -6,6 +6,8 @@ using Enums;
 public class FoodInOrder : MonoBehaviour {
 
 	public FoodType foodType;
+    // 매칭에 대응되는 트레이 음식을 찾았는지 여부. 매칭 애니메이션 때 같은 타입이 한 주문에 여럿 있을 때 따로 처리하기 위해 도입.
+    public bool foundCorrespondent;  
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)

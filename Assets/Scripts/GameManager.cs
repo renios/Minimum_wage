@@ -8,6 +8,7 @@ using DG.Tweening;
 public class GameManager : MonoBehaviour {
 
 	public GameObject gameoverCanvas;
+    public GameObject startCanvas;
 	public Image bgPanel;
 	public Image mainPanel;
 	public Text textInCanvas;
@@ -50,6 +51,34 @@ public class GameManager : MonoBehaviour {
 		yield return new WaitForSeconds(delay);
 	}
 
+    IEnumerator StartAnimation()
+    {
+        startCanvas.SetActive(true);
+        string[] countdownTexts = { "3", "2", "1", "Start!" };
+        Text startText = startCanvas.GetComponentInChildren<Text>();
+        startText.text = "";
+        int startFontSize = 60;
+        bool isShrinking = false;
+
+        for(int i = 0; i < 4; i++)
+        {
+            isShrinking = true;
+            startText.text = countdownTexts[i];
+            startText.fontSize = startFontSize;
+            while (isShrinking)
+            {
+                startText.fontSize--;
+                yield return new WaitForSeconds(0.015f);
+                if (startText.fontSize < 40) isShrinking = false;
+            }
+            startText.text = "";
+        }
+
+        startCanvas.SetActive(false);
+        isPlaying = true;
+        yield return null;
+    }
+
 	void Awake() {
 		isPlaying = false;
 	}
@@ -57,12 +86,14 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isEnd = false;
-		StartCoroutine(ShowMissionStartCanvas());
-	}
+		SoundManager.Play(MusicType.Main);
+        //StartCoroutine(ShowMissionStartCanvas());
+        StartCoroutine(StartAnimation());
+    }
 	
 	// Update is called once per frame
 	void Update () {
-		if (gameoverCanvas.activeInHierarchy && Input.anyKeyDown) {
+		if (gameoverCanvas.activeInHierarchy && !isPlaying && Input.anyKeyDown) {
 			if (isEnd)
 				SceneManager.LoadScene("World");
 			else {
