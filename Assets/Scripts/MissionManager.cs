@@ -18,9 +18,22 @@ public class MissionManager : MonoBehaviour {
 	bool isUsedTime = false;
 	bool isUsedCustomerCount = false;
 
+	int currentStage;
+
 	GameManager gameManager;
 
+	void UpdateProgress() {
+		int progress = PlayerPrefs.GetInt("Progress", -1);
+		if (progress == currentStage) {
+			int newProgress = progress + 1;
+			PlayerPrefs.SetInt("Progress", newProgress);
+			// Debug.Log("Progress change : " + progress + "->" + newProgress);
+		}
+	}
+
 	void SetDefaultValue() {
+		currentStage = 1;
+
 		remainTime = 90;
 		isUsedTime = true;
 
@@ -29,11 +42,13 @@ public class MissionManager : MonoBehaviour {
 	}
 
 	void LoadMissionData() {
-		if (MissionData.stageName == "") {
+		if (MissionData.stageIndex == -1) {
 			SetDefaultValue();
 		}
 		else {
 			Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+
+			currentStage = missionDataDict[MissionDataType.StageIndex];
 
 			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
 				customerCount = missionDataDict[MissionDataType.customerCount];
@@ -88,8 +103,14 @@ public class MissionManager : MonoBehaviour {
 
 			if (successCustomerCount == customerCount && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowClearCanvas());
+				UpdateProgress();
 			}
 		}
 		
+		// 테스트용 클리어 치트
+		if (Input.GetKeyDown(KeyCode.P)) {
+			StartCoroutine(gameManager.ShowClearCanvas());
+			UpdateProgress();
+		}
 	}
 }

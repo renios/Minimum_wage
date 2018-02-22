@@ -98,6 +98,9 @@ public class CustomerManager : MonoBehaviour {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
 			lastCustomerMakeTime += Time.deltaTime; 
 
+			// 손으로 음식을 집어든 도중에는 손님이 오지 않는다
+			if (trayManager.pickedFood1 != null) return;
+
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			if (isPlayingCustomerAnim) return;

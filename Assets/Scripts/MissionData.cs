@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public enum MissionDataType {
+	StageIndex,
 	customerCount,
 	remainTime, 
 	touchCount
@@ -10,20 +12,21 @@ public enum MissionDataType {
 
 public static class MissionData {
 
-	public static string stageName = "";
+	public static int stageIndex = -1;
 	public static int customerCount = -1;
 	public static int remainTime = -1;
 	public static int touchCount = -1;
 
 	public static void Initialize() {
-		stageName = "";
+		stageIndex = -1;
 		customerCount = -1;
 		remainTime = -1;
 		touchCount = -1;
 	}
 
-	public static void SetMissionData(string name, Dictionary<MissionDataType, int> missionDataDict) {
-		stageName = name;
+	public static void SetMissionData(int inputStageIndex, Dictionary<MissionDataType, int> missionDataDict) {
+		stageIndex = inputStageIndex;
+		
 		if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
 			customerCount = missionDataDict[MissionDataType.customerCount];
 		}
@@ -37,6 +40,7 @@ public static class MissionData {
 
 	public static Dictionary<MissionDataType, int> GetMissionDataDict() {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
+		missionDataDict.Add(MissionDataType.StageIndex, stageIndex);
 		if (customerCount != -1) {
 			missionDataDict.Add(MissionDataType.customerCount, customerCount);
 		}

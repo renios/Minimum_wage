@@ -11,11 +11,10 @@ public class MissionPanel : MonoBehaviour {
 	public Text customerText;
 	public Text timeText;
 
-	public void LoadMissonInfo(string stageName) {
-		string[] parsedStageName = stageName.Split('-');
-		int date = Convert.ToInt32(parsedStageName[0]) + Convert.ToInt32(parsedStageName[1]) -1;
+	public void LoadMissonInfo() {
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
+		int date = missionDataDict[MissionDataType.StageIndex];
 		dayText.text = "DAY " + date;
 
 		string todoString = "1) 3명 이상의 손님을" + '\n' + "돌려보내지 않기";

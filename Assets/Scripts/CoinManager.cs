@@ -16,6 +16,7 @@ public class CoinManager : MonoBehaviour {
     bool isEmphasizing;
 
 	public void AddCoin(int amount) {
+        SoundManager.Play(SoundType.Coin);
 		coin += amount;
 		coinText.text = coin.ToString();
         if (isEmphasizing)
