@@ -26,7 +26,7 @@ public class HeartManager : MonoBehaviour {
 		gameManager = FindObjectOfType<GameManager>();
 
 		heartSlot.ForEach(t => {
-			GameObject heart = Instantiate(heartPrefab, t.position, Quaternion.identity);
+            GameObject heart = Instantiate(heartPrefab, t);
 			hearts.Add(heart);
 		});
 	}
