@@ -17,6 +17,7 @@ public class Customer : MonoBehaviour {
 	Vector3 customerImageOriginPos;
     public bool isServeCompleted;            // 서빙 완료돼서 나갈때 true
 	public bool isServed = false;            // 동시체크를 위한 변수
+	public Enums.Gender gender;				// 효과음 성별 구분용
     float furyRate;
     public float maxFuryRate;
 
@@ -49,7 +50,10 @@ public class Customer : MonoBehaviour {
 	}
 
 	void SetRandomImage() {
-		Object[] spriteObjects = Resources.LoadAll("customers", typeof(Sprite));
+		gender = (Enums.Gender)Random.Range(0,2);
+		Debug.Log("Customer's gender : "+ gender.ToString());
+		string spritePath = "customers/" + gender.ToString();
+		Object[] spriteObjects = Resources.LoadAll(spritePath, typeof(Sprite));
         int pickedIndex = Random.Range(0, spriteObjects.Length);
 		Sprite pickedSprite = spriteObjects[pickedIndex] as Sprite;
 		customerImage.sprite = pickedSprite;
@@ -99,6 +103,7 @@ public class Customer : MonoBehaviour {
         }
 
 		if (remainWaitingTime <= 0) {
+			SoundManager.PlayCustomerReaction(gender, false);
             startedFury = false;
             customerManager.RemoveCustomerByTimeout(indexInArray);
 		}
