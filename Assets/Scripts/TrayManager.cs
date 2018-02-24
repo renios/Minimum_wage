@@ -173,7 +173,16 @@ public class TrayManager : MonoBehaviour {
 				newFood.transform.DOScale(0.1f, 0);
 				newFood.transform.DOScale(0.4f, 0.2f);
 			}
-		} 
+            // 플레이어가 들고 있는 음식이 판에서 움직이게 될 경우 돌아갈 자리를 재선정
+            if (pickedFood1 != null)
+            {
+                if (pickedFood1.GetComponent<FoodOnTray>().isFoodMoving)
+                {
+                    pickedFood1Origin = foodPoses[(int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x,
+                    (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y].position;
+                }
+            }
+        } 
 	}
 
 	bool IsTrayFull() {
@@ -445,6 +454,12 @@ public class TrayManager : MonoBehaviour {
 	IEnumerator ChangeFoodPosition(GameObject food1, Vector3 food1Origin, GameObject food2 = null ) {
 		isPlayingMovingAnim = true;
 
+        // food1이 움직이고 있는 경우, food1Origin을 옮기고 기다렸다가 작동
+        if(food1.GetComponent<FoodOnTray>().isFoodMoving)
+        {
+            yield return new WaitWhile(() => isPlayingRefillAnim);
+        }
+
         if(food2!=null)
         {
             Vector3 positionOfFood2 = food2.transform.position;
@@ -555,7 +570,8 @@ public class TrayManager : MonoBehaviour {
 				}
                 pickedFood1.GetComponent<FoodOnTray>().isEnlarging = true;
 				pickedFood1.GetComponent<HighlightBorder>().ActiveBorder();
-                pickedFood1Origin = new Vector3(pickedFood1.transform.position.x, pickedFood1.transform.position.y, 0);
+                pickedFood1Origin = foodPoses[(int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x, 
+                    (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y].position;
             }
 		}
         
