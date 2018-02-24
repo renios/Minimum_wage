@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour {
         string[] countdownTexts = { "3", "2", "1", "Start!" };
         Text startText = startCanvas.GetComponentInChildren<Text>();
         startText.text = "";
-        int startFontSize = 60;
+        int startFontSize = 250;
         bool isShrinking = false;
 
         for(int i = 0; i < 4; i++)
@@ -67,9 +67,9 @@ public class GameManager : MonoBehaviour {
             startText.fontSize = startFontSize;
             while (isShrinking)
             {
-                startText.fontSize--;
-                yield return new WaitForSeconds(0.015f);
-                if (startText.fontSize < 40) isShrinking = false;
+                startText.fontSize -= 2;
+                yield return new WaitForSeconds(0.001f);
+                if (startText.fontSize < 220) isShrinking = false;
             }
             startText.text = "";
         }
