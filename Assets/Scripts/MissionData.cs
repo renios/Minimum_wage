@@ -21,22 +21,22 @@ public static class MissionData {
 	public static int customerCount = -1;
 	public static int remainTime = -1;
 	public static int touchCount = -1;
-	public static int maxHeart = -1;
+	public static int maxHeart = 3;
 	public static int waitingTime = -1;
 	public static int customerCooldown = -1;
 	public static int maxCustomer = -1;
-	public static int foodTypeCount = -1;
+	public static int foodTypeCount = 4;
 
 	public static void Initialize() {
 		stageIndex = -1;
 		customerCount = -1;
 		remainTime = -1;
 		touchCount = -1;
-		maxHeart = -1;
+		maxHeart = 3;
 		waitingTime = -1;
 		customerCooldown = -1;
 		maxCustomer = -1;
-		foodTypeCount = -1;
+		foodTypeCount = 4;
 	}
 
 	public static void SetMissionData(int inputStageIndex, Dictionary<MissionDataType, int> missionDataDict) {
@@ -111,6 +111,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
@@ -118,6 +119,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-3") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
@@ -125,6 +127,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-4") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
@@ -132,6 +135,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 1);
 		}
 		else if (stageName == "1-5") {
 			missionDataDict.Add(MissionDataType.remainTime, 100);
@@ -139,6 +143,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-6") {
 			missionDataDict.Add(MissionDataType.remainTime, 150);
@@ -146,6 +151,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-7") {
 			missionDataDict.Add(MissionDataType.remainTime, 60);
@@ -153,6 +159,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 15);
 			missionDataDict.Add(MissionDataType.customerCooldown, 7);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-8") {
 			missionDataDict.Add(MissionDataType.remainTime, 100);
@@ -160,6 +167,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 60);
 			missionDataDict.Add(MissionDataType.customerCooldown, 3);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "1-9") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
@@ -167,6 +175,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 15);
 			missionDataDict.Add(MissionDataType.customerCooldown, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 1);
 		}
 		else if (stageName == "1-10") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
@@ -174,6 +183,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 3);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
 		}
 		else if (stageName == "2-1") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
