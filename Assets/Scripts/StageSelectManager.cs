@@ -12,7 +12,7 @@ public class StageSelectManager : MonoBehaviour {
 	public Image missionPanelBg;
 
 	public void ShowMissionPanel(int stageIndex) {
-		Dictionary<MissionDataType, int> missionDataDict = LoadMissionDataDict(stageIndex);
+		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
 		MissionData.SetMissionData(stageIndex, missionDataDict);
 
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
@@ -34,31 +34,13 @@ public class StageSelectManager : MonoBehaviour {
 		missionPanelBg.raycastTarget = false;
 	}
 
-	Dictionary<MissionDataType, int> LoadMissionDataDict(int stageIndex) {
-		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
-
-		string stageName = ((stageIndex / 10) + 1).ToString() + "-" + (stageIndex % 10).ToString();
-		SoundManager.SetWorldIndex(stageIndex/10);
-
-		if (stageName == "1-1") {
-			missionDataDict.Add(MissionDataType.remainTime, 90);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
-		}
-		else if (stageName == "1-2") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
-		}
-
-		return missionDataDict;
-	}
-
 	List<StageButton> stageButtons = new List<StageButton>();
 
 	void Awake () {
 		stageButtons = FindObjectsOfType<StageButton>().ToList();
 		stageButtons.ForEach(button => button.Initialize());
 		stageButtons.OrderBy(button => button.stageIndex);
-// PlayerPrefs.SetInt("Progress", 1);
+PlayerPrefs.SetInt("Progress", 15);
 		int progress = PlayerPrefs.GetInt("Progress", -1);
 
 		if (progress == -1) {

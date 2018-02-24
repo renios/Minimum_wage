@@ -23,8 +23,19 @@ public class MissionPanel : MonoBehaviour {
 			missionDataDict.ContainsKey(MissionDataType.remainTime)) {
 			int customerCount = missionDataDict[MissionDataType.customerCount];
 			int remainTime = missionDataDict[MissionDataType.remainTime];
-			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + remainTime + "초 이내에" + '\n' 
-								+ customerCount + "명 이상 서빙하기"; 
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + (remainTime / 60) + "분 " + (remainTime % 60) + "초 이내에 " + customerCount + "명 이상 서빙하기"; 
+			todoString += newTodoString;
+			missionCount++;
+		}
+		else if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
+			int customerCount = missionDataDict[MissionDataType.customerCount];
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + customerCount + "명 이상 서빙하기"; 
+			todoString += newTodoString;
+			missionCount++;
+		}
+		else if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
+			int remainTime = missionDataDict[MissionDataType.remainTime];
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + (remainTime / 60) + "분 " + (remainTime % 60) + "초 동안 서빙 계속하기"; 
 			todoString += newTodoString;
 			missionCount++;
 		}
