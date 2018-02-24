@@ -38,7 +38,7 @@ Transform:
   m_GameObject: {fileID: 1238987162197396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.38856998, y: 0.42242, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -99,6 +99,7 @@ MonoBehaviour:
   isServed: 0
   correspondentPos: {x: 0, y: 0, z: 0}
   correspondent: {fileID: 0}
+  isSuperfood: 0
 --- !u!212 &212900477918387720
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -139,3 +140,4 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

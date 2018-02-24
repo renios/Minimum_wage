@@ -171,7 +171,7 @@ public class TrayManager : MonoBehaviour {
                     newFood.GetComponent<FoodOnTray>().isFoodMoving = true;
 				}
 				newFood.transform.DOScale(0.1f, 0);
-				newFood.transform.DOScale(0.4f, 0.2f);
+				newFood.transform.DOScale(1, 0.2f);
 			}
             // 플레이어가 들고 있는 음식이 판에서 움직이게 될 경우 돌아갈 자리를 재선정
             if (pickedFood1 != null)
@@ -671,6 +671,5 @@ public class TrayManager : MonoBehaviour {
 		lastComboTime += Time.deltaTime;
 
 		lastResetTime += Time.deltaTime;
-		resetTimerImage.fillAmount = lastResetTime / resetTime;
 	}
 }
