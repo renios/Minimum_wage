@@ -38,11 +38,13 @@ public class TrayManager : MonoBehaviour {
 	float lastComboTime = 0;
 	int moveCountAfterMatching = 0;
 
+    public bool isOnBin;
+
 	public GameObject comboTextPrefab;
 
 	CustomerManager customerManager;
 
-	void MakeSuperfood() {
+	public void MakeSuperfood() {
 		// 제일 많은 종류의 음식 중 하나를 픽
 		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
 		List<FoodOnTray> foodList = new List<FoodOnTray>();
@@ -76,6 +78,38 @@ public class TrayManager : MonoBehaviour {
 		// 그 음식을 슈퍼푸드로 바꿈
 		StartCoroutine(preSuperfood.ChangeToSuperfood());
 	}
+
+    public void StartRenewTray()
+    {
+        StartCoroutine(RenewTray());
+    }
+
+    IEnumerator RenewTray()
+    {
+        yield return new WaitWhile(() => isPlayingRefillAnim);
+        yield return new WaitWhile(() => isPlayingMovingAnim);
+
+        for (int row = 0; row < ROW; row++)
+        {
+            for (int col = 0; col < COL; col++)
+            {
+                Destroy(foods[row, col].gameObject);
+                foods[row, col] = null;
+            }
+        }
+
+        yield return StartCoroutine(RefillFoods());
+    }
+
+    public void OpenBin()
+    {
+        isOnBin = true;
+    }
+
+    public void CloseBin()
+    {
+        isOnBin = false;
+    }
 
 	void ShowComboText (List<FoodOnTray> foods) {
 		Vector3 avgPos = Vector3.zero;
@@ -635,21 +669,8 @@ public class TrayManager : MonoBehaviour {
                 //If something was hit, the RaycastHit2D.collider will not be null.
                 if(hit.Length>1)
                 {
-                    if (hit[1].collider != null)
-                    {
-						// 쓰레기통에 버리는 경우
-                        if (hit[1].collider.gameObject.tag == "Bin")
-                        {
-                            Destroy(pickedFood1);
-                            int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
-                            int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
-                            foods[posX, posY] = null;
-                            pickedFood1 = null;
-                            StartCoroutine(RefillFoods(1));
-                        }
-                        else if(!hit[1].collider.gameObject.GetComponent<FoodOnTray>().isFoodMoving)
-                            pickedFood2 = hit[1].collider.gameObject;
-                    }
+                    if (hit[1].collider != null && !hit[1].collider.gameObject.GetComponent<FoodOnTray>().isFoodMoving)
+                        pickedFood2 = hit[1].collider.gameObject;
 
                     if ((pickedFood1 != null) && (pickedFood2 != null))
                     {
@@ -657,6 +678,15 @@ public class TrayManager : MonoBehaviour {
                         moveCountAfterMatching++;
 						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }
+                }
+                else if(isOnBin)
+                {
+                    Destroy(pickedFood1);
+                    int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
+                    int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
+                    foods[posX, posY] = null;
+                    pickedFood1 = null;
+                    StartCoroutine(RefillFoods(1));
                 }
                 else
                 {
