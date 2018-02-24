@@ -49,8 +49,8 @@ public class TrayManager : MonoBehaviour {
 				foodList.Add(foods[row, col]);
 			}
 		}
+		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
 		foodList.ForEach(food => {
-			if (food.isSuperfood) return;
 			FoodType type = food.foodType;
 			if (counter.ContainsKey(type)) {
 				int count = counter[type];
@@ -68,11 +68,11 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 		FoodType mostFoodType = maxValuePair.Key;
-		var mostFoodTypeFoods = foodList.FindAll(food => food.foodType == mostFoodType);
+		var mostFoodTypeFoods = foodList.FindAll(food => !food.isSuperfood && food.foodType == mostFoodType);
 		FoodOnTray preSuperfood = mostFoodTypeFoods[Random.Range(0, mostFoodTypeFoods.Count)];
 
 		// 그 음식을 슈퍼푸드로 바꿈
-		preSuperfood.ChangeToSuperfood();
+		StartCoroutine(preSuperfood.ChangeToSuperfood());
 	}
 
 	void ShowComboText (List<FoodOnTray> foods) {
@@ -311,33 +311,56 @@ public class TrayManager : MonoBehaviour {
 
     bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
-		
+
+		// 만능음식은 갯수만 세어놓는다
+		int numberOfSuperfood = foodsInPart.Count(food => food.isSuperfood);		
 		List<FoodType> foodsTypeOnTray = new List<FoodType>();
 		foodsInPart.ForEach(food => {
-			foodsTypeOnTray.Add(food.foodType);
+			if (!food.isSuperfood) {
+				foodsTypeOnTray.Add(food.foodType);
+			}
 		});
 
+		int remainSuperfoodCount = numberOfSuperfood;
+		// 판정이 실패했을 때 만능음식이 있으면 하나 쓴다
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
 			if (isThereMatchedFoodType) {
-                foodsTypeOnTray.Remove(foodInOrder.foodType);
+				foodsTypeOnTray.Remove(foodInOrder.foodType);
 			}
 			else {
-                return false;
+				if (remainSuperfoodCount > 0) {
+					remainSuperfoodCount -= 1;
+				}
+				else {
+					return false;
+				}
 			}
 		}
 
-        // 타입이 같은 음식의 correspondent를 대응시킨다.
-        foreach(var foodInPart in foodsInPart)
-        {
-            FoodInOrder corrFoodInOrder =
-                foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType && FoodInOrder.foundCorrespondent == false);
-            foodInPart.correspondent = corrFoodInOrder;
+		// 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
+		foreach(var foodInPart in foodsInPart) {
+			if (!foodInPart.isSuperfood) {
+				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
+					FoodInOrder.foodType == foodInPart.foodType && 
+					!FoodInOrder.foundCorrespondent);
+				foodInPart.correspondent = corrFoodInOrder;
 
-            // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-            corrFoodInOrder.foundCorrespondent = true;
-        }
-        return true;
+				// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+				corrFoodInOrder.foundCorrespondent = true;
+			}
+		}
+		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
+		foreach(var foodInPart in foodsInPart) {
+			if (foodInPart.isSuperfood) {
+				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
+					!FoodInOrder.foundCorrespondent);
+				foodInPart.correspondent = corrFoodInOrder;
+
+				corrFoodInOrder.foundCorrespondent = true;
+			}
+		}
+		return true;
 	}
 
 	float moveSpeed = 0.2f;

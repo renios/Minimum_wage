@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Enums;
+using DG.Tweening;
 
 public class FoodOnTray : MonoBehaviour {
 
@@ -43,11 +44,19 @@ public class FoodOnTray : MonoBehaviour {
 		GetComponent<SpriteRenderer>().sprite = EnumToSprite(foodType);
 	}
 
-	public void ChangeToSuperfood() {
+	public IEnumerator ChangeToSuperfood() {
 		isSuperfood = true;
 
 		Sprite superfoodSprite = Resources.Load("Foods/food09", typeof(Sprite)) as Sprite;
 		GetComponent<SpriteRenderer>().sprite = superfoodSprite;
+
+		float delay = 0.2f;
+		float originScale = transform.localScale.x;
+		Tween tw = transform.DOScale(originScale*1.5f, delay);
+		yield return tw.WaitForCompletion();
+		transform.DOScale(originScale, delay);
+
+		yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
 	}
 
 	// Use this for initialization
