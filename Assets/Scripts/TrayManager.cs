@@ -83,8 +83,9 @@ public class TrayManager : MonoBehaviour {
 
 		GameObject comboTextObj = Instantiate(comboTextPrefab, avgPos, Quaternion.identity);
 		comboTextObj.GetComponentInChildren<Text>().text = comboCount + "Combo!";
+		comboTextObj.transform.DOJump(avgPos, 1, 1, 0.5f);
 		SoundManager.PlayCombo(comboCount);
-		Destroy(comboTextObj, 2);
+		Destroy(comboTextObj, 1);
 	}
 
 	bool IsComboCountUp () {
