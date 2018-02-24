@@ -108,6 +108,41 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &9054783 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1986667042579228, guid: 853413598608f4155ba92474258c1177,
+    type: 2}
+  m_PrefabInternal: {fileID: 1048796339}
+--- !u!114 &9054787
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 9054783}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 440034585}
+          m_MethodName: StartRenewTray
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &17952521
 GameObject:
   m_ObjectHideFlags: 0
@@ -440,6 +475,12 @@ MonoBehaviour:
     type: 2}
   m_PrefabInternal: {fileID: 1295220671}
   m_Script: {fileID: 11500000, guid: f4bb0cc78e96f495e9ac5bc194ae1337, type: 3}
+--- !u!114 &558985200 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114723897206457584, guid: 509befd0303b449398e992eb12757d32,
+    type: 2}
+  m_PrefabInternal: {fileID: 122163668}
+  m_Script: {fileID: 11500000, guid: 2fc2401db507c4775b1535ebb8c904b1, type: 3}
 --- !u!1 &722349152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1007,6 +1048,18 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1986667042579228, guid: 853413598608f4155ba92474258c1177, type: 2}
+      propertyPath: m_Name
+      value: RenewTray
+      objectReference: {fileID: 0}
+    - target: {fileID: 1355560068141370, guid: 853413598608f4155ba92474258c1177, type: 2}
+      propertyPath: m_Name
+      value: ResetWaitingTime
+      objectReference: {fileID: 0}
+    - target: {fileID: 1755484702635384, guid: 853413598608f4155ba92474258c1177, type: 2}
+      propertyPath: m_Name
+      value: SuperFood
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 853413598608f4155ba92474258c1177, type: 2}
@@ -1648,6 +1701,41 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1469935928}
+--- !u!1 &1552641875 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1355560068141370, guid: 853413598608f4155ba92474258c1177,
+    type: 2}
+  m_PrefabInternal: {fileID: 1048796339}
+--- !u!114 &1552641879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1552641875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 558985200}
+          m_MethodName: ResetWaitingTime
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1642112506
 GameObject:
   m_ObjectHideFlags: 0
@@ -1794,6 +1882,41 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1704991367}
+--- !u!1 &1762621161 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1755484702635384, guid: 853413598608f4155ba92474258c1177,
+    type: 2}
+  m_PrefabInternal: {fileID: 1048796339}
+--- !u!114 &1762621165
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1762621161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 4
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 440034585}
+          m_MethodName: MakeSuperfood
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1891123638
 GameObject:
   m_ObjectHideFlags: 0

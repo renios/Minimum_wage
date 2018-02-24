@@ -44,7 +44,7 @@ public class TrayManager : MonoBehaviour {
 
 	CustomerManager customerManager;
 
-	void MakeSuperfood() {
+	public void MakeSuperfood() {
 		// 제일 많은 종류의 음식 중 하나를 픽
 		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
 		List<FoodOnTray> foodList = new List<FoodOnTray>();
@@ -78,6 +78,28 @@ public class TrayManager : MonoBehaviour {
 		// 그 음식을 슈퍼푸드로 바꿈
 		StartCoroutine(preSuperfood.ChangeToSuperfood());
 	}
+
+    public void StartRenewTray()
+    {
+        StartCoroutine(RenewTray());
+    }
+
+    IEnumerator RenewTray()
+    {
+        yield return new WaitWhile(() => isPlayingRefillAnim);
+        yield return new WaitWhile(() => isPlayingMovingAnim);
+
+        for (int row = 0; row < ROW; row++)
+        {
+            for (int col = 0; col < COL; col++)
+            {
+                Destroy(foods[row, col].gameObject);
+                foods[row, col] = null;
+            }
+        }
+
+        yield return StartCoroutine(RefillFoods());
+    }
 
     public void OpenBin()
     {

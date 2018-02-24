@@ -20,6 +20,15 @@ public class CustomerManager : MonoBehaviour {
 	CoinManager coinManager;
 	MissionManager missionManager;
 
+    public void ResetWaitingTime()
+    {
+        foreach(var customer in currentWaitingCustomers)
+        {
+            if(customer != null)
+            customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+        }
+    }
+
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
 		currentWaitingCustomers[indexInArray] = null;
