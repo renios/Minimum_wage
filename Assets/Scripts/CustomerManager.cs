@@ -89,6 +89,9 @@ public class CustomerManager : MonoBehaviour {
 		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
 			waitingTime = missionDataDict[MissionDataType.waitingTime];
 		}
+		if (missionDataDict.ContainsKey(MissionDataType.customerCooldown)) {
+			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
+		}
 	}
 
 	// Use this for initialization
