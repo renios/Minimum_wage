@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour {
 	float delay = 0.5f;
 
 	public IEnumerator ShowGameoverCanvas() {
+		SoundManager.Play(MusicType.StageOver);
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
 		bgPanel.DOFade(0.4f, delay);
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	public IEnumerator ShowClearCanvas() {
+		SoundManager.Play(MusicType.StageClear);
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
 		bgPanel.DOFade(0.4f, delay);
@@ -53,6 +55,7 @@ public class GameManager : MonoBehaviour {
 
     IEnumerator StartAnimation()
     {
+		SoundManager.Play(MusicType.Start);
         startCanvas.SetActive(true);
         string[] countdownTexts = { "3", "2", "1", "Start!" };
         Text startText = startCanvas.GetComponentInChildren<Text>();
@@ -74,6 +77,7 @@ public class GameManager : MonoBehaviour {
             startText.text = "";
         }
 
+		SoundManager.Play(MusicType.Ambient);
         startCanvas.SetActive(false);
         isPlaying = true;
         yield return null;
@@ -86,7 +90,6 @@ public class GameManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		isEnd = false;
-		SoundManager.Play(MusicType.Ambient);
         //StartCoroutine(ShowMissionStartCanvas());
         StartCoroutine(StartAnimation());
     }

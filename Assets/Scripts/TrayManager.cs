@@ -118,7 +118,6 @@ public class TrayManager : MonoBehaviour {
 		GameObject comboTextObj = Instantiate(comboTextPrefab, avgPos, Quaternion.identity);
 		comboTextObj.GetComponentInChildren<Text>().text = comboCount + "Combo!";
 		comboTextObj.transform.DOJump(avgPos, 1, 1, 0.5f);
-		SoundManager.PlayCombo(comboCount);
 		Destroy(comboTextObj, 1);
 	}
 
@@ -382,6 +381,7 @@ public class TrayManager : MonoBehaviour {
 				else {
 					comboCount = 1;
 				}
+				SoundManager.PlayCombo(comboCount);
 
 				lastComboTime = 0;
 
@@ -621,6 +621,8 @@ public class TrayManager : MonoBehaviour {
             //If something was hit, the RaycastHit2D.collider will not be null.
             if ((hit.collider != null) && (!isPlayingMovingAnim))
             {
+				SoundManager.Play(SoundType.Swap);
+
 				pickedFood1 = hit.collider.gameObject;
                 if(!pickedFood1.GetComponent<FoodOnTray>().isEnlarging) {
                     StartCoroutine(EnlargePickedFood(pickedFood1));
@@ -675,6 +677,8 @@ public class TrayManager : MonoBehaviour {
                     if ((pickedFood1 != null) && (pickedFood2 != null))
                     {
 						// 유효이동일 경우에만 카운트 상승
+						SoundManager.Play(SoundType.Swap);
+
                         moveCountAfterMatching++;
 						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }

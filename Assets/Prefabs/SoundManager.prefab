@@ -113,10 +113,28 @@ MonoBehaviour:
   worldSoundData:
   - start: {fileID: 0}
     ambient: {fileID: 8300000, guid: fca7ac06b6df28148a1c73b01c7656f0, type: 3}
-    gameOver: {fileID: 0}
-    combo: []
+    stageClear: {fileID: 8300000, guid: 4d30694a95673d14199df055a3b66576, type: 3}
+    stageOver: {fileID: 8300000, guid: ce73509e4d78cb44e983206427a88c9c, type: 3}
+    combo:
+    - {fileID: 8300000, guid: d780b10e10646af4e910127e7503c74b, type: 3}
+    - {fileID: 8300000, guid: 5251c5fd9c7bda447bf71aca67fd5244, type: 3}
+    - {fileID: 8300000, guid: 06d28a0a68f149645ac5b4301e8e625b, type: 3}
+    - {fileID: 8300000, guid: 15e035c934003bf47af2e519da190249, type: 3}
+    - {fileID: 8300000, guid: e61ef92f275a80e4d9ce0c6580c33e4f, type: 3}
+    - {fileID: 8300000, guid: ef1067f32a0e91c41a37d13640cf5c95, type: 3}
+    - {fileID: 8300000, guid: 189812d41c15b7c4cb50be9d46e3fac1, type: 3}
+    - {fileID: 8300000, guid: fc1d28e5d6aac4c4c8f11b229f5f3fc2, type: 3}
   - start: {fileID: 8300000, guid: 17088b44b67244544aafae7cc9b04062, type: 3}
     ambient: {fileID: 8300000, guid: c2a9da43a5ca5964f92026296b3c8664, type: 3}
-    gameOver: {fileID: 0}
-    combo: []
+    stageClear: {fileID: 8300000, guid: 989527ac1ac16ba409c2d27d7e44fa39, type: 3}
+    stageOver: {fileID: 8300000, guid: c93d459113548a842922060426132f62, type: 3}
+    combo:
+    - {fileID: 8300000, guid: 7fb7cbb7dd7fd034f9dae48cdb0e233f, type: 3}
+    - {fileID: 8300000, guid: 64084fe066fe5564a9648470f3e87eca, type: 3}
+    - {fileID: 8300000, guid: 6012b7695d7fad44784b418fedcc9e36, type: 3}
+    - {fileID: 8300000, guid: 9f9959a7b42dbf44294fe13b79a9f1f9, type: 3}
+    - {fileID: 8300000, guid: 3923061f091ef1240bbde7d921d4b7a3, type: 3}
+    - {fileID: 8300000, guid: 6a72fb1bd7fb6194695e053935862cac, type: 3}
+    - {fileID: 8300000, guid: 9cb5f93879dbf404e8c124134d6d7c04, type: 3}
+    - {fileID: 8300000, guid: ab2aeb039f5720140a50b4aad31325c1, type: 3}
   defaultMusic: {fileID: 8300000, guid: 421e96344c66951479408082ae6d96cf, type: 3}

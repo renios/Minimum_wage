@@ -2,8 +2,8 @@
 using System.Linq;
 using UnityEngine;
 
-public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Tap }
-public enum MusicType { Ambient, Main, Start, GameOver }
+public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Swap, Tap }
+public enum MusicType { Ambient, Main, Start, StageClear, StageOver }
 
 [System.Serializable]
 public class SoundDic{
@@ -14,7 +14,8 @@ public class SoundDic{
 public class WorldSoundData{
     public AudioClip start;
     public AudioClip ambient;
-    public AudioClip gameOver;
+    public AudioClip stageClear;
+    public AudioClip stageOver;
     public AudioClip[] combo;
 }
 public class SoundManager : MonoBehaviour{
@@ -84,6 +85,16 @@ public class SoundManager : MonoBehaviour{
             }
             case MusicType.Start:{
                 clip = selectedWorld.start;
+                isLoop = false;
+                break;
+            }
+            case MusicType.StageClear:{
+                clip = selectedWorld.stageClear;
+                isLoop = false;
+                break;
+            }
+            case MusicType.StageOver:{
+                clip = selectedWorld.stageOver;
                 isLoop = false;
                 break;
             }
