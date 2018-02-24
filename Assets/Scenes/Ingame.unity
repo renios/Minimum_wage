@@ -434,6 +434,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d570db5ded514259adbf5b9367e5eee, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &440034585 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114856312169861288, guid: 983066dcecaf24263b3da2dbf2747cc7,
+    type: 2}
+  m_PrefabInternal: {fileID: 1295220671}
+  m_Script: {fileID: 11500000, guid: f4bb0cc78e96f495e9ac5bc194ae1337, type: 3}
 --- !u!1 &722349152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1175,6 +1181,7 @@ GameObject:
   - component: {fileID: 1093909814}
   - component: {fileID: 1093909816}
   - component: {fileID: 1093909815}
+  - component: {fileID: 1093909817}
   m_Layer: 5
   m_Name: Image
   m_TagString: Bin
@@ -1233,6 +1240,53 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1093909813}
+--- !u!114 &1093909817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1093909813}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1862395651, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 440034585}
+          m_MethodName: OpenBin
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 440034585}
+          m_MethodName: CloseBin
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+      m_TypeName: UnityEngine.EventSystems.EventTrigger+TriggerEvent, UnityEngine.UI,
+        Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  delegates: []
 --- !u!1 &1124420870
 GameObject:
   m_ObjectHideFlags: 0
@@ -1954,7 +2008,7 @@ GameObject:
   - component: {fileID: 2086471015}
   m_Layer: 5
   m_Name: Bin
-  m_TagString: Untagged
+  m_TagString: Bin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
