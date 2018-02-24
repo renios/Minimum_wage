@@ -378,25 +378,43 @@ public class TrayManager : MonoBehaviour {
             matchedFood.transform.DOMove(matchedFood.correspondent.transform.position, animDelay / 2f, false);
             foods[posX, posY] = null;
         }
-		SoundManager.PlayCustomerReaction(matchedCustomer.gender, true);
 
-        // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
-        yield return new WaitForSeconds(animDelay / 2f);
+        if(matchedCustomer != null)
+        {
+            SoundManager.PlayCustomerReaction(matchedCustomer.gender, true);
 
-        // 날아간 음식 제거
-        foreach (var matchedFood in matchedFoods)
-            Destroy(matchedFood.gameObject);
+            // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
+            yield return new WaitForSeconds(animDelay / 2f);
 
-        // 주문판과 주문판에 있는 음식 제거
-        foreach(var orderAspect in matchedCustomer.orderToBeDestroyed)
-            orderAspect.SetActive(false);
+            // 날아간 음식 제거
+            foreach (var matchedFood in matchedFoods)
+                Destroy(matchedFood.gameObject);
 
-        // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
-        matchedCustomer.customerImage.transform.DOJump(
-            new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
-            matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
-        customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
-        customers.Remove(matchedCustomer);
+            if(matchedCustomer != null)
+            {
+                // 주문판과 주문판에 있는 음식 제거
+                foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
+                    orderAspect.SetActive(false);
+
+                if(matchedCustomer != null)
+                {
+                    // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
+                    matchedCustomer.customerImage.transform.DOJump(
+                        new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
+                        matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
+                    customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
+                    customers.Remove(matchedCustomer);
+                }
+ 
+            }
+
+        }
+        else
+        {
+            foreach (var matchedFood in matchedFoods)
+                Destroy(matchedFood.gameObject);
+        }
+
     }
 
     bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
