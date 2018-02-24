@@ -288,7 +288,8 @@ public class TrayManager : MonoBehaviour {
             matchedFood.transform.DOMove(matchedFood.correspondent.transform.position, animDelay / 2f, false);
             foods[posX, posY] = null;
         }
-		SoundManager.Play((SoundType)Random.Range(3,5));
+		SoundManager.PlayCustomerReaction(matchedCustomer.gender, true);
+
         // 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
         yield return new WaitForSeconds(animDelay / 2f);
 

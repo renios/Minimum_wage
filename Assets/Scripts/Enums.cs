@@ -11,4 +11,7 @@ namespace Enums {
 		E,
 		F
 	}
+	public enum Gender{
+		Female, Male
+	}
 }
