@@ -2,8 +2,8 @@
 using System.Linq;
 using UnityEngine;
 
-public enum SoundType { Button, Cashier, Coin, FemaleSatisfy, MaleSatisfy, Tap, FemaleDisappoint, MaleDissapoint, Raspberry }
-public enum MusicType { Main, Ambient1, Ambient2 }
+public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Tap }
+public enum MusicType { Ambient, Main, Start, GameOver }
 
 [System.Serializable]
 public class SoundDic{
@@ -11,18 +11,23 @@ public class SoundDic{
     public AudioClip clip;
 }
 [System.Serializable]
-public class MusicDic{
-    public MusicType type;
-    public AudioClip clip;
+public class WorldSoundData{
+    public AudioClip start;
+    public AudioClip ambient;
+    public AudioClip gameOver;
+    public AudioClip[] combo;
 }
 public class SoundManager : MonoBehaviour{
     static SoundManager instance;
     static Queue<SoundPlayer> spPool;
     static SoundPlayer musicPlayer;
+    static int worldIndex;
+    static int comboCount;
     
     public GameObject standardSoundPlayer;
     public SoundDic[] soundDictionary;
-    public MusicDic[] musicDictionary;
+    public WorldSoundData[] worldSoundData;
+    public AudioClip defaultMusic;
     static SoundPlayer PullNewSoundPlayer(){
         if (spPool.Count > 0) {
             SoundPlayer sp = spPool.Dequeue();
@@ -42,21 +47,57 @@ public class SoundManager : MonoBehaviour{
         SoundManager.Play(st, pos);
     }
     public static void Play(SoundType st, Vector2 pos = new Vector2()){
-        var selectedDics = instance.soundDictionary.Where(sd => sd.type == st).ToArray();
-        if(selectedDics.Length == 0){
+        var clip = ChooseSound(st);
+        if (clip == null){
             Debug.LogError("NullSoundTypeException : cannot find AudioClip that matches given SoundType(" + st.ToString() + ")");
             return;
         }
-        var clip = selectedDics[Random.Range(0,selectedDics.Length)].clip;
         PullNewSoundPlayer().Play(clip, pos);
     }
+    static AudioClip ChooseSound(SoundType st){
+        AudioClip clip;
+        switch (st){
+            case SoundType.Combo:{
+                var selectedCombo = instance.worldSoundData[worldIndex].combo;
+                if (selectedCombo.Length == 0) return null;
+                clip = (comboCount - 1 < selectedCombo.Length)? selectedCombo[comboCount - 1] : selectedCombo.Last();
+                break;
+            }
+            default:{
+                var selectedDics = instance.soundDictionary.Where(sd => sd.type == st).ToArray();
+                if(selectedDics.Length == 0) return null;
+                clip = selectedDics[Random.Range(0,selectedDics.Length)].clip;
+                break;
+            }
+        }
+        return clip;
+    }
     public static void Play(MusicType mt){
-        var clip = instance.musicDictionary.First(md => md.type == mt).clip;
+        AudioClip clip;
+        bool isLoop = false;
+        var selectedWorld = instance.worldSoundData[worldIndex];
+        switch(mt){
+            case MusicType.Ambient:{
+                clip = selectedWorld.ambient;
+                isLoop = true;
+                break;
+            }
+            case MusicType.Start:{
+                clip = selectedWorld.start;
+                isLoop = false;
+                break;
+            }
+            default:{
+                clip = instance.defaultMusic;
+                isLoop = true;
+                break;
+            }
+        }
         if(clip == null){
             Debug.LogError("NullMusicTypeException : cannot find AudioClip that matches given MusicType(" + mt.ToString() + ")");
             return;
         }
-        musicPlayer.Play(clip);
+        musicPlayer.Play(clip, instance.transform.position, isLoop);
     }
     public static void StopMusic(){
         musicPlayer.Stop();
@@ -75,6 +116,11 @@ public class SoundManager : MonoBehaviour{
         }
     }
 
+    public static void SetWorldIndex(int inputIndex){
+        worldIndex = inputIndex;
+        Debug.Log("SoundManager.SetWorldIndex : " + worldIndex);
+    }
+
     public static void PlayCustomerReaction(Enums.Gender gender, bool isSatisfied)
     {
         SoundType st;
@@ -89,7 +135,7 @@ public class SoundManager : MonoBehaviour{
             case Enums.Gender.Male:{
                 if (isSatisfied) st = SoundType.MaleSatisfy;
                 else {
-                   st = Random.value > 0.5f?  SoundType.MaleDissapoint : SoundType.Raspberry;
+                   st = Random.value > 0.5f?  SoundType.MaleDisappoint : SoundType.Raspberry;
                 }  
                 break;
             }
@@ -100,5 +146,9 @@ public class SoundManager : MonoBehaviour{
             }
         }
         Play(st);
+    }
+    public static void PlayCombo(int combo){
+        comboCount = combo;
+        Play(SoundType.Combo);
     }
 }

@@ -38,6 +38,7 @@ public class StageSelectManager : MonoBehaviour {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
 
 		string stageName = ((stageIndex / 10) + 1).ToString() + "-" + (stageIndex % 10).ToString();
+		SoundManager.SetWorldIndex(stageIndex/10);
 
 		if (stageName == "1-1") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
