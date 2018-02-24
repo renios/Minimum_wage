@@ -20,6 +20,15 @@ public class CustomerManager : MonoBehaviour {
 	CoinManager coinManager;
 	MissionManager missionManager;
 
+    public void ResetWaitingTime()
+    {
+        foreach(var customer in currentWaitingCustomers)
+        {
+            if(customer != null)
+            customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+        }
+    }
+
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
 		currentWaitingCustomers[indexInArray] = null;
@@ -73,6 +82,16 @@ public class CustomerManager : MonoBehaviour {
 		}
 		Debug.LogError("Cannot find empty slot");
 		return -1;
+	}
+
+	void Awake () {
+		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
+			waitingTime = missionDataDict[MissionDataType.waitingTime];
+		}
+		if (missionDataDict.ContainsKey(MissionDataType.customerCooldown)) {
+			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
+		}
 	}
 
 	// Use this for initialization

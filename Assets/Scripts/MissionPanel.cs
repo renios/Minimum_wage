@@ -17,14 +17,29 @@ public class MissionPanel : MonoBehaviour {
 		int date = missionDataDict[MissionDataType.StageIndex];
 		dayText.text = "DAY " + date;
 
-		string todoString = "1) 3명 이상의 손님을" + '\n' + "돌려보내지 않기";
+		int maxHeart = missionDataDict[MissionDataType.maxHeart];
+		string todoString = "1) "+ maxHeart + "명 이상의 손님을" + '\n' + "돌려보내지 않기";
+		if (maxHeart == 1) {
+			todoString = "1) 손님을 한명도 돌려보내지 않기";
+		}
 		int missionCount = 2;
 		if (missionDataDict.ContainsKey(MissionDataType.customerCount) &&
 			missionDataDict.ContainsKey(MissionDataType.remainTime)) {
 			int customerCount = missionDataDict[MissionDataType.customerCount];
 			int remainTime = missionDataDict[MissionDataType.remainTime];
-			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + remainTime + "초 이내에" + '\n' 
-								+ customerCount + "명 이상 서빙하기"; 
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + (remainTime / 60) + "분 " + (remainTime % 60) + "초 이내에 " + customerCount + "명 이상 서빙하기"; 
+			todoString += newTodoString;
+			missionCount++;
+		}
+		else if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
+			int customerCount = missionDataDict[MissionDataType.customerCount];
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + customerCount + "명 이상 서빙하기"; 
+			todoString += newTodoString;
+			missionCount++;
+		}
+		else if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
+			int remainTime = missionDataDict[MissionDataType.remainTime];
+			string newTodoString = "" + '\n' + '\n' + missionCount + ") " + (remainTime / 60) + "분 " + (remainTime % 60) + "초 동안 서빙 계속하기"; 
 			todoString += newTodoString;
 			missionCount++;
 		}

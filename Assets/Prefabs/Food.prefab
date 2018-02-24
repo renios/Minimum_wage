@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4225840573600828}
   - component: {fileID: 212900477918387720}
-  - component: {fileID: 61199723434263048}
   - component: {fileID: 114240059051628988}
   - component: {fileID: 114139594623643148}
+  - component: {fileID: 61757740909448210}
   m_Layer: 0
   m_Name: Food
   m_TagString: Food
@@ -38,12 +38,12 @@ Transform:
   m_GameObject: {fileID: 1238987162197396}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.38856998, y: 0.42242, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &61199723434263048
+--- !u!61 &61757740909448210
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -52,21 +52,21 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3, y: 3}
+    oldSize: {x: 1.45, y: 1.405}
     newSize: {x: 3, y: 3}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 4, y: 3.5}
+  m_Size: {x: 1.45, y: 1.405}
   m_EdgeRadius: 0
 --- !u!114 &114139594623643148
 MonoBehaviour:
@@ -96,9 +96,11 @@ MonoBehaviour:
   foodType: 0
   foodCoord: {x: 0, y: 0}
   isEnlarging: 0
+  isFoodMoving: 0
   isServed: 0
   correspondentPos: {x: 0, y: 0, z: 0}
   correspondent: {fileID: 0}
+  isSuperfood: 0
 --- !u!212 &212900477918387720
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -131,7 +133,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: c440c6197600a4fe0bc1c67c4676b0a8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a525ab90b2ce4f74ebca51707455857a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -139,3 +141,4 @@ SpriteRenderer:
   m_Size: {x: 3, y: 3}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1

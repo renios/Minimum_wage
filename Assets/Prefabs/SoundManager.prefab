@@ -78,24 +78,63 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 7e54db3b36154db449b2e4d0671f937f, type: 3}
   - type: 2
     clip: {fileID: 8300000, guid: 860aff99ad3f2514bb0aa56e23c96c4c, type: 3}
-  - type: 3
-    clip: {fileID: 8300000, guid: 75f3c2b4b54d9314593f061c8b9b89df, type: 3}
-  - type: 3
-    clip: {fileID: 8300000, guid: b8847c29c57a10d4c89334df7a653b8e, type: 3}
-  - type: 3
-    clip: {fileID: 8300000, guid: 4bc1a5ff35b8714449ca5835e2696698, type: 3}
-  - type: 3
-    clip: {fileID: 8300000, guid: 0a57921b52014494c9a6a95c10962228, type: 3}
-  - type: 4
-    clip: {fileID: 8300000, guid: 19bcf7b747a34214e88242b5930a9a44, type: 3}
-  - type: 4
-    clip: {fileID: 8300000, guid: b701c3a9b8ee6c249944537e0a193df2, type: 3}
   - type: 5
+    clip: {fileID: 8300000, guid: 75f3c2b4b54d9314593f061c8b9b89df, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: b8847c29c57a10d4c89334df7a653b8e, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: 4bc1a5ff35b8714449ca5835e2696698, type: 3}
+  - type: 5
+    clip: {fileID: 8300000, guid: 0a57921b52014494c9a6a95c10962228, type: 3}
+  - type: 6
+    clip: {fileID: 8300000, guid: 19bcf7b747a34214e88242b5930a9a44, type: 3}
+  - type: 6
+    clip: {fileID: 8300000, guid: b701c3a9b8ee6c249944537e0a193df2, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: 183cc0f7f6e3b654c9d38e57f38acdf7, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: b12b320b3534fc5479c9f7b91de1d523, type: 3}
+  - type: 4
+    clip: {fileID: 8300000, guid: ac61edfdddcdda649ac59a66bff51342, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: cbbb01e42080f194aa9f3cb070db6195, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: 28f106ba4a7fadd4c9d37bef34069e04, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: 7ed33b943f1e6a046b19846616a09fb7, type: 3}
+  - type: 7
+    clip: {fileID: 8300000, guid: ad97200ac3c861249b6656a1ff027fa0, type: 3}
+  - type: 8
+    clip: {fileID: 8300000, guid: f5685c5954f95ab459ec0df8745a9eeb, type: 3}
+  - type: 8
+    clip: {fileID: 8300000, guid: b773f41b019b8514e9aabed8dcde8264, type: 3}
+  - type: 9
     clip: {fileID: 8300000, guid: 7b4ce3d558407144db6bb3d23dd6f367, type: 3}
-  musicDictionary:
-  - type: 0
-    clip: {fileID: 8300000, guid: 421e96344c66951479408082ae6d96cf, type: 3}
-  - type: 1
-    clip: {fileID: 8300000, guid: a72d0928375178943ac0582ff35cd7e3, type: 3}
-  - type: 2
-    clip: {fileID: 8300000, guid: 5801d001f59ac454e8b9137a27415c43, type: 3}
+  worldSoundData:
+  - start: {fileID: 0}
+    ambient: {fileID: 8300000, guid: fca7ac06b6df28148a1c73b01c7656f0, type: 3}
+    stageClear: {fileID: 8300000, guid: 4d30694a95673d14199df055a3b66576, type: 3}
+    stageOver: {fileID: 8300000, guid: ce73509e4d78cb44e983206427a88c9c, type: 3}
+    combo:
+    - {fileID: 8300000, guid: d780b10e10646af4e910127e7503c74b, type: 3}
+    - {fileID: 8300000, guid: 5251c5fd9c7bda447bf71aca67fd5244, type: 3}
+    - {fileID: 8300000, guid: 06d28a0a68f149645ac5b4301e8e625b, type: 3}
+    - {fileID: 8300000, guid: 15e035c934003bf47af2e519da190249, type: 3}
+    - {fileID: 8300000, guid: e61ef92f275a80e4d9ce0c6580c33e4f, type: 3}
+    - {fileID: 8300000, guid: ef1067f32a0e91c41a37d13640cf5c95, type: 3}
+    - {fileID: 8300000, guid: 189812d41c15b7c4cb50be9d46e3fac1, type: 3}
+    - {fileID: 8300000, guid: fc1d28e5d6aac4c4c8f11b229f5f3fc2, type: 3}
+  - start: {fileID: 8300000, guid: 17088b44b67244544aafae7cc9b04062, type: 3}
+    ambient: {fileID: 8300000, guid: c2a9da43a5ca5964f92026296b3c8664, type: 3}
+    stageClear: {fileID: 8300000, guid: 989527ac1ac16ba409c2d27d7e44fa39, type: 3}
+    stageOver: {fileID: 8300000, guid: c93d459113548a842922060426132f62, type: 3}
+    combo:
+    - {fileID: 8300000, guid: 7fb7cbb7dd7fd034f9dae48cdb0e233f, type: 3}
+    - {fileID: 8300000, guid: 64084fe066fe5564a9648470f3e87eca, type: 3}
+    - {fileID: 8300000, guid: 6012b7695d7fad44784b418fedcc9e36, type: 3}
+    - {fileID: 8300000, guid: 9f9959a7b42dbf44294fe13b79a9f1f9, type: 3}
+    - {fileID: 8300000, guid: 3923061f091ef1240bbde7d921d4b7a3, type: 3}
+    - {fileID: 8300000, guid: 6a72fb1bd7fb6194695e053935862cac, type: 3}
+    - {fileID: 8300000, guid: 9cb5f93879dbf404e8c124134d6d7c04, type: 3}
+    - {fileID: 8300000, guid: ab2aeb039f5720140a50b4aad31325c1, type: 3}
+  defaultMusic: {fileID: 8300000, guid: 421e96344c66951479408082ae6d96cf, type: 3}

@@ -94,7 +94,14 @@ public class MissionManager : MonoBehaviour {
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 
 			if (remainTime <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
-				StartCoroutine(gameManager.ShowGameoverCanvas());
+				// 버티기 미션일 경우 시간이 다 떨어졌을 때 게임 오버가 되는 대신 게임 클리어가 됨
+				if (!isUsedCustomerCount) {
+					StartCoroutine(gameManager.ShowClearCanvas());
+					UpdateProgress();
+				}
+				else {
+					StartCoroutine(gameManager.ShowGameoverCanvas());
+				}
 			}
 		}
 
