@@ -84,6 +84,13 @@ public class CustomerManager : MonoBehaviour {
 		return -1;
 	}
 
+	void Awake () {
+		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
+			waitingTime = missionDataDict[MissionDataType.waitingTime];
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
 		heartManager = FindObjectOfType<HeartManager>();
