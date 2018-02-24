@@ -128,7 +128,7 @@ public class TrayManager : MonoBehaviour {
 			}
 
 			foreach (var orderedFood in customer.orderedFoods) {
-				var matchedFood = foodsList.Find(food => food.foodType == orderedFood.foodType);
+                var matchedFood = foodsList.Find(food => food.foodType == orderedFood.foodType);
 				if (matchedFood != null) {
 					foodsList.Remove(matchedFood);
 				}
@@ -207,7 +207,23 @@ public class TrayManager : MonoBehaviour {
 		}
         foreach (var food in foods)
             food.isFoodMoving = false;
-		isPlayingRefillAnim = false;
+        
+        // 판 자동 리셋 체크
+        if (NoMatchingFoods())
+        {
+            for (int row = 0; row < ROW; row++)
+            {
+                for (int col = 0; col < COL; col++)
+                {
+                    Destroy(foods[row, col].gameObject);
+                    foods[row, col] = null;
+                }
+            }
+
+            yield return StartCoroutine(RefillFoods());
+        }
+
+        isPlayingRefillAnim = false;
 	}
 
 	int specialCountAtRefill = 0;
@@ -350,18 +366,6 @@ public class TrayManager : MonoBehaviour {
 			
 		// 해당되는 음식 리필
 		yield return StartCoroutine(RefillFoods());
-	
-		// 판 자동 리셋 체크
-		if (NoMatchingFoods()) {
-			for (int row = 0; row < ROW; row++) {
-				for (int col = 0; col < COL; col++) {
-					Destroy(foods[row, col].gameObject);
-					foods[row, col] = null;
-				}
-			}
-
-			yield return StartCoroutine(RefillFoods());
-		}
 	}
 
     IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
