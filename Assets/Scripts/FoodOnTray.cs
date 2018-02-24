@@ -12,6 +12,8 @@ public class FoodOnTray : MonoBehaviour {
     public Vector3 correspondentPos;
     public FoodInOrder correspondent;
 
+	public bool isSuperfood = false;
+
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		switch (foodTypeEnum)
 		{
@@ -39,6 +41,13 @@ public class FoodOnTray : MonoBehaviour {
 		
 		// 임시 음식 이미지로 변환
 		GetComponent<SpriteRenderer>().sprite = EnumToSprite(foodType);
+	}
+
+	public void ChangeToSuperfood() {
+		isSuperfood = true;
+
+		Sprite superfoodSprite = Resources.Load("Foods/food09", typeof(Sprite)) as Sprite;
+		GetComponent<SpriteRenderer>().sprite = superfoodSprite;
 	}
 
 	// Use this for initialization

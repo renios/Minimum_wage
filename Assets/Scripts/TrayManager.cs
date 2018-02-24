@@ -40,6 +40,41 @@ public class TrayManager : MonoBehaviour {
 
 	CustomerManager customerManager;
 
+	void MakeSuperfood() {
+		// 제일 적은 종류의 음식 중 하나를 픽
+		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
+		List<FoodOnTray> foodList = new List<FoodOnTray>();
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
+				foodList.Add(foods[row, col]);
+			}
+		}
+		foodList.ForEach(food => {
+			if (food.isSuperfood) return;
+			FoodType type = food.foodType;
+			if (counter.ContainsKey(type)) {
+				int count = counter[type];
+				counter[type] = count + 1;
+			}
+			else {
+				counter.Add(type, 1);
+			}
+		});
+		
+		KeyValuePair<FoodType, int> maxValuePair = counter.First();
+		foreach (var pair in counter) {
+			if (pair.Value > maxValuePair.Value) {
+				maxValuePair = pair;
+			}
+		}
+		FoodType mostFoodType = maxValuePair.Key;
+		var mostFoodTypeFoods = foodList.FindAll(food => food.foodType == mostFoodType);
+		FoodOnTray preSuperfood = mostFoodTypeFoods[Random.Range(0, mostFoodTypeFoods.Count)];
+
+		// 그 음식을 슈퍼푸드로 바꿈
+		preSuperfood.ChangeToSuperfood();
+	}
+
 	void ShowComboText (List<FoodOnTray> foods) {
 		Vector3 avgPos = Vector3.zero;
 		foods.ForEach(food => avgPos += food.transform.position/4f);
@@ -399,6 +434,10 @@ public class TrayManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!gameManager.isPlaying) return;
+
+		if (Input.GetKeyDown(KeyCode.S)) {
+			MakeSuperfood();
+		}
 
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
