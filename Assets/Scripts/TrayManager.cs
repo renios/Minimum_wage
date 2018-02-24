@@ -152,7 +152,8 @@ public class TrayManager : MonoBehaviour {
 				if (foods[row+1, col] != null) {
 					foods[row, col].foodCoord = new Vector2(row, col);
 					foods[row, col].transform.DOMove(foodPoses[row, col].position, 0.2f);
-					foods[row+1, col] = null;
+                    foods[row, col].isFoodMoving = true;
+                    foods[row+1, col] = null;
 				}
 			}
 			// 맨 윗줄일 경우
@@ -167,6 +168,7 @@ public class TrayManager : MonoBehaviour {
 				}
 				else {
 					newFood.GetComponent<FoodOnTray>().Initialize();
+                    newFood.GetComponent<FoodOnTray>().isFoodMoving = true;
 				}
 				newFood.transform.DOScale(0.1f, 0);
 				newFood.transform.DOScale(0.4f, 0.2f);
@@ -194,6 +196,8 @@ public class TrayManager : MonoBehaviour {
 			}
 			yield return new WaitForSeconds(0.2f);
 		}
+        foreach (var food in foods)
+            food.isFoodMoving = false;
 		isPlayingRefillAnim = false;
 	}
 
@@ -264,8 +268,11 @@ public class TrayManager : MonoBehaviour {
 
 	List<ServedPair> pairs = new List<ServedPair>();
 
-	public IEnumerator TryMatch() { 
-		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
+	public IEnumerator TryMatch() {
+        if (isPlayingRefillAnim)
+            yield return new WaitWhile(() => isPlayingRefillAnim);
+
+        List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
 		pairs.Clear();
 
@@ -279,8 +286,11 @@ public class TrayManager : MonoBehaviour {
 				foodsInPart.Add(foods[row+1, col]);
 				foodsInPart.Add(foods[row, col+1]);
 				foodsInPart.Add(foods[row+1, col+1]);
-				// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정)을 제외
-				foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
+                // null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
+                if (pickedFood1 != null)
+                    foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
+                        && food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
+                else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
 				
 				List<Customer> matchedCustomers = customers.FindAll(customer => !customer.isServed && MatchEachPartWithCustomer(foodsInPart, customer));
 				
@@ -598,7 +608,7 @@ public class TrayManager : MonoBehaviour {
                             pickedFood1 = null;
                             StartCoroutine(RefillFoods(1));
                         }
-                        else
+                        else if(!hit[1].collider.gameObject.GetComponent<FoodOnTray>().isFoodMoving)
                             pickedFood2 = hit[1].collider.gameObject;
                     }
 

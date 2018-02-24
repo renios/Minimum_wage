@@ -9,6 +9,7 @@ public class FoodOnTray : MonoBehaviour {
 	public FoodType foodType;
 	public Vector2 foodCoord;
     public bool isEnlarging;
+    public bool isFoodMoving;
 	public bool isServed = false;
     public Vector3 correspondentPos;
     public FoodInOrder correspondent;
