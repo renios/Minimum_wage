@@ -44,6 +44,14 @@ public class FoodOnTray : MonoBehaviour {
 		GetComponent<SpriteRenderer>().sprite = EnumToSprite(foodType);
 	}
 
+	public void Initialize(FoodType foodType) {
+		// 지정된 음식으로 변환
+		this.foodType = foodType;
+		
+		// 해당되는 음식 이미지로 변환
+		GetComponent<SpriteRenderer>().sprite = EnumToSprite(foodType);
+	}
+
 	public IEnumerator ChangeToSuperfood() {
 		isSuperfood = true;
 
@@ -61,7 +69,7 @@ public class FoodOnTray : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Initialize();
+
 	}
 	
 	// Update is called once per frame
