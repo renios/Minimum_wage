@@ -81,6 +81,7 @@ public class TrayManager : MonoBehaviour {
 
 		GameObject comboTextObj = Instantiate(comboTextPrefab, avgPos, Quaternion.identity);
 		comboTextObj.GetComponentInChildren<Text>().text = comboCount + "Combo!";
+		SoundManager.PlayCombo(comboCount);
 		Destroy(comboTextObj, 2);
 	}
 
