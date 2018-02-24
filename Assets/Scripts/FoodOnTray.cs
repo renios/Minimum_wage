@@ -38,7 +38,7 @@ public class FoodOnTray : MonoBehaviour {
 
 	public void Initialize() {
 		// 랜덤 음식으로 변환
-		int foodTypeIndex = Random.Range(0, 6);
+		int foodTypeIndex = Random.Range(0, MissionData.foodTypeCount);
 		foodType = (FoodType)foodTypeIndex;
 		
 		// 임시 음식 이미지로 변환

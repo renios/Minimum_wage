@@ -8,8 +8,6 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
-	public int foodTypeCount = 6;
-
 	readonly int ROW = 5;
 	readonly int COL = 6;
 
@@ -298,7 +296,7 @@ public class TrayManager : MonoBehaviour {
 			}
 		});
 		// 한종류도 없는 음식을 보정
-		for (int i = 0; i < foodTypeCount; i++) {
+		for (int i = 0; i < MissionData.foodTypeCount; i++) {
 			FoodType type = (FoodType)i;
 			if (!counter.ContainsKey(type)) {
 				counter.Add(type, 0);
