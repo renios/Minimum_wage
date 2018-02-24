@@ -13,12 +13,12 @@ public class SoundPlayer : MonoBehaviour{
     void Awake(){
         audio = GetComponent<AudioSource>();
     }
-    public void Play(AudioClip clip, Vector2 pos = new Vector2()){
+    public void Play(AudioClip clip, Vector2 pos = new Vector2(), bool isLoop = false){
         audio.Stop();
         audio.clip = clip;
         transform.position = pos;
         audio.Play();
-        if (isMusicPlayer) audio.loop = true;
+        if (isMusicPlayer) audio.loop = isLoop;
         else StartCoroutine(PushAfterDelay(clip.length));
     }  
     IEnumerator PushAfterDelay(float length){

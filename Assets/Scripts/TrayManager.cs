@@ -8,6 +8,8 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
+	public int foodTypeCount = 6;
+
 	readonly int ROW = 5;
 	readonly int COL = 6;
 
@@ -40,12 +42,48 @@ public class TrayManager : MonoBehaviour {
 
 	CustomerManager customerManager;
 
+	void MakeSuperfood() {
+		// 제일 많은 종류의 음식 중 하나를 픽
+		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
+		List<FoodOnTray> foodList = new List<FoodOnTray>();
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
+				foodList.Add(foods[row, col]);
+			}
+		}
+		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+		foodList.ForEach(food => {
+			FoodType type = food.foodType;
+			if (counter.ContainsKey(type)) {
+				int count = counter[type];
+				counter[type] = count + 1;
+			}
+			else {
+				counter.Add(type, 1);
+			}
+		});
+		
+		KeyValuePair<FoodType, int> maxValuePair = counter.First();
+		foreach (var pair in counter) {
+			if (pair.Value > maxValuePair.Value) {
+				maxValuePair = pair;
+			}
+		}
+		FoodType mostFoodType = maxValuePair.Key;
+		var mostFoodTypeFoods = foodList.FindAll(food => !food.isSuperfood && food.foodType == mostFoodType);
+		FoodOnTray preSuperfood = mostFoodTypeFoods[Random.Range(0, mostFoodTypeFoods.Count)];
+
+		// 그 음식을 슈퍼푸드로 바꿈
+		StartCoroutine(preSuperfood.ChangeToSuperfood());
+	}
+
 	void ShowComboText (List<FoodOnTray> foods) {
 		Vector3 avgPos = Vector3.zero;
 		foods.ForEach(food => avgPos += food.transform.position/4f);
 
 		GameObject comboTextObj = Instantiate(comboTextPrefab, avgPos, Quaternion.identity);
 		comboTextObj.GetComponentInChildren<Text>().text = comboCount + "Combo!";
+		SoundManager.PlayCombo(comboCount);
 		Destroy(comboTextObj, 2);
 	}
 
@@ -122,6 +160,14 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+				// 가장 적은 음식을 생성해야 하는 보정이 있으면 그 음식을 지정해서 생성
+				if (specialCountAtRefill > 0) {
+					FoodType leastType = FindLeastFoodType();
+					newFood.GetComponent<FoodOnTray>().Initialize(leastType);
+				}
+				else {
+					newFood.GetComponent<FoodOnTray>().Initialize();
+				}
 				newFood.transform.DOScale(0.1f, 0);
 				newFood.transform.DOScale(0.4f, 0.2f);
 			}
@@ -139,6 +185,7 @@ public class TrayManager : MonoBehaviour {
 
 	IEnumerator RefillFoods() {
 		isPlayingRefillAnim = true;
+		specialCountAtRefill = 0;
 		while (!IsTrayFull()) {
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
@@ -148,6 +195,61 @@ public class TrayManager : MonoBehaviour {
 			yield return new WaitForSeconds(0.2f);
 		}
 		isPlayingRefillAnim = false;
+	}
+
+	int specialCountAtRefill = 0;
+
+	IEnumerator RefillFoods(int specialCount) {
+		isPlayingRefillAnim = true;
+		specialCountAtRefill = specialCount;
+		while (!IsTrayFull()) {
+			for (int row = 0; row < ROW; row++) {
+				for (int col = 0; col < COL; col++) {
+					CheckAndRefill(row, col);
+				}
+			}
+			yield return new WaitForSeconds(0.2f);
+		}
+		isPlayingRefillAnim = false;
+	}
+
+	FoodType FindLeastFoodType() {
+		// 제일 적은 종류의 음식타입을 찾음 (만능음식 제외)
+		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
+		List<FoodOnTray> foodList = new List<FoodOnTray>();
+		for (int row = 0; row < ROW; row++) {
+			for (int col = 0; col < COL; col++) {
+				foodList.Add(foods[row, col]);
+			}
+		}
+		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+		foodList.ForEach(food => {
+			FoodType type = food.foodType;
+			if (counter.ContainsKey(type)) {
+				int count = counter[type];
+				counter[type] = count + 1;
+			}
+			else {
+				counter.Add(type, 1);
+			}
+		});
+		// 한종류도 없는 음식을 보정
+		for (int i = 0; i < foodTypeCount; i++) {
+			FoodType type = (FoodType)i;
+			if (!counter.ContainsKey(type)) {
+				counter.Add(type, 0);
+			}
+		}
+		
+		KeyValuePair<FoodType, int> minValuePair = counter.First();
+		foreach (var pair in counter) {
+			if (pair.Value < minValuePair.Value) {
+				minValuePair = pair;
+			}
+		}
+		FoodType leastFoodType = minValuePair.Key;
+
+		return leastFoodType;
 	}
 
 	public class ServedPair {
@@ -276,33 +378,56 @@ public class TrayManager : MonoBehaviour {
 
     bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
-		
+
+		// 만능음식은 갯수만 세어놓는다
+		int numberOfSuperfood = foodsInPart.Count(food => food.isSuperfood);		
 		List<FoodType> foodsTypeOnTray = new List<FoodType>();
 		foodsInPart.ForEach(food => {
-			foodsTypeOnTray.Add(food.foodType);
+			if (!food.isSuperfood) {
+				foodsTypeOnTray.Add(food.foodType);
+			}
 		});
 
+		int remainSuperfoodCount = numberOfSuperfood;
+		// 판정이 실패했을 때 만능음식이 있으면 하나 쓴다
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
 			if (isThereMatchedFoodType) {
-                foodsTypeOnTray.Remove(foodInOrder.foodType);
+				foodsTypeOnTray.Remove(foodInOrder.foodType);
 			}
 			else {
-                return false;
+				if (remainSuperfoodCount > 0) {
+					remainSuperfoodCount -= 1;
+				}
+				else {
+					return false;
+				}
 			}
 		}
 
-        // 타입이 같은 음식의 correspondent를 대응시킨다.
-        foreach(var foodInPart in foodsInPart)
-        {
-            FoodInOrder corrFoodInOrder =
-                foodsInOrder.Find(FoodInOrder => FoodInOrder.foodType == foodInPart.foodType && FoodInOrder.foundCorrespondent == false);
-            foodInPart.correspondent = corrFoodInOrder;
+		// 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
+		foreach(var foodInPart in foodsInPart) {
+			if (!foodInPart.isSuperfood) {
+				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
+					FoodInOrder.foodType == foodInPart.foodType && 
+					!FoodInOrder.foundCorrespondent);
+				foodInPart.correspondent = corrFoodInOrder;
 
-            // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-            corrFoodInOrder.foundCorrespondent = true;
-        }
-        return true;
+				// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+				corrFoodInOrder.foundCorrespondent = true;
+			}
+		}
+		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
+		foreach(var foodInPart in foodsInPart) {
+			if (foodInPart.isSuperfood) {
+				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
+					!FoodInOrder.foundCorrespondent);
+				foodInPart.correspondent = corrFoodInOrder;
+
+				corrFoodInOrder.foundCorrespondent = true;
+			}
+		}
+		return true;
 	}
 
 	float moveSpeed = 0.2f;
@@ -381,6 +506,7 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+				newFood.GetComponent<FoodOnTray>().Initialize();
 			}
 		}
 	}
@@ -400,6 +526,10 @@ public class TrayManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (!gameManager.isPlaying) return;
+
+		if (Input.GetKeyDown(KeyCode.S)) {
+			MakeSuperfood();
+		}
 
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
@@ -458,6 +588,7 @@ public class TrayManager : MonoBehaviour {
                 {
                     if (hit[1].collider != null)
                     {
+						// 쓰레기통에 버리는 경우
                         if (hit[1].collider.gameObject.tag == "Bin")
                         {
                             Destroy(pickedFood1);
@@ -465,7 +596,7 @@ public class TrayManager : MonoBehaviour {
                             int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
                             foods[posX, posY] = null;
                             pickedFood1 = null;
-                            StartCoroutine(RefillFoods());
+                            StartCoroutine(RefillFoods(1));
                         }
                         else
                             pickedFood2 = hit[1].collider.gameObject;

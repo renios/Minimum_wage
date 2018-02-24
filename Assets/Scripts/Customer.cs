@@ -51,7 +51,7 @@ public class Customer : MonoBehaviour {
 
 	void SetRandomImage() {
 		gender = (Enums.Gender)Random.Range(0,2);
-		Debug.Log("Customer's gender : "+ gender.ToString());
+		//Debug.Log("Customer's gender : "+ gender.ToString());
 		string spritePath = "customers/" + gender.ToString();
 		Object[] spriteObjects = Resources.LoadAll(spritePath, typeof(Sprite));
         int pickedIndex = Random.Range(0, spriteObjects.Length);
