@@ -124,6 +124,7 @@ public class SoundManager : MonoBehaviour{
             musicPlayer = musicPlayerGO.GetComponent<SoundPlayer>();
             musicPlayer.SetMusicPlayer();
             DontDestroyOnLoad(instance);
+            if(!GetComponent<GameManager>()) Play(MusicType.Main);
         }
     }
 
