@@ -102,7 +102,10 @@ public static class MissionData {
 	public static Dictionary<MissionDataType, int> LoadMissionDataDict(int stageIndex) {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
 
-		string stageName = ((stageIndex / 10) + 1).ToString() + "-" + (stageIndex % 10).ToString();
+		int world = (stageIndex / 10) + 1;
+		int stage = (stageIndex % 10);
+		if (stage == 0) stage = 10;
+		string stageName = world + "-" + stage;
 		SoundManager.SetWorldIndex(stageIndex/10);
 
 		if (stageName == "1-1") {
