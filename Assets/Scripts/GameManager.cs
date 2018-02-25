@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour {
 	public Image bgPanel;
 	public Image mainPanel;
 	public Text textInCanvas;
+    public Sprite gameoverSprite;
+    public Sprite clearSprite;
 
 	public bool isPlaying = false;
 
@@ -24,8 +26,9 @@ public class GameManager : MonoBehaviour {
         isPlayingAnim = true;
         SoundManager.Play(MusicType.StageOver);
 		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
-		bgPanel.DOFade(0.4f, delay);
+        mainPanel.sprite = gameoverSprite;
+        //textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
+        bgPanel.DOFade(0.4f, delay);
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
@@ -38,8 +41,9 @@ public class GameManager : MonoBehaviour {
         isPlayingAnim = true;
         SoundManager.Play(MusicType.StageClear);
 		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
-		bgPanel.DOFade(0.4f, delay);
+        mainPanel.sprite = clearSprite;
+        //textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
+        bgPanel.DOFade(0.4f, delay);
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
@@ -49,7 +53,7 @@ public class GameManager : MonoBehaviour {
 
 	IEnumerator ShowMissionStartCanvas() {
 		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Mission Start!" + '\n' + '\n' + "Touch the Screen";
+        textInCanvas.text = "Mission Start!" + '\n' + '\n' + "Touch the Screen";
 		bgPanel.DOFade(0.4f, delay);
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		mainPanel.transform.DOMove(endPos, delay);
