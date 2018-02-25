@@ -20,6 +20,7 @@ public class Customer : MonoBehaviour {
 	public Enums.Gender gender;				// 효과음 성별 구분용
     float furyRate;
     public float maxFuryRate;
+    float furyCount = 0;
 
     public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
@@ -98,13 +99,18 @@ public class Customer : MonoBehaviour {
 
         if (startedFury == true)
         {
-            furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
-            customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
+            furyCount++;
+            if(furyCount % 2 == 1)
+            {
+                furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
+                customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
+            }
         }
 
 		if (remainWaitingTime <= 0) {
 			SoundManager.PlayCustomerReaction(gender, false);
             startedFury = false;
+            furyCount = 0;
             customerManager.RemoveCustomerByTimeout(indexInArray);
 		}
 	}
