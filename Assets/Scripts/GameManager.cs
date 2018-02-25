@@ -20,7 +20,9 @@ public class GameManager : MonoBehaviour {
 	float delay = 0.5f;
 
 	public IEnumerator ShowGameoverCanvas() {
-		SoundManager.Play(MusicType.StageOver);
+        isPlaying = false;
+        isPlayingAnim = true;
+        SoundManager.Play(MusicType.StageOver);
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
 		bgPanel.DOFade(0.4f, delay);
@@ -28,11 +30,13 @@ public class GameManager : MonoBehaviour {
 		mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
 		yield return new WaitForSeconds(delay);
-		isPlaying = false;
-	}
+        isPlayingAnim = false;
+    }
 
 	public IEnumerator ShowClearCanvas() {
-		SoundManager.Play(MusicType.StageClear);
+        isPlaying = false;
+        isPlayingAnim = true;
+        SoundManager.Play(MusicType.StageClear);
 		gameoverCanvas.SetActive(true);
 		textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
 		bgPanel.DOFade(0.4f, delay);
@@ -40,8 +44,8 @@ public class GameManager : MonoBehaviour {
 		mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
 		yield return new WaitForSeconds(delay);
-		isPlaying = false;
-	}
+		isPlayingAnim = false;
+    }
 
 	IEnumerator ShowMissionStartCanvas() {
 		gameoverCanvas.SetActive(true);
@@ -96,18 +100,16 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (gameoverCanvas.activeInHierarchy && !isPlaying && Input.anyKeyDown) {
+		if (gameoverCanvas.activeInHierarchy && !isPlaying) {
 			if (isEnd)
 				SceneManager.LoadScene("World");
-			else {
-				if (isPlayingAnim) return;
-				else
-					StartCoroutine(HideCanvas());
-			}
+
+            if (Input.anyKeyDown && !isPlayingAnim)
+                StartCoroutine(HideCanvas());
 		}
 	}
 
-	bool isPlayingAnim = false;
+	public bool isPlayingAnim = false;
 
 	IEnumerator HideCanvas () {
 		isPlayingAnim = true;

@@ -17,7 +17,7 @@ public enum MissionDataType {
 
 public static class MissionData {
 
-	public static int stageIndex = -1;
+	public static int stageIndex = 1;
 	public static int customerCount = -1;
 	public static int remainTime = -1;
 	public static int touchCount = -1;
@@ -28,7 +28,7 @@ public static class MissionData {
 	public static int foodTypeCount = 4;
 
 	public static void Initialize() {
-		stageIndex = -1;
+		stageIndex = 1;
 		customerCount = -1;
 		remainTime = -1;
 		touchCount = -1;
@@ -102,7 +102,10 @@ public static class MissionData {
 	public static Dictionary<MissionDataType, int> LoadMissionDataDict(int stageIndex) {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
 
-		string stageName = ((stageIndex / 10) + 1).ToString() + "-" + (stageIndex % 10).ToString();
+		int world = (stageIndex / 10) + 1;
+		int stage = (stageIndex % 10);
+		if (stage == 0) stage = 10;
+		string stageName = world + "-" + stage;
 		SoundManager.SetWorldIndex(stageIndex/10);
 
 		if (stageName == "1-1") {
@@ -198,42 +201,52 @@ public static class MissionData {
 		else if (stageName == "2-1") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 20);
 		}
 		else if (stageName == "2-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 25);
 		}
 		else if (stageName == "2-3") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 20);
 		}
 		else if (stageName == "2-4") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 		else if (stageName == "2-5") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 15);
 		}
 		else if (stageName == "2-6") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 		else if (stageName == "2-7") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 40);
 		}
 		else if (stageName == "2-8") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 25);
 		}
 		else if (stageName == "2-9") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 11);
 		}
 		else if (stageName == "2-10") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 
 		return missionDataDict;

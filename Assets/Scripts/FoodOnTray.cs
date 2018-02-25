@@ -17,22 +17,32 @@ public class FoodOnTray : MonoBehaviour {
 	public bool isSuperfood = false;
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
+		string pathString;
+		if (MissionData.stageIndex < 11) {
+			pathString = "Foods/World1/";
+		}
+		else if (MissionData.stageIndex < 21) {
+			pathString = "Foods/World2/";
+		}
+		else {
+			pathString = "Foods/World1/";
+		}
 		switch (foodTypeEnum)
 		{
 			case FoodType.A:
-				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food01", typeof(Sprite)) as Sprite;
 			case FoodType.B:
-				return Resources.Load("Foods/food02", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food02", typeof(Sprite)) as Sprite;
 			case FoodType.C:
-				return Resources.Load("Foods/food03", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food03", typeof(Sprite)) as Sprite;
 			case FoodType.D:
-				return Resources.Load("Foods/food04", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food04", typeof(Sprite)) as Sprite;
 			case FoodType.E:
-				return Resources.Load("Foods/food05", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food05", typeof(Sprite)) as Sprite;
 			case FoodType.F:
-				return Resources.Load("Foods/food06", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food06", typeof(Sprite)) as Sprite;
 			default:
-				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food01", typeof(Sprite)) as Sprite;
 		}
 	}
 
@@ -56,10 +66,12 @@ public class FoodOnTray : MonoBehaviour {
 	public IEnumerator ChangeToSuperfood() {
 		isSuperfood = true;
 
-		Sprite superfoodSprite = Resources.Load("Foods/food09", typeof(Sprite)) as Sprite;
-		GetComponent<SpriteRenderer>().sprite = superfoodSprite;
+        string superfoodPath = "Foods/World" + ( ((MissionData.stageIndex - 1) / 10) + 1 ).ToString("N0") + "/food09";
 
-		float delay = 0.2f;
+        Sprite superfoodSprite = Resources.Load(superfoodPath, typeof(Sprite)) as Sprite;
+        GetComponent<SpriteRenderer>().sprite = superfoodSprite;
+
+        float delay = 0.2f;
 		float originScale = transform.localScale.x;
 		Tween tw = transform.DOScale(originScale*1.5f, delay);
 		yield return tw.WaitForCompletion();

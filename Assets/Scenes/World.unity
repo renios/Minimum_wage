@@ -3127,46 +3127,7 @@ Prefab:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1151364056}
-    - target: {fileID: 1888401870340634, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
-      propertyPath: m_Name
-      value: Background
-      objectReference: {fileID: 0}
-    - target: {fileID: 1038570042233098, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
-      propertyPath: m_Name
-      value: ReceiptImage
-      objectReference: {fileID: 0}
-    - target: {fileID: 224142192487860270, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_AnchoredPosition.x
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: 224142192487860270, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_SizeDelta.x
-      value: 823
-      objectReference: {fileID: 0}
-    - target: {fileID: 224142192487860270, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 960
-      objectReference: {fileID: 0}
-    - target: {fileID: 224142192487860270, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 2641
-      objectReference: {fileID: 0}
-    - target: {fileID: 114089995069175656, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114089995069175656, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
-        type: 2}
-      propertyPath: m_RaycastTarget
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 114737731719222702, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
+    m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1070717358

@@ -29,6 +29,7 @@ public class TrayManager : MonoBehaviour {
 
 	bool isPlayingMovingAnim = false;
 	public bool isPlayingRefillAnim = false;
+    bool isTryingMatch = false;
 
 	readonly float comboDelay = 1;
 	readonly float comboDelayByMoving = 5;
@@ -41,6 +42,8 @@ public class TrayManager : MonoBehaviour {
 	public GameObject comboTextPrefab;
 
 	CustomerManager customerManager;
+	MissionManager missionManager;
+	GameManager gameManager;
 
 	public void MakeSuperfood() {
 		// 제일 많은 종류의 음식 중 하나를 픽
@@ -328,6 +331,10 @@ public class TrayManager : MonoBehaviour {
 	public IEnumerator TryMatch() {
         if (isPlayingRefillAnim)
             yield return new WaitWhile(() => isPlayingRefillAnim);
+        if (isTryingMatch)
+            yield return new WaitWhile(() => isTryingMatch);
+
+        isTryingMatch = true;
 
         List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
@@ -361,6 +368,8 @@ public class TrayManager : MonoBehaviour {
 
 					ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
 					pairs.Add(newPair);
+
+
 				}
 			}
 		}
@@ -399,6 +408,8 @@ public class TrayManager : MonoBehaviour {
 			
 		// 해당되는 음식 리필
 		yield return StartCoroutine(RefillFoods());
+
+        isTryingMatch = false;
 	}
 
     IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
@@ -431,6 +442,9 @@ public class TrayManager : MonoBehaviour {
 
                 if(matchedCustomer != null)
                 {
+                    //매칭되어 나가는 도중 분노 떨기를 시작할 경우 괴이한 모양이 되어 이를 막기 위해 임시로 furyCount 활용
+                    matchedCustomer.furyCount = -100;
+                    
                     // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
                     matchedCustomer.customerImage.transform.DOJump(
                         new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
@@ -485,10 +499,15 @@ public class TrayManager : MonoBehaviour {
 				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
 					FoodInOrder.foodType == foodInPart.foodType && 
 					!FoodInOrder.foundCorrespondent);
-				foodInPart.correspondent = corrFoodInOrder;
+                // 완벽히 같은 손님과 매칭되지 않도록 함
+                if(foodInPart.correspondent == null)
+                {
+                    foodInPart.correspondent = corrFoodInOrder;
 
-				// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-				corrFoodInOrder.foundCorrespondent = true;
+                    // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+                    if (!corrFoodInOrder.foundCorrespondent)
+                        corrFoodInOrder.foundCorrespondent = true;
+                }
 			}
 		}
 		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
@@ -595,13 +614,12 @@ public class TrayManager : MonoBehaviour {
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
 		gameManager = FindObjectOfType<GameManager>();
+		missionManager = FindObjectOfType<MissionManager>();
 
 		InitializeFoods();
 		
 		lastComboTime = comboDelayByMoving + 1;
 	}
-	
-	GameManager gameManager;
 
 	// Update is called once per frame
 	void Update () {
@@ -676,13 +694,16 @@ public class TrayManager : MonoBehaviour {
                     {
 						// 유효이동일 경우에만 카운트 상승
 						SoundManager.Play(SoundType.Swap);
-
-                        moveCountAfterMatching++;
+						moveCountAfterMatching++;
+						// 이동 성공 시 터치카운트를 1 올림
+						missionManager.currentTouchCount += 1;
 						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }
                 }
                 else if(isOnBin)
                 {
+					// 쓰레기통에 버려도 터치카운트를 1 올림
+					missionManager.currentTouchCount += 1;
                     Destroy(pickedFood1);
                     int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
                     int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
