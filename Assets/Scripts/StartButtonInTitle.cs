@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class StartButtonInTitle : MonoBehaviour {
 
 	public void GoToWorldScene() {
-		SceneManager.LoadScene("World");
+        SceneManager.LoadScene("World");
 	}
 
 	// Use this for initialization

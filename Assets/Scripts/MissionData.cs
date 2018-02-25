@@ -26,6 +26,9 @@ public static class MissionData {
 	public static int customerCooldown = -1;
 	public static int maxCustomer = 4;
 	public static int foodTypeCount = 4;
+    public static bool gotTimeItem = false;
+    public static bool gotSuperfood = false;
+    public static bool gotTrayItem = false;
 
 	public static void Initialize() {
 		stageIndex = 1;

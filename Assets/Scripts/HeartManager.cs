@@ -45,6 +45,8 @@ public class HeartManager : MonoBehaviour {
 	void Update () {
 		if (hearts.Count <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
 			StartCoroutine(gameManager.ShowGameoverCanvas());
-		}
+            GameObject heart = Instantiate(heartPrefab, heartSlot[0]);
+            hearts.Add(heart);
+        }
 	}
 }
