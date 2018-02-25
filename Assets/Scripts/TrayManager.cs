@@ -499,8 +499,9 @@ public class TrayManager : MonoBehaviour {
 					!FoodInOrder.foundCorrespondent);
 				foodInPart.correspondent = corrFoodInOrder;
 
-				// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-				corrFoodInOrder.foundCorrespondent = true;
+                // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+                if(!corrFoodInOrder.foundCorrespondent)
+                    corrFoodInOrder.foundCorrespondent = true;
 			}
 		}
 		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
