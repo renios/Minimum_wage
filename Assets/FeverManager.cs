@@ -14,9 +14,16 @@ public class FeverManager : MonoBehaviour {
 	public Sprite activeBunny;
 
 	float feverAmount = 0;
-	int goalAmount = 0;
+	float goalAmount = 0;
 
 	int feverLevel = 0;
+
+	int waitingTime = 30;
+
+	int maxAmount = 50;
+
+	readonly int comboCoef = 5;
+	readonly int customerCoef = 2;
 
 	void ActivePoint(Image point) {
 		point.sprite = activeBunny;
@@ -35,8 +42,21 @@ public class FeverManager : MonoBehaviour {
 		feverLevel = 0;
 	}
 
-	public void AddFeverAmount(int amount) {
+	public void AddFeverAmountByCustomer(Customer customer) {
+		float amount = 0;
+		amount = customer.remainWaitingTime / (float)waitingTime;
+		amount *= customerCoef;
+		AddFeverAmount(amount);
+	}
+
+	public void AddFeverAmountByCombo(int comboCount) {
+		float amount = comboCount * comboCoef;
+		AddFeverAmount(amount);
+	}
+
+	public void AddFeverAmount(float amount) {
 		goalAmount += amount;
+		Debug.Log("fever : " + feverAmount + " -> " + goalAmount);
 	}
 
 	// Use this for initialization
@@ -45,6 +65,11 @@ public class FeverManager : MonoBehaviour {
 		feverLevel = 0;
 		bar.fillAmount = 0;
 		InactiveAllPoints();
+
+		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
+			waitingTime = MissionData.GetMissionDataDict()[MissionDataType.waitingTime];
+		}
 	}
 
 	float amount = 0.5f;
@@ -56,15 +81,15 @@ public class FeverManager : MonoBehaviour {
 			bar.fillAmount = feverAmount / 100f;
 		}
 
-		if (feverAmount > 33 && feverLevel < 1) {
+		if (feverAmount > maxAmount/3f && feverLevel < 1) {
 			ActivePoint(checkPoint1);
 		}
 
-		if (feverAmount > 66 && feverLevel < 2) {
+		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
 			ActivePoint(checkPoint2);
 		}
 
-		if (feverAmount >= 100 && feverLevel < 3) {
+		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
 		}
 

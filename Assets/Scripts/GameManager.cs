@@ -74,8 +74,8 @@ public class GameManager : MonoBehaviour {
             startText.fontSize = startFontSize;
             while (isShrinking)
             {
-                startText.fontSize -= 2;
-                yield return new WaitForSeconds(0.001f);
+                startText.fontSize -= 1;
+                yield return new WaitForSeconds(0.002f);
                 if (startText.fontSize < 220) isShrinking = false;
             }
             startText.text = "";
@@ -101,14 +101,6 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (gameoverCanvas.activeInHierarchy && !isPlaying) {
-			if (isEnd)
-            {
-                MissionData.gotSuperfood = false;
-                MissionData.gotTimeItem = false;
-                MissionData.gotTrayItem = false;
-                SceneManager.LoadScene("World");
-            }
-
             if (Input.anyKeyDown && !isPlayingAnim)
                 StartCoroutine(HideCanvas());
 		}
@@ -124,8 +116,11 @@ public class GameManager : MonoBehaviour {
 		mainPanel.DOFade(0, delay);
 		yield return new WaitForSeconds(delay);
 		gameoverCanvas.SetActive(false);
-		isEnd = true;
-		isPlaying = true;
+        isPlaying = false;
 		isPlayingAnim = false;
-	}
+        MissionData.gotSuperfood = false;
+        MissionData.gotTimeItem = false;
+        MissionData.gotTrayItem = false;
+        SceneManager.LoadScene("World");
+    }
 }

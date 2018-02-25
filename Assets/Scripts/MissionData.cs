@@ -186,7 +186,7 @@ public static class MissionData {
 		else if (stageName == "1-9") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
-			missionDataDict.Add(MissionDataType.waitingTime, 15);
+			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
 			missionDataDict.Add(MissionDataType.maxHeart, 1);
