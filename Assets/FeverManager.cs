@@ -124,18 +124,28 @@ public class FeverManager : MonoBehaviour {
                 trayManager.MakeSuperfood();
             }
 
-            MissionData.gotSuperfood = true;
-            trayManager.MakeSuperfood();
+            // MissionData.gotSuperfood = true;
+            // trayManager.MakeSuperfood();
 
-            MissionData.gotSuperfood = true;
-            trayManager.MakeSuperfood();
+            // MissionData.gotSuperfood = true;
+            // trayManager.MakeSuperfood();
 
-            MissionData.gotSuperfood = true;
-            trayManager.MakeSuperfood();
+            // MissionData.gotSuperfood = true;
+            // trayManager.MakeSuperfood();
+			
+			Reset();
         }
 
 		if (Input.GetKeyDown(KeyCode.V)) {
 			AddFeverAmount(15);
 		}
+	}
+
+	void Reset () {
+		goalAmount = 0;
+		feverAmount = 0;
+		feverLevel = 0;
+		bar.fillAmount = 0;
+		InactiveAllPoints();
 	}
 }
