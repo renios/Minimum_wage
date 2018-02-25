@@ -50,7 +50,7 @@ public class SoundManager : MonoBehaviour{
     public static void Play(SoundType st, Vector2 pos = new Vector2()){
         var clip = ChooseSound(st);
         if (clip == null){
-            Debug.LogError("NullSoundTypeException : cannot find AudioClip that matches given SoundType(" + st.ToString() + ")");
+            Debug.LogWarning("NullSoundTypeException : cannot find AudioClip that matches given SoundType(" + st.ToString() + ")");
             return;
         }
         PullNewSoundPlayer().Play(clip, pos);
@@ -105,7 +105,7 @@ public class SoundManager : MonoBehaviour{
             }
         }
         if(clip == null){
-            Debug.LogError("NullMusicTypeException : cannot find AudioClip that matches given MusicType(" + mt.ToString() + ")");
+            Debug.LogWarning("NullMusicTypeException : cannot find AudioClip that matches given MusicType(" + mt.ToString() + ")");
             return;
         }
         musicPlayer.Play(clip, instance.transform.position, isLoop);
@@ -152,7 +152,7 @@ public class SoundManager : MonoBehaviour{
             }
             default:{
                 st = SoundType.Raspberry;
-                Debug.LogError("WrongGenderException : given gender isn't female nor male");
+                Debug.LogWarning("WrongGenderException : given gender isn't female nor male");
                 break;
             }
         }
