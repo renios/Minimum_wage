@@ -74,8 +74,8 @@ public class GameManager : MonoBehaviour {
             startText.fontSize = startFontSize;
             while (isShrinking)
             {
-                startText.fontSize -= 2;
-                yield return new WaitForSeconds(0.001f);
+                startText.fontSize -= 1;
+                yield return new WaitForSeconds(0.002f);
                 if (startText.fontSize < 220) isShrinking = false;
             }
             startText.text = "";
