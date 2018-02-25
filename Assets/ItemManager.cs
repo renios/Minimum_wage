@@ -7,6 +7,8 @@ public class ItemManager : MonoBehaviour {
     public GameObject TimeItem;
     public GameObject SuperFood;
     public GameObject TrayItem;
+    public GameObject OpenBin;
+    public GameObject ClosedBin;
 	
 	// Update is called once per frame
 	void Update () {
@@ -16,5 +18,17 @@ public class ItemManager : MonoBehaviour {
         else SuperFood.SetActive(false);
         if (MissionData.gotTrayItem == true) TrayItem.SetActive(true);
         else TrayItem.SetActive(false);
+    }
+
+    public void BinOpen()
+    {
+        OpenBin.SetActive(true);
+        ClosedBin.SetActive(false);
+    }
+
+    public void BinClose()
+    {
+        OpenBin.SetActive(false);
+        ClosedBin.SetActive(true);
     }
 }
