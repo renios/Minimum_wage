@@ -40,7 +40,7 @@ public class StageSelectManager : MonoBehaviour {
 		stageButtons = FindObjectsOfType<StageButton>().ToList();
 		stageButtons.ForEach(button => button.Initialize());
 		stageButtons.OrderBy(button => button.stageIndex);
-PlayerPrefs.SetInt("Progress", 15);
+        PlayerPrefs.SetInt("Progress", 15);
 		int progress = PlayerPrefs.GetInt("Progress", -1);
 
 		if (progress == -1) {

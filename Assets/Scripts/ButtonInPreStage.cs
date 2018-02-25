@@ -7,6 +7,13 @@ public class ButtonInPreStage : MonoBehaviour {
     public MissionPanel missionPanel;
 
     public void GoToStage() {
+        int progress = PlayerPrefs.GetInt("Progress", -1);
+        if (progress < 2)
+        {
+            SceneManager.LoadScene("Tutorial");
+            return;
+        }
+
         if (missionPanel.resetTimeItem.isOn == true) MissionData.gotTimeItem = true;
         if (missionPanel.superfoodItem.isOn == true) MissionData.gotSuperfood = true;
         if (missionPanel.renewTrayItem.isOn == true) MissionData.gotTrayItem = true;
