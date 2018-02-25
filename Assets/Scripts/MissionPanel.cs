@@ -10,8 +10,16 @@ public class MissionPanel : MonoBehaviour {
 	public Text dayText;
 	public Text customerText;
 	public Text timeText;
+    public Button resetTimeItem;
+    public Button superfoodItem;
+    public Button renewTrayItem;
 
-	public void LoadMissonInfo() {
+    private void Start()
+    {
+        
+    }
+
+    public void LoadMissonInfo() {
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
 		int date = missionDataDict[MissionDataType.StageIndex];
