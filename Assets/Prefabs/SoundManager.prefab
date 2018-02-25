@@ -111,7 +111,7 @@ MonoBehaviour:
   - type: 9
     clip: {fileID: 8300000, guid: 7b4ce3d558407144db6bb3d23dd6f367, type: 3}
   worldSoundData:
-  - start: {fileID: 0}
+  - start: {fileID: 8300000, guid: c21a537a4b2b58b408efb69d5a901fb9, type: 3}
     ambient: {fileID: 8300000, guid: fca7ac06b6df28148a1c73b01c7656f0, type: 3}
     stageClear: {fileID: 8300000, guid: 4d30694a95673d14199df055a3b66576, type: 3}
     stageOver: {fileID: 8300000, guid: ce73509e4d78cb44e983206427a88c9c, type: 3}

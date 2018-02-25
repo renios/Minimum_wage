@@ -54,6 +54,8 @@ public class StageSelectManager : MonoBehaviour {
 				button.Active();
 			}
 		});
+		
+        SoundManager.Play(MusicType.Main);
 	}
 
 	void Update () {

@@ -14,7 +14,7 @@ public class SoundPlayer : MonoBehaviour{
         audio = GetComponent<AudioSource>();
     }
     public void Play(AudioClip clip, Vector2 pos = new Vector2(), bool isLoop = false){
-        audio.Stop();
+        audio.Pause();
         audio.clip = clip;
         transform.position = pos;
         audio.Play();
