@@ -642,6 +642,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114933317056341474, guid: b93ebe466534e4b4b8fa35e791b0a025,
+        type: 2}
+      propertyPath: trayManager
+      value: 
+      objectReference: {fileID: 440034585}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b93ebe466534e4b4b8fa35e791b0a025, type: 2}
   m_IsPrefabParent: 0
