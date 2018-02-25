@@ -3165,6 +3165,11 @@ Prefab:
       propertyPath: m_RaycastTarget
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114940808836510022, guid: 04aa26fc8a5944ee58e5c6f6db84089e,
+        type: 2}
+      propertyPath: m_FontData.m_BestFit
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 114737731719222702, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 04aa26fc8a5944ee58e5c6f6db84089e, type: 2}
