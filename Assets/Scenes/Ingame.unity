@@ -334,7 +334,6 @@ SpriteRenderer:
   m_Size: {x: 2.41, y: 2.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!1001 &387722270
 Prefab:
   m_ObjectHideFlags: 0
@@ -431,6 +430,16 @@ Prefab:
         type: 2}
       propertyPath: m_Pivot.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299247201559054, guid: 2d570db5ded514259adbf5b9367e5eee,
+        type: 2}
+      propertyPath: maxFontSize
+      value: 66
+      objectReference: {fileID: 0}
+    - target: {fileID: 114299247201559054, guid: 2d570db5ded514259adbf5b9367e5eee,
+        type: 2}
+      propertyPath: animRate
+      value: 0.06
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d570db5ded514259adbf5b9367e5eee, type: 2}
@@ -754,7 +763,6 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 19.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!4 &902115193
 Transform:
   m_ObjectHideFlags: 0
@@ -1550,7 +1558,6 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 19.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
 --- !u!4 &1642112508
 Transform:
   m_ObjectHideFlags: 0
