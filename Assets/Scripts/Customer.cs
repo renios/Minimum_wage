@@ -18,9 +18,9 @@ public class Customer : MonoBehaviour {
     public bool isServeCompleted;            // 서빙 완료돼서 나갈때 true
 	public bool isServed = false;            // 동시체크를 위한 변수
 	public Enums.Gender gender;				// 효과음 성별 구분용
-    float furyRate;
+    public float furyRate;
     public float maxFuryRate;
-    float furyCount = 0;
+    public float furyCount = 0;
 
     public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
