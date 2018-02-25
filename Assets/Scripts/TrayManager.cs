@@ -368,6 +368,8 @@ public class TrayManager : MonoBehaviour {
 
 					ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
 					pairs.Add(newPair);
+
+
 				}
 			}
 		}
