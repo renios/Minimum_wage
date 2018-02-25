@@ -102,7 +102,12 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		if (gameoverCanvas.activeInHierarchy && !isPlaying) {
 			if (isEnd)
-				SceneManager.LoadScene("World");
+            {
+                MissionData.gotSuperfood = false;
+                MissionData.gotTimeItem = false;
+                MissionData.gotTrayItem = false;
+                SceneManager.LoadScene("World");
+            }
 
             if (Input.anyKeyDown && !isPlayingAnim)
                 StartCoroutine(HideCanvas());

@@ -4,9 +4,13 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ButtonInPreStage : MonoBehaviour {
+    public MissionPanel missionPanel;
 
-	public void GoToStage() {
-		SceneManager.LoadScene("Ingame");
+    public void GoToStage() {
+        if (missionPanel.resetTimeItem.isOn == true) MissionData.gotTimeItem = true;
+        if (missionPanel.superfoodItem.isOn == true) MissionData.gotSuperfood = true;
+        if (missionPanel.renewTrayItem.isOn == true) MissionData.gotTrayItem = true;
+        SceneManager.LoadScene("Ingame");
 	}
 
 	public void GoToTitle() {

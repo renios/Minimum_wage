@@ -22,11 +22,15 @@ public class CustomerManager : MonoBehaviour {
 
     public void ResetWaitingTime()
     {
-        foreach(var customer in currentWaitingCustomers)
+        if(MissionData.gotTimeItem == true)
         {
-            if(customer != null)
-            customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+            foreach (var customer in currentWaitingCustomers)
+            {
+                if (customer != null)
+                    customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+            }
         }
+        MissionData.gotTimeItem = false;
     }
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
