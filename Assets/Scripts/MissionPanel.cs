@@ -10,13 +10,18 @@ public class MissionPanel : MonoBehaviour {
 	public Text dayText;
 	public Text customerText;
 	public Text timeText;
-    public Button resetTimeItem;
-    public Button superfoodItem;
-    public Button renewTrayItem;
+    public Toggle resetTimeItem;
+    public Toggle superfoodItem;
+    public Toggle renewTrayItem;
+    public Image resetTimeImage;
+    public Image superfoodImage;
+    public Image renewTrayImage;
 
-    private void Start()
+    private void Update()
     {
-        
+        resetTimeImage.enabled = (resetTimeItem.isOn == true) ? true : false;
+        superfoodImage.enabled = (superfoodItem.isOn == true) ? true : false;
+        renewTrayImage.enabled = (renewTrayItem.isOn == true) ? true : false;
     }
 
     public void LoadMissonInfo() {
