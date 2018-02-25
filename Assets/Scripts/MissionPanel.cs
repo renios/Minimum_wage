@@ -6,10 +6,16 @@ using System;
 
 public class MissionPanel : MonoBehaviour {
 
+	public GameObject world1;
+	public GameObject world2;
+
 	public Text todoText;
 	public Text dayText;
-	public Text customerText;
-	public Text timeText;
+	public Text world1customerText;
+	public Text world1timeText;
+	public Text world2customerText;
+	public Text world2timeText;
+	public Text world2touchText;
     public Toggle resetTimeItem;
     public Toggle superfoodItem;
     public Toggle renewTrayItem;
@@ -25,6 +31,10 @@ public class MissionPanel : MonoBehaviour {
     }
 
     public void LoadMissonInfo() {
+		resetTimeItem.isOn = false;
+        superfoodItem.isOn = false;
+        renewTrayItem.isOn = false;
+
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
 		int date = missionDataDict[MissionDataType.StageIndex];
@@ -66,19 +76,52 @@ public class MissionPanel : MonoBehaviour {
 		}
 		todoText.text = todoString;
 
-		if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
-			customerText.text = ": " + missionDataDict[MissionDataType.customerCount] + "+";
-		}
-		else {
-			customerText.text = ": --";
-		}
+		world1.SetActive(false);
+		world2.SetActive(false);
 
-		if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
-			int remainTime = missionDataDict[MissionDataType.remainTime];
-			timeText.text = ": " + (remainTime / 60).ToString("D2") + ":" + (remainTime % 60).ToString("D2");
+		if (MissionData.stageIndex < 11) {
+			world1.SetActive(true);
+
+			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
+				world1customerText.text = "" + missionDataDict[MissionDataType.customerCount];
+			}
+			else {
+				world1customerText.text = "--";
+			}
+
+			if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
+				int remainTime = missionDataDict[MissionDataType.remainTime];
+				world1timeText.text = "" + (remainTime / 60).ToString("D1") + ":" + (remainTime % 60).ToString("D2");
+			}
+			else {
+				world1timeText.text = "--";
+			}
 		}
-		else {
-			timeText.text = ": --";
+		else if (MissionData.stageIndex < 21) {
+			world2.SetActive(true);
+
+			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
+				world2customerText.text = "" + missionDataDict[MissionDataType.customerCount];
+			}
+			else {
+				world2customerText.text = "--";
+			}
+
+			if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
+				int remainTime = missionDataDict[MissionDataType.remainTime];
+				world2timeText.text = "" + (remainTime / 60).ToString("D1") + ":" + (remainTime % 60).ToString("D2");
+			}
+			else {
+				world2timeText.text = "--";
+			}
+
+			if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
+				int touchCount = missionDataDict[MissionDataType.touchCount];
+				world2touchText.text = "" + missionDataDict[MissionDataType.touchCount];
+			}
+			else {
+				world2timeText.text = "--";
+			}
 		}
 	}
 }
