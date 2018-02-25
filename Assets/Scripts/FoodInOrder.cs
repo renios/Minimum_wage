@@ -10,22 +10,32 @@ public class FoodInOrder : MonoBehaviour {
     public bool foundCorrespondent;  
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
+		string pathString;
+		if (MissionData.stageIndex < 11) {
+			pathString = "Foods/World1/";
+		}
+		else if (MissionData.stageIndex < 21) {
+			pathString = "Foods/World2/";
+		}
+		else {
+			pathString = "Foods/World1/";
+		}
 		switch (foodTypeEnum)
 		{
 			case FoodType.A:
-				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food01", typeof(Sprite)) as Sprite;
 			case FoodType.B:
-				return Resources.Load("Foods/food02", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food02", typeof(Sprite)) as Sprite;
 			case FoodType.C:
-				return Resources.Load("Foods/food03", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food03", typeof(Sprite)) as Sprite;
 			case FoodType.D:
-				return Resources.Load("Foods/food04", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food04", typeof(Sprite)) as Sprite;
 			case FoodType.E:
-				return Resources.Load("Foods/food05", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food05", typeof(Sprite)) as Sprite;
 			case FoodType.F:
-				return Resources.Load("Foods/food06", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food06", typeof(Sprite)) as Sprite;
 			default:
-				return Resources.Load("Foods/food01", typeof(Sprite)) as Sprite;
+				return Resources.Load(pathString + "food01", typeof(Sprite)) as Sprite;
 		}
 	}
 

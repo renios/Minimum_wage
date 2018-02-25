@@ -17,7 +17,7 @@ public enum MissionDataType {
 
 public static class MissionData {
 
-	public static int stageIndex = -1;
+	public static int stageIndex = 1;
 	public static int customerCount = -1;
 	public static int remainTime = -1;
 	public static int touchCount = -1;
@@ -28,7 +28,7 @@ public static class MissionData {
 	public static int foodTypeCount = 4;
 
 	public static void Initialize() {
-		stageIndex = -1;
+		stageIndex = 1;
 		customerCount = -1;
 		remainTime = -1;
 		touchCount = -1;
