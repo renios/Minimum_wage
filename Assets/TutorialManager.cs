@@ -14,10 +14,9 @@ public class TutorialManager : MonoBehaviour {
         index++;
         foreach (var tutorial in Tutorials)
             tutorial.SetActive(false);
+        Tutorials[index].SetActive(true);
         if (index > 4)
             GoIngame();
-        else
-            Tutorials[index].SetActive(true);
     }
 
     public void PrevTutorialPanel()
