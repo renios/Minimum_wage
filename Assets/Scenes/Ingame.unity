@@ -334,6 +334,7 @@ SpriteRenderer:
   m_Size: {x: 2.41, y: 2.44}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!1001 &387722270
 Prefab:
   m_ObjectHideFlags: 0
@@ -642,6 +643,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114933317056341474, guid: b93ebe466534e4b4b8fa35e791b0a025,
+        type: 2}
+      propertyPath: trayManager
+      value: 
+      objectReference: {fileID: 440034585}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b93ebe466534e4b4b8fa35e791b0a025, type: 2}
   m_IsPrefabParent: 0
@@ -879,6 +885,7 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 19.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!4 &902115193
 Transform:
   m_ObjectHideFlags: 0
@@ -1118,6 +1125,66 @@ Prefab:
     - target: {fileID: 224036499029058830, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 127
+      objectReference: {fileID: 0}
+    - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 190
+      objectReference: {fileID: 0}
+    - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMin.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchorMax.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.x
+      value: 253
+      objectReference: {fileID: 0}
+    - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -1571,6 +1638,7 @@ SpriteRenderer:
   m_Size: {x: 10.8, y: 19.2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
 --- !u!4 &1642112508
 Transform:
   m_ObjectHideFlags: 0
