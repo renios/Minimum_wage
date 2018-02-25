@@ -116,7 +116,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 3);
 			missionDataDict.Add(MissionDataType.maxCustomer, 2);
 		}
@@ -143,7 +143,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 1);
 			missionDataDict.Add(MissionDataType.maxCustomer, 2);
 		}
@@ -152,7 +152,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 3);
 			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
@@ -186,7 +186,7 @@ public static class MissionData {
 		else if (stageName == "1-9") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
-			missionDataDict.Add(MissionDataType.waitingTime, 15);
+			missionDataDict.Add(MissionDataType.waitingTime, 20);
 			missionDataDict.Add(MissionDataType.customerCooldown, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
 			missionDataDict.Add(MissionDataType.maxHeart, 1);
@@ -227,7 +227,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.touchCount, 20);
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 3);
 			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
@@ -237,7 +237,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.touchCount, 30);
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 3);
 			missionDataDict.Add(MissionDataType.maxCustomer, 2);
 		}
@@ -247,7 +247,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.touchCount, 15);
 			missionDataDict.Add(MissionDataType.waitingTime, 30);
 			missionDataDict.Add(MissionDataType.customerCooldown, 5);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 			missionDataDict.Add(MissionDataType.maxHeart, 1);
 			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}

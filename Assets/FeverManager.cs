@@ -25,6 +25,8 @@ public class FeverManager : MonoBehaviour {
 	readonly int comboCoef = 5;
 	readonly int customerCoef = 2;
 
+    public TrayManager trayManager;
+
 	void ActivePoint(Image point) {
 		point.sprite = activeBunny;
 		point.color = Color.white;
@@ -83,15 +85,54 @@ public class FeverManager : MonoBehaviour {
 
 		if (feverAmount > maxAmount/3f && feverLevel < 1) {
 			ActivePoint(checkPoint1);
-		}
+            if(MissionData.gotSuperfood == true)
+            {
+                trayManager.MakeSuperfood();
+                MissionData.gotSuperfood = true;
+            }
+            else
+            {
+                MissionData.gotSuperfood = true;
+                trayManager.MakeSuperfood();
+            }
+        }
 
 		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
 			ActivePoint(checkPoint2);
-		}
+            if (MissionData.gotSuperfood == true)
+            {
+                trayManager.MakeSuperfood();
+                MissionData.gotSuperfood = true;
+            }
+            else
+            {
+                MissionData.gotSuperfood = true;
+                trayManager.MakeSuperfood();
+            }
+        }
 
 		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
-		}
+            if (MissionData.gotSuperfood == true)
+            {
+                trayManager.MakeSuperfood();
+                MissionData.gotSuperfood = true;
+            }
+            else
+            {
+                MissionData.gotSuperfood = true;
+                trayManager.MakeSuperfood();
+            }
+
+            MissionData.gotSuperfood = true;
+            trayManager.MakeSuperfood();
+
+            MissionData.gotSuperfood = true;
+            trayManager.MakeSuperfood();
+
+            MissionData.gotSuperfood = true;
+            trayManager.MakeSuperfood();
+        }
 
 		if (Input.GetKeyDown(KeyCode.V)) {
 			AddFeverAmount(15);
