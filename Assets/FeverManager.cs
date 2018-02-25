@@ -80,11 +80,11 @@ public class FeverManager : MonoBehaviour {
 	void Update () {
 		if (feverAmount < goalAmount) {
 			feverAmount += amount;
-			bar.fillAmount = feverAmount / 100f;
+			bar.fillAmount = feverAmount / maxAmount;
 		}
 
 		if (feverAmount > maxAmount/3f && feverLevel < 1) {
-			ActivePoint(checkPoint1);
+            ActivePoint(checkPoint1);
             if(MissionData.gotSuperfood == true)
             {
                 trayManager.MakeSuperfood();
