@@ -259,9 +259,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeImage: {fileID: 114829899037192748}
   customerImage: {fileID: 114192539387385944}
+  touchImage: {fileID: 114892983255496726}
   timeText: {fileID: 114135406432695422}
   customerText: {fileID: 114795535709356616}
+  touchText: {fileID: 114351074776029530}
   successCustomerCount: 0
+  currentTouchCount: 0
 --- !u!114 &114795535709356616
 MonoBehaviour:
   m_ObjectHideFlags: 1

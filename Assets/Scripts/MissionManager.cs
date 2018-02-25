@@ -7,16 +7,21 @@ public class MissionManager : MonoBehaviour {
 
 	public Image timeImage;
 	public Image customerImage;
+	public Image touchImage;
 
 	public Text timeText;
 	public Text customerText;
+	public Text touchText;
 
 	float remainTime;
 	int customerCount;
 	public int successCustomerCount = 0;
+	int touchCount;
+	public int currentTouchCount = 0;
 
 	bool isUsedTime = false;
 	bool isUsedCustomerCount = false;
+	bool isUsedTouchCount = false;
 
 	int currentStage;
 
@@ -58,9 +63,10 @@ public class MissionManager : MonoBehaviour {
 				remainTime = missionDataDict[MissionDataType.remainTime];
 				isUsedTime = true;
 			}
-			// if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
-			// 	touchCount = missionDataDict[MissionDataType.touchCount];
-			// }
+			if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
+				touchCount = missionDataDict[MissionDataType.touchCount];
+				isUsedTouchCount = true;
+			}
 		}
 	}
 
@@ -82,6 +88,14 @@ public class MissionManager : MonoBehaviour {
 		}
 		else {
 			customerText.text = "--/--";
+		}
+
+		if (isUsedTouchCount) {
+			touchText.text = currentTouchCount + "/" + touchCount;
+		}
+		else {
+			touchImage.enabled = false;
+			touchText.enabled = false;
 		}
 	}
 	
@@ -113,11 +127,22 @@ public class MissionManager : MonoBehaviour {
 				UpdateProgress();
 			}
 		}
+
+		if (isUsedTouchCount) {
+			touchText.text = currentTouchCount + "/" + touchCount;
+
+			if (currentTouchCount > touchCount && !gameManager.gameoverCanvas.activeInHierarchy) {
+				StartCoroutine(gameManager.ShowGameoverCanvas());
+			}
+		}
 		
 		// 테스트용 클리어 치트
 		if (Input.GetKeyDown(KeyCode.P)) {
 			StartCoroutine(gameManager.ShowClearCanvas());
 			UpdateProgress();
+		}
+		if (Input.GetKeyDown(KeyCode.F)) {
+			StartCoroutine(gameManager.ShowGameoverCanvas());
 		}
 	}
 }

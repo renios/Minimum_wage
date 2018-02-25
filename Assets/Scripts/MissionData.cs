@@ -198,42 +198,52 @@ public static class MissionData {
 		else if (stageName == "2-1") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 20);
 		}
 		else if (stageName == "2-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 25);
 		}
 		else if (stageName == "2-3") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 20);
 		}
 		else if (stageName == "2-4") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 		else if (stageName == "2-5") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 15);
 		}
 		else if (stageName == "2-6") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 		else if (stageName == "2-7") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 40);
 		}
 		else if (stageName == "2-8") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 25);
 		}
 		else if (stageName == "2-9") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 11);
 		}
 		else if (stageName == "2-10") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
 		}
 
 		return missionDataDict;

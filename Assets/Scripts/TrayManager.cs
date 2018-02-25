@@ -42,6 +42,8 @@ public class TrayManager : MonoBehaviour {
 	public GameObject comboTextPrefab;
 
 	CustomerManager customerManager;
+	MissionManager missionManager;
+	GameManager gameManager;
 
 	public void MakeSuperfood() {
 		// 제일 많은 종류의 음식 중 하나를 픽
@@ -602,13 +604,12 @@ public class TrayManager : MonoBehaviour {
 	void Start () {
 		customerManager = FindObjectOfType<CustomerManager>();
 		gameManager = FindObjectOfType<GameManager>();
+		missionManager = FindObjectOfType<MissionManager>();
 
 		InitializeFoods();
 		
 		lastComboTime = comboDelayByMoving + 1;
 	}
-	
-	GameManager gameManager;
 
 	// Update is called once per frame
 	void Update () {
@@ -683,13 +684,16 @@ public class TrayManager : MonoBehaviour {
                     {
 						// 유효이동일 경우에만 카운트 상승
 						SoundManager.Play(SoundType.Swap);
-
-                        moveCountAfterMatching++;
+						moveCountAfterMatching++;
+						// 이동 성공 시 터치카운트를 1 올림
+						missionManager.currentTouchCount += 1;
 						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
                     }
                 }
                 else if(isOnBin)
                 {
+					// 쓰레기통에 버려도 터치카운트를 1 올림
+					missionManager.currentTouchCount += 1;
                     Destroy(pickedFood1);
                     int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
                     int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
