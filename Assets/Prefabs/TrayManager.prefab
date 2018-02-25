@@ -1367,7 +1367,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bb0cc78e96f495e9ac5bc194ae1337, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foodTypeCount: 6
   foodObj: {fileID: 1238987162197396, guid: 996ad68da381d41c1b61ce565b35467f, type: 2}
   toBeSwitched: {fileID: 1173590806693764}
   pickedFood1: {fileID: 0}
@@ -1376,6 +1375,7 @@ MonoBehaviour:
   resetTimerImage: {fileID: 0}
   exitAmount: 3
   isPlayingRefillAnim: 0
+  isOnBin: 0
   comboTextPrefab: {fileID: 1715375042668470, guid: 9a6f8f369636f4e06b8db4afda70e5b7,
     type: 2}
 --- !u!114 &114864780585845680

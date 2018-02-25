@@ -15,6 +15,7 @@ public class FoodOnTray : MonoBehaviour {
     public FoodInOrder correspondent;
 
 	public bool isSuperfood = false;
+	public GameObject superfoodEffect;
 
 	public Sprite EnumToSprite (FoodType foodTypeEnum) {
 		string pathString;
@@ -70,6 +71,8 @@ public class FoodOnTray : MonoBehaviour {
 
         Sprite superfoodSprite = Resources.Load(superfoodPath, typeof(Sprite)) as Sprite;
         GetComponent<SpriteRenderer>().sprite = superfoodSprite;
+
+		superfoodEffect.SetActive(true);
 
         float delay = 0.2f;
 		float originScale = transform.localScale.x;
