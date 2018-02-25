@@ -56,6 +56,7 @@ GameObject:
   - component: {fileID: 223678718194468372}
   - component: {fileID: 114668776076178780}
   - component: {fileID: 114437200592856926}
+  - component: {fileID: 114933317056341474}
   m_Layer: 5
   m_Name: FeverManager
   m_TagString: Untagged
@@ -303,6 +304,23 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114933317056341474
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1248314707928940}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d9d0f0289b504f6e9d7211d624767ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bar: {fileID: 114699744979797774}
+  checkPoint1: {fileID: 114977654851167432}
+  checkPoint2: {fileID: 114816643192902894}
+  checkPoint3: {fileID: 114875916372469454}
+  inactiveBunny: {fileID: 21300000, guid: 7cd197d12bdf94449b4733704f26c680, type: 3}
+  activeBunny: {fileID: 21300000, guid: 3a62003ad01606b42aeafe2d69ac714a, type: 3}
 --- !u!114 &114977654851167432
 MonoBehaviour:
   m_ObjectHideFlags: 1
