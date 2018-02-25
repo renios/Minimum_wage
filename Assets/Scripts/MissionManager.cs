@@ -111,11 +111,13 @@ public class MissionManager : MonoBehaviour {
 				// 버티기 미션일 경우 시간이 다 떨어졌을 때 게임 오버가 되는 대신 게임 클리어가 됨
 				if (!isUsedCustomerCount) {
 					StartCoroutine(gameManager.ShowClearCanvas());
-					UpdateProgress();
+                    remainTime = 90f;
+                    UpdateProgress();
 				}
 				else {
 					StartCoroutine(gameManager.ShowGameoverCanvas());
-				}
+                    remainTime = 90f;
+                }
 			}
 		}
 
@@ -125,6 +127,7 @@ public class MissionManager : MonoBehaviour {
 			if (successCustomerCount == customerCount && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowClearCanvas());
 				UpdateProgress();
+                successCustomerCount = 0;
 			}
 		}
 
@@ -133,6 +136,7 @@ public class MissionManager : MonoBehaviour {
 
 			if (currentTouchCount > touchCount && !gameManager.gameoverCanvas.activeInHierarchy) {
 				StartCoroutine(gameManager.ShowGameoverCanvas());
+                currentTouchCount = 0;
 			}
 		}
 		
