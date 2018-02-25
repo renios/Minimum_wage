@@ -29,6 +29,7 @@ public class TrayManager : MonoBehaviour {
 
 	bool isPlayingMovingAnim = false;
 	public bool isPlayingRefillAnim = false;
+    bool isTryingMatch = false;
 
 	readonly float comboDelay = 1;
 	readonly float comboDelayByMoving = 5;
@@ -328,6 +329,10 @@ public class TrayManager : MonoBehaviour {
 	public IEnumerator TryMatch() {
         if (isPlayingRefillAnim)
             yield return new WaitWhile(() => isPlayingRefillAnim);
+        if (isTryingMatch)
+            yield return new WaitWhile(() => isTryingMatch);
+
+        isTryingMatch = true;
 
         List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		customers.OrderBy(customer => customer.remainWaitingTime); 
@@ -399,6 +404,8 @@ public class TrayManager : MonoBehaviour {
 			
 		// 해당되는 음식 리필
 		yield return StartCoroutine(RefillFoods());
+
+        isTryingMatch = false;
 	}
 
     IEnumerator MatchAnimation(List<FoodOnTray> matchedFoods, Customer matchedCustomer, List<Customer> customers, float animDelay)
