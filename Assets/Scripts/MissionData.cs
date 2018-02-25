@@ -199,54 +199,104 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-1") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			// missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.touchCount, 20);
+			missionDataDict.Add(MissionDataType.waitingTime, 99);
+			missionDataDict.Add(MissionDataType.customerCooldown, 1);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 1);
 		}
 		else if (stageName == "2-2") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.remainTime, 60);
+			// missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 25);
+			missionDataDict.Add(MissionDataType.waitingTime, 20);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 2);
 		}
 		else if (stageName == "2-3") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.remainTime, 90);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 20);
+			missionDataDict.Add(MissionDataType.waitingTime, 30);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-4") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.touchCount, 30);
+			missionDataDict.Add(MissionDataType.waitingTime, 30);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 2);
 		}
 		else if (stageName == "2-5") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.remainTime, 60);
+			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.touchCount, 15);
+			missionDataDict.Add(MissionDataType.waitingTime, 30);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
+			missionDataDict.Add(MissionDataType.maxHeart, 1);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-6") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			// missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.touchCount, 30);
+			missionDataDict.Add(MissionDataType.waitingTime, 20);
+			missionDataDict.Add(MissionDataType.customerCooldown, 7);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-7") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.remainTime, 150);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.touchCount, 40);
+			missionDataDict.Add(MissionDataType.waitingTime, 30);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-8") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.remainTime, 60);
+			// missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 25);
+			missionDataDict.Add(MissionDataType.waitingTime, 20);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-9") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			// missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.touchCount, 11);
+			missionDataDict.Add(MissionDataType.waitingTime, 99);
+			missionDataDict.Add(MissionDataType.customerCooldown, 1);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 		else if (stageName == "2-10") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 15);
+			// missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.touchCount, 30);
+			missionDataDict.Add(MissionDataType.waitingTime, 30);
+			missionDataDict.Add(MissionDataType.customerCooldown, 5);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+			missionDataDict.Add(MissionDataType.maxHeart, 3);
+			missionDataDict.Add(MissionDataType.maxCustomer, 4);
 		}
 
 		return missionDataDict;
