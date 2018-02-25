@@ -31,7 +31,7 @@ public class TrayManager : MonoBehaviour {
 	public bool isPlayingRefillAnim = false;
     bool isTryingMatch = false;
 
-	readonly float comboDelay = 1;
+	readonly float comboDelay = 2;
 	readonly float comboDelayByMoving = 5;
 	int comboCount = 0;
 	float lastComboTime = 0;
@@ -44,6 +44,7 @@ public class TrayManager : MonoBehaviour {
 	CustomerManager customerManager;
 	MissionManager missionManager;
 	GameManager gameManager;
+	FeverManager feverManager;
 
 	public void MakeSuperfood() {
 		// 제일 많은 종류의 음식 중 하나를 픽
@@ -382,6 +383,13 @@ public class TrayManager : MonoBehaviour {
 				Customer matchedCustomer = pair.customer;
 				List<FoodOnTray> matchedFoods = pair.foods;
 
+				// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분
+				feverManager.AddFeverAmountByCustomer(matchedCustomer);
+				// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분
+				List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
+												.FindAll(customer => customer != null && !customer.isServed);
+				remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+
 				if (IsComboCountUp()) {
 					comboCount++;
 				}
@@ -394,6 +402,8 @@ public class TrayManager : MonoBehaviour {
 
 				if (comboCount > 1) {
 					ShowComboText(matchedFoods);
+					// 콤보에 따라 피버게이지 오르는 부분
+					feverManager.AddFeverAmountByCombo(comboCount-1);
 				}
 
                 StartCoroutine(MatchAnimation(matchedFoods, matchedCustomer, customers, animDelay));
@@ -615,6 +625,7 @@ public class TrayManager : MonoBehaviour {
 		customerManager = FindObjectOfType<CustomerManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
+		feverManager = FindObjectOfType<FeverManager>();
 
 		InitializeFoods();
 		
