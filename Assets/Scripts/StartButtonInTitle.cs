@@ -8,14 +8,4 @@ public class StartButtonInTitle : MonoBehaviour {
 	public void GoToWorldScene() {
         SceneManager.LoadScene("World");
 	}
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

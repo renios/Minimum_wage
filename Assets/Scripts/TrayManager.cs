@@ -8,39 +8,64 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
+    // 트레이의 행/열 수 고정
 	readonly int ROW = 5;
 	readonly int COL = 6;
 
-	Transform[,] foodPoses;
-	FoodOnTray[,] foods;
-	public GameObject foodObj;
+    // 미리 트레이 내 좌표 별 트랜스폼 받아둠
+    Transform[,] foodPoses;
+    // 트레이 내 좌표 별 음식 추적
+    FoodOnTray[,] foods;
+    // 음식 prefab
+    public GameObject foodObj;
+    // 교환될 음식 미리 보여주는 오브젝트
     public GameObject toBeSwitched;
 
+    // 처음 지정한 음식 오브젝트
 	public GameObject pickedFood1;
+    // 첫 음식과 자리 맞바꿀 음식 오브젝트
 	public GameObject pickedFood2;
+    // 처음 지정한 음식 오브젝트의 초기 위치 ////////////////////////////////////수정할 것(영상)////////////////////////////////////////
     Vector3 pickedFood1Origin;
+
+    // 조작하는 음식 크기 변환한 후 되돌아갈 수 있도록 초기 스케일값 저장
     float firstScaleX;
     float firstScaleY;
 
-	public float resetTime;
-	float lastResetTime = 0;
-	public Image resetTimerImage;
+    // 손님 퇴장 애니메이션에서 손님 움직임 정도를 조절하기 위한 변수
     public float exitAmount;
 
+    // 플레이어의 조작에 의해 두 음식이 위치 변화를 하는 애니메이션 중임을 나타내는 변수
+    // 이 변수가 true이면 트레이 셔플 애니메이션은 잠시 기다리고, 음식을 새로 집거나 집고 있던 음식을 놓는 것은 불가능하다
 	bool isPlayingMovingAnim = false;
+    // 판에서 일부 음식이 사라져 채워 넣을 때의 애니메이션이 진행 중임을 나타내는 변수
+    // 이 변수가 true이면 트레이 셔플 애니메이션과 자동 매치 메소드는 잠시 기다린다.
+    // 이 변수가 true인 상황에서 플레이어의 조작에 의해 음식 교체가 일어날 경우, 교체 애니메이션 역시 잠시 기다린다.
+    // 이 변수가 true이 상황에서는 새로운 손님이 등장하지 않는다.
 	public bool isPlayingRefillAnim = false;
+    // 자동 매치가 이루어지고 있음(애니메이션 포함)을 나타내는 변수
+    // 이 변수가 true이면 새로운 자동 매치는 잠시 기다린다.
     bool isTryingMatch = false;
 
+    // 콤보 애니메이션을 위한 딜레이 시간값 미리 고정
+    // 시간에 의한 콤보 애니메이션용 딜레이
 	readonly float comboDelay = 2;
+    // 조작에 의한 콤보 애니메이션용 딜레이
 	readonly float comboDelayByMoving = 5;
+    // 콤보 스택 카운팅 변수
 	int comboCount = 0;
+    // 마지막으로 콤보 스택을 쌓았을 때로부터 지나간 시간
 	float lastComboTime = 0;
+    // 마지막으로 매칭이 이루어진 이후 플레이어가 조작한 횟수
 	int moveCountAfterMatching = 0;
 
+    // 쓰레기통 위에 마우스가 있는지 판별하는 변수: 쓰레기통 UI 위에 마우스오버하면 true, 떠나면 false가 된다.
     public bool isOnBin;
 
+    // 콤보 텍스트 prefab
 	public GameObject comboTextPrefab;
 
+    // 매니저들 미리 받아놓기
 	CustomerManager customerManager;
 	MissionManager missionManager;
 	GameManager gameManager;
@@ -750,6 +775,6 @@ public class TrayManager : MonoBehaviour {
 
 		lastComboTime += Time.deltaTime;
 
-		lastResetTime += Time.deltaTime;
+		// lastResetTime += Time.deltaTime;
 	}
 }

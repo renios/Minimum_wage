@@ -23,14 +23,4 @@ public class ButtonInPreStage : MonoBehaviour {
 	public void GoToTitle() {
 		SceneManager.LoadScene("Title");
 	}
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

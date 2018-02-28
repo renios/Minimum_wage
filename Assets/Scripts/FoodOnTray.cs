@@ -82,14 +82,4 @@ public class FoodOnTray : MonoBehaviour {
 
 		yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
 	}
-
-	// Use this for initialization
-	void Start () {
-
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
