@@ -2040,9 +2040,38 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 114562775961618122, guid: 7d2540d265cba47cba9b97d771ab659b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 2000009752}
+    - target: {fileID: 114562775961618122, guid: 7d2540d265cba47cba9b97d771ab659b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToWorld
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 114275269881599392, guid: 7d2540d265cba47cba9b97d771ab659b, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 7d2540d265cba47cba9b97d771ab659b, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2000009751 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1270849997573866, guid: 7d2540d265cba47cba9b97d771ab659b,
+    type: 2}
+  m_PrefabInternal: {fileID: 2000009750}
+--- !u!114 &2000009752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2000009751}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50d181bbcf280c343a506c28460d7877, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missionPanel: {fileID: 0}
+  Tutorials: []
 --- !u!1 &2086471014
 GameObject:
   m_ObjectHideFlags: 0
