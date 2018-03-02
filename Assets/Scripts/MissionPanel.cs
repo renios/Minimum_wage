@@ -6,16 +6,13 @@ using System;
 
 public class MissionPanel : MonoBehaviour {
 
-	public GameObject world1;
-	public GameObject world2;
+    public GameObject[] worlds;
+    public Text[] worldCustomerTexts;
+    public Text[] worldTimeTexts;
+    public Text[] worldTouchTexts;
 
 	public Text todoText;
 	public Text dayText;
-	public Text world1customerText;
-	public Text world1timeText;
-	public Text world2customerText;
-	public Text world2timeText;
-	public Text world2touchText;
     public Toggle resetTimeItem;
     public Toggle superfoodItem;
     public Toggle renewTrayItem;
@@ -76,52 +73,38 @@ public class MissionPanel : MonoBehaviour {
 		}
 		todoText.text = todoString;
 
-		world1.SetActive(false);
-		world2.SetActive(false);
+        // 우선은 비활화
+        foreach(var world in worlds)
+        {
+            world.SetActive(false);
+        }
 
-		if (MissionData.stageIndex < 11) {
-			world1.SetActive(true);
+        // 에디터에서 오브젝트, 컴포넌트를 끼울 때 존재하는 월드 수만큼 다 만들어 주어야 하고, 뭔가가 빠지는 스테이지는 그냥 비운 채로 둔다.
+        int worldKey = ((MissionData.stageIndex - 1) / 10);
 
-			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
-				world1customerText.text = "" + missionDataDict[MissionDataType.customerCount];
-			}
-			else {
-				world1customerText.text = "--";
-			}
+        // 해당 월드 활성화
+        worlds[worldKey].SetActive(true);
 
-			if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
-				int remainTime = missionDataDict[MissionDataType.remainTime];
-				world1timeText.text = "" + (remainTime / 60).ToString("D1") + ":" + (remainTime % 60).ToString("D2");
-			}
-			else {
-				world1timeText.text = "--";
-			}
-		}
-		else if (MissionData.stageIndex < 21) {
-			world2.SetActive(true);
+        // 텍스트 수정
+        if (missionDataDict.ContainsKey(MissionDataType.customerCount))
+            worldCustomerTexts[worldKey].text = "" + missionDataDict[MissionDataType.customerCount];
+        else
+            worldCustomerTexts[worldKey].text = "--";
 
-			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
-				world2customerText.text = "" + missionDataDict[MissionDataType.customerCount];
-			}
-			else {
-				world2customerText.text = "--";
-			}
+        if (missionDataDict.ContainsKey(MissionDataType.remainTime))
+        {
+            int remainTime = missionDataDict[MissionDataType.remainTime];
+            worldTimeTexts[worldKey].text = "" + (remainTime / 60).ToString("D1") + ":" + (remainTime % 60).ToString("D2");
+        }
+        else
+            worldTimeTexts[worldKey].text = "--";
 
-			if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
-				int remainTime = missionDataDict[MissionDataType.remainTime];
-				world2timeText.text = "" + (remainTime / 60).ToString("D1") + ":" + (remainTime % 60).ToString("D2");
-			}
-			else {
-				world2timeText.text = "--";
-			}
-
-			if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
-				int touchCount = missionDataDict[MissionDataType.touchCount];
-				world2touchText.text = "" + missionDataDict[MissionDataType.touchCount];
-			}
-			else {
-				world2timeText.text = "--";
-			}
-		}
+        if (missionDataDict.ContainsKey(MissionDataType.touchCount))
+        {
+            int touchCount = missionDataDict[MissionDataType.touchCount];
+            worldTimeTexts[worldKey].text = "" + missionDataDict[MissionDataType.touchCount];
+        }
+        else
+            worldTimeTexts[worldKey].text = "--";
 	}
 }
