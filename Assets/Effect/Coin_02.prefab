@@ -1340,32 +1340,32 @@ ParticleSystem:
     speedModifier:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 3
       minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
           time: 0
-          value: 1
+          value: 0.33026314
           inSlope: -0.3078079
           outSlope: -0.3078079
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.107311375
-          value: -0.032547474
-          inSlope: -25.870716
-          outSlope: -25.870716
+          time: 0.07577843
+          value: 0.0039515495
+          inSlope: -13.207322
+          outSlope: -13.207322
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.20323849
-          value: -0.56757385
-          inSlope: 0.07389743
-          outSlope: 0.07389743
+          time: 0.104139626
+          value: -0.5985565
+          inSlope: 0.07561014
+          outSlope: 0.07561014
           tangentMode: 0
         - serializedVersion: 2
-          time: 0.31707326
-          value: 0.0000013113022
+          time: 0.1459198
+          value: 0.0072950125
           inSlope: 0
           outSlope: 0
           tangentMode: 0
