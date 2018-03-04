@@ -13,6 +13,8 @@ public class CustomerManager : MonoBehaviour {
 	public float customerCooldown;
 	float lastCustomerMakeTime;
 
+	public GameObject coinPrefab;
+
 	public Customer[] currentWaitingCustomers;
 
 	HeartManager heartManager;
@@ -39,9 +41,17 @@ public class CustomerManager : MonoBehaviour {
 		heartManager.ReduceHeart(1);
 	}
 
+	void MakeCoinParticle(Vector3 pos, float delay) {
+		GameObject coinParticle = Instantiate(coinPrefab, pos + Vector3.down/2f, Quaternion.identity);
+		StartCoroutine(coinParticle.GetComponent<CoinAnim>().StartAnim(delay));
+	}
+
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
-        currentWaitingCustomers[indexInArray].isServeCompleted = true;
-        Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
+		currentWaitingCustomers[indexInArray].isServeCompleted = true;
+
+		MakeCoinParticle(currentWaitingCustomers[indexInArray].transform.position, delay);
+
+		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
 		missionManager.successCustomerCount++;
 		coinManager.AddCoin(100);
