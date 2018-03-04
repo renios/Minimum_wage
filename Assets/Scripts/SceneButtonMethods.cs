@@ -42,16 +42,20 @@ public class SceneButtonMethods : MonoBehaviour
 
     public void NextTutorialPanel()
     {
-        index++;
-        foreach (var tutorial in Tutorials)
-            tutorial.SetActive(false);
-        Tutorials[index].SetActive(true);
-        if (index > 4)
+        if (index == 4)
             GoIngame();
+
+        else {
+            index++;
+            foreach (var tutorial in Tutorials)
+                tutorial.SetActive(false);
+            Tutorials[index].SetActive(true);
+        }
     }
 
     public void PrevTutorialPanel()
     {
+        if (index == 0) return;
         index--;
         foreach (var tutorial in Tutorials)
             tutorial.SetActive(false);
