@@ -319,8 +319,11 @@ MonoBehaviour:
   checkPoint1: {fileID: 114977654851167432}
   checkPoint2: {fileID: 114816643192902894}
   checkPoint3: {fileID: 114875916372469454}
+  makeSuperfoodEffectPrefab: {fileID: 100000, guid: 873dec57db1b84eb4a04e2f4e1e1c047,
+    type: 2}
   inactiveBunny: {fileID: 21300000, guid: 7cd197d12bdf94449b4733704f26c680, type: 3}
   activeBunny: {fileID: 21300000, guid: 3a62003ad01606b42aeafe2d69ac714a, type: 3}
+  trayManager: {fileID: 0}
 --- !u!114 &114977654851167432
 MonoBehaviour:
   m_ObjectHideFlags: 1

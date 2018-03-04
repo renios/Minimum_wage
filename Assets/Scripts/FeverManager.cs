@@ -10,6 +10,8 @@ public class FeverManager : MonoBehaviour {
 	public Image checkPoint2;
 	public Image checkPoint3;
 
+	public GameObject makeSuperfoodEffectPrefab;
+
 	public Sprite inactiveBunny;
 	public Sprite activeBunny;
 
@@ -25,7 +27,7 @@ public class FeverManager : MonoBehaviour {
 	readonly int comboCoef = 5;
 	readonly int customerCoef = 2;
 
-    public TrayManager trayManager;
+	public TrayManager trayManager;
 
 	void ActivePoint(Image point) {
 		point.sprite = activeBunny;
@@ -74,6 +76,26 @@ public class FeverManager : MonoBehaviour {
 		}
 	}
 
+	void MakeSuperfoodByFever(Vector3 startPos) {
+		GameObject newSuperfood;
+		if(MissionData.gotSuperfood == true)
+		{
+			newSuperfood = trayManager.MakeSuperfood();
+			MissionData.gotSuperfood = true;
+		}
+		else
+		{
+			MissionData.gotSuperfood = true;
+			newSuperfood = trayManager.MakeSuperfood();
+		}
+
+		if (newSuperfood != null) {
+			Vector3 endPos = newSuperfood.transform.position;
+			GameObject makeSuperfoodEffect = Instantiate(makeSuperfoodEffectPrefab, startPos, Quaternion.identity);
+			StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(startPos, endPos));
+		}
+	}
+
 	float amount = 0.5f;
 
 	// Update is called once per frame
@@ -84,57 +106,21 @@ public class FeverManager : MonoBehaviour {
 		}
 
 		if (feverAmount > maxAmount/3f && feverLevel < 1) {
-            ActivePoint(checkPoint1);
-            if(MissionData.gotSuperfood == true)
-            {
-                trayManager.MakeSuperfood();
-                MissionData.gotSuperfood = true;
-            }
-            else
-            {
-                MissionData.gotSuperfood = true;
-                trayManager.MakeSuperfood();
-            }
-        }
+			ActivePoint(checkPoint1);
+			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint1.transform.position));
+		}
 
 		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
 			ActivePoint(checkPoint2);
-            if (MissionData.gotSuperfood == true)
-            {
-                trayManager.MakeSuperfood();
-                MissionData.gotSuperfood = true;
-            }
-            else
-            {
-                MissionData.gotSuperfood = true;
-                trayManager.MakeSuperfood();
-            }
-        }
+			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint2.transform.position));
+		}
 
 		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
-            if (MissionData.gotSuperfood == true)
-            {
-                trayManager.MakeSuperfood();
-                MissionData.gotSuperfood = true;
-            }
-            else
-            {
-                MissionData.gotSuperfood = true;
-                trayManager.MakeSuperfood();
-            }
+			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint3.transform.position));
 
-            // MissionData.gotSuperfood = true;
-            // trayManager.MakeSuperfood();
-
-            // MissionData.gotSuperfood = true;
-            // trayManager.MakeSuperfood();
-
-            // MissionData.gotSuperfood = true;
-            // trayManager.MakeSuperfood();
-			
 			Reset();
-        }
+		}
 
 		if (Input.GetKeyDown(KeyCode.V)) {
 			AddFeverAmount(15);

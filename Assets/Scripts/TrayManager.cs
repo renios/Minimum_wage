@@ -71,7 +71,7 @@ public class TrayManager : MonoBehaviour {
 	GameManager gameManager;
 	FeverManager feverManager;
 
-	public void MakeSuperfood() {
+	public GameObject MakeSuperfood() {
 		if(MissionData.gotSuperfood == true)
         {
             // 제일 많은 종류의 음식 중 하나를 픽
@@ -114,7 +114,11 @@ public class TrayManager : MonoBehaviour {
             StartCoroutine(preSuperfood.ChangeToSuperfood());
 
             MissionData.gotSuperfood = false;
+
+			return preSuperfood.gameObject;
         }
+
+		return null;
 	}
 
     public void StartRenewTray()
