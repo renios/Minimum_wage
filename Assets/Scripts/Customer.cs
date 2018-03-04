@@ -84,12 +84,12 @@ public class Customer : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 		if (!initialized) return;
+        if (isServeCompleted) return;
 	
 		UpdateTimer();
 
         if (remainWaitingTime <= waitingTime / toleranceRate && 
-		   startedFury == false && 
-		   isServeCompleted == false)
+		   startedFury == false)
         {
             timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
             customerImageOriginPos = customerImage.transform.localPosition;

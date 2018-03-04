@@ -492,8 +492,8 @@ public class TrayManager : MonoBehaviour {
 
                 if(matchedCustomer != null)
                 {
-                    //매칭되어 나가는 도중 분노 떨기를 시작할 경우 괴이한 모양이 되어 이를 막기 위해 임시로 furyCount 활용
-                    matchedCustomer.furyCount = -100;
+                    //매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
+                    matchedCustomer.isServeCompleted = true;
                     
                     // 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
                     matchedCustomer.customerImage.transform.DOJump(
