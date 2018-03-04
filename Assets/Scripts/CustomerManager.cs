@@ -14,6 +14,7 @@ public class CustomerManager : MonoBehaviour {
 	float lastCustomerMakeTime;
 
 	public GameObject coinPrefab;
+	public GameObject successEffectPrefab;
 
 	public Customer[] currentWaitingCustomers;
 
@@ -42,7 +43,9 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	void MakeCoinParticle(Vector3 pos, float delay) {
-		GameObject coinParticle = Instantiate(coinPrefab, pos + Vector3.down/2f, Quaternion.identity);
+		Vector3 prefabPos = pos + Vector3.down/2f;
+		Instantiate(successEffectPrefab, prefabPos, Quaternion.identity);
+		GameObject coinParticle = Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 		StartCoroutine(coinParticle.GetComponent<CoinAnim>().StartAnim(delay));
 	}
 

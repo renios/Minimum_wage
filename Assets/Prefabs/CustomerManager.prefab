@@ -694,6 +694,7 @@ MonoBehaviour:
   maxFuryRate: 0.05
   customerCooldown: 3
   coinPrefab: {fileID: 1171022183172706, guid: e2180a98793b2491285baf2ab2c47351, type: 2}
+  successEffectPrefab: {fileID: 100000, guid: 60d5b99afef2a4ab0aa94bf11af98296, type: 2}
   currentWaitingCustomers:
   - {fileID: 0}
   - {fileID: 0}
