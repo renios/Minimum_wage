@@ -15,6 +15,7 @@ public class CustomerManager : MonoBehaviour {
 
 	public GameObject coinPrefab;
 	public GameObject successEffectPrefab;
+	public GameObject resetWaitingTimeEffectPrefab;
 
 	public Customer[] currentWaitingCustomers;
 
@@ -29,9 +30,12 @@ public class CustomerManager : MonoBehaviour {
         {
             foreach (var customer in currentWaitingCustomers)
             {
-                if (customer != null)
+                if (customer != null) {
+					Vector3 startPos = Vector3.up + customer.GetComponent<Customer>().customerImage.GetComponent<RectTransform>().position;
+					Instantiate(resetWaitingTimeEffectPrefab, startPos, Quaternion.identity);
                     customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
-            }
+				}
+			}
         }
         MissionData.gotTimeItem = false;
     }

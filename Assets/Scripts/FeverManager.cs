@@ -76,7 +76,7 @@ public class FeverManager : MonoBehaviour {
 		}
 	}
 
-	void MakeSuperfoodByFever(Vector3 startPos) {
+	public void MakeSuperfoodByFever(Vector3 startPos) {
 		GameObject newSuperfood;
 		if(MissionData.gotSuperfood == true)
 		{

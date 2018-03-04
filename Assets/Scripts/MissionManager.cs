@@ -141,7 +141,7 @@ public class MissionManager : MonoBehaviour {
 		}
 		
 		// 테스트용 클리어 치트
-		if (Input.GetKeyDown(KeyCode.P)) {
+		if (Input.GetKeyDown(KeyCode.C)) {
 			StartCoroutine(gameManager.ShowClearCanvas());
 			UpdateProgress();
 		}

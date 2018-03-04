@@ -311,7 +311,6 @@ GameObject:
   - component: {fileID: 222619875182718044}
   - component: {fileID: 114391422707858744}
   - component: {fileID: 114047445028152474}
-  - component: {fileID: 114506251831547080}
   - component: {fileID: 95066308509426408}
   m_Layer: 5
   m_Name: StartButton
@@ -433,7 +432,6 @@ GameObject:
   - component: {fileID: 222479745960876544}
   - component: {fileID: 114669295589046052}
   - component: {fileID: 114512039010644372}
-  - component: {fileID: 114757083509053956}
   - component: {fileID: 95234706291287708}
   m_Layer: 5
   m_Name: BackButton
@@ -567,7 +565,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114506251831547080}
+      - m_Target: {fileID: 0}
         m_MethodName: GoToStage
         m_Mode: 1
         m_Arguments:
@@ -996,18 +994,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
---- !u!114 &114506251831547080
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1659184005548810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e0189eb362274254a15b03c82c2a15e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  missionPanel: {fileID: 114777776313208978}
 --- !u!114 &114512039010644372
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1246,18 +1232,6 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.Toggle+ToggleEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
   m_IsOn: 0
---- !u!114 &114757083509053956
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1924349005658286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e0189eb362274254a15b03c82c2a15e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  missionPanel: {fileID: 0}
 --- !u!114 &114759807737954870
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1389,15 +1363,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34bd60d910bdc42eb859217eb6a1f10b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  world1: {fileID: 1895731087486254}
-  world2: {fileID: 1137269004787480}
+  worlds: []
+  worldCustomerTexts: []
+  worldTimeTexts: []
+  worldTouchTexts: []
   todoText: {fileID: 114940808836510022}
   dayText: {fileID: 114759807737954870}
-  world1customerText: {fileID: 114122985986497542}
-  world1timeText: {fileID: 114812923012085696}
-  world2customerText: {fileID: 114325150770269848}
-  world2timeText: {fileID: 114514305367352476}
-  world2touchText: {fileID: 114936678357826378}
   resetTimeItem: {fileID: 114428651055513164}
   superfoodItem: {fileID: 114182291675445880}
   renewTrayItem: {fileID: 114753869088186466}
