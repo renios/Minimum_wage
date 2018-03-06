@@ -14,7 +14,7 @@ public class Customer : MonoBehaviour {
 	public Image timerImage;
 	public Image customerImage;
     public GameObject[] orderToBeDestroyed;   // 매칭 애니메이션 때 손님 이미지와 주문판 이미지들을 분리하기 위해 미리 주문판 이미지들을 받아놓음
-	Vector3 customerImageOriginPos;
+	public Vector3 customerImageOriginPos;
     public bool isServeCompleted;            // 서빙 완료돼서 나갈때 true
 	public bool isServed = false;            // 동시체크를 위한 변수
 	public Enums.Gender gender;				// 효과음 성별 구분용
@@ -24,7 +24,7 @@ public class Customer : MonoBehaviour {
 
     public List<FoodInOrder> orderedFoods = new List<FoodInOrder>();
 
-    bool startedFury = false;
+    public bool startedFury = false;
 	bool initialized = false;
 
 	CustomerManager customerManager;

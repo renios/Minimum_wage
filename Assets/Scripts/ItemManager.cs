@@ -42,7 +42,6 @@ public class ItemManager : MonoBehaviour {
 
     public void UseMakeSuperfoodItem() {
         feverManager.MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(MakeSuperfoodButton.transform.position));
-        //trayManager.MakeSuperfood();
     }
 
     public void UseTimeResetItem() {
