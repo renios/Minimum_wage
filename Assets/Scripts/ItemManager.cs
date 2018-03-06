@@ -57,7 +57,6 @@ public class ItemManager : MonoBehaviour {
 
     public void UseMakeSuperfoodItem() {
         feverManager.MakeSuperfoodByFever(MakeSuperfoodItemButton.transform.position);
-        trayManager.MakeSuperfood();
     }
 
     public void UseTimeResetItem() {

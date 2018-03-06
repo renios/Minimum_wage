@@ -34,7 +34,13 @@ public class CustomerManager : MonoBehaviour {
 					Vector3 startPos = Vector3.up + customer.GetComponent<Customer>().customerImage.GetComponent<RectTransform>().position;
 					Instantiate(resetWaitingTimeEffectPrefab, startPos, Quaternion.identity);
                     customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
-				}
+                    if(customer.startedFury)
+                    {
+                        customer.startedFury = false;
+                        customer.customerImage.transform.localPosition = customer.customerImageOriginPos;
+                        customer.timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
+                    }
+                }
 			}
         }
         MissionData.gotTimeItem = false;
