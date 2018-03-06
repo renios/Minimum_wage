@@ -30,6 +30,7 @@ public class FeverManager : MonoBehaviour {
 	public TrayManager trayManager;
 
 	void ActivePoint(Image point) {
+		point.GetComponentInChildren<ParticleSystem>().Play();
 		point.sprite = activeBunny;
 		point.color = Color.white;
 		feverLevel += 1;
@@ -38,10 +39,13 @@ public class FeverManager : MonoBehaviour {
 	void InactiveAllPoints() {
 		checkPoint1.sprite = inactiveBunny;
 		checkPoint1.color = Color.gray;
+		checkPoint1.GetComponentInChildren<ParticleSystem>().Stop();
 		checkPoint2.sprite = inactiveBunny;
 		checkPoint2.color = Color.gray;
+		checkPoint2.GetComponentInChildren<ParticleSystem>().Stop();
 		checkPoint3.sprite = inactiveBunny;
 		checkPoint3.color = Color.gray;
+		checkPoint3.GetComponentInChildren<ParticleSystem>().Stop();
 
 		feverLevel = 0;
 	}
@@ -107,18 +111,17 @@ public class FeverManager : MonoBehaviour {
 
 		if (feverAmount > maxAmount/3f && feverLevel < 1) {
 			ActivePoint(checkPoint1);
-			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint1.transform.position));
+			MakeSuperfoodByFever(checkPoint1.transform.position);
 		}
 
 		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
 			ActivePoint(checkPoint2);
-			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint2.transform.position));
+			MakeSuperfoodByFever(checkPoint2.transform.position);
 		}
 
 		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
-			MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(checkPoint3.transform.position));
-
+			MakeSuperfoodByFever(checkPoint3.transform.position);
 			Reset();
 		}
 

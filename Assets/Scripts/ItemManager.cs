@@ -6,11 +6,14 @@ using UnityEngine.UI;
 public class ItemManager : MonoBehaviour {
 
     public GameObject TimeItem;
-    public GameObject SuperFood;
-    public GameObject TrayItem;
+    public GameObject SuperFoodItem;
+    public GameObject ResetTrayItem;
     public Button TimeItemButton;
-    public Button MakeSuperfoodButton;
-    public Button ResetTrayButton; 
+    public Button MakeSuperfoodItemButton;
+    public Button ResetTrayItemButton; 
+    public ParticleSystem TimeItemEffect;
+    public ParticleSystem MakeSuperfoodItemEffect;
+    public ParticleSystem ResetTrayItemEffect;
     public GameObject OpenBin;
     public GameObject ClosedBin;
 
@@ -26,22 +29,34 @@ public class ItemManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        if (MissionData.gotTimeItem && !TimeItemButton.interactable)
+        if (MissionData.gotTimeItem && !TimeItemButton.interactable) {
             TimeItemButton.interactable = true;
-        else if (!MissionData.gotTimeItem && TimeItemButton.interactable)
+            TimeItemEffect.Play();
+        }
+        else if (!MissionData.gotTimeItem && TimeItemButton.interactable) {
             TimeItemButton.interactable = false;
-        if (MissionData.gotSuperfood && !MakeSuperfoodButton.interactable)
-            MakeSuperfoodButton.interactable = true;
-        else if (!MissionData.gotSuperfood && MakeSuperfoodButton.interactable)
-            MakeSuperfoodButton.interactable = false;
-        if (MissionData.gotTrayItem && !ResetTrayButton.interactable)
-            ResetTrayButton.interactable = true;
-        else if (!MissionData.gotTrayItem && ResetTrayButton.interactable)
-            ResetTrayButton.interactable = false;
+            TimeItemEffect.Stop();
+        }
+        if (MissionData.gotSuperfood && !MakeSuperfoodItemButton.interactable) {
+            MakeSuperfoodItemButton.interactable = true;
+            MakeSuperfoodItemEffect.Play();
+        }
+        else if (!MissionData.gotSuperfood && MakeSuperfoodItemButton.interactable) {
+            MakeSuperfoodItemButton.interactable = false;
+            MakeSuperfoodItemEffect.Stop();
+        }
+        if (MissionData.gotTrayItem && !ResetTrayItemButton.interactable) {
+            ResetTrayItemButton.interactable = true;
+            ResetTrayItemEffect.Play();
+        }
+        else if (!MissionData.gotTrayItem && ResetTrayItemButton.interactable) {
+            ResetTrayItemButton.interactable = false;
+            ResetTrayItemEffect.Stop();
+        }
     }
 
     public void UseMakeSuperfoodItem() {
-        feverManager.MakeSuperfoodByFever(Camera.main.ScreenToWorldPoint(MakeSuperfoodButton.transform.position));
+        feverManager.MakeSuperfoodByFever(MakeSuperfoodItemButton.transform.position);
         trayManager.MakeSuperfood();
     }
 

@@ -65,6 +65,9 @@ public class TrayManager : MonoBehaviour {
     // 콤보 텍스트 prefab
 	public GameObject comboTextPrefab;
 
+	// 음식 맞춰지는 이펙트
+	public GameObject matchingEffect;
+
     // 매니저들 미리 받아놓기
 	CustomerManager customerManager;
 	MissionManager missionManager;
@@ -156,6 +159,13 @@ public class TrayManager : MonoBehaviour {
     {
         isOnBin = false;
     }
+
+	void ShowMatchingEffect(List<FoodOnTray> foods) {
+		Vector3 avgPos = Vector3.zero;
+		foods.ForEach(food => avgPos += food.transform.position/4f);
+
+		Instantiate(matchingEffect, avgPos, Quaternion.identity);
+	}
 
 	void ShowComboText (List<FoodOnTray> foods) {
 		Vector3 avgPos = Vector3.zero;
@@ -433,6 +443,8 @@ public class TrayManager : MonoBehaviour {
 				List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
 												.FindAll(customer => customer != null && !customer.isServed);
 				remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+
+				ShowMatchingEffect(matchedFoods);
 
 				if (IsComboCountUp()) {
 					comboCount++;
