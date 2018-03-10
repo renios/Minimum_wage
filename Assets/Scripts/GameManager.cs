@@ -65,25 +65,10 @@ public class GameManager : MonoBehaviour {
     {
 		SoundManager.Play(MusicType.Start);
         startCanvas.SetActive(true);
-        string[] countdownTexts = { "3", "2", "1", "Start!" };
-        Text startText = startCanvas.GetComponentInChildren<Text>();
-        startText.text = "";
-        int startFontSize = 250;
-        bool isShrinking = false;
+        startCanvas.GetComponent<Animator>().Play("StartCountdown");
 
-        for(int i = 0; i < 4; i++)
-        {
-            isShrinking = true;
-            startText.text = countdownTexts[i];
-            startText.fontSize = startFontSize;
-            while (isShrinking)
-            {
-                startText.fontSize -= 1;
-                yield return new WaitForSeconds(0.002f);
-                if (startText.fontSize < 220) isShrinking = false;
-            }
-            startText.text = "";
-        }
+        // 숫자로 말고 애니메이션 크기에 따라서 애니메이션 끝날 때까지 기다리게 하고 싶은데 어떻게 해야 하는지 모르겠음
+        yield return new WaitForSeconds(4f);
 
 		SoundManager.Play(MusicType.Ambient);
         startCanvas.SetActive(false);
