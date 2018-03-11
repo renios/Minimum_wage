@@ -36,6 +36,13 @@ public class GameStateManager : MonoBehaviour {
 
 	IEnumerator Idle() {
 		while (gameState == GameState.Idle) {
+			// 서빙 불가일 때 판 리셋
+			if (trayManager.NoMatchingFoods()) {
+				gameState = GameState.RenewTray;
+				yield return StartCoroutine(trayManager.RenewTray());
+				gameState = GameState.Idle;
+			}
+
 			// 음식을 집었을 때 -> Picked
 			if (pickedTrigger) {
 				yield return StartCoroutine(trayManager.PickFood(pickedFood));
@@ -50,7 +57,8 @@ public class GameStateManager : MonoBehaviour {
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
-			// 아이템을 썼을 때
+
+			// 아이템을 썼을 때 -> ItemManager에서 처리
 
 			yield return null;
 		}
@@ -114,17 +122,6 @@ public class GameStateManager : MonoBehaviour {
 			invalidTrigger = false;
 			gameState = GameState.Idle;
 			yield break;
-		}
-	}
-
-	// 바로 넘어가서 안씀
-	IEnumerator Change() {
-		while (gameState == GameState.Change) {
-			// 두 음식의 위치를 바꾸고, Matching으로
-			// 음식의 위치 서로 바꾸기
-
-			gameState = GameState.Matching;
-			yield return StartCoroutine(Matching());
 		}
 	}
 

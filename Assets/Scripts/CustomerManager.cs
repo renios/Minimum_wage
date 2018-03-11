@@ -24,27 +24,27 @@ public class CustomerManager : MonoBehaviour {
 	CoinManager coinManager;
 	MissionManager missionManager;
 
-    public void ResetWaitingTime()
-    {
-        if(MissionData.gotTimeItem == true)
-        {
-            foreach (var customer in currentWaitingCustomers)
-            {
-                if (customer != null) {
+	public void ResetWaitingTime()
+	{
+		if (MissionData.gotTimeItem == true)
+		{
+			foreach (var customer in currentWaitingCustomers)
+			{
+				if (customer != null) {
 					Vector3 startPos = Vector3.up + customer.GetComponent<Customer>().customerImage.GetComponent<RectTransform>().position;
 					Instantiate(resetWaitingTimeEffectPrefab, startPos, Quaternion.identity);
-                    customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
-                    if(customer.startedFury)
-                    {
-                        customer.startedFury = false;
-                        customer.customerImage.transform.localPosition = customer.customerImageOriginPos;
-                        customer.timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
-                    }
-                }
+					customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+					if(customer.startedFury)
+					{
+						customer.startedFury = false;
+						customer.customerImage.transform.localPosition = customer.customerImageOriginPos;
+						customer.timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
+					}
+				}
 			}
-        }
-        MissionData.gotTimeItem = false;
-    }
+		}
+		MissionData.gotTimeItem = false;
+	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
@@ -76,8 +76,8 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 		customer.Initialize(indexInArray, this.waitingTime);
-        customer.toleranceRate = toleranceRate;
-        customer.maxFuryRate = maxFuryRate;
+		customer.toleranceRate = toleranceRate;
+		customer.maxFuryRate = maxFuryRate;
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}

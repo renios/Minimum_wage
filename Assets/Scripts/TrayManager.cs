@@ -74,6 +74,58 @@ public class TrayManager : MonoBehaviour {
 	GameManager gameManager;
 	FeverManager feverManager;
 
+	public GameObject FindSuperfoodTarget() {
+		if(MissionData.gotSuperfood == true)
+		{
+			// 제일 많은 종류의 음식 중 하나를 픽
+			Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
+			List<FoodOnTray> foodList = new List<FoodOnTray>();
+			for (int row = 0; row < ROW; row++)
+			{
+				for (int col = 0; col < COL; col++)
+				{
+					foodList.Add(foods[row, col]);
+				}
+			}
+			foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+			foodList.ForEach(food => {
+				FoodType type = food.foodType;
+				if (counter.ContainsKey(type))
+				{
+					int count = counter[type];
+					counter[type] = count + 1;
+				}
+				else
+				{
+					counter.Add(type, 1);
+				}
+			});
+
+			KeyValuePair<FoodType, int> maxValuePair = counter.First();
+			foreach (var pair in counter)
+			{
+				if (pair.Value > maxValuePair.Value)
+				{
+					maxValuePair = pair;
+				}
+			}
+			FoodType mostFoodType = maxValuePair.Key;
+			var mostFoodTypeFoods = foodList.FindAll(food => !food.isSuperfood && food.foodType == mostFoodType);
+			FoodOnTray preSuperfood = mostFoodTypeFoods[Random.Range(0, mostFoodTypeFoods.Count)];
+
+			// 그 음식을 슈퍼푸드로 바꿈
+			// StartCoroutine(preSuperfood.ChangeToSuperfood());
+
+			MissionData.gotSuperfood = false;
+			print("madeSuperfood");
+			print("gotSuperFood = " + MissionData.gotSuperfood);
+
+			return preSuperfood.gameObject;
+		}
+
+		return null;
+	}
+
 	public GameObject MakeSuperfood() {
 		if(MissionData.gotSuperfood == true)
 		{
@@ -128,14 +180,14 @@ public class TrayManager : MonoBehaviour {
 
 	public void StartRenewTray()
 	{
-		if(MissionData.gotTrayItem == true)
+		if (MissionData.gotTrayItem == true)
 		{
 			StartCoroutine(RenewTray());
 			MissionData.gotTrayItem = false;
 		}
 	}
 
-	IEnumerator RenewTray()
+	public IEnumerator RenewTray()
 	{
 		yield return new WaitWhile(() => isPlayingRefillAnim);
 		yield return new WaitWhile(() => isPlayingMovingAnim);
@@ -193,7 +245,7 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-	bool NoMatchingFoods() {
+	public bool NoMatchingFoods() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
 		List<FoodOnTray> foodsList = new List<FoodOnTray>();
 
@@ -799,7 +851,7 @@ public class TrayManager : MonoBehaviour {
 		if (!gameManager.isPlaying) return;
 
 		if (Input.GetKeyDown(KeyCode.S)) {
-			MakeSuperfood();
+			// MakeSuperfood();
 		}
 
 		if (Input.GetMouseButtonDown(0)) {

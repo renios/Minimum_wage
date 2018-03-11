@@ -35,6 +35,8 @@ namespace Enums {
 		Matching,
 		Combo,
 		Refill,
+		RenewTray,
+		UseItem,
 		End
 	}
 }

@@ -67,19 +67,21 @@ public class FoodOnTray : MonoBehaviour {
 	public IEnumerator ChangeToSuperfood() {
 		isSuperfood = true;
 
-        string superfoodPath = "Foods/World" + ( ((MissionData.stageIndex - 1) / 10) + 1 ).ToString("N0") + "/food09";
+		string superfoodPath = "Foods/World" + ( ((MissionData.stageIndex - 1) / 10) + 1 ).ToString("N0") + "/food09";
 
-        Sprite superfoodSprite = Resources.Load(superfoodPath, typeof(Sprite)) as Sprite;
-        GetComponent<SpriteRenderer>().sprite = superfoodSprite;
+		Sprite superfoodSprite = Resources.Load(superfoodPath, typeof(Sprite)) as Sprite;
+		GetComponent<SpriteRenderer>().sprite = superfoodSprite;
 
 		superfoodEffect.SetActive(true);
 
-        float delay = 0.2f;
+		float delay = 0.2f;
 		float originScale = transform.localScale.x;
 		Tween tw = transform.DOScale(originScale*1.5f, delay);
 		yield return tw.WaitForCompletion();
 		transform.DOScale(originScale, delay);
 
 		// yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
+
+		MissionData.gotSuperfood = false;
 	}
 }
