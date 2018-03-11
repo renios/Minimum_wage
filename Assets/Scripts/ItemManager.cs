@@ -67,7 +67,6 @@ public class ItemManager : MonoBehaviour {
                 Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
             StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
         }
-        //feverManager.MakeSuperfoodByFever(MakeSuperfoodItemButton.transform.position);
     }
 
     public void UseTimeResetItem() {
@@ -82,11 +81,13 @@ public class ItemManager : MonoBehaviour {
     {
         OpenBin.SetActive(true);
         ClosedBin.SetActive(false);
+        trayManager.isOnBin = true;
     }
 
     public void BinClose()
     {
         OpenBin.SetActive(false);
         ClosedBin.SetActive(true);
+        trayManager.isOnBin = false;
     }
 }

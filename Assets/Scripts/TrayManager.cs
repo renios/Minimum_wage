@@ -155,16 +155,6 @@ public class TrayManager : MonoBehaviour {
         yield return StartCoroutine(RefillFoods());
     }
 
-    public void OpenBin()
-    {
-        isOnBin = true;
-    }
-
-    public void CloseBin()
-    {
-        isOnBin = false;
-    }
-
 	void ShowMatchingEffect(List<FoodOnTray> foods) {
 		Vector3 avgPos = Vector3.zero;
 		foods.ForEach(food => avgPos += food.transform.position/4f);
