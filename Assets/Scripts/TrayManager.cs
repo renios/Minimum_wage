@@ -683,6 +683,98 @@ public class TrayManager : MonoBehaviour {
 		lastComboTime = comboDelayByMoving + 1;
 	}
 
+	public void PickFood() {
+		//Get the mouse position on the screen and send a raycast into the game world from that position.
+		Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
+
+		//If something was hit, the RaycastHit2D.collider will not be null.
+		if ((hit.collider != null) && (!isPlayingMovingAnim))
+		{
+			SoundManager.Play(SoundType.Swap);
+
+			pickedFood1 = hit.collider.gameObject;
+			if(!pickedFood1.GetComponent<FoodOnTray>().isEnlarging) {
+				StartCoroutine(EnlargePickedFood(pickedFood1));
+			}
+			pickedFood1.GetComponent<FoodOnTray>().isEnlarging = true;
+			pickedFood1.GetComponent<HighlightBorder>().ActiveBorder();
+			pickedFood1Origin = foodPoses[(int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x, 
+				(int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y].position;
+		}
+	}
+
+	public void ViewPickedFood() {
+		Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+		RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
+
+		if (pickedFood1 != null)
+		{
+			// 집은 음식 마우스/손가락 따라다니게 하기
+			pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
+			// 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
+			if (hit.Length > 1 && hit[1].collider != null)
+			{
+				toBeSwitched.SetActive(true);
+				toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
+				toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;
+				toBeSwitched.transform.position = pickedFood1Origin;
+			}
+		}
+	}
+
+	public void DropFood() {
+		// 교체 예상 이미지를 보여주지 않도록 비활성화
+		toBeSwitched.SetActive(false);
+
+		if (pickedFood1 != null && (!isPlayingMovingAnim))
+		{
+			StopCoroutine(EnlargePickedFood(pickedFood1));
+			pickedFood1.transform.localScale = new Vector2(firstScaleX, firstScaleY);
+			pickedFood1.GetComponent<HighlightBorder>().InactiveBorder();
+			
+			//Get the mouse position on the screen and send a raycast into the game world from that position.
+			Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+			RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
+
+			//If something was hit, the RaycastHit2D.collider will not be null.
+			if(hit.Length>1)
+			{
+				if (hit[1].collider != null && !hit[1].collider.gameObject.GetComponent<FoodOnTray>().isFoodMoving)
+					pickedFood2 = hit[1].collider.gameObject;
+
+				if ((pickedFood1 != null) && (pickedFood2 != null))
+				{
+					// 유효이동일 경우에만 카운트 상승
+					SoundManager.Play(SoundType.Swap);
+					moveCountAfterMatching++;
+					// 이동 성공 시 터치카운트를 1 올림
+					missionManager.currentTouchCount += 1;
+					StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
+				}
+			}
+			else if(isOnBin)
+			{
+				// 쓰레기통에 버려도 터치카운트를 1 올림
+				missionManager.currentTouchCount += 1;
+				Destroy(pickedFood1);
+				int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
+				int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
+				foods[posX, posY] = null;
+				pickedFood1 = null;
+				StartCoroutine(RefillFoods(1));
+			}
+			else
+			{
+				StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin));
+			}
+
+			//집었던 거 초기화
+			if(pickedFood1 != null)
+				pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (!gameManager.isPlaying) return;
@@ -692,96 +784,18 @@ public class TrayManager : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonDown(0)) {
-			//Get the mouse position on the screen and send a raycast into the game world from that position.
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
-
-            //If something was hit, the RaycastHit2D.collider will not be null.
-            if ((hit.collider != null) && (!isPlayingMovingAnim))
-            {
-				SoundManager.Play(SoundType.Swap);
-
-				pickedFood1 = hit.collider.gameObject;
-                if(!pickedFood1.GetComponent<FoodOnTray>().isEnlarging) {
-                    StartCoroutine(EnlargePickedFood(pickedFood1));
-				}
-                pickedFood1.GetComponent<FoodOnTray>().isEnlarging = true;
-				pickedFood1.GetComponent<HighlightBorder>().ActiveBorder();
-                pickedFood1Origin = foodPoses[(int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x, 
-                    (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y].position;
-            }
+			// PickFood();
+			FindObjectOfType<GameStateManager>().PickedTrigger();
 		}
-        
-        if(Input.GetMouseButton(0))
-        {
-            Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
-
-            if (pickedFood1 != null)
-            {
-                // 집은 음식 마우스/손가락 따라다니게 하기
-                pickedFood1.transform.position = new Vector3(worldPoint.x, worldPoint.y, -3);
-                // 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
-                if (hit.Length > 1 && hit[1].collider != null)
-                {
-                    toBeSwitched.SetActive(true);
-                    toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
-                    toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;
-                    toBeSwitched.transform.position = pickedFood1Origin;
-                }
-            }
-        }
+		
+		if(Input.GetMouseButton(0))
+		{
+			// ViewPickedFood();
+		}
 
 		if (Input.GetMouseButtonUp(0)) {
-            // 교체 예상 이미지를 보여주지 않도록 비활성화
-            toBeSwitched.SetActive(false);
-
-            if (pickedFood1 != null && (!isPlayingMovingAnim))
-            {
-                StopCoroutine(EnlargePickedFood(pickedFood1));
-                pickedFood1.transform.localScale = new Vector2(firstScaleX, firstScaleY);
-				pickedFood1.GetComponent<HighlightBorder>().InactiveBorder();
-                
-                //Get the mouse position on the screen and send a raycast into the game world from that position.
-                Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-                RaycastHit2D[] hit = Physics2D.RaycastAll(worldPoint, Vector2.zero);
-
-                //If something was hit, the RaycastHit2D.collider will not be null.
-                if(hit.Length>1)
-                {
-                    if (hit[1].collider != null && !hit[1].collider.gameObject.GetComponent<FoodOnTray>().isFoodMoving)
-                        pickedFood2 = hit[1].collider.gameObject;
-
-                    if ((pickedFood1 != null) && (pickedFood2 != null))
-                    {
-						// 유효이동일 경우에만 카운트 상승
-						SoundManager.Play(SoundType.Swap);
-						moveCountAfterMatching++;
-						// 이동 성공 시 터치카운트를 1 올림
-						missionManager.currentTouchCount += 1;
-						StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
-                    }
-                }
-                else if(isOnBin)
-                {
-					// 쓰레기통에 버려도 터치카운트를 1 올림
-					missionManager.currentTouchCount += 1;
-                    Destroy(pickedFood1);
-                    int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
-                    int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
-                    foods[posX, posY] = null;
-                    pickedFood1 = null;
-                    StartCoroutine(RefillFoods(1));
-                }
-                else
-                {
-                    StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin));
-                }
-
-                //집었던 거 초기화
-                if(pickedFood1 != null)
-                    pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
-            }
+			// DropFood();
+			FindObjectOfType<GameStateManager>().DroppedTrigger();
 		}
 
 		lastComboTime += Time.deltaTime;

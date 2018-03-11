@@ -81,9 +81,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	void Start () {
+	public void StartByGSM () {
 		isEnd = false;
-        //StartCoroutine(ShowMissionStartCanvas());
         StartCoroutine(StartAnimation());
     }
 	

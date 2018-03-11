@@ -14,4 +14,16 @@ namespace Enums {
 	public enum Gender{
 		Female, Male
 	}
+
+	public enum GameState {
+		Start,
+		Idle,
+		Picked,
+		Dropped,
+		Change,
+		Matching,
+		Combo,
+		Refill,
+		End
+	}
 }
