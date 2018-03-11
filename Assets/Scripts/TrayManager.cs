@@ -836,7 +836,7 @@ public class TrayManager : MonoBehaviour {
 			}
 			else if(isOnBin)
 			{
-				BinDrop();
+				FindObjectOfType<GameStateManager>().BinTrigger();
 			}
 			else
 			{

@@ -126,7 +126,6 @@ public class FeverManager : MonoBehaviour {
 		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
 			coroutines.Add(MakeSuperfoodByFever(checkPoint3.transform.position));
-			// Reset();
 		}
 
 		if (coroutines.Count == 1) {
@@ -139,7 +138,7 @@ public class FeverManager : MonoBehaviour {
 			yield return StartCoroutine(coroutines[coroutines.Count - 1]);
 		}
 
-		if (feverAmount >= maxAmount && feverLevel < 3) {
+		if (feverLevel >= 3) {
 			Reset();
 		}
 	}
