@@ -73,7 +73,7 @@ public class ItemManager : MonoBehaviour {
             Vector3 endPos = newSuperfood.transform.position;
             GameObject makeSuperfoodEffect = 
                 Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
-            StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
+            yield return StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
         }
 
         yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());

@@ -793,7 +793,7 @@ public class TrayManager : MonoBehaviour {
 			pickedFood1.transform.localScale = new Vector3(firstScaleX, firstScaleY);
 	}
 
-	void BinDrop() {
+	public void BinDrop() {
 		// 쓰레기통에 버려도 터치카운트를 1 올림
 		missionManager.currentTouchCount += 1;
 		Destroy(pickedFood1);
@@ -801,7 +801,6 @@ public class TrayManager : MonoBehaviour {
 		int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
 		foods[posX, posY] = null;
 		pickedFood1 = null;
-		StartCoroutine(RefillFoods(1));
 
 		//집었던 거 초기화
 		if(pickedFood1 != null)

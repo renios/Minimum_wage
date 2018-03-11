@@ -80,49 +80,75 @@ public class FeverManager : MonoBehaviour {
 		}
 	}
 
-	public void MakeSuperfoodByFever(Vector3 startPos) {
+	public IEnumerator MakeSuperfoodByFever(Vector3 startPos) {
 		GameObject newSuperfood;
 		if(MissionData.gotSuperfood == true)
 		{
-			newSuperfood = trayManager.MakeSuperfood();
+			newSuperfood = trayManager.FindSuperfoodTarget();
+			yield return StartCoroutine(MakeSuperfoodEffect(startPos, newSuperfood));
+			yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
+			// newSuperfood = trayManager.MakeSuperfood();
 			MissionData.gotSuperfood = true;
 		}
 		else
 		{
 			MissionData.gotSuperfood = true;
-			newSuperfood = trayManager.MakeSuperfood();
+			newSuperfood = trayManager.FindSuperfoodTarget();
+			yield return StartCoroutine(MakeSuperfoodEffect(startPos, newSuperfood));
+			yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
+			// newSuperfood = trayManager.MakeSuperfood();
 		}
+	}
 
-		if (newSuperfood != null) {
-			Vector3 endPos = newSuperfood.transform.position;
+	IEnumerator MakeSuperfoodEffect(Vector3 startPos, GameObject target) {
+		if (target != null) {
+			Vector3 endPos = target.transform.position;
 			GameObject makeSuperfoodEffect = Instantiate(makeSuperfoodEffectPrefab, startPos, Quaternion.identity);
-			StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(startPos, endPos));
+			yield return StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(startPos, endPos));
 		}
 	}
 
 	float amount = 0.5f;
+
+	public IEnumerator CheckFeverPoint() {
+		List<IEnumerator> coroutines = new List<IEnumerator>();
+
+		if (feverAmount > maxAmount/3f && feverLevel < 1) {
+			ActivePoint(checkPoint1);
+			coroutines.Add(MakeSuperfoodByFever(checkPoint1.transform.position));
+		}
+
+		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
+			ActivePoint(checkPoint2);
+			coroutines.Add(MakeSuperfoodByFever(checkPoint2.transform.position));
+		}
+
+		if (feverAmount >= maxAmount && feverLevel < 3) {
+			ActivePoint(checkPoint3);
+			coroutines.Add(MakeSuperfoodByFever(checkPoint3.transform.position));
+			// Reset();
+		}
+
+		if (coroutines.Count == 1) {
+			yield return StartCoroutine(coroutines[0]);
+		}
+		else if (coroutines.Count > 1) {
+			for (int i = 0; i < coroutines.Count - 1; i++) {
+				StartCoroutine(coroutines[i]);
+			}
+			yield return StartCoroutine(coroutines[coroutines.Count - 1]);
+		}
+
+		if (feverAmount >= maxAmount && feverLevel < 3) {
+			Reset();
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
 		if (feverAmount < goalAmount) {
 			feverAmount += amount;
 			bar.fillAmount = feverAmount / maxAmount;
-		}
-
-		if (feverAmount > maxAmount/3f && feverLevel < 1) {
-			ActivePoint(checkPoint1);
-			// MakeSuperfoodByFever(checkPoint1.transform.position);
-		}
-
-		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
-			ActivePoint(checkPoint2);
-			// MakeSuperfoodByFever(checkPoint2.transform.position);
-		}
-
-		if (feverAmount >= maxAmount && feverLevel < 3) {
-			ActivePoint(checkPoint3);
-			// MakeSuperfoodByFever(checkPoint3.transform.position);
-			Reset();
 		}
 
 		if (Input.GetKeyDown(KeyCode.V)) {

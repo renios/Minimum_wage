@@ -9,6 +9,7 @@ public class GameStateManager : MonoBehaviour {
 
 	GameManager gameManager;
 	TrayManager trayManager;
+	FeverManager feverManager;
 
 	IEnumerator StartGame() {
 		// 카운트다운을 세고 게임을 시작한다
@@ -90,13 +91,20 @@ public class GameStateManager : MonoBehaviour {
 
 	bool validTrigger = false;
 	RaycastHit2D castedObj;
+	bool binTrigger = false;
 	bool invalidTrigger = false;
 
 	public void ValidTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Picked && !validTrigger) {
 			castedObj = hit;
 			validTrigger = true;
-		} 
+		}
+	}
+
+	public void BinTrigger() {
+		if (gameState == GameState.Picked && !binTrigger) {
+			binTrigger = true;
+		}
 	}
 
 	public void InvalidTrigger() {
@@ -114,6 +122,14 @@ public class GameStateManager : MonoBehaviour {
 				// gameState = GameState.Change;
 				// yield return StartCoroutine(Change());
 				yield return StartCoroutine(Matching());
+			}
+
+			// 쓰레기통에 버릴 경우 -> Refill
+			if (binTrigger) {
+				trayManager.BinDrop();
+				binTrigger = false;
+				gameState = GameState.Refill;
+				yield return StartCoroutine(Refill(GameState.Dropped));
 			}
 
 			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
@@ -149,25 +165,41 @@ public class GameStateManager : MonoBehaviour {
 
 			// 끝나면 리필
 			gameState = GameState.Refill;
-			yield return StartCoroutine(Refill());
+			yield return StartCoroutine(Refill(GameState.Combo));
 		}
 	}
 
-	IEnumerator Refill() {
+	IEnumerator Refill(GameState preState) {
 		while (gameState == GameState.Refill) {
 			// 판에 빈 자리가 없을때까지 리필한다
 			yield return StartCoroutine(trayManager.RefillFoods());
 
-			// 리필이 끝나면, 다시 매칭
+			// 매칭이 끝나고, 피버 보너스 만능음식이 생성될 경우 생성한다
+			gameState = GameState.FeverBonus;
+			yield return StartCoroutine(FeverBonus());
 			gameState = GameState.Matching;
-			yield break;
+
+			// 리필이 끝나면, 다시 매칭
+			if (preState == GameState.Dropped) {
+				gameState = GameState.Matching;
+				yield return StartCoroutine(Matching());
+			}
+			else {
+				gameState = GameState.Matching;
+				yield break;
+			}
 		}
+	}
+
+	IEnumerator FeverBonus() {
+		yield return StartCoroutine(feverManager.CheckFeverPoint());
 	}
 
 	// Use this for initialization
 	void Start () {
 		gameManager = FindObjectOfType<GameManager>();
 		trayManager = FindObjectOfType<TrayManager>();
+		feverManager = FindObjectOfType<FeverManager>();
 
 		gameState = GameState.Start;
 		StartCoroutine(StartGame());
