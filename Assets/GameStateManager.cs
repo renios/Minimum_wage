@@ -10,6 +10,8 @@ public class GameStateManager : MonoBehaviour {
 	GameManager gameManager;
 	TrayManager trayManager;
 	FeverManager feverManager;
+	MissionManager missionManager;
+	HeartManager heartManager;
 
 	IEnumerator StartGame() {
 		// 카운트다운을 세고 게임을 시작한다
@@ -37,6 +39,10 @@ public class GameStateManager : MonoBehaviour {
 
 	IEnumerator Idle() {
 		while (gameState == GameState.Idle) {
+			// 게임 종료 조건 체크
+			yield return StartCoroutine(heartManager.CheckGameEnd());
+			yield return StartCoroutine(missionManager.CheckGameEnd());
+
 			// 서빙 불가일 때 판 리셋
 			if (trayManager.NoMatchingFoods()) {
 				gameState = GameState.RenewTray;
@@ -200,6 +206,8 @@ public class GameStateManager : MonoBehaviour {
 		gameManager = FindObjectOfType<GameManager>();
 		trayManager = FindObjectOfType<TrayManager>();
 		feverManager = FindObjectOfType<FeverManager>();
+		missionManager = FindObjectOfType<MissionManager>();
+		heartManager = FindObjectOfType<HeartManager>();
 
 		gameState = GameState.Start;
 		StartCoroutine(StartGame());

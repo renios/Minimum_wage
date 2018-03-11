@@ -38,6 +38,7 @@ namespace Enums {
 		RenewTray,
 		UseItem,
 		FeverBonus,
+		Result,
 		End
 	}
 }
