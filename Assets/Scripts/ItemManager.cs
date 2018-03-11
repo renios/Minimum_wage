@@ -42,8 +42,8 @@ public class ItemManager : MonoBehaviour {
             MakeSuperfoodItemEffect.Play();
         }
         else if (!MissionData.gotSuperfood && MakeSuperfoodItemButton.interactable) {
-            MakeSuperfoodItemButton.interactable = false;
             MakeSuperfoodItemEffect.Stop();
+            MakeSuperfoodItemButton.interactable = false;
         }
         if (MissionData.gotTrayItem && !ResetTrayItemButton.interactable) {
             ResetTrayItemButton.interactable = true;
@@ -56,7 +56,18 @@ public class ItemManager : MonoBehaviour {
     }
 
     public void UseMakeSuperfoodItem() {
-        feverManager.MakeSuperfoodByFever(MakeSuperfoodItemButton.transform.position);
+        GameObject newSuperfood;
+
+        newSuperfood = trayManager.MakeSuperfood();
+
+        if (newSuperfood != null)
+        {
+            Vector3 endPos = newSuperfood.transform.position;
+            GameObject makeSuperfoodEffect = 
+                Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
+            StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
+        }
+        //feverManager.MakeSuperfoodByFever(MakeSuperfoodItemButton.transform.position);
     }
 
     public void UseTimeResetItem() {

@@ -117,6 +117,8 @@ public class TrayManager : MonoBehaviour {
             StartCoroutine(preSuperfood.ChangeToSuperfood());
 
             MissionData.gotSuperfood = false;
+            print("madeSuperfood");
+            print("gotSuperFood = " + MissionData.gotSuperfood);
 
 			return preSuperfood.gameObject;
         }
