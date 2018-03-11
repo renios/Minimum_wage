@@ -137,4 +137,4 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 6a72fb1bd7fb6194695e053935862cac, type: 3}
     - {fileID: 8300000, guid: 9cb5f93879dbf404e8c124134d6d7c04, type: 3}
     - {fileID: 8300000, guid: ab2aeb039f5720140a50b4aad31325c1, type: 3}
-  defaultMusic: {fileID: 8300000, guid: 421e96344c66951479408082ae6d96cf, type: 3}
+  defaultMusic: {fileID: 8300000, guid: ef2ca6b14a53e7d4f8272a7c477f4a13, type: 3}
