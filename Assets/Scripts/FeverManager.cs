@@ -111,17 +111,17 @@ public class FeverManager : MonoBehaviour {
 
 		if (feverAmount > maxAmount/3f && feverLevel < 1) {
 			ActivePoint(checkPoint1);
-			MakeSuperfoodByFever(checkPoint1.transform.position);
+			// MakeSuperfoodByFever(checkPoint1.transform.position);
 		}
 
 		if (feverAmount > (maxAmount*2)/3f && feverLevel < 2) {
 			ActivePoint(checkPoint2);
-			MakeSuperfoodByFever(checkPoint2.transform.position);
+			// MakeSuperfoodByFever(checkPoint2.transform.position);
 		}
 
 		if (feverAmount >= maxAmount && feverLevel < 3) {
 			ActivePoint(checkPoint3);
-			MakeSuperfoodByFever(checkPoint3.transform.position);
+			// MakeSuperfoodByFever(checkPoint3.transform.position);
 			Reset();
 		}
 

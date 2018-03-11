@@ -18,10 +18,19 @@ public class GameStateManager : MonoBehaviour {
 	}
 
 	bool pickedTrigger = false;
+	RaycastHit2D pickedFood;
+	bool newCustomerTrigger = false;
 
-	public void PickedTrigger() {
+	public void PickedTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Idle && !pickedTrigger) {
+			pickedFood = hit;
 			pickedTrigger = true;
+		}
+	}
+
+	public void NewCustomerTrigger() {
+		if (gameState == GameState.Idle && !newCustomerTrigger) {
+			newCustomerTrigger = true;
 		}
 	}
 
@@ -29,17 +38,21 @@ public class GameStateManager : MonoBehaviour {
 		while (gameState == GameState.Idle) {
 			// 음식을 집었을 때 -> Picked
 			if (pickedTrigger) {
-				trayManager.PickFood();
+				yield return StartCoroutine(trayManager.PickFood(pickedFood));
 				pickedTrigger = false;
 				gameState = GameState.Picked;
 				yield return StartCoroutine(Picked());
 			}
 
 			// 새로운 손님이 들어왔을 때 -> Matching
-			gameState = GameState.Matching;
-			yield return StartCoroutine(Matching());
-
+			if (newCustomerTrigger) {
+				newCustomerTrigger = false;
+				gameState = GameState.Matching;
+				yield return StartCoroutine(Matching());
+			}
 			// 아이템을 썼을 때
+
+			yield return null;
 		}
 	}
 
@@ -67,19 +80,44 @@ public class GameStateManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Dropped() {
-		while (gameState == GameState.Dropped) {
-			// 유효한 이동일 경우 -> Change
-			gameState = GameState.Change;
-			yield return StartCoroutine(Change());
+	bool validTrigger = false;
+	RaycastHit2D castedObj;
+	bool invalidTrigger = false;
 
-			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
-			// 음식 원위치
+	public void ValidTrigger(RaycastHit2D hit) {
+		if (gameState == GameState.Picked && !validTrigger) {
+			castedObj = hit;
+			validTrigger = true;
+		} 
+	}
 
-			gameState = GameState.Idle;
+	public void InvalidTrigger() {
+		if (gameState == GameState.Picked && !invalidTrigger) {
+			invalidTrigger = true;
 		}
 	}
 
+	IEnumerator Dropped() {
+		while (gameState == GameState.Dropped) {
+			// 유효한 이동일 경우 -> Change -> Matching
+			if (validTrigger) {
+				yield return StartCoroutine(trayManager.ValidDrop(castedObj));
+				validTrigger = false;
+				// gameState = GameState.Change;
+				// yield return StartCoroutine(Change());
+				yield return StartCoroutine(Matching());
+			}
+
+			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
+			// 음식 원위치
+			yield return StartCoroutine(trayManager.InvalidDrop());
+			invalidTrigger = false;
+			gameState = GameState.Idle;
+			yield break;
+		}
+	}
+
+	// 바로 넘어가서 안씀
 	IEnumerator Change() {
 		while (gameState == GameState.Change) {
 			// 두 음식의 위치를 바꾸고, Matching으로
@@ -93,20 +131,24 @@ public class GameStateManager : MonoBehaviour {
 	IEnumerator Matching() {
 		while (gameState == GameState.Matching) {
 			// 매칭 시도
-
-			// 맞는 음식이 없을 경우, Idle로
-			gameState = GameState.Idle;
-			yield break;
-
-			// 맞는 음식이 있을 경우, 처리할 콤보의 리스트를 만든 후 스테이트 전환 -> combo
-			gameState = GameState.Combo;
-			yield return StartCoroutine(Combo());
+			List<ServedPair> pairs = trayManager.FindMatchingPairs();
+			if (pairs.Count > 0) {
+				// 맞는 음식이 있을 경우, 처리할 콤보의 리스트를 만든 후 스테이트 전환 -> combo
+				gameState = GameState.Combo;
+				yield return StartCoroutine(Combo());
+			}
+			else {
+				// 맞는 음식이 없을 경우, Idle로
+				gameState = GameState.Idle;
+				yield break;
+			}
 		}
 	}
 
 	IEnumerator Combo() {
 		while (gameState == GameState.Combo) {
 			// 순차적으로 콤보를 처리하고 피버를 올린다
+			yield return StartCoroutine(trayManager.MatchingPairs());
 
 			// 끝나면 리필
 			gameState = GameState.Refill;
@@ -117,6 +159,7 @@ public class GameStateManager : MonoBehaviour {
 	IEnumerator Refill() {
 		while (gameState == GameState.Refill) {
 			// 판에 빈 자리가 없을때까지 리필한다
+			yield return StartCoroutine(trayManager.RefillFoods());
 
 			// 리필이 끝나면, 다시 매칭
 			gameState = GameState.Matching;

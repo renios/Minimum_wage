@@ -80,6 +80,6 @@ public class FoodOnTray : MonoBehaviour {
 		yield return tw.WaitForCompletion();
 		transform.DOScale(originScale, delay);
 
-		yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
+		// yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
 	}
 }
