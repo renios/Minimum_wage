@@ -4323,6 +4323,41 @@ Prefab:
       propertyPath: m_SortingOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 198248683627612374, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: ShapeModule.arc.speed.scalar
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 198248683627612374, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: randomSeed
+      value: 1069424268
+      objectReference: {fileID: 0}
+    - target: {fileID: 198248683627612374, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: ShapeModule.type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 198009613809088182, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: ShapeModule.type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 198009613809088182, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: randomSeed
+      value: 942799758
+      objectReference: {fileID: 0}
+    - target: {fileID: 198680192942150648, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: ShapeModule.type
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 198680192942150648, guid: 853413598608f4155ba92474258c1177,
+        type: 2}
+      propertyPath: randomSeed
+      value: 1861534568
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 853413598608f4155ba92474258c1177, type: 2}
   m_IsPrefabParent: 0
