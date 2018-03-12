@@ -120,7 +120,7 @@ public class MissionManager : MonoBehaviour {
 		}
 
 		// 손님 조건 체크
-		if (isUsedCustomerCount && successCustomerCount == customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+		if (isUsedCustomerCount && successCustomerCount >= customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
 			gameStateManager.gameState = GameState.Result;
 			yield return StartCoroutine(gameManager.ShowClearCanvas());
 			UpdateProgress();
