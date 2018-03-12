@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Enums;
 
 public class CustomerManager : MonoBehaviour {
 
@@ -128,6 +129,7 @@ public class CustomerManager : MonoBehaviour {
 		coinManager = FindObjectOfType<CoinManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
+		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
@@ -135,6 +137,7 @@ public class CustomerManager : MonoBehaviour {
 	
 	public bool isPlayingCustomerAnim = false;
 	GameManager gameManager;
+	GameStateManager gameStateManager;
 
 	// Update is called once per frame
 	void Update () {
@@ -152,10 +155,12 @@ public class CustomerManager : MonoBehaviour {
 			if (isPlayingCustomerAnim) return;
 			if (trayManager.isPlayingRefillAnim) return;
 
-			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-			// StartCoroutine(trayManager.TryMatch());
+			// 손님 추가는 Idle, Picked 상태일 때만 된다
+			if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
+				int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+				MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+				FindObjectOfType<GameStateManager>().NewCustomerTrigger();
+			}
 		}
 	}
 }
