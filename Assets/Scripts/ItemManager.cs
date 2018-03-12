@@ -22,14 +22,33 @@ public class ItemManager : MonoBehaviour {
     FeverManager feverManager;
     CustomerManager customerManager;
 
+    GameStateManager gameStateManager;
+
     void Start () {
         trayManager = FindObjectOfType<TrayManager>();
         feverManager = FindObjectOfType<FeverManager>();
         customerManager = FindObjectOfType<CustomerManager>();
+        gameStateManager = FindObjectOfType<GameStateManager>();
     }
+
+    bool raycastTargetEnabled = false;
 
 	// Update is called once per frame
 	void Update () {
+        if (raycastTargetEnabled && gameStateManager.gameState != GameState.Idle) {
+            TimeItemButton.GetComponent<Image>().raycastTarget = false;
+            MakeSuperfoodItemButton.GetComponent<Image>().raycastTarget = false;
+            ResetTrayItemButton.GetComponent<Image>().raycastTarget = false;
+            raycastTargetEnabled = false;
+        }
+        else if (!raycastTargetEnabled && gameStateManager.gameState == GameState.Idle) {
+            TimeItemButton.GetComponent<Image>().raycastTarget = true;
+            MakeSuperfoodItemButton.GetComponent<Image>().raycastTarget = true;
+            ResetTrayItemButton.GetComponent<Image>().raycastTarget = true;
+            raycastTargetEnabled = true;
+        }
+
+
         if (MissionData.gotTimeItem && !TimeItemButton.interactable) {
             TimeItemButton.interactable = true;
             TimeItemEffect.Play();
