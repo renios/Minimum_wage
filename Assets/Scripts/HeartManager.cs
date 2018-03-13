@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Enums;
 
 public class HeartManager : MonoBehaviour {
 
@@ -11,6 +12,7 @@ public class HeartManager : MonoBehaviour {
 	int maxHeart = 3;
 
 	GameManager gameManager;
+	GameStateManager gameStateManager;
 
 	public void ReduceHeart(int amount) {
 		for (int i = 0; i < amount; i++) {
@@ -32,6 +34,7 @@ public class HeartManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		gameManager = FindObjectOfType<GameManager>();
+		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		for (int i = 0; i < maxHeart; i++) {
 			GameObject heart = Instantiate(heartPrefab, heartSlot[i]);
@@ -39,14 +42,16 @@ public class HeartManager : MonoBehaviour {
 		}
 	}
 	
-	
+	public IEnumerator CheckGameEnd() {
+		if (hearts.Count <= 0/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+			gameStateManager.gameState = GameState.Result;
+			yield return StartCoroutine(gameManager.ShowGameoverCanvas());
+			gameStateManager.gameState = GameState.End;
+		}
+	}
 
 	// Update is called once per frame
 	void Update () {
-		if (hearts.Count <= 0 && !gameManager.gameoverCanvas.activeInHierarchy) {
-			StartCoroutine(gameManager.ShowGameoverCanvas());
-            GameObject heart = Instantiate(heartPrefab, heartSlot[0]);
-            hearts.Add(heart);
-        }
+		
 	}
 }

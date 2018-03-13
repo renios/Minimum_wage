@@ -39,9 +39,9 @@ public class FoodInOrder : MonoBehaviour {
 		}
 	}
 
-	public void Initialize () {
+	public void Initialize (int foodTypeIndex = -1) {
 		// 랜덤 음식으로 변환
-		int foodTypeIndex = Random.Range(0, MissionData.foodTypeCount);
+		if (foodTypeIndex < 0) foodTypeIndex = Random.Range(0, MissionData.foodTypeCount);
 		foodType = (FoodType)foodTypeIndex;
 
 		// 임시 음식 이미지로 변환

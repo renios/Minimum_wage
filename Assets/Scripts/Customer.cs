@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using UnityEngine.UI;
+using Enums;
 
 public class Customer : MonoBehaviour {
 
@@ -29,25 +30,35 @@ public class Customer : MonoBehaviour {
 
 	CustomerManager customerManager;
 	GameManager gameManager;
+	GameStateManager gameStateManager;
 
 	void InitializeTimer(float inputTime) {
 		waitingTime = inputTime;
 		remainWaitingTime = waitingTime;
-        timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
+		timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
 		timerImage.fillAmount = remainWaitingTime / waitingTime;
 	}
 
 	void UpdateTimer() {
-        if(!isServeCompleted)
-        {
-            remainWaitingTime -= Time.deltaTime;
-            timerImage.fillAmount = remainWaitingTime / waitingTime;
-        }
+		if(!isServeCompleted && (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked))
+		{
+			remainWaitingTime -= Time.deltaTime;
+			timerImage.fillAmount = remainWaitingTime / waitingTime;
+		}
 	}
 
 	void MakeOrder() {
 		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
 		orderedFoods.ForEach(food => food.Initialize());
+	}
+	public void SetOrder(List<FoodType> foodList){
+		//Debug.Log("Customer.SetOrder : "+Time.time);
+		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
+		for (int i = 0; i < orderedFoods.Count; i++){
+			int randomIndex = Random.Range(0,foodList.Count);
+			orderedFoods[i].Initialize((int)foodList[randomIndex]);
+			foodList.RemoveAt(randomIndex);
+		}
 	}
 
 	void SetRandomImage() {
@@ -55,7 +66,7 @@ public class Customer : MonoBehaviour {
 		//Debug.Log("Customer's gender : "+ gender.ToString());
 		string spritePath = "customers/" + gender.ToString();
 		Object[] spriteObjects = Resources.LoadAll(spritePath, typeof(Sprite));
-        int pickedIndex = Random.Range(0, spriteObjects.Length);
+		int pickedIndex = Random.Range(0, spriteObjects.Length);
 		Sprite pickedSprite = spriteObjects[pickedIndex] as Sprite;
 		customerImage.sprite = pickedSprite;
 	}
@@ -74,9 +85,10 @@ public class Customer : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        isServeCompleted = false;
+		isServeCompleted = false;
 		gameManager = FindObjectOfType<GameManager>();
-        customerManager = FindObjectOfType<CustomerManager>();
+		gameStateManager = FindObjectOfType<GameStateManager>();
+		customerManager = FindObjectOfType<CustomerManager>();
 		customerImageOriginPos = customerImage.transform.position;
 	}
 	
@@ -84,34 +96,34 @@ public class Customer : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 		if (!initialized) return;
-        if (isServeCompleted) return;
+		if (isServeCompleted) return;
 	
 		UpdateTimer();
 
-        if (remainWaitingTime <= waitingTime / toleranceRate && 
-		   startedFury == false)
-        {
-            timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
-            customerImageOriginPos = customerImage.transform.localPosition;
-            startedFury = true;
-            furyRate = 0.1f;
-        }
+		if (remainWaitingTime <= waitingTime / toleranceRate && 
+		startedFury == false)
+		{
+			timerImage.color = new Color(255f / 255f, 131f / 255f, 131f / 255f, 1f);
+			customerImageOriginPos = customerImage.transform.localPosition;
+			startedFury = true;
+			furyRate = 0.1f;
+		}
 
-        if (startedFury == true)
-        {
-            furyCount++;
-            if(furyCount % 2 == 1)
-            {
-                furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
-                customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
-            }
-        }
+		if (startedFury == true)
+		{
+			furyCount++;
+			if(furyCount % 2 == 1)
+			{
+				furyRate = Mathf.Lerp(furyRate, maxFuryRate, 0.001f);
+				customerImage.transform.localPosition = customerImageOriginPos + new Vector3(Random.Range(-1f, 1f) * furyRate, 0, 0);
+			}
+		}
 
 		if (remainWaitingTime <= 0) {
 			SoundManager.PlayCustomerReaction(gender, false);
-            startedFury = false;
-            furyCount = 0;
-            customerManager.RemoveCustomerByTimeout(indexInArray);
+			startedFury = false;
+			furyCount = 0;
+			customerManager.RemoveCustomerByTimeout(indexInArray);
 		}
 	}
 }

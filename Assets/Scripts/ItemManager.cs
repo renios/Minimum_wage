@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Enums;
 
 public class ItemManager : MonoBehaviour {
 
@@ -21,14 +22,33 @@ public class ItemManager : MonoBehaviour {
     FeverManager feverManager;
     CustomerManager customerManager;
 
+    GameStateManager gameStateManager;
+
     void Start () {
         trayManager = FindObjectOfType<TrayManager>();
         feverManager = FindObjectOfType<FeverManager>();
         customerManager = FindObjectOfType<CustomerManager>();
+        gameStateManager = FindObjectOfType<GameStateManager>();
     }
+
+    bool raycastTargetEnabled = true;
 
 	// Update is called once per frame
 	void Update () {
+        if (raycastTargetEnabled && gameStateManager.gameState != GameState.Idle) {
+            TimeItemButton.GetComponent<Image>().raycastTarget = false;
+            MakeSuperfoodItemButton.GetComponent<Image>().raycastTarget = false;
+            ResetTrayItemButton.GetComponent<Image>().raycastTarget = false;
+            raycastTargetEnabled = false;
+        }
+        else if (!raycastTargetEnabled && gameStateManager.gameState == GameState.Idle) {
+            TimeItemButton.GetComponent<Image>().raycastTarget = true;
+            MakeSuperfoodItemButton.GetComponent<Image>().raycastTarget = true;
+            ResetTrayItemButton.GetComponent<Image>().raycastTarget = true;
+            raycastTargetEnabled = true;
+        }
+
+
         if (MissionData.gotTimeItem && !TimeItemButton.interactable) {
             TimeItemButton.interactable = true;
             TimeItemEffect.Play();
@@ -56,25 +76,52 @@ public class ItemManager : MonoBehaviour {
     }
 
     public void UseMakeSuperfoodItem() {
-        GameObject newSuperfood;
+        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
+            StartCoroutine(UseMakeSuperfoodItemCoroutine());
+        }
+    }
 
-        newSuperfood = trayManager.MakeSuperfood();
+    IEnumerator UseMakeSuperfoodItemCoroutine() {
+        FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
+
+        GameObject newSuperfood;
+        newSuperfood = trayManager.FindSuperfoodTarget();
 
         if (newSuperfood != null)
         {
             Vector3 endPos = newSuperfood.transform.position;
             GameObject makeSuperfoodEffect = 
                 Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
-            StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
+            yield return StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
         }
+
+        yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
+
+        FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
     }
 
     public void UseTimeResetItem() {
-        customerManager.ResetWaitingTime();
+        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
+            FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
+            customerManager.ResetWaitingTime();
+            FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
+        }
     }
 
     public void UseResetTrayItem() {
-        trayManager.StartRenewTray();
+        StartCoroutine(UseResetTrayItemCoroutine());
+    }
+
+    IEnumerator UseResetTrayItemCoroutine() {
+        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
+            FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
+            if (MissionData.gotTrayItem == true)
+            {
+                yield return StartCoroutine(trayManager.RenewTray());
+                MissionData.gotTrayItem = false;
+            }
+            FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
+        }
     }
 
     public void BinOpen()

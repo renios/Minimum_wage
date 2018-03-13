@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Enums;
 
 public class CustomerManager : MonoBehaviour {
 
@@ -24,27 +25,27 @@ public class CustomerManager : MonoBehaviour {
 	CoinManager coinManager;
 	MissionManager missionManager;
 
-    public void ResetWaitingTime()
-    {
-        if(MissionData.gotTimeItem == true)
-        {
-            foreach (var customer in currentWaitingCustomers)
-            {
-                if (customer != null) {
+	public void ResetWaitingTime()
+	{
+		if (MissionData.gotTimeItem == true)
+		{
+			foreach (var customer in currentWaitingCustomers)
+			{
+				if (customer != null) {
 					Vector3 startPos = Vector3.up + customer.GetComponent<Customer>().customerImage.GetComponent<RectTransform>().position;
 					Instantiate(resetWaitingTimeEffectPrefab, startPos, Quaternion.identity);
-                    customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
-                    if(customer.startedFury)
-                    {
-                        customer.startedFury = false;
-                        customer.customerImage.transform.localPosition = customer.customerImageOriginPos;
-                        customer.timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
-                    }
-                }
+					customer.GetComponent<Customer>().remainWaitingTime = customer.GetComponent<Customer>().waitingTime;
+					if(customer.startedFury)
+					{
+						customer.startedFury = false;
+						customer.customerImage.transform.localPosition = customer.customerImageOriginPos;
+						customer.timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
+					}
+				}
 			}
-        }
-        MissionData.gotTimeItem = false;
-    }
+		}
+		MissionData.gotTimeItem = false;
+	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Destroy(currentWaitingCustomers[indexInArray].gameObject);
@@ -76,8 +77,12 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 		customer.Initialize(indexInArray, this.waitingTime);
-        customer.toleranceRate = toleranceRate;
-        customer.maxFuryRate = maxFuryRate;
+		customer.toleranceRate = toleranceRate;
+		customer.maxFuryRate = maxFuryRate;
+		if(IsCustomerSlotEmpty()){
+			var lists = trayManager.GetTraysNotOnFoods();
+			customer.SetOrder(lists[Random.Range(0,lists.Count)]);
+		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}
@@ -90,6 +95,15 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 		Debug.LogError("Cannot add new customer in slot");
+	}
+	bool  IsCustomerSlotEmpty(){
+		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
+			if (currentWaitingCustomers[i] != null) {
+				return false;
+			}
+		}
+		//Debug.Log("CustomerManager.IsCustomerSlotEmpty == true : "+Time.time);
+		return true;
 	}
 
 	bool IsEmptyPosInCustomerSlot() {
@@ -128,6 +142,7 @@ public class CustomerManager : MonoBehaviour {
 		coinManager = FindObjectOfType<CoinManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
+		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
@@ -135,6 +150,7 @@ public class CustomerManager : MonoBehaviour {
 	
 	public bool isPlayingCustomerAnim = false;
 	GameManager gameManager;
+	GameStateManager gameStateManager;
 
 	// Update is called once per frame
 	void Update () {
@@ -144,17 +160,20 @@ public class CustomerManager : MonoBehaviour {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
 			lastCustomerMakeTime += Time.deltaTime; 
 
-			// 손으로 음식을 집어든 도중에는 손님이 오지 않는다
-			if (trayManager.pickedFood1 != null) return;
+			// 손으로 음식을 집어든 도중에는 손님이 오지 않는다 -> 손님은 오지만, 매칭은 idle 상태가 아니면 하지 않는다
+			// if (trayManager.pickedFood1 != null) return;
 
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			if (isPlayingCustomerAnim) return;
 			if (trayManager.isPlayingRefillAnim) return;
 
-			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			StartCoroutine(trayManager.TryMatch());
+			// 손님 추가는 Idle, Picked 상태일 때만 된다
+			if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
+				int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+				MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+				FindObjectOfType<GameStateManager>().NewCustomerTrigger();
+			}
 		}
 	}
 }
