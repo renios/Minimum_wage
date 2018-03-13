@@ -74,6 +74,61 @@ public class TrayManager : MonoBehaviour {
 	GameManager gameManager;
 	FeverManager feverManager;
 
+	public List<List<FoodType>> GetTraysNotOnFoods(){
+		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
+		var result = new List<List<FoodType>>();
+		for(int i = 0; i < MissionData.foodTypeCount; i++){
+			for (int j = 0; j <= i; j++){
+				for(int k = 0; k <= j; k++){
+					for (int l = 0; l <= k; l++){
+						var foodTypes = new List<FoodType>();
+						foodTypes.Add((FoodType)l);
+						foodTypes.Add((FoodType)k);
+						foodTypes.Add((FoodType)j);
+						foodTypes.Add((FoodType)i);
+						foodTypes.Sort();
+						result.Add(foodTypes);
+					}
+				}
+			}
+		}
+		for (int row = 0; row < ROW-1; row++){
+			for(int col = 0; col < COL-1; col++){
+				var foodsOnTray = new List<FoodType>();
+				foodsOnTray.Add(foods[row, col].foodType);
+				foodsOnTray.Add(foods[row+1, col].foodType);
+				foodsOnTray.Add(foods[row, col+1].foodType);
+				foodsOnTray.Add(foods[row+1, col+1].foodType);
+				foodsOnTray.Sort();
+				result.FindAll(r => ConvertListToString(r) == ConvertListToString(foodsOnTray)).ForEach(r => result.Remove(r));
+			}
+		}
+		Debug.Log("TraysNotOnFoods : "+result.Count);
+		return result;
+	}
+	string ConvertListToString(List<FoodType> list){
+		string result = "";
+		for(int i = 0; i < list.Count; i++){
+			result += list[i].ToString();
+		}
+		return result;
+	}
+	List<FoodType> SortFoodTypes(List<FoodType> list){
+		for (int i = 0; i < 3; i++){
+			int min = 100;
+			int index = 100;
+			for (int j = 3; j > -1; j--){
+				if (min >= (int)list[j]){
+					min = (int)list[j];
+					index = j;
+				}
+			}
+			var temp = list[index];
+			list[index] = list[i];
+			list[i] = temp;
+		}
+		return list;
+	}
 	public GameObject FindSuperfoodTarget() {
 		if(MissionData.gotSuperfood == true)
 		{

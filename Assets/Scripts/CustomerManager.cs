@@ -79,6 +79,10 @@ public class CustomerManager : MonoBehaviour {
 		customer.Initialize(indexInArray, this.waitingTime);
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
+		if(IsCustomerSlotEmpty()){
+			var lists = trayManager.GetTraysNotOnFoods();
+			customer.SetOrder(lists[Random.Range(0,lists.Count)]);
+		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
 	}
@@ -91,6 +95,15 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 		Debug.LogError("Cannot add new customer in slot");
+	}
+	bool  IsCustomerSlotEmpty(){
+		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
+			if (currentWaitingCustomers[i] != null) {
+				return false;
+			}
+		}
+		//Debug.Log("CustomerManager.IsCustomerSlotEmpty == true : "+Time.time);
+		return true;
 	}
 
 	bool IsEmptyPosInCustomerSlot() {

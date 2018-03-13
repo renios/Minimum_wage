@@ -51,6 +51,15 @@ public class Customer : MonoBehaviour {
 		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
 		orderedFoods.ForEach(food => food.Initialize());
 	}
+	public void SetOrder(List<FoodType> foodList){
+		//Debug.Log("Customer.SetOrder : "+Time.time);
+		orderedFoods = GetComponentsInChildren<FoodInOrder>().ToList();
+		for (int i = 0; i < orderedFoods.Count; i++){
+			int randomIndex = Random.Range(0,foodList.Count);
+			orderedFoods[i].Initialize((int)foodList[randomIndex]);
+			foodList.RemoveAt(randomIndex);
+		}
+	}
 
 	void SetRandomImage() {
 		gender = (Enums.Gender)Random.Range(0,2);
