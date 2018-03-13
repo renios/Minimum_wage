@@ -1235,7 +1235,7 @@ Prefab:
     - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
     - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
@@ -1255,7 +1255,7 @@ Prefab:
     - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
     - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
@@ -1275,7 +1275,7 @@ Prefab:
     - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5488dbf81d063483995f47245039db21, type: 2}
@@ -1626,6 +1626,11 @@ Prefab:
       propertyPath: worldSoundData.Array.data[0].start
       value: 
       objectReference: {fileID: 8300000, guid: c21a537a4b2b58b408efb69d5a901fb9, type: 3}
+    - target: {fileID: 114060427149740324, guid: a64815d22e84a024984023898eab16c5,
+        type: 2}
+      propertyPath: worldSoundData.Array.data[1].start
+      value: 
+      objectReference: {fileID: 8300000, guid: 175209a6e5d44ff4bab8f1794c3b37a7, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a64815d22e84a024984023898eab16c5, type: 2}
   m_IsPrefabParent: 0

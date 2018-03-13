@@ -92,9 +92,9 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// Use this for initialization
-	public void StartByGSM () {
+	public IEnumerator StartByGSM () {
 		isEnd = false;
-		StartCoroutine(StartAnimation());
+		yield return StartCoroutine(StartAnimation());
 	}
 	
 	// Update is called once per frame

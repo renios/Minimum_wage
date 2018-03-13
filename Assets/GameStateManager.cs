@@ -15,7 +15,7 @@ public class GameStateManager : MonoBehaviour {
 
 	IEnumerator StartGame() {
 		// 카운트다운을 세고 게임을 시작한다
-		gameManager.StartByGSM();
+		yield return StartCoroutine(gameManager.StartByGSM());
 		gameState = GameState.Idle;
 		yield return StartCoroutine(Idle());
 	}

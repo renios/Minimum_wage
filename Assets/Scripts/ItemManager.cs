@@ -31,7 +31,7 @@ public class ItemManager : MonoBehaviour {
         gameStateManager = FindObjectOfType<GameStateManager>();
     }
 
-    bool raycastTargetEnabled = false;
+    bool raycastTargetEnabled = true;
 
 	// Update is called once per frame
 	void Update () {
