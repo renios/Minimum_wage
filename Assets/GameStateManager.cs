@@ -26,7 +26,7 @@ public class GameStateManager : MonoBehaviour {
 
 	public void PickedTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Idle && !pickedTrigger) {
-			pickedFood = hit;
+            pickedFood = hit;
 			pickedTrigger = true;
 		}
 	}
@@ -37,7 +37,7 @@ public class GameStateManager : MonoBehaviour {
 		}
 	}
 
-	IEnumerator Idle() {
+	public IEnumerator Idle() {
 		while (gameState == GameState.Idle) {
 			// 게임 종료 조건 체크
 			yield return StartCoroutine(heartManager.CheckGameEnd());

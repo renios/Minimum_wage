@@ -100,6 +100,7 @@ public class ItemManager : MonoBehaviour {
         yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
 
         FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
+        StartCoroutine(gameStateManager.Idle());
     }
 
     public void UseTimeResetItem() {
