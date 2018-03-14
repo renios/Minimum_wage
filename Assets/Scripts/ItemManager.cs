@@ -76,8 +76,10 @@ public class ItemManager : MonoBehaviour {
     }
 
     public void UseMakeSuperfoodItem() {
-        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
+        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle
+            &&MissionData.gotSuperfood == true) {
             StartCoroutine(UseMakeSuperfoodItemCoroutine());
+            MissionData.gotSuperfood = false;
         }
     }
 

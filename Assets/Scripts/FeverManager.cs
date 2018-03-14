@@ -82,22 +82,9 @@ public class FeverManager : MonoBehaviour {
 
 	public IEnumerator MakeSuperfoodByFever(Vector3 startPos) {
 		GameObject newSuperfood;
-		if(MissionData.gotSuperfood == true)
-		{
-			newSuperfood = trayManager.FindSuperfoodTarget();
-			yield return StartCoroutine(MakeSuperfoodEffect(startPos, newSuperfood));
-			yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
-			// newSuperfood = trayManager.MakeSuperfood();
-			MissionData.gotSuperfood = true;
-		}
-		else
-		{
-			MissionData.gotSuperfood = true;
-			newSuperfood = trayManager.FindSuperfoodTarget();
-			yield return StartCoroutine(MakeSuperfoodEffect(startPos, newSuperfood));
-			yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
-			// newSuperfood = trayManager.MakeSuperfood();
-		}
+		newSuperfood = trayManager.FindSuperfoodTarget();
+		yield return StartCoroutine(MakeSuperfoodEffect(startPos, newSuperfood));
+		yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
 	}
 
 	IEnumerator MakeSuperfoodEffect(Vector3 startPos, GameObject target) {

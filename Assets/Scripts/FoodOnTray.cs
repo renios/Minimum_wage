@@ -79,9 +79,5 @@ public class FoodOnTray : MonoBehaviour {
 		Tween tw = transform.DOScale(originScale*1.5f, delay);
 		yield return tw.WaitForCompletion();
 		transform.DOScale(originScale, delay);
-
-		// yield return StartCoroutine(FindObjectOfType<TrayManager>().TryMatch());
-
-		MissionData.gotSuperfood = false;
 	}
 }
