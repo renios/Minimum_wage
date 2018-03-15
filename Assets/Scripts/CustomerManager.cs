@@ -57,7 +57,6 @@ public class CustomerManager : MonoBehaviour {
 		Vector3 prefabPos = pos + Vector3.down/2f;
 		Instantiate(successEffectPrefab, prefabPos, Quaternion.identity);
 		GameObject coinParticle = Instantiate(coinPrefab, prefabPos, Quaternion.identity);
-		StartCoroutine(coinParticle.GetComponent<CoinAnim>().StartAnim(delay));
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
