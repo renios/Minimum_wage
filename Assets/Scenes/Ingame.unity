@@ -347,16 +347,11 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 114299247201559054, guid: 2d570db5ded514259adbf5b9367e5eee,
+    - target: {fileID: 223495217044544248, guid: 2d570db5ded514259adbf5b9367e5eee,
         type: 2}
-      propertyPath: maxFontSize
-      value: 66
-      objectReference: {fileID: 0}
-    - target: {fileID: 114299247201559054, guid: 2d570db5ded514259adbf5b9367e5eee,
-        type: 2}
-      propertyPath: animRate
-      value: 0.06
-      objectReference: {fileID: 0}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 17952525}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2d570db5ded514259adbf5b9367e5eee, type: 2}
   m_IsPrefabParent: 0
@@ -1241,7 +1236,7 @@ Prefab:
     - target: {fileID: 224607341246028582, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
     - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
@@ -1261,7 +1256,7 @@ Prefab:
     - target: {fileID: 224374271654328354, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
     - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
@@ -1281,8 +1276,29 @@ Prefab:
     - target: {fileID: 224715988975099712, guid: 5488dbf81d063483995f47245039db21,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -46
       objectReference: {fileID: 0}
+    - target: {fileID: 223878579998857132, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_RenderMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 223878579998857132, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 223878579998857132, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 17952525}
+    - target: {fileID: 114525517298478678, guid: 5488dbf81d063483995f47245039db21,
+        type: 2}
+      propertyPath: heartBrokenParticle
+      value: 
+      objectReference: {fileID: 1849364205552760, guid: f9d3fddc8378b4895b18a8539ed2c4d5,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5488dbf81d063483995f47245039db21, type: 2}
   m_IsPrefabParent: 0
@@ -1676,7 +1692,6 @@ MonoBehaviour:
   gameoverSprite: {fileID: 21300000, guid: a5c6936fa2209bd47ac46d9cb182253d, type: 3}
   clearSprite: {fileID: 21300000, guid: 6aad79fd4cee7894ca6fdd8d473bb0de, type: 3}
   isPlaying: 0
-  isPlayingAnim: 0
 --- !u!4 &1437095418
 Transform:
   m_ObjectHideFlags: 0
