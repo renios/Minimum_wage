@@ -49,27 +49,24 @@ public class MissionManager : MonoBehaviour {
 	}
 
 	void LoadMissionData() {
-		// if (MissionData.stageIndex == -1) {
-			SetDefaultValue();
-		// }
-		// else {
-			Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+		SetDefaultValue();
+		
+		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
-			currentStage = missionDataDict[MissionDataType.StageIndex];
+		currentStage = missionDataDict[MissionDataType.StageIndex];
 
-			if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
-				customerCount = missionDataDict[MissionDataType.customerCount];
-				isUsedCustomerCount = true;
-			}
-			if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
-				remainTime = missionDataDict[MissionDataType.remainTime];
-				isUsedTime = true;
-			}
-			if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
-				touchCount = missionDataDict[MissionDataType.touchCount];
-				isUsedTouchCount = true;
-			}
-		// }
+		if (missionDataDict.ContainsKey(MissionDataType.customerCount)) {
+			customerCount = missionDataDict[MissionDataType.customerCount];
+			isUsedCustomerCount = true;
+		}
+		if (missionDataDict.ContainsKey(MissionDataType.remainTime)) {
+			remainTime = missionDataDict[MissionDataType.remainTime];
+			isUsedTime = true;
+		}
+		if (missionDataDict.ContainsKey(MissionDataType.touchCount)) {
+			touchCount = missionDataDict[MissionDataType.touchCount];
+			isUsedTouchCount = true;
+		}
 	}
 
 	// Use this for initialization
