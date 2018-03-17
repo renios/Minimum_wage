@@ -73,6 +73,7 @@ public class TrayManager : MonoBehaviour {
 	MissionManager missionManager;
 	GameManager gameManager;
 	FeverManager feverManager;
+	GameStateManager gameStateManager;
 
 	public List<List<FoodType>> GetTraysNotOnFoods(){
 		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
@@ -736,6 +737,7 @@ public class TrayManager : MonoBehaviour {
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
 		feverManager = FindObjectOfType<FeverManager>();
+		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		InitializeFoods();
 		
@@ -874,6 +876,7 @@ public class TrayManager : MonoBehaviour {
 			FindObjectOfType<GameStateManager>().DroppedTrigger();
 		}
 
-		lastComboTime += Time.deltaTime;
+		if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked)
+			lastComboTime += Time.deltaTime;
 	}
 }
