@@ -571,6 +571,9 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
+		// 빈칸 등의 이유로 판에 있는 2*2 영역의 음식 갯수가 4보다 작을 경우에는 무조건 매칭 false 리턴
+		if (foodsInPart.Count < 4) return false;
+
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
 
 		// 만능음식은 갯수만 세어놓는다
