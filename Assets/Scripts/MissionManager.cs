@@ -41,11 +41,9 @@ public class MissionManager : MonoBehaviour {
 	void SetDefaultValue() {
 		currentStage = 1;
 
-		remainTime = 90;
-		isUsedTime = true;
+		isUsedTime = false;
 
-		customerCount = 20;
-		isUsedCustomerCount = true;
+		isUsedCustomerCount = false;
 
 		isUsedTouchCount = false;
 	}
