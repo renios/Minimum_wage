@@ -24,7 +24,6 @@ public class GameManager : MonoBehaviour {
 
 	public IEnumerator ShowGameoverCanvas() {
 		isPlaying = false;
-		isPlayingAnim = true;
 		SoundManager.Play(MusicType.StageOver);
 		gameoverCanvas.SetActive(true);
 		Vector3 startPos = new Vector3(Screen.width / 2, Screen.height * 1.5f, 0);
@@ -36,12 +35,10 @@ public class GameManager : MonoBehaviour {
 		Tween tw = mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
 		yield return tw.WaitForCompletion();
-		isPlayingAnim = false;
 	}
 
 	public IEnumerator ShowClearCanvas() {
 		isPlaying = false;
-		isPlayingAnim = true;
 		SoundManager.Play(MusicType.StageClear);
 		gameoverCanvas.SetActive(true);
 		Vector3 startPos = new Vector3(Screen.width / 2, Screen.height * 1.5f, 0);
@@ -53,17 +50,6 @@ public class GameManager : MonoBehaviour {
 		Tween tw = mainPanel.transform.DOMove(endPos, delay);
 		mainPanel.DOFade(1, delay);
 		yield return tw.WaitForCompletion();
-		isPlayingAnim = false;
-	}
-
-	IEnumerator ShowMissionStartCanvas() {
-		gameoverCanvas.SetActive(true);
-		textInCanvas.text = "Mission Start!" + '\n' + '\n' + "Touch the Screen";
-		bgPanel.DOFade(0.4f, delay);
-		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
-		mainPanel.transform.DOMove(endPos, delay);
-		mainPanel.DOFade(1, delay);
-		yield return new WaitForSeconds(delay);
 	}
 
 	IEnumerator StartAnimation()
@@ -99,20 +85,16 @@ public class GameManager : MonoBehaviour {
 		if (gameStateManager.gameState != GameState.End) return;
 
 		if (gameoverCanvas.activeInHierarchy) {
-			if (Input.anyKeyDown && !isPlayingAnim)
+			if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
 				StartCoroutine(HideCanvas());
 		}
 	}
 
-	public bool isPlayingAnim = false;
-
 	IEnumerator HideCanvas () {
-		isPlayingAnim = true;
 		// bgPanel.DOFade(0, delay);
 		Tween tw = mainPanel.DOColor(Color.black, delay);
 		yield return tw.WaitForCompletion();
 		isPlaying = false;
-		isPlayingAnim = false;
 		MissionData.gotSuperfood = false;
 		MissionData.gotTimeItem = false;
 		MissionData.gotTrayItem = false;
