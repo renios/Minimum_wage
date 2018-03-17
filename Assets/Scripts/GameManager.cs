@@ -18,8 +18,6 @@ public class GameManager : MonoBehaviour {
 
 	public bool isPlaying = false;
 
-	bool isEnd;
-
 	float delay = 0.5f;
 
 	GameStateManager gameStateManager;
@@ -93,7 +91,6 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	public IEnumerator StartByGSM () {
-		isEnd = false;
 		yield return StartCoroutine(StartAnimation());
 	}
 	

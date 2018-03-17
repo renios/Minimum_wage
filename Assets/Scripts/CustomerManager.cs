@@ -56,7 +56,7 @@ public class CustomerManager : MonoBehaviour {
 	void MakeCoinParticle(Vector3 pos, float delay) {
 		Vector3 prefabPos = pos + Vector3.down/2f;
 		Instantiate(successEffectPrefab, prefabPos, Quaternion.identity);
-		GameObject coinParticle = Instantiate(coinPrefab, prefabPos, Quaternion.identity);
+		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
