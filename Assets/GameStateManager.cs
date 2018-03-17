@@ -12,6 +12,7 @@ public class GameStateManager : MonoBehaviour {
 	FeverManager feverManager;
 	MissionManager missionManager;
 	HeartManager heartManager;
+	CustomerManager customerManager;
 
 	IEnumerator StartGame() {
 		// 카운트다운을 세고 게임을 시작한다
@@ -150,6 +151,8 @@ public class GameStateManager : MonoBehaviour {
 	IEnumerator Matching() {
 		while (gameState == GameState.Matching) {
 			// 매칭 시도
+			// 각 손님의 모든 foundCorrespondent를 초기화
+			customerManager.ResetFoundCorrespondentEachOrder();
 			List<ServedPair> pairs = trayManager.FindMatchingPairs();
 			if (pairs.Count > 0) {
 				// 맞는 음식이 있을 경우, 처리할 콤보의 리스트를 만든 후 스테이트 전환 -> combo
@@ -208,6 +211,7 @@ public class GameStateManager : MonoBehaviour {
 		feverManager = FindObjectOfType<FeverManager>();
 		missionManager = FindObjectOfType<MissionManager>();
 		heartManager = FindObjectOfType<HeartManager>();
+		customerManager = FindObjectOfType<CustomerManager>();
 
 		gameState = GameState.Start;
 		StartCoroutine(StartGame());

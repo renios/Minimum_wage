@@ -575,6 +575,11 @@ public class TrayManager : MonoBehaviour {
 		if (foodsInPart.Count < 4) return false;
 
 		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
+		// if (!corrFoodInOrder.foundCorrespondent) 부분의 null 에러를 막기 위해
+		// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
+		// if (foodsInOrder.Any(food => food.foundCorrespondent)) return false;
+		// Matching state마다 전체 손님 오더의 foundCorrestpondent를 리셋하도록 코드 추가.
+		// 여기서 더이상 체크하지 않음. 혹시 나중에 문제생길 경우를 대비해서 보존.
 
 		// 만능음식은 갯수만 세어놓는다
 		int numberOfSuperfood = foodsInPart.Count(food => food.isSuperfood);		
@@ -586,6 +591,7 @@ public class TrayManager : MonoBehaviour {
 		});
 
 		int remainSuperfoodCount = numberOfSuperfood;
+		// 주문판의 4개 음식이 트레이 2*2 영역에 있는 음식과 일치하는지 판정하는 부분
 		// 판정이 실패했을 때 만능음식이 있으면 하나 쓴다
 		foreach (var foodInOrder in foodsInOrder) {
 			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);

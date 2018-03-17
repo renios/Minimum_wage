@@ -20,10 +20,21 @@ public class CustomerManager : MonoBehaviour {
 
 	public Customer[] currentWaitingCustomers;
 
+	public bool isPlayingCustomerAnim = false;
+
+	GameManager gameManager;
+	GameStateManager gameStateManager;
 	HeartManager heartManager;
 	TrayManager trayManager;
 	CoinManager coinManager;
 	MissionManager missionManager;
+
+	public void ResetFoundCorrespondentEachOrder() {
+		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
+		customers.ForEach(customer => {
+			customer.orderedFoods.ForEach(food => food.foundCorrespondent = false);
+		});
+	}
 
 	public void ResetWaitingTime()
 	{
@@ -146,10 +157,6 @@ public class CustomerManager : MonoBehaviour {
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
 	}
-	
-	public bool isPlayingCustomerAnim = false;
-	GameManager gameManager;
-	GameStateManager gameStateManager;
 
 	// Update is called once per frame
 	void Update () {
