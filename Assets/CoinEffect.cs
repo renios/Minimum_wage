@@ -38,24 +38,6 @@ public class CoinEffect : MonoBehaviour {
 
 		particles.ForEach(coin => StartCoroutine(coin.GetComponent<CoinMove>().StartByEffector()));
 
-		// particles.ForEach(coin => {
-		// 	float yValue = Random.Range(0.5f, 1);
-		// 	Vector3 endPos = transform.position + new Vector3(Random.Range(-maxWidth, maxWidth), -yValue, 0);
-		// 	float jumpPower = Random.Range(minJumpPower, maxJumpPower);
-		// 	coin.transform.DOJump(endPos, jumpPower, 1, duration1).SetEase(Ease.OutQuad);
-		// });
-
-		// yield return new WaitForSeconds(duration1);
-
-		// particles.ForEach(coin => coin.transform.DOMove(destPos, duration2));
-		// particles.ForEach(coin => {
-		// 	float endValue = coin.transform.localScale.x * 0.4f;
-		// 	coin.transform.DOScale(endValue, duration2);
-		// });	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		Destroy(gameObject, 1f);
 	}
 }

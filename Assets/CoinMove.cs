@@ -27,15 +27,12 @@ public class CoinMove : MonoBehaviour {
 		
 		yield return tw.WaitForCompletion();
 
-		transform.DOMove(destPos, duration2 + Random.Range(-0.05f, 0.05f)).SetEase(Ease.InCirc);
+		tw = transform.DOMove(destPos, duration2 + Random.Range(-0.05f, 0.05f)).SetEase(Ease.InCirc);
 		float endScale = scale * 0.4f;
 		transform.DOScale(endScale, duration2).SetEase(Ease.InCirc);	
 
-		yield return null;
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+		yield return tw.WaitForCompletion();
+
+		Destroy(gameObject, 0.1f);
 	}
 }
