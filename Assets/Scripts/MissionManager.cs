@@ -150,11 +150,19 @@ public class MissionManager : MonoBehaviour {
 		
 		// 테스트용 클리어 치트
 		if (Input.GetKeyDown(KeyCode.C)) {
-			StartCoroutine(gameManager.ShowClearCanvas());
-			UpdateProgress();
+			if (gameStateManager.gameState == GameState.Idle) {
+				gameStateManager.gameState = GameState.Result;
+				StartCoroutine(gameManager.ShowClearCanvas());
+				UpdateProgress();
+				gameStateManager.gameState = GameState.End;
+			}
 		}
 		if (Input.GetKeyDown(KeyCode.F)) {
-			StartCoroutine(gameManager.ShowGameoverCanvas());
+			if (gameStateManager.gameState == GameState.Idle) {
+				gameStateManager.gameState = GameState.Result;
+				StartCoroutine(gameManager.ShowGameoverCanvas());
+				gameStateManager.gameState = GameState.End;
+			}
 		}
 	}
 }
