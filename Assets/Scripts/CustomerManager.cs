@@ -106,7 +106,7 @@ public class CustomerManager : MonoBehaviour {
 		}
 		Debug.LogError("Cannot add new customer in slot");
 	}
-	bool  IsCustomerSlotEmpty(){
+	bool IsCustomerSlotEmpty(){
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
 			if (currentWaitingCustomers[i] != null) {
 				return false;
@@ -171,15 +171,17 @@ public class CustomerManager : MonoBehaviour {
 
 			if (lastCustomerMakeTime < customerCooldown) return;
 
-			if (isPlayingCustomerAnim) return;
-			if (trayManager.isPlayingRefillAnim) return;
+			// 손님 추가는 항상 된다
+			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
 
 			// 손님 추가는 Idle, Picked 상태일 때만 된다
-			if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
-				int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-				MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-				FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-			}
+			// if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
+			// 	int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+			// 	MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			// 	FindObjectOfType<GameStateManager>().NewCustomerTrigger();
+			// }
 		}
 	}
 }

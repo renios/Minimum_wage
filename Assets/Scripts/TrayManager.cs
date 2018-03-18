@@ -96,6 +96,9 @@ public class TrayManager : MonoBehaviour {
 		for (int row = 0; row < ROW-1; row++){
 			for(int col = 0; col < COL-1; col++){
 				var foodsOnTray = new List<FoodType>();
+				if (foods[row, col] == null || foods[row+1, col] == null ||
+					foods[row, col+1] == null || foods[row+1, col+1] == null) 
+					continue;
 				foodsOnTray.Add(foods[row, col].foodType);
 				foodsOnTray.Add(foods[row+1, col].foodType);
 				foodsOnTray.Add(foods[row, col+1].foodType);
