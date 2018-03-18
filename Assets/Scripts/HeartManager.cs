@@ -7,6 +7,7 @@ using Enums;
 public class HeartManager : MonoBehaviour {
 
 	public GameObject heartPrefab;
+	public GameObject heartBrokenParticle;
 	public List<Transform> heartSlot;
 	List<GameObject> hearts = new List<GameObject>();
 	int maxHeart = 3;
@@ -19,7 +20,9 @@ public class HeartManager : MonoBehaviour {
 			if (hearts.Count == 0) return;
 
 			GameObject lastHeart = hearts.Last();
+			GameObject particle = Instantiate(heartBrokenParticle, lastHeart.transform.position, Quaternion.identity);
 			hearts.Remove(lastHeart);
+			Destroy(particle, 1);
 			Destroy(lastHeart);
 		}
 	}

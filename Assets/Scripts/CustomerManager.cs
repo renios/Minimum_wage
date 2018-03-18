@@ -20,10 +20,21 @@ public class CustomerManager : MonoBehaviour {
 
 	public Customer[] currentWaitingCustomers;
 
+	public bool isPlayingCustomerAnim = false;
+
+	GameManager gameManager;
+	GameStateManager gameStateManager;
 	HeartManager heartManager;
 	TrayManager trayManager;
 	CoinManager coinManager;
 	MissionManager missionManager;
+
+	public void ResetFoundCorrespondentEachOrder() {
+		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
+		customers.ForEach(customer => {
+			customer.orderedFoods.ForEach(food => food.foundCorrespondent = false);
+		});
+	}
 
 	public void ResetWaitingTime()
 	{
@@ -56,7 +67,7 @@ public class CustomerManager : MonoBehaviour {
 	void MakeCoinParticle(Vector3 pos, float delay) {
 		Vector3 prefabPos = pos + Vector3.down/2f;
 		Instantiate(successEffectPrefab, prefabPos, Quaternion.identity);
-		GameObject coinParticle = Instantiate(coinPrefab, prefabPos, Quaternion.identity);
+		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
@@ -95,7 +106,7 @@ public class CustomerManager : MonoBehaviour {
 		}
 		Debug.LogError("Cannot add new customer in slot");
 	}
-	bool  IsCustomerSlotEmpty(){
+	bool IsCustomerSlotEmpty(){
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
 			if (currentWaitingCustomers[i] != null) {
 				return false;
@@ -146,10 +157,6 @@ public class CustomerManager : MonoBehaviour {
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
 	}
-	
-	public bool isPlayingCustomerAnim = false;
-	GameManager gameManager;
-	GameStateManager gameStateManager;
 
 	// Update is called once per frame
 	void Update () {
@@ -164,15 +171,17 @@ public class CustomerManager : MonoBehaviour {
 
 			if (lastCustomerMakeTime < customerCooldown) return;
 
-			if (isPlayingCustomerAnim) return;
-			if (trayManager.isPlayingRefillAnim) return;
+			// 손님 추가는 항상 된다
+			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
 
 			// 손님 추가는 Idle, Picked 상태일 때만 된다
-			if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
-				int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-				MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-				FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-			}
+			// if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
+			// 	int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
+			// 	MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			// 	FindObjectOfType<GameStateManager>().NewCustomerTrigger();
+			// }
 		}
 	}
 }

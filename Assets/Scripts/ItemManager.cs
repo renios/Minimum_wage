@@ -18,6 +18,8 @@ public class ItemManager : MonoBehaviour {
     public GameObject OpenBin;
     public GameObject ClosedBin;
 
+    public Material grayScale;
+
     TrayManager trayManager;
     FeverManager feverManager;
     CustomerManager customerManager;
@@ -29,6 +31,20 @@ public class ItemManager : MonoBehaviour {
         feverManager = FindObjectOfType<FeverManager>();
         customerManager = FindObjectOfType<CustomerManager>();
         gameStateManager = FindObjectOfType<GameStateManager>();
+
+        Initialize();
+    }
+
+    void Initialize() {
+        if (!MissionData.gotTimeItem) {
+            TimeItemButton.GetComponent<Image>().material = grayScale;
+        }
+        if (!MissionData.gotSuperfood) {
+            MakeSuperfoodItemButton.GetComponent<Image>().material = grayScale;
+        }
+        if (!MissionData.gotTrayItem) {
+            ResetTrayItemButton.GetComponent<Image>().material = grayScale;
+        }
     }
 
     bool raycastTargetEnabled = true;
@@ -77,7 +93,8 @@ public class ItemManager : MonoBehaviour {
 
     public void UseMakeSuperfoodItem() {
         if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle
-            &&MissionData.gotSuperfood == true) {
+            && MissionData.gotSuperfood == true) 
+        {
             StartCoroutine(UseMakeSuperfoodItemCoroutine());
             MissionData.gotSuperfood = false;
         }
@@ -99,32 +116,32 @@ public class ItemManager : MonoBehaviour {
 
         yield return StartCoroutine(newSuperfood.GetComponent<FoodOnTray>().ChangeToSuperfood());
 
+        MakeSuperfoodItemButton.GetComponent<Image>().material = grayScale;
+
         FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
-        StartCoroutine(gameStateManager.Idle());
     }
 
     public void UseTimeResetItem() {
         if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
             FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
             customerManager.ResetWaitingTime();
+            TimeItemButton.GetComponent<Image>().material = grayScale;
             FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
         }
     }
 
     public void UseResetTrayItem() {
-        StartCoroutine(UseResetTrayItemCoroutine());
+        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle && MissionData.gotTrayItem == true) {
+            StartCoroutine(UseResetTrayItemCoroutine());
+        }
     }
 
     IEnumerator UseResetTrayItemCoroutine() {
-        if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
-            FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
-            if (MissionData.gotTrayItem == true)
-            {
-                yield return StartCoroutine(trayManager.RenewTray());
-                MissionData.gotTrayItem = false;
-            }
-            FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
-        }
+        FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;    
+        yield return StartCoroutine(trayManager.RenewTray());
+        MissionData.gotTrayItem = false;
+        ResetTrayItemButton.GetComponent<Image>().material = grayScale;
+        FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
     }
 
     public void BinOpen()
