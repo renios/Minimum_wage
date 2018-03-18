@@ -270,6 +270,12 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 509befd0303b449398e992eb12757d32, type: 2}
   m_IsPrefabParent: 0
+--- !u!114 &365792520 stripped
+MonoBehaviour:
+  m_PrefabParentObject: {fileID: 114245741709779880, guid: 8afae85cdf4664125b844e6ef7357baf,
+    type: 2}
+  m_PrefabInternal: {fileID: 662577931}
+  m_Script: {fileID: 11500000, guid: 7114d01b8f5b243e18c068fbbca85386, type: 3}
 --- !u!1001 &387722270
 Prefab:
   m_ObjectHideFlags: 0
@@ -661,6 +667,21 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 114735951943997934, guid: 8afae85cdf4664125b844e6ef7357baf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 365792520}
+    - target: {fileID: 114735951943997934, guid: 8afae85cdf4664125b844e6ef7357baf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: GoToWorld
+      objectReference: {fileID: 0}
+    - target: {fileID: 114735951943997934, guid: 8afae85cdf4664125b844e6ef7357baf,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 224082276059755334, guid: 8afae85cdf4664125b844e6ef7357baf,
         type: 2}
       propertyPath: m_AnchorMin.y
@@ -2575,11 +2596,11 @@ Prefab:
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2000009752}
+      objectReference: {fileID: 365792520}
     - target: {fileID: 114562775961618122, guid: 7d2540d265cba47cba9b97d771ab659b,
         type: 2}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: GoToWorld
+      value: ActiveMenuPanel
       objectReference: {fileID: 0}
     - target: {fileID: 224721060462695770, guid: 7d2540d265cba47cba9b97d771ab659b,
         type: 2}
@@ -2601,6 +2622,21 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 223435243279163766, guid: 7d2540d265cba47cba9b97d771ab659b,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114562775961618122, guid: 7d2540d265cba47cba9b97d771ab659b,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114562775961618122, guid: 7d2540d265cba47cba9b97d771ab659b,
+        type: 2}
+      propertyPath: m_Interactable
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
   m_ParentPrefab: {fileID: 100100000, guid: 7d2540d265cba47cba9b97d771ab659b, type: 2}
@@ -2697,7 +2733,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!224 &2086471018
 RectTransform:
