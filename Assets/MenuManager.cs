@@ -50,6 +50,7 @@ public class MenuManager : MonoBehaviour {
 		yield return tw.WaitForCompletion();
 		tw = fadeoutPanel.DOFade(1, 1).SetUpdate(UpdateType.Normal, true);
 		yield return tw.WaitForCompletion();
+		Time.timeScale = 1;
 		SceneManager.LoadScene("World");
 	}
 
