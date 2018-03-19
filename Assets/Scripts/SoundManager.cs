@@ -140,6 +140,29 @@ public class SoundManager : MonoBehaviour{
         musicPlayer.Stop();
     }
 
+    public static void SetVolumeOfSoundPlayer(bool isVolumeOn){
+        float volume;
+        if (isVolumeOn){
+            volume = 1;
+        } else {
+            volume = 0;
+        }
+        SoundPlayer.soundVolume = volume;
+        foreach (var sp in usingSP){
+            sp.SetVolume();
+        }
+    }
+    public static void SetVolumeOfMusicPlayer(bool isVolumeOn){
+        float volume;
+        if (isVolumeOn){
+            volume = 1;
+        } else {
+            volume = 0;
+        }
+        SoundPlayer.musicVolume = volume;
+        musicPlayer.SetVolume();
+    }
+
     void Awake() {
         if (instance != null) {
             Destroy(gameObject);

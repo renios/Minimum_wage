@@ -20,6 +20,7 @@ public class SoundPlayer : MonoBehaviour{
         SoundManager.AddUsingSoundPlayer(this);
         audio.Pause();
         audio.clip = clip;
+        SetVolume();
         transform.position = pos;
         if (isMusicPlayer) audio.loop = isLoop;
         if (!audio.loop) {
