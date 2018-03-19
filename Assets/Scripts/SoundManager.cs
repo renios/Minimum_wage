@@ -21,7 +21,9 @@ public class WorldSoundData{
 public class SoundManager : MonoBehaviour{
     static SoundManager instance;
     static Queue<SoundPlayer> spPool;
+    static HashSet<SoundPlayer> usingSP;
     static SoundPlayer musicPlayer;
+    static MusicType presentMT;
     static int worldIndex;
     static int comboCount;
     
@@ -42,6 +44,15 @@ public class SoundManager : MonoBehaviour{
     public static void PushUsedSoundPlayer(SoundPlayer sp) { 
         sp.gameObject.SetActive(false);
         spPool.Enqueue(sp);
+    }    public static void AddUsingSoundPlayer(SoundPlayer sp){
+        usingSP.Add(sp);
+    }
+    public static void RemoveUsingSoundPlayer(SoundPlayer sp){
+        if(usingSP.Contains(sp)){
+            usingSP.Remove(sp);
+        } else {
+            Debug.LogWarning("UnassignedSoundPlayerException : Can't find given SoundPlayer in usingSP");
+        }
     }
 
     public void PlayNonStatic(SoundType st, Vector2 pos = new Vector2()){
@@ -54,6 +65,19 @@ public class SoundManager : MonoBehaviour{
             return;
         }
         PullNewSoundPlayer().Play(clip, pos);
+    }
+
+    public static void PauseSoundPlayers(){
+        foreach (var sp in usingSP){
+            sp.Pause();
+        }
+        musicPlayer.Pause();
+    }
+    public static void UnpauseSoundPlayers(){
+        foreach (var sp in usingSP){
+            sp.Unpause();
+        }
+        musicPlayer.Unpause();
     }
     static AudioClip ChooseSound(SoundType st){
         AudioClip clip;
@@ -77,6 +101,8 @@ public class SoundManager : MonoBehaviour{
         AudioClip clip;
         bool isLoop = false;
         var selectedWorld = instance.worldSoundData[worldIndex];
+        presentMT = mt;
+        Debug.Log("PresentMT : "+presentMT.ToString());
         switch(mt){
             case MusicType.Ambient:{
                 clip = selectedWorld.ambient;
@@ -120,6 +146,7 @@ public class SoundManager : MonoBehaviour{
         } else {
             instance = this;
             spPool = new Queue<SoundPlayer>();
+            usingSP = new HashSet<SoundPlayer>();
             var musicPlayerGO = Instantiate(instance.standardSoundPlayer, instance.gameObject.transform);
             musicPlayer = musicPlayerGO.GetComponent<SoundPlayer>();
             musicPlayer.SetMusicPlayer();

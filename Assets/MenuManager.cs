@@ -20,6 +20,7 @@ public class MenuManager : MonoBehaviour {
 
 	IEnumerator ActiveMenuPanelCoroutine() {
 		Time.timeScale = 0;
+		SoundManager.PauseSoundPlayers();
 		panelBg.GetComponent<Image>().raycastTarget = true;
 		panelBg.DOFade(0.7f, delay).SetUpdate(UpdateType.Normal, true);
 		panel.GetComponent<RectTransform>().DOMove(Vector3.zero, delay).SetUpdate(UpdateType.Normal, true);
@@ -35,6 +36,7 @@ public class MenuManager : MonoBehaviour {
 		Tween tw = panel.GetComponent<RectTransform>().DOMove(originPos, delay).SetUpdate(UpdateType.Normal, true);
 		yield return tw.WaitForCompletion();
 		panelBg.GetComponent<Image>().raycastTarget = false;
+		SoundManager.UnpauseSoundPlayers();
 		Time.timeScale = 1;
 	}
 
