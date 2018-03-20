@@ -788,8 +788,10 @@ public class TrayManager : MonoBehaviour {
 			// 유효이동일 경우에만 카운트 상승
 			SoundManager.Play(SoundType.Swap);
 			moveCountAfterMatching++;
-			// 이동 성공 시 터치카운트를 1 올림
-			missionManager.currentTouchCount += 1;
+            // 이동 성공 시 터치카운트를 1 올림
+            missionManager.currentTouchCount++;
+            missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+            StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
 			yield return StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
 		}
 
@@ -799,9 +801,11 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	public void BinDrop() {
-		// 쓰레기통에 버려도 터치카운트를 1 올림
-		missionManager.currentTouchCount += 1;
-		Destroy(pickedFood1);
+        // 쓰레기통에 버려도 터치카운트를 1 올림
+        missionManager.currentTouchCount++;
+        missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+        StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
+        Destroy(pickedFood1);
 		int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
 		int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
 		foods[posX, posY] = null;

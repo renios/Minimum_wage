@@ -26,7 +26,6 @@ public class CustomerManager : MonoBehaviour {
 	GameStateManager gameStateManager;
 	HeartManager heartManager;
 	TrayManager trayManager;
-	CoinManager coinManager;
 	MissionManager missionManager;
 
 	public void ResetFoundCorrespondentEachOrder() {
@@ -77,8 +76,12 @@ public class CustomerManager : MonoBehaviour {
 
 		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
-		missionManager.successCustomerCount++;
-		coinManager.AddCoin(100);
+        missionManager.successCustomerCount++;
+        StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
+        missionManager.currentCoin += 100;
+        SoundManager.Play(SoundType.Cashier);
+        missionManager.coinText.text = missionManager.currentCoin.ToString();
+        StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
 	}
 
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
@@ -149,7 +152,6 @@ public class CustomerManager : MonoBehaviour {
 	void Start () {
 		heartManager = FindObjectOfType<HeartManager>();
 		trayManager = FindObjectOfType<TrayManager>();
-		coinManager = FindObjectOfType<CoinManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();

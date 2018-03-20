@@ -13,20 +13,27 @@ public class MissionManager : MonoBehaviour {
 	public Text timeText;
 	public Text customerText;
 	public Text touchText;
+    public Text coinText;
 
-	float remainTime;
+    float remainTime;
 	int customerCount;
 	public int successCustomerCount = 0;
-	int touchCount;
+	public int touchCount;
 	public int currentTouchCount = 0;
+    public int currentCoin;
 
-	bool isUsedTime = false;
-	bool isUsedCustomerCount = false;
-	bool isUsedTouchCount = false;
+    bool isUsedTime = false;
+	public bool isUsedCustomerCount = false;
+	public bool isUsedTouchCount = false;
 
 	int currentStage;
 
-	GameManager gameManager;
+    // 텍스트 애니메이션 관련 변수
+    public int defaultFontSize;
+    public int maxFontSize;
+    public float animRate;
+
+    GameManager gameManager;
 	GameStateManager gameStateManager;
 
 	void UpdateProgress() {
@@ -76,7 +83,10 @@ public class MissionManager : MonoBehaviour {
 
 		LoadMissionData();
 
-		if (isUsedTime) {
+        currentCoin = 0;
+        coinText.text = currentCoin.ToString();
+
+        if (isUsedTime) {
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 		else {
@@ -97,7 +107,7 @@ public class MissionManager : MonoBehaviour {
 			touchImage.enabled = false;
 			touchText.enabled = false;
 		}
-	}
+    }
 	
 	public IEnumerator CheckGameEnd() {
 		// 시간 조건 체크
@@ -130,8 +140,22 @@ public class MissionManager : MonoBehaviour {
 		}
 	}
 
-	// Update is called once per frame
-	void Update () {
+    public IEnumerator TextAnimation(Text _text)
+    {
+        // 현재로서는 문제 되는 상황이 없는 듯 하고 + 변수를 너무 늘리게 될 것 같아
+        // 이미 같은 코루틴이 돌고 있을 때 끊고 다시 시작하게 하는 코딩은 하지 않음
+        while (_text.fontSize < maxFontSize)
+        {
+            _text.fontSize = (int)Mathf.Lerp(_text.fontSize, defaultFontSize * 2, animRate);
+            _text.color = new Color(_text.color.r, _text.color.g, _text.color.b, _text.color.a * (1 - animRate));
+            yield return null;
+        }
+        _text.fontSize = defaultFontSize;
+        _text.color = new Color(_text.color.r, _text.color.g, _text.color.b, 1);
+    }
+
+    // Update is called once per frame
+    void Update () {
 		if (!gameManager.isPlaying) return;
 
 		if (isUsedTime) {
@@ -140,16 +164,8 @@ public class MissionManager : MonoBehaviour {
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 
-		if (isUsedCustomerCount) {
-			customerText.text = successCustomerCount + "/" + customerCount;
-		}
-
-		if (isUsedTouchCount) {
-			touchText.text = currentTouchCount + "/" + touchCount;
-		}
-		
-		// 테스트용 클리어 치트
-		if (Input.GetKeyDown(KeyCode.C)) {
+        // 테스트용 클리어 치트
+        if (Input.GetKeyDown(KeyCode.C)) {
 			if (gameStateManager.gameState == GameState.Idle) {
 				gameStateManager.gameState = GameState.Result;
 				StartCoroutine(gameManager.ShowClearCanvas());
