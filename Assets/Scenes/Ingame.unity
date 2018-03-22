@@ -2564,6 +2564,11 @@ Prefab:
       propertyPath: coinText
       value: 
       objectReference: {fileID: 387722271}
+    - target: {fileID: 223576417015583432, guid: 1740cf9e319374d4abeee36684676482,
+        type: 2}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1740cf9e319374d4abeee36684676482, type: 2}
   m_IsPrefabParent: 0
