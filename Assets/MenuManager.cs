@@ -4,6 +4,7 @@ using UnityEngine;
 using DG.Tweening;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using Enums;
 
 public class MenuManager : MonoBehaviour {
 
@@ -14,7 +15,12 @@ public class MenuManager : MonoBehaviour {
 	float delay = 0.5f;
 	Vector3 originPos;
 
+	GameStateManager gameStateManager;
+	GameState prevGameState;
+
 	public void ActiveMenuPanel() {
+		prevGameState = gameStateManager.gameState;
+		gameStateManager.gameState = GameState.Paused;
 		StartCoroutine(ActiveMenuPanelCoroutine());
 	}
 
@@ -38,6 +44,8 @@ public class MenuManager : MonoBehaviour {
 		panelBg.GetComponent<Image>().raycastTarget = false;
 		SoundManager.UnpauseSoundPlayers();
 		Time.timeScale = 1;
+
+		gameStateManager.gameState = prevGameState;
 	}
 
 	public void GoToWorld() {
@@ -58,6 +66,7 @@ public class MenuManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		gameStateManager = FindObjectOfType<GameStateManager>();
 		originPos = panel.GetComponent<RectTransform>().position;
 	}
 	
