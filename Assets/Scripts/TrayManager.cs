@@ -549,7 +549,7 @@ public class TrayManager : MonoBehaviour {
 				// 주문판과 주문판에 있는 음식 제거
 				foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
 					orderAspect.SetActive(false);
-
+				
 				if(matchedCustomer != null)
 				{
 					//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
@@ -561,6 +561,8 @@ public class TrayManager : MonoBehaviour {
 						matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
+					// 이미지 사용중이라는 정보 제거
+					RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
 
 			}
