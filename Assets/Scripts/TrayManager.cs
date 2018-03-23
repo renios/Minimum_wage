@@ -466,12 +466,12 @@ public class TrayManager : MonoBehaviour {
 			Customer matchedCustomer = pair.customer;
 			List<FoodOnTray> matchedFoods = pair.foods;
 
-			// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분
-			feverManager.AddFeverAmountByCustomer(matchedCustomer);
-			// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분
-			List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
-											.FindAll(customer => customer != null && !customer.isServed);
-			remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+			// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+			// feverManager.AddFeverAmountByCustomer(matchedCustomer);
+			// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+			// List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
+			// 								.FindAll(customer => customer != null && !customer.isServed);
+			// remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
 
 			ShowMatchingEffect(matchedFoods);
 
@@ -487,8 +487,8 @@ public class TrayManager : MonoBehaviour {
 
 			if (comboCount > 1) {
 				ShowComboText(matchedFoods);
-				// 콤보에 따라 피버게이지 오르는 부분
-				feverManager.AddFeverAmountByCombo(comboCount-1);
+				// 콤보에 따라 피버게이지 오르는 부분 (쓰지 않음)
+				// feverManager.AddFeverAmountByCombo(comboCount-1);
 			}
 
 			List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
