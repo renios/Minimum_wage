@@ -110,8 +110,16 @@ public class MissionManager : MonoBehaviour {
     }
 	
 	public IEnumerator CheckGameEnd() {
+		// 손님 조건 체크
+		if (isUsedCustomerCount && successCustomerCount >= customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+			gameStateManager.gameState = GameState.Result;
+			yield return StartCoroutine(gameManager.ShowClearCanvas());
+			UpdateProgress();
+			gameStateManager.gameState = GameState.End;
+		}
+		
 		// 시간 조건 체크
-		if (isUsedTime && remainTime <= 0/* && !gameManager.gameoverCanvas.activeInHierarchy && !gameManager.isPlayingAnim*/) {
+		else if (isUsedTime && remainTime <= 0/* && !gameManager.gameoverCanvas.activeInHierarchy && !gameManager.isPlayingAnim*/) {
 			gameStateManager.gameState = GameState.Result;
 			// 버티기 미션일 경우 시간이 다 떨어졌을 때 게임 오버가 되는 대신 게임 클리어가 됨
 			if (!isUsedCustomerCount) {
@@ -124,16 +132,8 @@ public class MissionManager : MonoBehaviour {
 			gameStateManager.gameState = GameState.End;
 		}
 
-		// 손님 조건 체크
-		if (isUsedCustomerCount && successCustomerCount >= customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
-			gameStateManager.gameState = GameState.Result;
-			yield return StartCoroutine(gameManager.ShowClearCanvas());
-			UpdateProgress();
-			gameStateManager.gameState = GameState.End;
-		}
-
 		// 터치 조건 체크
-		if (isUsedTouchCount && currentTouchCount > touchCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+		else if (isUsedTouchCount && currentTouchCount > touchCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
 			gameStateManager.gameState = GameState.Result;
 			yield return StartCoroutine(gameManager.ShowGameoverCanvas());
 			gameStateManager.gameState = GameState.End;
