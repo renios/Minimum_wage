@@ -39,11 +39,16 @@ public class GameManager : MonoBehaviour {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageClear);
 		gameEndCanvas.SetActive(true);
+		starObjects.ToList().ForEach(star => {
+			star.GetComponent<Image>().enabled = true;
+			star.GetComponent<Image>().DOFade(0, 0);
+		});
 		Vector3 startPos = new Vector3(0, 19.2f, 0);
 		mainPanel.transform.DOMove(startPos, 0);
 		mainPanel.sprite = clearSprite;
 		Tween tw = mainPanel.transform.DOMove(Vector3.zero, delay);
 		mainPanel.DOFade(1, delay);
+		starObjects.ToList().ForEach(star => star.GetComponent<Image>().DOFade(1, delay));
 		yield return tw.WaitForCompletion();
 		yield return StartCoroutine(ShowStars());
 	}
@@ -62,9 +67,10 @@ public class GameManager : MonoBehaviour {
 			star.GetComponentInChildren<ParticleSystem>().Play();
 			
 			Vector3 originPos = star.transform.position;
-			Tween tw = star.transform.DOJump(originPos, jumpPower, 1, duration);
-			yield return tw.WaitForCompletion();
+			star.transform.DOJump(originPos, jumpPower, 1, duration);
+			yield return new WaitForSeconds(duration*0.5f);
 		}
+		yield return new WaitForSeconds(duration*0.5f);
 	}
 
 	IEnumerator StartAnimation()
@@ -90,7 +96,7 @@ public class GameManager : MonoBehaviour {
 		gameStateManager = FindObjectOfType<GameStateManager>();
 		starObjects.ToList().ForEach(star => {
 			star.GetComponentInChildren<ParticleSystem>().Stop();
-			star.GetComponent<Image>().color = Color.gray;
+			star.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 1);
 			star.GetComponent<Image>().enabled = false;
 		});
 	}
@@ -114,6 +120,7 @@ public class GameManager : MonoBehaviour {
 		starObjects.ToList().ForEach(star => {
 			if (star.GetComponent<Image>().enabled) {
 				star.GetComponent<Image>().DOColor(Color.black, delay);
+				star.GetComponentInChildren<ParticleSystem>().Stop();
 			}
 		});
 		Tween tw = mainPanel.DOColor(Color.black, delay);
