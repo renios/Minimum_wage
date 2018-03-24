@@ -112,6 +112,8 @@ public class MissionManager : MonoBehaviour {
     }
 	
 	public IEnumerator CheckGameEnd() {
+		if (gameStateManager.gameState != GameState.Idle) yield break;
+
 		// 손님 조건 체크
 		if (isUsedCustomerCount && successCustomerCount >= customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
 			gameStateManager.gameState = GameState.Result;
