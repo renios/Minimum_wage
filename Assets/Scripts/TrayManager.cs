@@ -222,7 +222,7 @@ public class TrayManager : MonoBehaviour {
 	bool IsComboCountUp () {
 		if (moveCountAfterMatching == 1) {
 			if (lastComboTime < comboDelayByMoving) {
-				Debug.Log("Combo by one move. ComboCount " + comboCount + " -> " + (comboCount+1));
+				// Debug.Log("Combo by one move. ComboCount " + comboCount + " -> " + (comboCount+1));
 				return true;
 			}
 			else {
@@ -231,7 +231,7 @@ public class TrayManager : MonoBehaviour {
 		}
 		else {
 			if (lastComboTime < comboDelay) {
-				Debug.Log("Combo by time. ComboCount " + comboCount + " -> " + (comboCount+1));
+				// Debug.Log("Combo by time. ComboCount " + comboCount + " -> " + (comboCount+1));
 				return true;
 			}
 			else {
