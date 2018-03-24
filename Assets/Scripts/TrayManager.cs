@@ -72,7 +72,7 @@ public class TrayManager : MonoBehaviour {
 	CustomerManager customerManager;
 	MissionManager missionManager;
 	GameManager gameManager;
-	FeverManager feverManager;
+	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
 	public List<List<FoodType>> GetTraysNotOnFoods(){
@@ -739,7 +739,7 @@ public class TrayManager : MonoBehaviour {
 		customerManager = FindObjectOfType<CustomerManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
-		feverManager = FindObjectOfType<FeverManager>();
+		// feverManager = FindObjectOfType<FeverManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		InitializeFoods();
