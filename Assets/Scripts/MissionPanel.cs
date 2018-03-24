@@ -32,7 +32,7 @@ public class MissionPanel : MonoBehaviour {
         superfoodItem.isOn = false;
         renewTrayItem.isOn = false;
 
-		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+        Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
 		int date = missionDataDict[MissionDataType.StageIndex];
 		dayText.text = "DAY " + date;
@@ -99,12 +99,14 @@ public class MissionPanel : MonoBehaviour {
         else
             worldTimeTexts[worldKey].text = "--";
 
-        if (missionDataDict.ContainsKey(MissionDataType.touchCount))
-        {
-            int touchCount = missionDataDict[MissionDataType.touchCount];
-            worldTimeTexts[worldKey].text = "" + missionDataDict[MissionDataType.touchCount];
+        if (worldKey > 1) {
+            if (missionDataDict.ContainsKey(MissionDataType.touchCount))
+            {
+                int touchCount = missionDataDict[MissionDataType.touchCount];
+                worldTouchTexts[worldKey].text = "" + missionDataDict[MissionDataType.touchCount];
+            }
+            else
+                worldTouchTexts[worldKey].text = "--";
         }
-        else
-            worldTimeTexts[worldKey].text = "--";
-	}
+    }
 }

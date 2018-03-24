@@ -64,11 +64,13 @@ public static class MissionData {
 		if (missionDataDict.ContainsKey(MissionDataType.foodTypeCount)) {
 			foodTypeCount = missionDataDict[MissionDataType.foodTypeCount];
 		}
-		if (missionDataDict.ContainsKey(MissionDataType.starTrigger3)) {
-			starTrigger3 = missionDataDict[MissionDataType.starTrigger3];
+
+		if (missionDataDict.ContainsKey(MissionDataType.maxHeart)) {
+			maxHeart = missionDataDict[MissionDataType.maxHeart];
 		}
 
-		maxHeart = missionDataDict[MissionDataType.maxHeart];
+		starTrigger3 = missionDataDict[MissionDataType.starTrigger3];
+
 		waitingTime = missionDataDict[MissionDataType.waitingTime];
 		customerCooldown = missionDataDict[MissionDataType.customerCooldown];
 		maxCustomer = missionDataDict[MissionDataType.maxCustomer];
@@ -76,7 +78,9 @@ public static class MissionData {
 
 	public static Dictionary<MissionDataType, int> GetMissionDataDict() {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
+
 		missionDataDict.Add(MissionDataType.StageIndex, stageIndex);
+
 		if (customerCount != -1) {
 			missionDataDict.Add(MissionDataType.customerCount, customerCount);
 		}
@@ -100,8 +104,21 @@ public static class MissionData {
 		return missionDataDict;
 	}
 
+	public static Dictionary<MissionDataType, int> SetDefaultValues(Dictionary<MissionDataType, int> missionDataDict) {
+		missionDataDict.Add(MissionDataType.starTrigger3, starTrigger3);
+
+		missionDataDict.Add(MissionDataType.maxHeart, maxHeart);
+		missionDataDict.Add(MissionDataType.waitingTime, waitingTime);
+		missionDataDict.Add(MissionDataType.customerCooldown, customerCooldown);
+		missionDataDict.Add(MissionDataType.maxCustomer, maxCustomer);
+
+		return missionDataDict;
+	}
+
 	public static Dictionary<MissionDataType, int> LoadMissionDataDict(int stageIndex) {
 		Dictionary<MissionDataType, int> missionDataDict = new Dictionary<MissionDataType, int>();
+
+		missionDataDict = SetDefaultValues(missionDataDict);
 
 		int world = ((stageIndex-1) / 10) + 1;
 		int stage = (stageIndex % 10);
