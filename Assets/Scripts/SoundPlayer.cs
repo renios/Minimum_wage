@@ -47,9 +47,11 @@ public class SoundPlayer : MonoBehaviour{
         if (isPlaying) time += Time.deltaTime;
 
         if (!audio.loop && time >= duration){
-            SoundManager.RemoveUsingSoundPlayer(this);
-            SoundManager.PushUsedSoundPlayer(this);
             isPlaying = false;
+            if(!isMusicPlayer){
+                SoundManager.RemoveUsingSoundPlayer(this);
+                SoundManager.PushUsedSoundPlayer(this);
+            }
         }
     }
 }
