@@ -67,9 +67,10 @@ public class GameManager : MonoBehaviour {
 			star.GetComponentInChildren<ParticleSystem>().Play();
 			
 			Vector3 originPos = star.transform.position;
-			Tween tw = star.transform.DOJump(originPos, jumpPower, 1, duration);
-			yield return tw.WaitForCompletion();
+			star.transform.DOJump(originPos, jumpPower, 1, duration);
+			yield return new WaitForSeconds(duration*0.5f);
 		}
+		yield return new WaitForSeconds(duration*0.5f);
 	}
 
 	IEnumerator StartAnimation()
