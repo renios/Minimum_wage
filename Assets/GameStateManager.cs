@@ -39,8 +39,14 @@ public class GameStateManager : MonoBehaviour {
 	}
 
 	public IEnumerator Idle() {
-		while (gameState == GameState.Idle) {
-			// 게임 종료 조건 체크
+		while (gameState == GameState.Idle || gameState == GameState.UseItem) {
+            // 아이템을 썼을 때 -> ItemManager에서 처리(대신 이 코루틴이 끝나버리지 않도록 홀드)
+            if (gameState == GameState.UseItem)
+            {
+                yield return new WaitUntil(() => gameState == GameState.Idle);
+            }
+
+            // 게임 종료 조건 체크
 			yield return StartCoroutine(heartManager.CheckGameEnd());
 			yield return StartCoroutine(missionManager.CheckGameEnd());
 
@@ -53,8 +59,8 @@ public class GameStateManager : MonoBehaviour {
 
 			// 음식을 집었을 때 -> Picked
 			if (pickedTrigger) {
-				yield return StartCoroutine(trayManager.PickFood(pickedFood));
-				pickedTrigger = false;
+                yield return StartCoroutine(trayManager.PickFood(pickedFood));
+                pickedTrigger = false;
 				gameState = GameState.Picked;
 				yield return StartCoroutine(Picked());
 			}
@@ -65,8 +71,6 @@ public class GameStateManager : MonoBehaviour {
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
-
-			// 아이템을 썼을 때 -> ItemManager에서 처리
 
 			yield return null;
 		}

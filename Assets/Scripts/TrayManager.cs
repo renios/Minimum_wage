@@ -466,14 +466,49 @@ public class TrayManager : MonoBehaviour {
 			Customer matchedCustomer = pair.customer;
 			List<FoodOnTray> matchedFoods = pair.foods;
 
-			// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
-			// feverManager.AddFeverAmountByCustomer(matchedCustomer);
-			// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
-			// List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
-			// 								.FindAll(customer => customer != null && !customer.isServed);
-			// remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+            // 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+            // feverManager.AddFeverAmountByCustomer(matchedCustomer);
+            // 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+            // List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
+            // 								.FindAll(customer => customer != null && !customer.isServed);
+            // remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
 
-			ShowMatchingEffect(matchedFoods);
+            // 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
+            if (matchedCustomer.orderedFoods.Any(food => food.foundCorrespondent)) yield break;
+
+            // 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
+            foreach (var matchedFood in matchedFoods)
+            {
+                if (!matchedFood.isSuperfood)
+                {
+                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+                        FoodInOrder.foodType == matchedFood.foodType &&
+                        !FoodInOrder.foundCorrespondent);
+                    // 완벽히 같은 손님과 매칭되지 않도록 함
+                    if (matchedFood.correspondent == null)
+                    {
+                        matchedFood.correspondent = corrFoodInOrder;
+
+                        // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+                        if (!corrFoodInOrder.foundCorrespondent)
+                            corrFoodInOrder.foundCorrespondent = true;
+                    }
+                }
+            }
+            // 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
+            foreach (var matchedFood in matchedFoods)
+            {
+                if (matchedFood.isSuperfood)
+                {
+                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+                        !FoodInOrder.foundCorrespondent);
+                    matchedFood.correspondent = corrFoodInOrder;
+
+                    corrFoodInOrder.foundCorrespondent = true;
+                }
+            }
+
+            ShowMatchingEffect(matchedFoods);
 
 			if (IsComboCountUp()) {
 				comboCount++;
@@ -549,7 +584,7 @@ public class TrayManager : MonoBehaviour {
 				// 주문판과 주문판에 있는 음식 제거
 				foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
 					orderAspect.SetActive(false);
-
+				
 				if(matchedCustomer != null)
 				{
 					//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
@@ -561,6 +596,8 @@ public class TrayManager : MonoBehaviour {
 						matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
+					// 이미지 사용중이라는 정보 제거
+					RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
 
 			}
@@ -612,33 +649,7 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		// 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
-		foreach(var foodInPart in foodsInPart) {
-			if (!foodInPart.isSuperfood) {
-				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
-					FoodInOrder.foodType == foodInPart.foodType && 
-					!FoodInOrder.foundCorrespondent);
-				// 완벽히 같은 손님과 매칭되지 않도록 함
-				if(foodInPart.correspondent == null)
-				{
-					foodInPart.correspondent = corrFoodInOrder;
 
-					// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-					if (!corrFoodInOrder.foundCorrespondent)
-						corrFoodInOrder.foundCorrespondent = true;
-				}
-			}
-		}
-		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
-		foreach(var foodInPart in foodsInPart) {
-			if (foodInPart.isSuperfood) {
-				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
-					!FoodInOrder.foundCorrespondent);
-				foodInPart.correspondent = corrFoodInOrder;
-
-				corrFoodInOrder.foundCorrespondent = true;
-			}
-		}
 		return true;
 	}
 
@@ -858,17 +869,13 @@ public class TrayManager : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 
-		if (Input.GetKeyDown(KeyCode.S)) {
-			// MakeSuperfood();
-		}
-
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
 			Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-			//If something was hit, the RaycastHit2D.collider will not be null.
-			if ((hit.collider != null) && (!isPlayingMovingAnim))
+            //If something was hit, the RaycastHit2D.collider will not be null.
+            if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
 				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
 			}
