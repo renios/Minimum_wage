@@ -13,14 +13,12 @@ public class ScoreManager : MonoBehaviour {
 	public Sprite inactiveBunny;
 	public Sprite activeBunny;
 
-	float scoreAmount = 0;
-	float goalAmount = 0;
+	int visualScoreAmount = 0;
+	public int realScoreAmount = 0;
 
-	int feverLevel = 0;
+	int numberOfStars = 0;
 
-	int waitingTime = 30;
-
-	int maxAmount = 50;
+	int starTrigger3 = 0;
 
 	readonly int comboCoef = 5;
 	readonly int customerCoef = 2;
@@ -29,7 +27,7 @@ public class ScoreManager : MonoBehaviour {
 		point.GetComponentInChildren<ParticleSystem>().Play();
 		point.sprite = activeBunny;
 		point.color = Color.yellow;
-		feverLevel += 1;
+		numberOfStars += 1;
 	}
 
 	void InactiveAllPoints() {
@@ -43,73 +41,73 @@ public class ScoreManager : MonoBehaviour {
 		checkPoint3.color = Color.gray;
 		checkPoint3.GetComponentInChildren<ParticleSystem>().Stop();
 
-		feverLevel = 0;
+		numberOfStars = 0;
 	}
 
-	public void AddFeverAmountByCustomer(Customer customer) {
-		float amount = 0;
-		amount = customer.remainWaitingTime / (float)waitingTime;
+	public void AddScoreAmountByCustomer(Customer customer) {
+		int amount = 0;
+		amount = (int)(customer.remainWaitingTime / (float)starTrigger3);
 		amount *= customerCoef;
 		AddScoreAmount(amount);
 	}
 
-	public void AddFeverAmountByCombo(int comboCount) {
-		float amount = comboCount * comboCoef;
+	public void AddScoreAmountByCombo(int comboCount) {
+		int amount = comboCount * comboCoef;
 		AddScoreAmount(amount);
 	}
 
-	public void AddScoreAmount(float amount) {
-		goalAmount += amount;
-		Debug.Log("Score : " + scoreAmount + " -> " + goalAmount);
+	public void AddScoreAmount(int amount) {
+		realScoreAmount += amount;
+		Debug.Log("Score : " + visualScoreAmount + " -> " + realScoreAmount);
 	}
 
 	// Use this for initialization
 	void Start () {
-		scoreAmount = 0;
-		feverLevel = 0;
+		visualScoreAmount = 0;
+		numberOfStars = 0;
 		bar.fillAmount = 0;
 		InactiveAllPoints();
 
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
-		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
-			waitingTime = MissionData.GetMissionDataDict()[MissionDataType.waitingTime];
+		if (missionDataDict.ContainsKey(MissionDataType.starTrigger3)) {
+			starTrigger3 = MissionData.GetMissionDataDict()[MissionDataType.starTrigger3];
 		}
 	}
 
-	float amount = 0.5f;
+	int amount = 1;
 
-	public void CheckFeverPoint() {
-		if (scoreAmount > maxAmount/3f && feverLevel < 1) {
+	public void CheckStarPoint() {
+		if (visualScoreAmount > starTrigger3/3f && numberOfStars < 1) {
 			ActivePoint(checkPoint1);
 		}
 
-		if (scoreAmount > (maxAmount*2)/3f && feverLevel < 2) {
+		if (visualScoreAmount > (starTrigger3*2)/3f && numberOfStars < 2) {
 			ActivePoint(checkPoint2);
 		}
 
-		if (scoreAmount >= maxAmount && feverLevel < 3) {
+		if (visualScoreAmount >= starTrigger3 && numberOfStars < 3) {
 			ActivePoint(checkPoint3);
 		}
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (scoreAmount < goalAmount) {
-			scoreAmount += amount;
-			bar.fillAmount = scoreAmount / maxAmount;
+		if (visualScoreAmount < realScoreAmount) {
+			visualScoreAmount += amount;
+			bar.fillAmount = visualScoreAmount / (float)starTrigger3;
 		}
 
 		if (Input.GetKeyDown(KeyCode.G)) {
 			AddScoreAmount(15);
 		}
 
-		CheckFeverPoint();
+		CheckStarPoint();
 	}
 
 	void Reset () {
-		goalAmount = 0;
-		scoreAmount = 0;
-		feverLevel = 0;
+		realScoreAmount = 0;
+		visualScoreAmount = 0;
+		numberOfStars = 0;
 		bar.fillAmount = 0;
 		InactiveAllPoints();
 	}

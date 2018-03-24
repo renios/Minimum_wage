@@ -27,6 +27,7 @@ public class CustomerManager : MonoBehaviour {
 	HeartManager heartManager;
 	TrayManager trayManager;
 	MissionManager missionManager;
+	ScoreManager scoreManager;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -69,6 +70,13 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
+	void AddCoinAmount(int amount) {
+		scoreManager.realScoreAmount += amount;
+		SoundManager.Play(SoundType.Cashier);
+		missionManager.coinText.text = scoreManager.realScoreAmount.ToString();
+		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
+	}
+
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
 
@@ -76,12 +84,9 @@ public class CustomerManager : MonoBehaviour {
 
 		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
-        missionManager.successCustomerCount++;
-        StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
-        missionManager.currentCoin += 100;
-        SoundManager.Play(SoundType.Cashier);
-        missionManager.coinText.text = missionManager.currentCoin.ToString();
-        StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
+		missionManager.successCustomerCount++;
+		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
+		AddCoinAmount(100);
 	}
 
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
@@ -155,6 +160,7 @@ public class CustomerManager : MonoBehaviour {
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+		scoreManager = FindObjectOfType<ScoreManager>();
 
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;

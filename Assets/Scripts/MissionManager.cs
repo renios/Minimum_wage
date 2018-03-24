@@ -13,28 +13,29 @@ public class MissionManager : MonoBehaviour {
 	public Text timeText;
 	public Text customerText;
 	public Text touchText;
-    public Text coinText;
+	public Text coinText;
 
-    float remainTime;
+	float remainTime;
 	int customerCount;
 	public int successCustomerCount = 0;
 	public int touchCount;
 	public int currentTouchCount = 0;
-    public int currentCoin;
+	public int currentCoin;
 
-    bool isUsedTime = false;
+	bool isUsedTime = false;
 	public bool isUsedCustomerCount = false;
 	public bool isUsedTouchCount = false;
 
 	int currentStage;
 
-    // 텍스트 애니메이션 관련 변수
-    public int defaultFontSize;
-    public int maxFontSize;
-    public float animRate;
+	// 텍스트 애니메이션 관련 변수
+	public int defaultFontSize;
+	public int maxFontSize;
+	public float animRate;
 
-    GameManager gameManager;
+	GameManager gameManager;
 	GameStateManager gameStateManager;
+	ScoreManager scoreManager;
 
 	void UpdateProgress() {
 		int progress = PlayerPrefs.GetInt("Progress", -1);
@@ -80,13 +81,14 @@ public class MissionManager : MonoBehaviour {
 	void Start () {
 		gameManager = FindObjectOfType<GameManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+		scoreManager = FindObjectOfType<ScoreManager>();
 
 		LoadMissionData();
 
-        currentCoin = 0;
-        coinText.text = currentCoin.ToString();
+		int currentCoin = scoreManager.realScoreAmount;
+		coinText.text = currentCoin.ToString();
 
-        if (isUsedTime) {
+		if (isUsedTime) {
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 		else {

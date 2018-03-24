@@ -12,7 +12,8 @@ public enum MissionDataType {
 	waitingTime,
 	customerCooldown,
 	maxCustomer,
-	foodTypeCount
+	foodTypeCount,
+	starTrigger3
 }
 
 public static class MissionData {
@@ -22,9 +23,10 @@ public static class MissionData {
 	public static int remainTime = -1;
 	public static int touchCount = -1;
 	public static int foodTypeCount = 4;
-    public static bool gotTimeItem = false;
-    public static bool gotSuperfood = false;
-    public static bool gotTrayItem = false;
+	public static bool gotTimeItem = false;
+	public static bool gotSuperfood = false;
+	public static bool gotTrayItem = false;
+	public static int starTrigger3 = 500;
 
 	// 상수값
 	public static int maxHeart = 3;
@@ -43,6 +45,8 @@ public static class MissionData {
 		waitingTime = 30;
 		customerCooldown = 1;
 		maxCustomer = 4;
+
+		starTrigger3 = 500;
 	}
 
 	public static void SetMissionData(int inputStageIndex, Dictionary<MissionDataType, int> missionDataDict) {
@@ -59,6 +63,9 @@ public static class MissionData {
 		}
 		if (missionDataDict.ContainsKey(MissionDataType.foodTypeCount)) {
 			foodTypeCount = missionDataDict[MissionDataType.foodTypeCount];
+		}
+		if (missionDataDict.ContainsKey(MissionDataType.starTrigger3)) {
+			starTrigger3 = missionDataDict[MissionDataType.starTrigger3];
 		}
 
 		maxHeart = missionDataDict[MissionDataType.maxHeart];
@@ -83,6 +90,8 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.foodTypeCount, foodTypeCount);
 		}
 
+		missionDataDict.Add(MissionDataType.starTrigger3, starTrigger3);
+
 		missionDataDict.Add(MissionDataType.maxHeart, maxHeart);
 		missionDataDict.Add(MissionDataType.waitingTime, waitingTime);
 		missionDataDict.Add(MissionDataType.customerCooldown, customerCooldown);
@@ -105,6 +114,8 @@ public static class MissionData {
 			// missionDataDict.Add(MissionDataType.remainTime, 90);
 			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
+
+			missionDataDict[MissionDataType.starTrigger3] = 50000;
 		}
 		else if (stageName == "1-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
