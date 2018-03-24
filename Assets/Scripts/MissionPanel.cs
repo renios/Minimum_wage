@@ -19,7 +19,7 @@ public class MissionPanel : MonoBehaviour {
     public Image resetTimeImage;
     public Image superfoodImage;
     public Image renewTrayImage;
-
+    
     private void Update()
     {
         resetTimeImage.enabled = (resetTimeItem.isOn == true) ? true : false;

@@ -84,7 +84,7 @@ public class CustomerManager : MonoBehaviour {
 
 		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
-		missionManager.successCustomerCount++;
+		missionManager.successCustomerCount += 1;
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
 		AddCoinAmount(100);
 	}

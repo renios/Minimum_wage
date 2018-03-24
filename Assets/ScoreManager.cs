@@ -16,7 +16,7 @@ public class ScoreManager : MonoBehaviour {
 	int visualScoreAmount = 0;
 	public int realScoreAmount = 0;
 
-	int numberOfStars = 0;
+	public int numberOfStars = 0;
 
 	int starTrigger3 = 0;
 

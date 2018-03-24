@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198821616952581994}
   - component: {fileID: 199617667689092150}
   m_Layer: 0
-  m_Name: FeverActiveParticle
+  m_Name: FeverActiveParticle_large
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

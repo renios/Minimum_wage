@@ -163,9 +163,14 @@ public class MissionManager : MonoBehaviour {
 		if (!gameManager.isPlaying) return;
 
 		if (isUsedTime) {
-			// if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked)
 			remainTime -= Time.deltaTime;	
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
+		}
+		if (isUsedCustomerCount) {
+			customerText.text = successCustomerCount + "/" + customerCount;
+		}
+		if (isUsedTouchCount) {
+			touchText.text = currentTouchCount + "/" + touchCount;
 		}
 
         // 테스트용 클리어 치트

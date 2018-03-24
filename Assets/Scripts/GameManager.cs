@@ -5,14 +5,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using DG.Tweening;
 using Enums;
+using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
-	public GameObject gameoverCanvas;
+	public GameObject gameEndCanvas;
+	public GameObject[] starObjects;
+	public Sprite starSprite;
 	public GameObject startCanvas;
-	public Image bgPanel;
 	public Image mainPanel;
-	public Text textInCanvas;
 	public Sprite gameoverSprite;
 	public Sprite clearSprite;
 
@@ -25,14 +26,11 @@ public class GameManager : MonoBehaviour {
 	public IEnumerator ShowGameoverCanvas() {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageOver);
-		gameoverCanvas.SetActive(true);
-		Vector3 startPos = new Vector3(Screen.width / 2, Screen.height * 1.5f, 0);
+		gameEndCanvas.SetActive(true);
+		Vector3 startPos = new Vector3(0, 19.2f, 0);
 		mainPanel.transform.DOMove(startPos, 0);
 		mainPanel.sprite = gameoverSprite;
-		//textInCanvas.text = "Game Over" + '\n' + '\n' + "Touch the Screen";
-		bgPanel.DOFade(0.4f, delay);
-		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
-		Tween tw = mainPanel.transform.DOMove(endPos, delay);
+		Tween tw = mainPanel.transform.DOMove(Vector3.zero, delay);
 		mainPanel.DOFade(1, delay);
 		yield return tw.WaitForCompletion();
 	}
@@ -40,16 +38,33 @@ public class GameManager : MonoBehaviour {
 	public IEnumerator ShowClearCanvas() {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageClear);
-		gameoverCanvas.SetActive(true);
-		Vector3 startPos = new Vector3(Screen.width / 2, Screen.height * 1.5f, 0);
+		gameEndCanvas.SetActive(true);
+		Vector3 startPos = new Vector3(0, 19.2f, 0);
 		mainPanel.transform.DOMove(startPos, 0);
 		mainPanel.sprite = clearSprite;
-		//textInCanvas.text = "Mission Clear" + '\n' + '\n' + "Touch the Screen";
-		bgPanel.DOFade(0.4f, delay);
-		Vector3 endPos = new Vector3(Screen.width / 2, Screen.height / 2, 0);
-		Tween tw = mainPanel.transform.DOMove(endPos, delay);
+		Tween tw = mainPanel.transform.DOMove(Vector3.zero, delay);
 		mainPanel.DOFade(1, delay);
 		yield return tw.WaitForCompletion();
+		yield return StartCoroutine(ShowStars());
+	}
+
+	float jumpPower = 3;
+	float duration = 1;
+
+	public IEnumerator ShowStars() {
+		ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
+		int numberOfStars = scoreManager.numberOfStars;
+		for (int i = 0; i < numberOfStars; i++) {
+			GameObject star = starObjects[i];
+			star.GetComponent<Image>().enabled = true;
+			star.GetComponent<Image>().sprite = starSprite;
+			star.GetComponent<Image>().color = Color.yellow;
+			star.GetComponentInChildren<ParticleSystem>().Play();
+			
+			Vector3 originPos = star.transform.position;
+			Tween tw = star.transform.DOJump(originPos, jumpPower, 1, duration);
+			yield return tw.WaitForCompletion();
+		}
 	}
 
 	IEnumerator StartAnimation()
@@ -73,6 +88,11 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 		gameStateManager = FindObjectOfType<GameStateManager>();
+		starObjects.ToList().ForEach(star => {
+			star.GetComponentInChildren<ParticleSystem>().Stop();
+			star.GetComponent<Image>().color = Color.gray;
+			star.GetComponent<Image>().enabled = false;
+		});
 	}
 
 	// Use this for initialization
@@ -84,14 +104,18 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		if (gameStateManager.gameState != GameState.End) return;
 
-		if (gameoverCanvas.activeInHierarchy) {
+		if (gameEndCanvas.activeInHierarchy) {
 			if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
 				StartCoroutine(HideCanvas());
 		}
 	}
 
 	IEnumerator HideCanvas () {
-		// bgPanel.DOFade(0, delay);
+		starObjects.ToList().ForEach(star => {
+			if (star.GetComponent<Image>().enabled) {
+				star.GetComponent<Image>().DOColor(Color.black, delay);
+			}
+		});
 		Tween tw = mainPanel.DOColor(Color.black, delay);
 		yield return tw.WaitForCompletion();
 		isPlaying = false;
@@ -100,6 +124,5 @@ public class GameManager : MonoBehaviour {
 		MissionData.gotTrayItem = false;
 		yield return new WaitForSeconds(1);
 		SceneManager.LoadScene("World");
-		// yield return null;
 	}
 }
