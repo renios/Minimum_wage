@@ -47,8 +47,8 @@ public class GameStateManager : MonoBehaviour {
             }
 
             // 게임 종료 조건 체크
-			yield return StartCoroutine(heartManager.CheckGameEnd());
 			yield return StartCoroutine(missionManager.CheckGameEnd());
+			yield return StartCoroutine(heartManager.CheckGameEnd());
 
 			// 서빙 불가일 때 판 리셋
 			if (trayManager.NoMatchingFoods()) {
