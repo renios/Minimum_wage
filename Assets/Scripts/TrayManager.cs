@@ -869,17 +869,13 @@ public class TrayManager : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 
-		if (Input.GetKeyDown(KeyCode.S)) {
-			// MakeSuperfood();
-		}
-
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
 			Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-			//If something was hit, the RaycastHit2D.collider will not be null.
-			if ((hit.collider != null) && (!isPlayingMovingAnim))
+            //If something was hit, the RaycastHit2D.collider will not be null.
+            if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
 				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
 			}

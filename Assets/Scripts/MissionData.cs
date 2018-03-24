@@ -23,7 +23,7 @@ public static class MissionData {
 	public static int touchCount = -1;
 	public static int foodTypeCount = 4;
     public static bool gotTimeItem = false;
-    public static bool gotSuperfood = false;
+    public static bool gotSuperfood = true;
     public static bool gotTrayItem = false;
 
 	// 상수값
