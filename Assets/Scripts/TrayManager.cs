@@ -419,7 +419,7 @@ public class TrayManager : MonoBehaviour {
 	// 맞는 페어가 있는지 찾는 함수를 따로 분리
 	public List<ServedPair> FindMatchingPairs() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
-		customers.OrderBy(customer => customer.remainWaitingTime); 
+		customers = customers.OrderBy(customer => customer.remainWaitingTime).ToList(); 
 		pairs.Clear();
 
 		// float animDelay = 1;
