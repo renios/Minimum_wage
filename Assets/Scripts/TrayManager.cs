@@ -75,7 +75,7 @@ public class TrayManager : MonoBehaviour {
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
-	public List<List<FoodType>> GetTraysNotOnFoods(){
+	public List<FoodType> GetTraysNotOnFoods(){
 		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
 		var result = new List<List<FoodType>>();
 		for(int i = 0; i < MissionData.foodTypeCount; i++){
@@ -87,28 +87,29 @@ public class TrayManager : MonoBehaviour {
 						foodTypes.Add((FoodType)k);
 						foodTypes.Add((FoodType)j);
 						foodTypes.Add((FoodType)i);
-						foodTypes.Sort();
 						result.Add(foodTypes);
 					}
 				}
 			}
 		}
-		for (int row = 0; row < ROW-1; row++){
-			for(int col = 0; col < COL-1; col++){
-				var foodsOnTray = new List<FoodType>();
-				if (foods[row, col] == null || foods[row+1, col] == null ||
-					foods[row, col+1] == null || foods[row+1, col+1] == null) 
-					continue;
-				foodsOnTray.Add(foods[row, col].foodType);
-				foodsOnTray.Add(foods[row+1, col].foodType);
-				foodsOnTray.Add(foods[row, col+1].foodType);
-				foodsOnTray.Add(foods[row+1, col+1].foodType);
-				foodsOnTray.Sort();
-				result.FindAll(r => ConvertListToString(r) == ConvertListToString(foodsOnTray)).ForEach(r => result.Remove(r));
+		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		foreach(var tray in result){
+			for (int row = 0; row < ROW-1; row++){
+				for(int col = 0; col < COL-1; col++){
+					var foodsOnTray = new List<FoodOnTray>();
+					if (foods[row, col] == null || foods[row+1, col] == null ||
+						foods[row, col+1] == null || foods[row+1, col+1] == null) 
+						continue;
+					foodsOnTray.Add(foods[row, col]);
+					foodsOnTray.Add(foods[row+1, col]);
+					foodsOnTray.Add(foods[row, col+1]);
+					foodsOnTray.Add(foods[row+1, col+1]);
+					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
+						return tray;
+				}
 			}
 		}
-		Debug.Log("TraysNotOnFoods : "+result.Count);
-		return result;
+		return result.First();
 	}
 	string ConvertListToString(List<FoodType> list){
 		string result = "";
@@ -436,8 +437,10 @@ public class TrayManager : MonoBehaviour {
 					foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
 						&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
 				else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
-				
-				List<Customer> matchedCustomers = customers.FindAll(customer => !customer.isServed && MatchEachPartWithCustomer(foodsInPart, customer));
+			
+				List<Customer> matchedCustomers = customers.FindAll(customer => 
+					!customer.isServed 
+					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
 				
 				// 서빙받을 손님과 서빙할 음식을 미리 마킹
 				if (matchedCustomers.Count > 0) {
@@ -611,11 +614,10 @@ public class TrayManager : MonoBehaviour {
 
 	}
 
-	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
+	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, List<FoodType> orderedFood) {
 		// 빈칸 등의 이유로 판에 있는 2*2 영역의 음식 갯수가 4보다 작을 경우에는 무조건 매칭 false 리턴
 		if (foodsInPart.Count < 4) return false;
 
-		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
 		// if (!corrFoodInOrder.foundCorrespondent) 부분의 null 에러를 막기 위해
 		// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
 		// if (foodsInOrder.Any(food => food.foundCorrespondent)) return false;
@@ -634,10 +636,10 @@ public class TrayManager : MonoBehaviour {
 		int remainSuperfoodCount = numberOfSuperfood;
 		// 주문판의 4개 음식이 트레이 2*2 영역에 있는 음식과 일치하는지 판정하는 부분
 		// 판정이 실패했을 때 만능음식이 있으면 하나 쓴다
-		foreach (var foodInOrder in foodsInOrder) {
-			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
+		foreach (var foodInOrder in orderedFood) {
+			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder);
 			if (isThereMatchedFoodType) {
-				foodsTypeOnTray.Remove(foodInOrder.foodType);
+				foodsTypeOnTray.Remove(foodInOrder);
 			}
 			else {
 				if (remainSuperfoodCount > 0) {
