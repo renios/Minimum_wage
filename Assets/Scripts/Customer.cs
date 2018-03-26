@@ -75,7 +75,7 @@ public class Customer : MonoBehaviour {
 		customerImage.sprite = selectedRabbit.sprite;
 		gender = selectedRabbit.gender;
 		rabbitIndex = selectedRabbit.index;
-		Debug.Log("Index of Customer : "+rabbitIndex);
+		//Debug.Log("Index of Customer : "+rabbitIndex);
 	}
 
 	// Use this for initialization
