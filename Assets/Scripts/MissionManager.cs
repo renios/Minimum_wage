@@ -42,7 +42,6 @@ public class MissionManager : MonoBehaviour {
 		if (progress == currentStage) {
             foreach(var stage in MissionData.rewardingStage)
             {
-                print("checking: " + progress);
                 if(progress == stage)
                 {
                     // HidePanel 코루틴에서 아이템 보상 패널을 작동시킬 수 있도록 명령 전달

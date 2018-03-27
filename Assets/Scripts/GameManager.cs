@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour {
 
     // 아이템 보상 주어야 하는지 체크(MissionManager에서 true로 바꿈)
     public bool needsReward = false;
+    public GameObject rewardCanvas;
 
 	float delay = 0.5f;
 
@@ -136,7 +137,7 @@ public class GameManager : MonoBehaviour {
         if(needsReward)
         {
             // 아이템 주는 패널 보여주기
-            print("needsReward");
+            rewardCanvas.SetActive(true);
         }
         else
     		SceneManager.LoadScene("World");
