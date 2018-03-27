@@ -24,9 +24,21 @@ public class SceneButtonMethods : MonoBehaviour
 
     public void GoToStage()
     {
-        if (missionPanel.resetTimeItem.isOn == true) MissionData.gotTimeItem = true;
-        if (missionPanel.superfoodItem.isOn == true) MissionData.gotSuperfood = true;
-        if (missionPanel.renewTrayItem.isOn == true) MissionData.gotTrayItem = true;
+        if (missionPanel.resetTimeItem.isOn == true)
+        {
+            MissionData.gotTimeItem = true;
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 1) - 1);
+        }
+        if (missionPanel.superfoodItem.isOn == true)
+        {
+            MissionData.gotSuperfood = true;
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 1) - 1);
+        }
+        if (missionPanel.renewTrayItem.isOn == true)
+        {
+            MissionData.gotTrayItem = true;
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 1) - 1);
+        }
         int progress = PlayerPrefs.GetInt("Progress", -1);
         if (progress < 2)
         {

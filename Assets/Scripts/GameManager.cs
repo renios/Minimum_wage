@@ -28,7 +28,23 @@ public class GameManager : MonoBehaviour {
 	GameStateManager gameStateManager;
 
 	public IEnumerator ShowGameoverCanvas() {
-		isPlaying = false;
+        // 가지고 들어온 아이템을 사용하지 않았다면 소지 아이템으로 다시 돌려 준다
+        if (MissionData.gotTimeItem)
+        {
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
+            MissionData.gotTimeItem = false;
+        }
+        if (MissionData.gotSuperfood)
+        {
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+            MissionData.gotSuperfood = false;
+        }
+        if (MissionData.gotTrayItem)
+        {
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
+            MissionData.gotTrayItem = false;
+        }
+        isPlaying = false;
 		SoundManager.Play(MusicType.StageOver);
 		gameEndCanvas.SetActive(true);
 		Vector3 startPos = new Vector3(0, 19.2f, 0);
