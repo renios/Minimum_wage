@@ -19,6 +19,9 @@ public class GameManager : MonoBehaviour {
 
 	public bool isPlaying = false;
 
+    // 아이템 보상 주어야 하는지 체크(MissionManager에서 true로 바꿈)
+    public bool needsReward = false;
+
 	float delay = 0.5f;
 
 	GameStateManager gameStateManager;
@@ -130,6 +133,12 @@ public class GameManager : MonoBehaviour {
 		MissionData.gotTimeItem = false;
 		MissionData.gotTrayItem = false;
 		yield return new WaitForSeconds(1);
-		SceneManager.LoadScene("World");
+        if(needsReward)
+        {
+            // 아이템 주는 패널 보여주기
+            print("needsReward");
+        }
+        else
+    		SceneManager.LoadScene("World");
 	}
 }

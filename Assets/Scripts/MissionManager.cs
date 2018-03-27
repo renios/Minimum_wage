@@ -40,6 +40,16 @@ public class MissionManager : MonoBehaviour {
 	void UpdateProgress() {
 		int progress = PlayerPrefs.GetInt("Progress", -1);
 		if (progress == currentStage) {
+            foreach(var stage in MissionData.rewardingStage)
+            {
+                print("checking: " + progress);
+                if(progress == stage)
+                {
+                    // HidePanel 코루틴에서 아이템 보상 패널을 작동시킬 수 있도록 명령 전달
+                    gameManager.needsReward = true;
+                    break;
+                }
+            }
 			int newProgress = progress + 1;
 			PlayerPrefs.SetInt("Progress", newProgress);
 			// Debug.Log("Progress change : " + progress + "->" + newProgress);

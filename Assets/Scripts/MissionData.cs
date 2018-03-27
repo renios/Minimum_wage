@@ -27,6 +27,9 @@ public static class MissionData {
 	public static bool gotSuperfood = false;
 	public static bool gotTrayItem = false;
 	public static int starTrigger3 = 500;
+    // 아이템 보상을 주는 스테이지
+    public static int[] rewardingStage = { 3, 6, 9 };
+    public static bool fromStage = false;
 
 	// 상수값
 	public static int maxHeart = 3;

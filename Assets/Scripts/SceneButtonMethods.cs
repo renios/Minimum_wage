@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneButtonMethods : MonoBehaviour
 {
-    bool fromStage = false;
-
     public void GoToWorld()
     {
         SceneManager.LoadScene("World");
@@ -32,7 +30,7 @@ public class SceneButtonMethods : MonoBehaviour
         int progress = PlayerPrefs.GetInt("Progress", -1);
         if (progress < 2)
         {
-            fromStage = true;
+            MissionData.fromStage = true;
             GoToTutorial();
             return;
         }
@@ -47,9 +45,9 @@ public class SceneButtonMethods : MonoBehaviour
     {
         if (index == Tutorials.Length - 1)
         {
-            if (fromStage)
+            if (MissionData.fromStage == true)
             {
-                fromStage = false;
+                MissionData.fromStage = false;
                 GoIngame();
             }
             else GoToWorld();
