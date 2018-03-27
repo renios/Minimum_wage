@@ -71,6 +71,10 @@ public class StageSelectManager : MonoBehaviour {
 					button.Active();
 				}
 			});
+
+            PlayerPrefs.SetInt("TimerReset", 0);
+            PlayerPrefs.SetInt("Superfood", 0);
+            PlayerPrefs.SetInt("TrayReset", 0);
 		}
 
 		if (Input.GetKeyDown(KeyCode.T)) {
