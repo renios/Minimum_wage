@@ -135,7 +135,7 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.customerCount, 10);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 
-			missionDataDict[MissionDataType.starTrigger3] = 50000;
+			missionDataDict[MissionDataType.starTrigger3] = 1500;
 		}
 		else if (stageName == "1-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);

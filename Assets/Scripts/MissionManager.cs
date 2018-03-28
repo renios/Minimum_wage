@@ -38,7 +38,7 @@ public class MissionManager : MonoBehaviour {
 	ScoreManager scoreManager;
 
 	void UpdateProgress() {
-		int progress = PlayerPrefs.GetInt("Progress", -1);
+		int progress = PlayerPrefs.GetInt("Progress", 1);
 		if (progress == currentStage) {
             // 아이템 보상을 주는 스테이지일 경우 HidePanel에 신호를 보낼 것
             foreach (var stage in MissionData.rewardingStage)
