@@ -73,12 +73,21 @@ public class GameManager : MonoBehaviour {
 		yield return StartCoroutine(ShowStars());
 	}
 
+	void UpdateStarsOfStage(int numberOfStars) {
+		int starsOfStage = PlayerPrefs.GetInt("StarsOfStage" + MissionData.stageIndex, 0);
+		if (numberOfStars > starsOfStage) {
+			PlayerPrefs.SetInt("StarsOfStage" + MissionData.stageIndex, numberOfStars);
+			Debug.Log("Update starsOfStage" + MissionData.stageIndex + " : " + starsOfStage + " -> " + numberOfStars);
+		}
+	}
+
 	float jumpPower = 3;
 	float duration = 1;
 
 	public IEnumerator ShowStars() {
 		ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
 		int numberOfStars = scoreManager.numberOfStars;
+		UpdateStarsOfStage(numberOfStars);
 		for (int i = 0; i < numberOfStars; i++) {
 			GameObject star = starObjects[i];
 			star.GetComponent<Image>().enabled = true;
