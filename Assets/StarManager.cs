@@ -3,10 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 
 public class StarManager : MonoBehaviour {
 
 	public Text text;
+
+	public void ResetTotalStars() {
+		for (int i = 0; i < 20; i++) {
+			string key = "StarsOfStage" + i;
+			PlayerPrefs.SetInt(key, 0);
+		}
+
+		Start();
+		List<StarText> starTexts = FindObjectsOfType<StarText>().ToList();
+		starTexts.ForEach(text => text.Start());
+	}
 
 	int GetTotalStars() {
 		int totalStars = 0;

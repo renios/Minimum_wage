@@ -61,6 +61,8 @@ public class StageSelectManager : MonoBehaviour {
 			
 			int progress = PlayerPrefs.GetInt("Progress", 1);
 
+			FindObjectOfType<StarManager>().ResetTotalStars();
+
 			stageButtons.ForEach(button => button.Inactive());
 			stageButtons.ForEach(button => {
 				if (button.stageIndex <= progress) {
