@@ -132,6 +132,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	public IEnumerator StartByGSM () {
+		RabbitInformation.ResetRabbitIndex();
 		yield return StartCoroutine(StartAnimation());
 	}
 	
