@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour {
 			GameObject star = starObjects[i];
 			star.GetComponent<Image>().enabled = true;
 			star.GetComponent<Image>().sprite = starSprite;
-			star.GetComponent<Image>().color = Color.yellow;
 			star.GetComponentInChildren<ParticleSystem>().Play();
 			
 			Vector3 originPos = star.transform.position;
