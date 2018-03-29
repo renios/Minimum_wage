@@ -26,8 +26,8 @@ public class CustomerManager : MonoBehaviour {
 	GameStateManager gameStateManager;
 	HeartManager heartManager;
 	TrayManager trayManager;
-	CoinManager coinManager;
 	MissionManager missionManager;
+	ScoreManager scoreManager;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -70,6 +70,13 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
+	void AddCoinAmount(int amount) {
+		scoreManager.realScoreAmount += amount;
+		SoundManager.Play(SoundType.Cashier);
+		missionManager.coinText.text = scoreManager.realScoreAmount.ToString();
+		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
+	}
+
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
 
@@ -77,8 +84,9 @@ public class CustomerManager : MonoBehaviour {
 
 		Destroy(currentWaitingCustomers[indexInArray].gameObject, delay);
 		currentWaitingCustomers[indexInArray] = null;
-		missionManager.successCustomerCount++;
-		coinManager.AddCoin(100);
+		missionManager.successCustomerCount += 1;
+		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
+		AddCoinAmount(100);
 	}
 
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
@@ -90,8 +98,7 @@ public class CustomerManager : MonoBehaviour {
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
 		if(IsCustomerSlotEmpty()){
-			var lists = trayManager.GetTraysNotOnFoods();
-			customer.SetOrder(lists[Random.Range(0,lists.Count)]);
+			customer.SetOrder(trayManager.GetTraysNotOnFoods());
 		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
@@ -149,10 +156,10 @@ public class CustomerManager : MonoBehaviour {
 	void Start () {
 		heartManager = FindObjectOfType<HeartManager>();
 		trayManager = FindObjectOfType<TrayManager>();
-		coinManager = FindObjectOfType<CoinManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+		scoreManager = FindObjectOfType<ScoreManager>();
 
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;

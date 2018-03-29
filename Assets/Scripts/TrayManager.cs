@@ -72,10 +72,10 @@ public class TrayManager : MonoBehaviour {
 	CustomerManager customerManager;
 	MissionManager missionManager;
 	GameManager gameManager;
-	FeverManager feverManager;
+	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
-	public List<List<FoodType>> GetTraysNotOnFoods(){
+	public List<FoodType> GetTraysNotOnFoods(){
 		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
 		var result = new List<List<FoodType>>();
 		for(int i = 0; i < MissionData.foodTypeCount; i++){
@@ -87,28 +87,29 @@ public class TrayManager : MonoBehaviour {
 						foodTypes.Add((FoodType)k);
 						foodTypes.Add((FoodType)j);
 						foodTypes.Add((FoodType)i);
-						foodTypes.Sort();
 						result.Add(foodTypes);
 					}
 				}
 			}
 		}
-		for (int row = 0; row < ROW-1; row++){
-			for(int col = 0; col < COL-1; col++){
-				var foodsOnTray = new List<FoodType>();
-				if (foods[row, col] == null || foods[row+1, col] == null ||
-					foods[row, col+1] == null || foods[row+1, col+1] == null) 
-					continue;
-				foodsOnTray.Add(foods[row, col].foodType);
-				foodsOnTray.Add(foods[row+1, col].foodType);
-				foodsOnTray.Add(foods[row, col+1].foodType);
-				foodsOnTray.Add(foods[row+1, col+1].foodType);
-				foodsOnTray.Sort();
-				result.FindAll(r => ConvertListToString(r) == ConvertListToString(foodsOnTray)).ForEach(r => result.Remove(r));
+		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		foreach(var tray in result){
+			for (int row = 0; row < ROW-1; row++){
+				for(int col = 0; col < COL-1; col++){
+					var foodsOnTray = new List<FoodOnTray>();
+					if (foods[row, col] == null || foods[row+1, col] == null ||
+						foods[row, col+1] == null || foods[row+1, col+1] == null) 
+						continue;
+					foodsOnTray.Add(foods[row, col]);
+					foodsOnTray.Add(foods[row+1, col]);
+					foodsOnTray.Add(foods[row, col+1]);
+					foodsOnTray.Add(foods[row+1, col+1]);
+					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
+						return tray;
+				}
 			}
 		}
-		Debug.Log("TraysNotOnFoods : "+result.Count);
-		return result;
+		return result.First();
 	}
 	string ConvertListToString(List<FoodType> list){
 		string result = "";
@@ -222,7 +223,7 @@ public class TrayManager : MonoBehaviour {
 	bool IsComboCountUp () {
 		if (moveCountAfterMatching == 1) {
 			if (lastComboTime < comboDelayByMoving) {
-				Debug.Log("Combo by one move. ComboCount " + comboCount + " -> " + (comboCount+1));
+				// Debug.Log("Combo by one move. ComboCount " + comboCount + " -> " + (comboCount+1));
 				return true;
 			}
 			else {
@@ -231,7 +232,7 @@ public class TrayManager : MonoBehaviour {
 		}
 		else {
 			if (lastComboTime < comboDelay) {
-				Debug.Log("Combo by time. ComboCount " + comboCount + " -> " + (comboCount+1));
+				// Debug.Log("Combo by time. ComboCount " + comboCount + " -> " + (comboCount+1));
 				return true;
 			}
 			else {
@@ -418,7 +419,7 @@ public class TrayManager : MonoBehaviour {
 	// 맞는 페어가 있는지 찾는 함수를 따로 분리
 	public List<ServedPair> FindMatchingPairs() {
 		List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
-		customers.OrderBy(customer => customer.remainWaitingTime); 
+		customers = customers.OrderBy(customer => customer.remainWaitingTime).ToList(); 
 		pairs.Clear();
 
 		// float animDelay = 1;
@@ -436,8 +437,10 @@ public class TrayManager : MonoBehaviour {
 					foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
 						&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
 				else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
-				
-				List<Customer> matchedCustomers = customers.FindAll(customer => !customer.isServed && MatchEachPartWithCustomer(foodsInPart, customer));
+			
+				List<Customer> matchedCustomers = customers.FindAll(customer => 
+					!customer.isServed 
+					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
 				
 				// 서빙받을 손님과 서빙할 음식을 미리 마킹
 				if (matchedCustomers.Count > 0) {
@@ -466,14 +469,49 @@ public class TrayManager : MonoBehaviour {
 			Customer matchedCustomer = pair.customer;
 			List<FoodOnTray> matchedFoods = pair.foods;
 
-			// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분
-			feverManager.AddFeverAmountByCustomer(matchedCustomer);
-			// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분
-			List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
-											.FindAll(customer => customer != null && !customer.isServed);
-			remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+            // 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+            // feverManager.AddFeverAmountByCustomer(matchedCustomer);
+            // 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+            // List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
+            // 								.FindAll(customer => customer != null && !customer.isServed);
+            // remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
 
-			ShowMatchingEffect(matchedFoods);
+            // 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
+            if (matchedCustomer.orderedFoods.Any(food => food.foundCorrespondent)) yield break;
+
+            // 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
+            foreach (var matchedFood in matchedFoods)
+            {
+                if (!matchedFood.isSuperfood)
+                {
+                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+                        FoodInOrder.foodType == matchedFood.foodType &&
+                        !FoodInOrder.foundCorrespondent);
+                    // 완벽히 같은 손님과 매칭되지 않도록 함
+                    if (matchedFood.correspondent == null)
+                    {
+                        matchedFood.correspondent = corrFoodInOrder;
+
+                        // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+                        if (!corrFoodInOrder.foundCorrespondent)
+                            corrFoodInOrder.foundCorrespondent = true;
+                    }
+                }
+            }
+            // 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
+            foreach (var matchedFood in matchedFoods)
+            {
+                if (matchedFood.isSuperfood)
+                {
+                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+                        !FoodInOrder.foundCorrespondent);
+                    matchedFood.correspondent = corrFoodInOrder;
+
+                    corrFoodInOrder.foundCorrespondent = true;
+                }
+            }
+
+            ShowMatchingEffect(matchedFoods);
 
 			if (IsComboCountUp()) {
 				comboCount++;
@@ -487,8 +525,8 @@ public class TrayManager : MonoBehaviour {
 
 			if (comboCount > 1) {
 				ShowComboText(matchedFoods);
-				// 콤보에 따라 피버게이지 오르는 부분
-				feverManager.AddFeverAmountByCombo(comboCount-1);
+				// 콤보에 따라 피버게이지 오르는 부분 (쓰지 않음)
+				// feverManager.AddFeverAmountByCombo(comboCount-1);
 			}
 
 			List<Customer> customers = customerManager.currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -549,7 +587,7 @@ public class TrayManager : MonoBehaviour {
 				// 주문판과 주문판에 있는 음식 제거
 				foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
 					orderAspect.SetActive(false);
-
+				
 				if(matchedCustomer != null)
 				{
 					//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
@@ -561,6 +599,8 @@ public class TrayManager : MonoBehaviour {
 						matchedCustomer.transform.position.x - exitAmount, matchedCustomer.transform.position.y, 0.0f), 0.5f, 3, animDelay);
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
+					// 이미지 사용중이라는 정보 제거
+					RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
 
 			}
@@ -574,11 +614,10 @@ public class TrayManager : MonoBehaviour {
 
 	}
 
-	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, Customer customer) {
+	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, List<FoodType> orderedFood) {
 		// 빈칸 등의 이유로 판에 있는 2*2 영역의 음식 갯수가 4보다 작을 경우에는 무조건 매칭 false 리턴
 		if (foodsInPart.Count < 4) return false;
 
-		List<FoodInOrder> foodsInOrder = customer.orderedFoods;
 		// if (!corrFoodInOrder.foundCorrespondent) 부분의 null 에러를 막기 위해
 		// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
 		// if (foodsInOrder.Any(food => food.foundCorrespondent)) return false;
@@ -597,10 +636,10 @@ public class TrayManager : MonoBehaviour {
 		int remainSuperfoodCount = numberOfSuperfood;
 		// 주문판의 4개 음식이 트레이 2*2 영역에 있는 음식과 일치하는지 판정하는 부분
 		// 판정이 실패했을 때 만능음식이 있으면 하나 쓴다
-		foreach (var foodInOrder in foodsInOrder) {
-			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder.foodType);
+		foreach (var foodInOrder in orderedFood) {
+			bool isThereMatchedFoodType = foodsTypeOnTray.Any(foodTypeOnTray => foodTypeOnTray == foodInOrder);
 			if (isThereMatchedFoodType) {
-				foodsTypeOnTray.Remove(foodInOrder.foodType);
+				foodsTypeOnTray.Remove(foodInOrder);
 			}
 			else {
 				if (remainSuperfoodCount > 0) {
@@ -612,33 +651,7 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		// 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
-		foreach(var foodInPart in foodsInPart) {
-			if (!foodInPart.isSuperfood) {
-				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
-					FoodInOrder.foodType == foodInPart.foodType && 
-					!FoodInOrder.foundCorrespondent);
-				// 완벽히 같은 손님과 매칭되지 않도록 함
-				if(foodInPart.correspondent == null)
-				{
-					foodInPart.correspondent = corrFoodInOrder;
 
-					// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-					if (!corrFoodInOrder.foundCorrespondent)
-						corrFoodInOrder.foundCorrespondent = true;
-				}
-			}
-		}
-		// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
-		foreach(var foodInPart in foodsInPart) {
-			if (foodInPart.isSuperfood) {
-				var corrFoodInOrder = foodsInOrder.Find(FoodInOrder => 
-					!FoodInOrder.foundCorrespondent);
-				foodInPart.correspondent = corrFoodInOrder;
-
-				corrFoodInOrder.foundCorrespondent = true;
-			}
-		}
 		return true;
 	}
 
@@ -739,7 +752,7 @@ public class TrayManager : MonoBehaviour {
 		customerManager = FindObjectOfType<CustomerManager>();
 		gameManager = FindObjectOfType<GameManager>();
 		missionManager = FindObjectOfType<MissionManager>();
-		feverManager = FindObjectOfType<FeverManager>();
+		// feverManager = FindObjectOfType<FeverManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
 
 		InitializeFoods();
@@ -788,8 +801,10 @@ public class TrayManager : MonoBehaviour {
 			// 유효이동일 경우에만 카운트 상승
 			SoundManager.Play(SoundType.Swap);
 			moveCountAfterMatching++;
-			// 이동 성공 시 터치카운트를 1 올림
-			missionManager.currentTouchCount += 1;
+            // 이동 성공 시 터치카운트를 1 올림
+            missionManager.currentTouchCount++;
+            missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+            StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
 			yield return StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
 		}
 
@@ -799,9 +814,11 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	public void BinDrop() {
-		// 쓰레기통에 버려도 터치카운트를 1 올림
-		missionManager.currentTouchCount += 1;
-		Destroy(pickedFood1);
+        // 쓰레기통에 버려도 터치카운트를 1 올림
+        missionManager.currentTouchCount++;
+        missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+        StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
+        Destroy(pickedFood1);
 		int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
 		int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
 		foods[posX, posY] = null;
@@ -854,17 +871,13 @@ public class TrayManager : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 
-		if (Input.GetKeyDown(KeyCode.S)) {
-			// MakeSuperfood();
-		}
-
 		if (Input.GetMouseButtonDown(0)) {
 			//Get the mouse position on the screen and send a raycast into the game world from that position.
 			Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-			//If something was hit, the RaycastHit2D.collider will not be null.
-			if ((hit.collider != null) && (!isPlayingMovingAnim))
+            //If something was hit, the RaycastHit2D.collider will not be null.
+            if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
 				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
 			}

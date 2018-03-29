@@ -37,6 +37,7 @@ namespace Enums {
 		Refill,
 		RenewTray,
 		UseItem,
+		Paused,
 		FeverBonus,
 		Result,
 		End

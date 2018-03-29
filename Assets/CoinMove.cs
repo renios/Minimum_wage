@@ -31,8 +31,6 @@ public class CoinMove : MonoBehaviour {
 		float endScale = scale * 0.4f;
 		transform.DOScale(endScale, duration2).SetEase(Ease.InCirc);	
 
-		yield return tw.WaitForCompletion();
-
-		Destroy(gameObject, 0.1f);
+		yield return tw.OnComplete(() => Destroy(gameObject)).WaitForCompletion();
 	}
 }

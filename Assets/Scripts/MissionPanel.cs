@@ -10,8 +10,11 @@ public class MissionPanel : MonoBehaviour {
     public Text[] worldCustomerTexts;
     public Text[] worldTimeTexts;
     public Text[] worldTouchTexts;
+    public Text[] itemAmountTexts;
+    // WorldItemPanel에 이미 있는 내용이라 중복이긴 함
+    int maxItemAmount = 5;
 
-	public Text todoText;
+    public Text todoText;
 	public Text dayText;
     public Toggle resetTimeItem;
     public Toggle superfoodItem;
@@ -22,9 +25,50 @@ public class MissionPanel : MonoBehaviour {
 
     private void Update()
     {
-        resetTimeImage.enabled = (resetTimeItem.isOn == true) ? true : false;
-        superfoodImage.enabled = (superfoodItem.isOn == true) ? true : false;
-        renewTrayImage.enabled = (renewTrayItem.isOn == true) ? true : false;
+        // resetTime 아이템 관련 판정
+        if(resetTimeItem.isOn == true)
+        {
+            int itemAmount = PlayerPrefs.GetInt("TimerReset", 0);
+            if(itemAmount < 1)
+            {
+                resetTimeItem.isOn = false;
+                resetTimeImage.enabled = false;
+            }
+            else
+                resetTimeImage.enabled = true;
+        }
+        else
+            resetTimeImage.enabled = false;
+
+        // superfood 아이템 관련 판정
+        if (superfoodItem.isOn == true)
+        {
+            int itemAmount = PlayerPrefs.GetInt("Superfood", 0);
+            if (itemAmount < 1)
+            {
+                superfoodItem.isOn = false;
+                superfoodImage.enabled = false;
+            }
+            else
+                superfoodImage.enabled = true;
+        }
+        else
+            superfoodImage.enabled = false;
+
+        // renewTray 아이템 관련 판정
+        if (renewTrayItem.isOn == true)
+        {
+            int itemAmount = PlayerPrefs.GetInt("TrayReset", 0);
+            if (itemAmount < 1)
+            {
+                renewTrayItem.isOn = false;
+                renewTrayImage.enabled = false;
+            }
+            else
+                renewTrayImage.enabled = true;
+        }
+        else
+            renewTrayImage.enabled = false;
     }
 
     public void LoadMissonInfo() {
@@ -32,7 +76,7 @@ public class MissionPanel : MonoBehaviour {
         superfoodItem.isOn = false;
         renewTrayItem.isOn = false;
 
-		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
+        Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 
 		int date = missionDataDict[MissionDataType.StageIndex];
 		dayText.text = "DAY " + date;
@@ -99,12 +143,52 @@ public class MissionPanel : MonoBehaviour {
         else
             worldTimeTexts[worldKey].text = "--";
 
-        if (missionDataDict.ContainsKey(MissionDataType.touchCount))
-        {
-            int touchCount = missionDataDict[MissionDataType.touchCount];
-            worldTimeTexts[worldKey].text = "" + missionDataDict[MissionDataType.touchCount];
+        if (worldKey > 1) {
+            if (missionDataDict.ContainsKey(MissionDataType.touchCount))
+            {
+                int touchCount = missionDataDict[MissionDataType.touchCount];
+                worldTouchTexts[worldKey].text = "" + missionDataDict[MissionDataType.touchCount];
+            }
+            else
+                worldTouchTexts[worldKey].text = "--";
         }
-        else
-            worldTimeTexts[worldKey].text = "--";
-	}
+
+        // 아이템 갯수 텍스트
+        for (int i = 0; i < itemAmountTexts.Length; i++)
+        {
+            int itemAmount = 0;
+
+            switch (i)
+            {
+                case 0:
+                    {
+                        itemAmount = PlayerPrefs.GetInt("TimerReset", 0);
+                    }
+                    break;
+                case 1:
+                    {
+                        itemAmount = PlayerPrefs.GetInt("Superfood", 0);
+                    }
+                    break;
+                case 2:
+                    {
+                        itemAmount = PlayerPrefs.GetInt("TrayReset", 0);
+                    }
+                    break;
+            }
+
+            if (itemAmount == 0)
+            {
+                itemAmountTexts[i].text = "-";
+            }
+            else if (itemAmount == maxItemAmount)
+            {
+                itemAmountTexts[i].text = "MAX";
+            }
+            else
+            {
+                itemAmountTexts[i].text = itemAmount.ToString("N0");
+            }
+        }
+    }
 }

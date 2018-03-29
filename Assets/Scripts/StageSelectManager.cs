@@ -40,12 +40,8 @@ public class StageSelectManager : MonoBehaviour {
 		stageButtons = FindObjectsOfType<StageButton>().ToList();
 		stageButtons.ForEach(button => button.Initialize());
 		stageButtons.OrderBy(button => button.stageIndex);
-        // PlayerPrefs.SetInt("Progress", 15);
-		int progress = PlayerPrefs.GetInt("Progress", -1);
-
-		if (progress == -1) {
-			PlayerPrefs.SetInt("Progress", 1);
-		}
+		// PlayerPrefs.SetInt("Progress", 15);
+		int progress = PlayerPrefs.GetInt("Progress", 1);
 
 		// Debug.Log("Current Progress : " + progress);
 
@@ -55,7 +51,7 @@ public class StageSelectManager : MonoBehaviour {
 			}
 		});
 		
-        SoundManager.Play(MusicType.Main);
+		SoundManager.Play(MusicType.Main);
 	}
 
 	void Update () {
@@ -63,7 +59,9 @@ public class StageSelectManager : MonoBehaviour {
 			Debug.Log("Progress reset to 1");
 			PlayerPrefs.SetInt("Progress", 1);
 			
-			int progress = PlayerPrefs.GetInt("Progress", -1);
+			int progress = PlayerPrefs.GetInt("Progress", 1);
+
+			FindObjectOfType<StarManager>().ResetTotalStars();
 
 			stageButtons.ForEach(button => button.Inactive());
 			stageButtons.ForEach(button => {
@@ -71,13 +69,17 @@ public class StageSelectManager : MonoBehaviour {
 					button.Active();
 				}
 			});
+
+            PlayerPrefs.SetInt("TimerReset", 0);
+            PlayerPrefs.SetInt("Superfood", 0);
+            PlayerPrefs.SetInt("TrayReset", 0);
 		}
 
 		if (Input.GetKeyDown(KeyCode.T)) {
 			Debug.Log("Progress reset to 15");
 			PlayerPrefs.SetInt("Progress", 15);
 			
-			int progress = PlayerPrefs.GetInt("Progress", -1);
+			int progress = PlayerPrefs.GetInt("Progress", 1);
 
 			stageButtons.ForEach(button => button.Inactive());
 			stageButtons.ForEach(button => {

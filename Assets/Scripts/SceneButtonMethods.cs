@@ -5,8 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class SceneButtonMethods : MonoBehaviour
 {
-    bool fromStage = false;
-
     public void GoToWorld()
     {
         SceneManager.LoadScene("World");
@@ -26,13 +24,25 @@ public class SceneButtonMethods : MonoBehaviour
 
     public void GoToStage()
     {
-        if (missionPanel.resetTimeItem.isOn == true) MissionData.gotTimeItem = true;
-        if (missionPanel.superfoodItem.isOn == true) MissionData.gotSuperfood = true;
-        if (missionPanel.renewTrayItem.isOn == true) MissionData.gotTrayItem = true;
+        if (missionPanel.resetTimeItem.isOn == true)
+        {
+            MissionData.gotTimeItem = true;
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 1) - 1);
+        }
+        if (missionPanel.superfoodItem.isOn == true)
+        {
+            MissionData.gotSuperfood = true;
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 1) - 1);
+        }
+        if (missionPanel.renewTrayItem.isOn == true)
+        {
+            MissionData.gotTrayItem = true;
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 1) - 1);
+        }
         int progress = PlayerPrefs.GetInt("Progress", -1);
         if (progress < 2)
         {
-            fromStage = true;
+            MissionData.fromStage = true;
             GoToTutorial();
             return;
         }
@@ -47,9 +57,9 @@ public class SceneButtonMethods : MonoBehaviour
     {
         if (index == Tutorials.Length - 1)
         {
-            if (fromStage)
+            if (MissionData.fromStage == true)
             {
-                fromStage = false;
+                MissionData.fromStage = false;
                 GoIngame();
             }
             else GoToWorld();
@@ -65,13 +75,14 @@ public class SceneButtonMethods : MonoBehaviour
 
     public void PrevTutorialPanel()
     {
-        if (index == 0) return;
+        if (index == 0)
+        {
+            GoToWorld();
+            return;
+        }
         index--;
         foreach (var tutorial in Tutorials)
             tutorial.SetActive(false);
-        if (index < 1)
-            GoToWorld();
-        else
-            Tutorials[index].SetActive(true);
+        Tutorials[index].SetActive(true);
     }
 }
