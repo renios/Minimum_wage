@@ -16,8 +16,10 @@ public class StarManager : MonoBehaviour {
 		}
 
 		Start();
-		List<StarText> starTexts = FindObjectsOfType<StarText>().ToList();
-		starTexts.ForEach(text => text.Start());
+		List<StarViewer> starViewers = FindObjectsOfType<StarViewer>().ToList();
+		starViewers.ForEach(image => image.Start());
+		// List<StarText> starTexts = FindObjectsOfType<StarText>().ToList();
+		// starTexts.ForEach(text => text.Start());
 	}
 
 	int GetTotalStars() {
