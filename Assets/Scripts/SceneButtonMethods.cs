@@ -7,6 +7,21 @@ public class SceneButtonMethods : MonoBehaviour
 {
     public void GoToWorld()
     {
+        if (MissionData.gotTimeItem)
+        {
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
+            MissionData.gotTimeItem = false;
+        }
+        if (MissionData.gotSuperfood)
+        {
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+            MissionData.gotSuperfood = false;
+        }
+        if (MissionData.gotTrayItem)
+        {
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
+            MissionData.gotTrayItem = false;
+        }
         SceneManager.LoadScene("World");
     }
 
