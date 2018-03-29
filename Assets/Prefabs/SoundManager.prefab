@@ -124,7 +124,7 @@ MonoBehaviour:
     - {fileID: 8300000, guid: ef1067f32a0e91c41a37d13640cf5c95, type: 3}
     - {fileID: 8300000, guid: 189812d41c15b7c4cb50be9d46e3fac1, type: 3}
     - {fileID: 8300000, guid: fc1d28e5d6aac4c4c8f11b229f5f3fc2, type: 3}
-  - start: {fileID: 8300000, guid: 17088b44b67244544aafae7cc9b04062, type: 3}
+  - start: {fileID: 8300000, guid: 175209a6e5d44ff4bab8f1794c3b37a7, type: 3}
     ambient: {fileID: 8300000, guid: c2a9da43a5ca5964f92026296b3c8664, type: 3}
     stageClear: {fileID: 8300000, guid: 989527ac1ac16ba409c2d27d7e44fa39, type: 3}
     stageOver: {fileID: 8300000, guid: c93d459113548a842922060426132f62, type: 3}
