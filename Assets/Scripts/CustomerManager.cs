@@ -70,8 +70,12 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
+	int defaultCoin = 100;
+	int coinCoef = 20;
+
 	void AddCoinAmount(int amount) {
-		scoreManager.realScoreAmount += amount;
+		int comboCount = trayManager.comboCount;
+		scoreManager.realScoreAmount += (amount + ((comboCount-1) * coinCoef));
 		SoundManager.Play(SoundType.Cashier);
 		missionManager.coinText.text = scoreManager.realScoreAmount.ToString();
 		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
@@ -86,7 +90,7 @@ public class CustomerManager : MonoBehaviour {
 		currentWaitingCustomers[indexInArray] = null;
 		missionManager.successCustomerCount += 1;
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
-		AddCoinAmount(100);
+		AddCoinAmount(defaultCoin);
 	}
 
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {

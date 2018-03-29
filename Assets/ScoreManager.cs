@@ -88,9 +88,11 @@ public class ScoreManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if (visualScoreAmount < realScoreAmount) {
-			visualScoreAmount += amount;
-			bar.fillAmount = visualScoreAmount / (float)starTrigger3;
+		for (int i = 0; i < 10; i++){
+			if (visualScoreAmount < realScoreAmount) {
+				visualScoreAmount += amount;
+				bar.fillAmount = visualScoreAmount / (float)starTrigger3;
+			}
 		}
 
 		if (Input.GetKeyDown(KeyCode.G)) {
