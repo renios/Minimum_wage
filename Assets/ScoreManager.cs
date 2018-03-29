@@ -26,19 +26,15 @@ public class ScoreManager : MonoBehaviour {
 	void ActivePoint(Image point) {
 		point.GetComponentInChildren<ParticleSystem>().Play();
 		point.sprite = activeBunny;
-		point.color = Color.yellow;
 		numberOfStars += 1;
 	}
 
 	void InactiveAllPoints() {
 		checkPoint1.sprite = inactiveBunny;
-		checkPoint1.color = Color.gray;
 		checkPoint1.GetComponentInChildren<ParticleSystem>().Stop();
 		checkPoint2.sprite = inactiveBunny;
-		checkPoint2.color = Color.gray;
 		checkPoint2.GetComponentInChildren<ParticleSystem>().Stop();
 		checkPoint3.sprite = inactiveBunny;
-		checkPoint3.color = Color.gray;
 		checkPoint3.GetComponentInChildren<ParticleSystem>().Stop();
 
 		numberOfStars = 0;
