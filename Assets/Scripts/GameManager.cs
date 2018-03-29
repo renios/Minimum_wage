@@ -128,6 +128,7 @@ public class GameManager : MonoBehaviour {
 			star.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 1);
 			star.GetComponent<Image>().enabled = false;
 		});
+        rewardCanvas.SetActive(false);
 	}
 
 	// Use this for initialization
@@ -140,13 +141,15 @@ public class GameManager : MonoBehaviour {
 		if (gameStateManager.gameState != GameState.End) return;
 
 		if (gameEndCanvas.activeInHierarchy) {
-			if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
-				StartCoroutine(HideCanvas());
+            if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
+                print("start hide canvas coroutine on end");
+                StartCoroutine(HideCanvas());
 		}
 	}
 
 	IEnumerator HideCanvas () {
-		starObjects.ToList().ForEach(star => {
+        print("Hide Canvas");
+        starObjects.ToList().ForEach(star => {
 			if (star.GetComponent<Image>().enabled) {
 				star.GetComponent<Image>().DOColor(Color.black, delay);
 				star.GetComponentInChildren<ParticleSystem>().Stop();
