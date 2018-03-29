@@ -75,13 +75,14 @@ public class SceneButtonMethods : MonoBehaviour
 
     public void PrevTutorialPanel()
     {
-        if (index == 0) return;
+        if (index == 0)
+        {
+            GoToWorld();
+            return;
+        }
         index--;
         foreach (var tutorial in Tutorials)
             tutorial.SetActive(false);
-        if (index < 1)
-            GoToWorld();
-        else
-            Tutorials[index].SetActive(true);
+        Tutorials[index].SetActive(true);
     }
 }
