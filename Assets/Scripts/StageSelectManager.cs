@@ -62,6 +62,11 @@ public class StageSelectManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.T)) {
 			OpenWorld2();
 		}
+
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 	}
 
 	public void ResetProgress() {
