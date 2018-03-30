@@ -361,9 +361,9 @@ public class TrayManager : MonoBehaviour {
 
 	int specialCountAtRefill = 0;
 
-	IEnumerator RefillFoods(int specialCount) {
+	public IEnumerator RefillFoodByBin() {
 		isPlayingRefillAnim = true;
-		specialCountAtRefill = specialCount;
+		specialCountAtRefill = 1;
 		while (!IsTrayFull()) {
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {

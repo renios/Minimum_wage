@@ -184,20 +184,21 @@ public class GameStateManager : MonoBehaviour {
 
 	IEnumerator Refill(GameState preState) {
 		while (gameState == GameState.Refill) {
-			// 판에 빈 자리가 없을때까지 리필한다
-			yield return StartCoroutine(trayManager.RefillFoods());
-
 			// 매칭이 끝나고, 피버 보너스 만능음식이 생성될 경우 생성한다
-			gameState = GameState.FeverBonus;
-			yield return StartCoroutine(FeverBonus());
-			gameState = GameState.Matching;
+			// gameState = GameState.FeverBonus;
+			// yield return StartCoroutine(FeverBonus());
+			// gameState = GameState.Matching;
 
 			// 리필이 끝나면, 다시 매칭
+			// 쓰레기통에 버린 경우 : 가장 적은 종류의 음식을 생성하고 강제로 matching으로.
 			if (preState == GameState.Dropped) {
+				yield return StartCoroutine(trayManager.RefillFoodByBin());
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
+			// 일반적인 경우 : 판에 빈 자리가 없을때까지 리필한다. 자연스럽게 matching으로 돌아간다.
 			else {
+				yield return StartCoroutine(trayManager.RefillFoods());
 				gameState = GameState.Matching;
 				yield break;
 			}
