@@ -61,4 +61,7 @@ public class RabbitInformation{
             Debug.LogWarning("List does't contain that element! : " + index);
         }
     }
+    public static void ResetRabbitIndex(){
+        rabbitIndex = new List<int>(4);
+    }
 }
