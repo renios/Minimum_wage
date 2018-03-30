@@ -12,6 +12,7 @@ public class StageSelectManager : MonoBehaviour {
 	public Image missionPanelBg;
 
 	public void ShowMissionPanel(int stageIndex) {
+		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
 		MissionData.SetMissionData(stageIndex, missionDataDict);
 
@@ -25,8 +26,6 @@ public class StageSelectManager : MonoBehaviour {
 	}
 
 	public void HideMissonPanel() {
-		MissionData.Initialize();
-
 		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
 		float delay = 0.5f;
 		missionPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
