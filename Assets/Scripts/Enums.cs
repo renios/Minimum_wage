@@ -4,6 +4,17 @@ using UnityEngine;
 
 namespace Enums {
 
+	public class Rabbit {
+		// 토끼의 스탯: 인덱스, 해금스테이지, 성별, 이미지, 참을성, 라이프감소, 주문음식종류
+		public int index = 1;
+		public int releaseStageIndex = 1;
+		public Gender gender = Gender.Male;
+		public string imageName = "yoonsung";
+		public int waitingTime = 40;
+		public int reduceHeartsByFail = 1;
+		public List<int> variableOfOrderFood = new List<int> {3, 4};
+	}
+
 	public class ServedPair {
 		public Customer customer;
 		public List<FoodOnTray> foods;

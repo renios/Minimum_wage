@@ -98,7 +98,10 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.parent = parentTransform;
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
-		customer.Initialize(indexInArray, this.waitingTime);
+
+		Rabbit newRabbitData = RabbitData.GetRabbitData(1); // 임시로 윤성이만 나오게 함
+
+		customer.Initialize(indexInArray, newRabbitData);
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
 		if(IsCustomerSlotEmpty()){

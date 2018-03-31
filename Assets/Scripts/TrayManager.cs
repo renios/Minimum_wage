@@ -573,7 +573,7 @@ public class TrayManager : MonoBehaviour {
 
 		if(matchedCustomer != null)
 		{
-			SoundManager.PlayCustomerReaction(matchedCustomer.gender, true);
+			SoundManager.PlayCustomerReaction(matchedCustomer.rabbitData.gender, true);
 
 			// 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
 			yield return new WaitForSeconds(animDelay / 2f);
@@ -600,7 +600,7 @@ public class TrayManager : MonoBehaviour {
 					customerManager.RemoveCustomerByMatching(matchedCustomer.indexInArray, animDelay);
 					customers.Remove(matchedCustomer);
 					// 이미지 사용중이라는 정보 제거
-					RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
+					// RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
 
 			}
