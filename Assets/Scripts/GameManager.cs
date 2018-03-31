@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour {
 			GameObject star = starObjects[i];
 			star.GetComponent<Image>().enabled = true;
 			star.GetComponent<Image>().sprite = starSprite;
-			star.GetComponent<Image>().color = Color.yellow;
+            star.GetComponent<Image>().color = Color.white;
 			star.GetComponentInChildren<ParticleSystem>().Play();
 			
 			Vector3 originPos = star.transform.position;
@@ -133,6 +133,7 @@ public class GameManager : MonoBehaviour {
 
 	// Use this for initialization
 	public IEnumerator StartByGSM () {
+		RabbitInformation.ResetRabbitIndex();
 		yield return StartCoroutine(StartAnimation());
 	}
 	

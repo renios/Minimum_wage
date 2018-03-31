@@ -38,7 +38,24 @@ public class MissionManager : MonoBehaviour {
 	ScoreManager scoreManager;
 
 	void UpdateProgress() {
-		int progress = PlayerPrefs.GetInt("Progress", 1);
+        // 아이템을 쓰지 않고 놔둘 경우 아이템 소지 갯수로 다시 돌아감
+        if (MissionData.gotTimeItem)
+        {
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
+            MissionData.gotTimeItem = false;
+        }
+        if (MissionData.gotSuperfood)
+        {
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+            MissionData.gotSuperfood = false;
+        }
+        if (MissionData.gotTrayItem)
+        {
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
+            MissionData.gotTrayItem = false;
+        }
+
+        int progress = PlayerPrefs.GetInt("Progress", 1);
 		if (progress == currentStage) {
             // 아이템 보상을 주는 스테이지일 경우 HidePanel에 신호를 보낼 것
             foreach (var stage in MissionData.rewardingStage)
@@ -51,22 +68,6 @@ public class MissionManager : MonoBehaviour {
                 }
             }
 
-            // 아이템을 쓰지 않고 놔둘 경우 아이템 소지 갯수로 다시 돌아감
-            if (MissionData.gotTimeItem)
-            {
-                PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
-                MissionData.gotTimeItem = false;
-            }
-            if (MissionData.gotSuperfood)
-            {
-                PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
-                MissionData.gotSuperfood = false;
-            }
-            if (MissionData.gotTrayItem)
-            {
-                PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
-                MissionData.gotTrayItem = false;
-            }
             int newProgress = progress + 1;
 			PlayerPrefs.SetInt("Progress", newProgress);
 			// Debug.Log("Progress change : " + progress + "->" + newProgress);
@@ -142,7 +143,7 @@ public class MissionManager : MonoBehaviour {
 		if (gameStateManager.gameState != GameState.Idle) yield break;
 
 		// 손님 조건 체크
-		if (isUsedCustomerCount && successCustomerCount >= customerCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+		if (isUsedCustomerCount && successCustomerCount >= customerCount && !gameManager.gameEndCanvas.activeInHierarchy) {
 			gameStateManager.gameState = GameState.Result;
 			yield return StartCoroutine(gameManager.ShowClearCanvas());
 			UpdateProgress();
@@ -150,7 +151,7 @@ public class MissionManager : MonoBehaviour {
 		}
 		
 		// 시간 조건 체크
-		else if (isUsedTime && remainTime <= 0/* && !gameManager.gameoverCanvas.activeInHierarchy && !gameManager.isPlayingAnim*/) {
+		else if (isUsedTime && remainTime <= 0 && !gameManager.gameEndCanvas.activeInHierarchy) {
 			gameStateManager.gameState = GameState.Result;
 			// 버티기 미션일 경우 시간이 다 떨어졌을 때 게임 오버가 되는 대신 게임 클리어가 됨
 			if (!isUsedCustomerCount) {
@@ -164,7 +165,7 @@ public class MissionManager : MonoBehaviour {
 		}
 
 		// 터치 조건 체크
-		else if (isUsedTouchCount && currentTouchCount > touchCount/* && !gameManager.gameoverCanvas.activeInHierarchy*/) {
+		else if (isUsedTouchCount && currentTouchCount > touchCount && !gameManager.gameEndCanvas.activeInHierarchy) {
 			gameStateManager.gameState = GameState.Result;
 			yield return StartCoroutine(gameManager.ShowGameoverCanvas());
 			gameStateManager.gameState = GameState.End;

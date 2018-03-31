@@ -54,9 +54,21 @@ public class MenuManager : MonoBehaviour {
 
 	IEnumerator GoToWorldCoroutine() {
 		Tween tw = fadeoutPanel.DOFade(1, delay).SetUpdate(UpdateType.Normal, true);
-		MissionData.gotSuperfood = false;
-		MissionData.gotTimeItem = false;
-		MissionData.gotTrayItem = false;
+        if (MissionData.gotTimeItem)
+        {
+            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
+            MissionData.gotTimeItem = false;
+        }
+        if (MissionData.gotSuperfood)
+        {
+            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+            MissionData.gotSuperfood = false;
+        }
+        if (MissionData.gotTrayItem)
+        {
+            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
+            MissionData.gotTrayItem = false;
+        }
 		yield return tw.WaitForCompletion();
 		tw = fadeoutPanel.DOFade(1, 1).SetUpdate(UpdateType.Normal, true);
 		yield return tw.WaitForCompletion();
@@ -72,6 +84,12 @@ public class MenuManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (gameStateManager.gameState != GameState.Paused)
+                ActiveMenuPanel();
+            else if (gameStateManager.gameState == GameState.Paused)
+                InactiveMenuPanel();
+        }
 	}
 }

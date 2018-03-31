@@ -53,7 +53,7 @@ public class TrayManager : MonoBehaviour {
     // 조작에 의한 콤보 애니메이션용 딜레이
 	readonly float comboDelayByMoving = 5;
     // 콤보 스택 카운팅 변수
-	int comboCount = 0;
+	public int comboCount = 0;
     // 마지막으로 콤보 스택을 쌓았을 때로부터 지나간 시간
 	float lastComboTime = 0;
     // 마지막으로 매칭이 이루어진 이후 플레이어가 조작한 횟수
@@ -361,9 +361,9 @@ public class TrayManager : MonoBehaviour {
 
 	int specialCountAtRefill = 0;
 
-	IEnumerator RefillFoods(int specialCount) {
+	public IEnumerator RefillFoodByBin() {
 		isPlayingRefillAnim = true;
-		specialCountAtRefill = specialCount;
+		specialCountAtRefill = 1;
 		while (!IsTrayFull()) {
 			for (int row = 0; row < ROW; row++) {
 				for (int col = 0; col < COL; col++) {
