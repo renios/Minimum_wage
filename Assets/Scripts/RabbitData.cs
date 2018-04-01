@@ -51,7 +51,7 @@ public static class RabbitData {
 				newRabbit.index = 5;
 				newRabbit.releaseStageIndex = 3;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.imageName = "donghak";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variableOfOrderFood = new List<int> {2};
@@ -167,8 +167,8 @@ public static class RabbitData {
 			case 18:
 				newRabbit.index = 18;
 				newRabbit.releaseStageIndex = 5;
-				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.gender = Gender.Female;
+				newRabbit.imageName = "moon";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variableOfOrderFood = new List<int> {3, 4};
@@ -195,7 +195,7 @@ public static class RabbitData {
 				newRabbit.index = 21;
 				newRabbit.releaseStageIndex = 9;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.imageName = "hyosang";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variableOfOrderFood = new List<int> {1};
@@ -221,7 +221,7 @@ public static class RabbitData {
 			case 24:
 				newRabbit.index = 24;
 				newRabbit.releaseStageIndex = 9;
-				newRabbit.gender = Gender.Male;
+				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "naeri";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
@@ -231,7 +231,7 @@ public static class RabbitData {
 				newRabbit.index = 25;
 				newRabbit.releaseStageIndex = 4;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.imageName = "king";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variableOfOrderFood = new List<int> {3, 4};
@@ -240,7 +240,7 @@ public static class RabbitData {
 				newRabbit.index = 26;
 				newRabbit.releaseStageIndex = 4;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.imageName = "muscle";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variableOfOrderFood = new List<int> {3, 4};
@@ -248,8 +248,8 @@ public static class RabbitData {
 			case 27:
 				newRabbit.index = 27;
 				newRabbit.releaseStageIndex = 4;
-				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.gender = Gender.Female;
+				newRabbit.imageName = "vip";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variableOfOrderFood = new List<int> {3, 4};
@@ -257,8 +257,8 @@ public static class RabbitData {
 			case 28:
 				newRabbit.index = 28;
 				newRabbit.releaseStageIndex = 4;
-				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "yoonsung";
+				newRabbit.gender = Gender.Female;
+				newRabbit.imageName = "bitsal";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variableOfOrderFood = new List<int> {3, 4};
@@ -266,7 +266,7 @@ public static class RabbitData {
 			case 29:
 				newRabbit.index = 29;
 				newRabbit.releaseStageIndex = 13;
-				newRabbit.gender = Gender.Male;
+				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "fullLevel";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
