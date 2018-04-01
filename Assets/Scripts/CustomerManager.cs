@@ -24,6 +24,10 @@ public class CustomerManager : MonoBehaviour {
 
 	public bool isPlayingCustomerAnim = false;
 
+	// 코인 관련 수치
+	int defaultCoin = 100;
+	int coinCoef = 20;
+
 	GameManager gameManager;
 	GameStateManager gameStateManager;
 	HeartManager heartManager;
@@ -72,9 +76,6 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(successEffectPrefab, prefabPos, Quaternion.identity);
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
-
-	int defaultCoin = 100;
-	int coinCoef = 20;
 
 	void AddCoinAmount(int amount) {
 		int comboCount = trayManager.comboCount;
@@ -212,22 +213,12 @@ public class CustomerManager : MonoBehaviour {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
 			lastCustomerMakeTime += Time.deltaTime; 
 
-			// 손으로 음식을 집어든 도중에는 손님이 오지 않는다 -> 손님은 오지만, 매칭은 idle 상태가 아니면 하지 않는다
-			// if (trayManager.pickedFood1 != null) return;
-
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			// 손님 추가는 항상 된다
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
 			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-
-			// 손님 추가는 Idle, Picked 상태일 때만 된다
-			// if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
-			// 	int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			// 	MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			// 	FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-			// }
 		}
 	}
 }
