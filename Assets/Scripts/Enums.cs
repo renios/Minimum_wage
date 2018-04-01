@@ -12,7 +12,7 @@ namespace Enums {
 		public string imageName = "yoonsung";
 		public int waitingTime = 40;
 		public int reduceHeartsByFail = 1;
-		public List<int> variableOfOrderFood = new List<int> {3, 4};
+		public List<int> variablesOfOrderFood = new List<int> {3, 4};
 	}
 
 	public class ServedPair {

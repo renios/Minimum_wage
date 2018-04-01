@@ -75,7 +75,48 @@ public class TrayManager : MonoBehaviour {
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
-	public List<FoodType> GetTraysNotOnFoods(){
+	int CountVariableOfOrder(List<FoodType> order) {
+		List<FoodType> foodTypes = new List<FoodType>();
+		foreach (var foodType in order) {
+			if (!foodTypes.Contains(foodType)){
+				foodTypes.Add(foodType);
+			}
+		}
+		return foodTypes.Count();
+	}
+
+	public List<FoodType> GetRandomTray(List<int> variablesOfOrderFood){
+		int variableOfOrderFood = variablesOfOrderFood.OrderBy(a => Random.value).ToList().First();
+
+		var result = new List<List<FoodType>>();
+		for(int i = 0; i < MissionData.foodTypeCount; i++){
+			for (int j = 0; j <= i; j++){
+				for(int k = 0; k <= j; k++){
+					for (int l = 0; l <= k; l++){
+						var foodTypes = new List<FoodType>();
+						foodTypes.Add((FoodType)l);
+						foodTypes.Add((FoodType)k);
+						foodTypes.Add((FoodType)j);
+						foodTypes.Add((FoodType)i);
+						result.Add(foodTypes);
+					}
+				}
+			}
+		}
+		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+
+		foreach(var order in result) {
+			if (CountVariableOfOrder(order) == variableOfOrderFood) {
+				return order;
+			}
+		}
+
+		// 여기까지 아마 안 올듯
+		Debug.LogWarning("In GetRandomTray");
+		return result.First();
+	}
+
+	public List<FoodType> GetTraysNotOnFoods(List<int> variablesOfOrderFood){
 		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
 		var result = new List<List<FoodType>>();
 		for(int i = 0; i < MissionData.foodTypeCount; i++){

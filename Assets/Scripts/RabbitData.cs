@@ -18,7 +18,7 @@ public static class RabbitData {
 				newRabbit.imageName = "yoonsung";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 2:
 				newRabbit.index = 2;
@@ -27,7 +27,7 @@ public static class RabbitData {
 				newRabbit.imageName = "hwangsoon";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 3:
 				newRabbit.index = 3;
@@ -36,7 +36,7 @@ public static class RabbitData {
 				newRabbit.imageName = "ahyoung";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 4:
 				newRabbit.index = 4;
@@ -45,7 +45,7 @@ public static class RabbitData {
 				newRabbit.imageName = "donghoon";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 5:
 				newRabbit.index = 5;
@@ -54,7 +54,7 @@ public static class RabbitData {
 				newRabbit.imageName = "donghak";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 6:
 				newRabbit.index = 6;
@@ -63,7 +63,7 @@ public static class RabbitData {
 				newRabbit.imageName = "hyunseok";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 7:
 				newRabbit.index = 7;
@@ -72,7 +72,7 @@ public static class RabbitData {
 				newRabbit.imageName = "junghwa";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 8:
 				newRabbit.index = 8;
@@ -81,7 +81,7 @@ public static class RabbitData {
 				newRabbit.imageName = "eq";
 				newRabbit.waitingTime = 40;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 9:
 				newRabbit.index = 9;
@@ -90,7 +90,7 @@ public static class RabbitData {
 				newRabbit.imageName = "minjung";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 10:
 				newRabbit.index = 10;
@@ -99,7 +99,7 @@ public static class RabbitData {
 				newRabbit.imageName = "haram";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 11:
 				newRabbit.index = 11;
@@ -108,7 +108,7 @@ public static class RabbitData {
 				newRabbit.imageName = "orchid";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 12:
 				newRabbit.index = 12;
@@ -117,7 +117,7 @@ public static class RabbitData {
 				newRabbit.imageName = "jaeyoung";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 13:
 				newRabbit.index = 13;
@@ -126,7 +126,7 @@ public static class RabbitData {
 				newRabbit.imageName = "youngsang";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 14:
 				newRabbit.index = 14;
@@ -135,7 +135,7 @@ public static class RabbitData {
 				newRabbit.imageName = "smz";
 				newRabbit.waitingTime = 30;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 15:
 				newRabbit.index = 15;
@@ -144,7 +144,7 @@ public static class RabbitData {
 				newRabbit.imageName = "hongbeom";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 16:
 				newRabbit.index = 16;
@@ -153,7 +153,7 @@ public static class RabbitData {
 				newRabbit.imageName = "normal";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 17:
 				newRabbit.index = 17;
@@ -162,7 +162,7 @@ public static class RabbitData {
 				newRabbit.imageName = "jiho";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 18:
 				newRabbit.index = 18;
@@ -171,7 +171,7 @@ public static class RabbitData {
 				newRabbit.imageName = "moon";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 19:
 				newRabbit.index = 19;
@@ -180,7 +180,7 @@ public static class RabbitData {
 				newRabbit.imageName = "yj";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 20:
 				newRabbit.index = 20;
@@ -189,7 +189,7 @@ public static class RabbitData {
 				newRabbit.imageName = "summer";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {2};
+				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
 			case 21:
 				newRabbit.index = 21;
@@ -198,7 +198,7 @@ public static class RabbitData {
 				newRabbit.imageName = "hyosang";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 22:
 				newRabbit.index = 22;
@@ -207,7 +207,7 @@ public static class RabbitData {
 				newRabbit.imageName = "sungchan";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 23:
 				newRabbit.index = 23;
@@ -216,7 +216,7 @@ public static class RabbitData {
 				newRabbit.imageName = "hyunjun";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 24:
 				newRabbit.index = 24;
@@ -225,7 +225,7 @@ public static class RabbitData {
 				newRabbit.imageName = "naeri";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 1;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			case 25:
 				newRabbit.index = 25;
@@ -234,7 +234,7 @@ public static class RabbitData {
 				newRabbit.imageName = "king";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 26:
 				newRabbit.index = 26;
@@ -243,7 +243,7 @@ public static class RabbitData {
 				newRabbit.imageName = "muscle";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 27:
 				newRabbit.index = 27;
@@ -252,7 +252,7 @@ public static class RabbitData {
 				newRabbit.imageName = "vip";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 28:
 				newRabbit.index = 28;
@@ -261,7 +261,7 @@ public static class RabbitData {
 				newRabbit.imageName = "bitsal";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
-				newRabbit.variableOfOrderFood = new List<int> {3, 4};
+				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
 			case 29:
 				newRabbit.index = 29;
@@ -270,7 +270,7 @@ public static class RabbitData {
 				newRabbit.imageName = "fullLevel";
 				newRabbit.waitingTime = 20;
 				newRabbit.reduceHeartsByFail = 3;
-				newRabbit.variableOfOrderFood = new List<int> {1};
+				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
 			default:
 				break;

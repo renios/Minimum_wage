@@ -126,7 +126,10 @@ public class CustomerManager : MonoBehaviour {
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
 		if(IsCustomerSlotEmpty()){
-			customer.SetOrder(trayManager.GetTraysNotOnFoods());
+			customer.SetOrder(trayManager.GetTraysNotOnFoods(customer.rabbitData.variablesOfOrderFood));
+		}
+		else {
+			customer.SetOrder(trayManager.GetRandomTray(customer.rabbitData.variablesOfOrderFood));
 		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
