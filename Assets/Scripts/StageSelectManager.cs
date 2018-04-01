@@ -12,6 +12,7 @@ public class StageSelectManager : MonoBehaviour {
 	public Image missionPanelBg;
 
 	public void ShowMissionPanel(int stageIndex) {
+		missionPanelBg.raycastTarget = true;
 		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
 		MissionData.SetMissionData(stageIndex, missionDataDict);
@@ -20,7 +21,6 @@ public class StageSelectManager : MonoBehaviour {
 		float delay = 0.5f;
 		missionPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
 		missionPanelBg.DOFade(0.4f, delay);
-		missionPanelBg.raycastTarget = true;
 
 		missionPanel.GetComponent<MissionPanel>().LoadMissonInfo();
 	}
@@ -71,6 +71,7 @@ public class StageSelectManager : MonoBehaviour {
 	public void ResetProgress() {
 		Debug.Log("Progress reset to 1");
 		PlayerPrefs.SetInt("Progress", 1);
+		PlayerPrefs.SetInt("UnlockProgress", 1);
 		
 		int progress = PlayerPrefs.GetInt("Progress", 1);
 
@@ -91,6 +92,7 @@ public class StageSelectManager : MonoBehaviour {
 	public void OpenWorld2() {
 		Debug.Log("Progress reset to 15");
 		PlayerPrefs.SetInt("Progress", 15);
+		PlayerPrefs.SetInt("UnlockProgress", 15);
 		
 		int progress = PlayerPrefs.GetInt("Progress", 1);
 
