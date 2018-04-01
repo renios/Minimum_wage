@@ -61,9 +61,10 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+		Customer customer = currentWaitingCustomers[indexInArray];
+		heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		Destroy(customer.gameObject);
 		currentWaitingCustomers[indexInArray] = null;
-		heartManager.ReduceHeart(1);
 	}
 
 	void MakeCoinParticle(Vector3 pos, float delay) {
@@ -103,7 +104,8 @@ public class CustomerManager : MonoBehaviour {
 
 		// 해금된 토끼중 랜덤으로 나옴
 		List<int> indexList = openedRabbitDict.Keys.ToList();
-		Rabbit newRabbitData = RabbitData.GetRabbitData(Random.Range(1, indexList.Count));
+		int newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
 
 		customer.Initialize(indexInArray, newRabbitData);
 		customer.toleranceRate = toleranceRate;
