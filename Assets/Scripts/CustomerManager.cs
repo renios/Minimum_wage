@@ -96,15 +96,29 @@ public class CustomerManager : MonoBehaviour {
 		AddCoinAmount(defaultCoin);
 	}
 
+	bool IsThereSameIndexCustomer(int rabbitIndex) {
+		bool isThere = false;
+		currentWaitingCustomers.ToList().ForEach(customer => {
+			if (customer != null) {
+				if (customer.rabbitData.index == rabbitIndex)
+					isThere = true;
+			}
+		});
+		return isThere;
+	}
+
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
 		GameObject customerObj = Instantiate(customerPrefab, parentTransform.position, Quaternion.identity);
 		customerObj.transform.parent = parentTransform;
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 
-		// 해금된 토끼중 랜덤으로 나옴
+		// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
 		List<int> indexList = openedRabbitDict.Keys.ToList();
 		int newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		while (IsThereSameIndexCustomer(newRabbitIndex)) {
+			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		}
 		Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
 
 		customer.Initialize(indexInArray, newRabbitData);
