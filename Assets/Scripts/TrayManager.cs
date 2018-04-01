@@ -8,67 +8,67 @@ using DG.Tweening;
 
 public class TrayManager : MonoBehaviour {
 
-    // 트레이의 행/열 수 고정
+	// 트레이의 행/열 수 고정
 	readonly int ROW = 5;
 	readonly int COL = 6;
 
-    // 미리 트레이 내 좌표 별 트랜스폼 받아둠
-    Transform[,] foodPoses;
-    // 트레이 내 좌표 별 음식 추적
-    FoodOnTray[,] foods;
-    // 음식 prefab
-    public GameObject foodObj;
-    // 교환될 음식 미리 보여주는 오브젝트
-    public GameObject toBeSwitched;
+	// 미리 트레이 내 좌표 별 트랜스폼 받아둠
+	Transform[,] foodPoses;
+	// 트레이 내 좌표 별 음식 추적
+	FoodOnTray[,] foods;
+	// 음식 prefab
+	public GameObject foodObj;
+	// 교환될 음식 미리 보여주는 오브젝트
+	public GameObject toBeSwitched;
 
-    // 처음 지정한 음식 오브젝트
+	// 처음 지정한 음식 오브젝트
 	public GameObject pickedFood1;
-    // 첫 음식과 자리 맞바꿀 음식 오브젝트
+	// 첫 음식과 자리 맞바꿀 음식 오브젝트
 	public GameObject pickedFood2;
-    // 처음 지정한 음식 오브젝트의 초기 위치 ////////////////////////////////////수정할 것(영상)////////////////////////////////////////
-    Vector3 pickedFood1Origin;
+	// 처음 지정한 음식 오브젝트의 초기 위치 ////////////////////////////////////수정할 것(영상)////////////////////////////////////////
+	Vector3 pickedFood1Origin;
 
-    // 조작하는 음식 크기 변환한 후 되돌아갈 수 있도록 초기 스케일값 저장
-    float firstScaleX;
-    float firstScaleY;
+	// 조작하는 음식 크기 변환한 후 되돌아갈 수 있도록 초기 스케일값 저장
+	float firstScaleX;
+	float firstScaleY;
 
-    // 손님 퇴장 애니메이션에서 손님 움직임 정도를 조절하기 위한 변수
-    public float exitAmount;
+	// 손님 퇴장 애니메이션에서 손님 움직임 정도를 조절하기 위한 변수
+	public float exitAmount;
 
-    // 플레이어의 조작에 의해 두 음식이 위치 변화를 하는 애니메이션 중임을 나타내는 변수
-    // 이 변수가 true이면 트레이 셔플 애니메이션은 잠시 기다리고, 음식을 새로 집거나 집고 있던 음식을 놓는 것은 불가능하다
+	// 플레이어의 조작에 의해 두 음식이 위치 변화를 하는 애니메이션 중임을 나타내는 변수
+	// 이 변수가 true이면 트레이 셔플 애니메이션은 잠시 기다리고, 음식을 새로 집거나 집고 있던 음식을 놓는 것은 불가능하다
 	bool isPlayingMovingAnim = false;
-    // 판에서 일부 음식이 사라져 채워 넣을 때의 애니메이션이 진행 중임을 나타내는 변수
-    // 이 변수가 true이면 트레이 셔플 애니메이션과 자동 매치 메소드는 잠시 기다린다.
-    // 이 변수가 true인 상황에서 플레이어의 조작에 의해 음식 교체가 일어날 경우, 교체 애니메이션 역시 잠시 기다린다.
-    // 이 변수가 true이 상황에서는 새로운 손님이 등장하지 않는다.
+	// 판에서 일부 음식이 사라져 채워 넣을 때의 애니메이션이 진행 중임을 나타내는 변수
+	// 이 변수가 true이면 트레이 셔플 애니메이션과 자동 매치 메소드는 잠시 기다린다.
+	// 이 변수가 true인 상황에서 플레이어의 조작에 의해 음식 교체가 일어날 경우, 교체 애니메이션 역시 잠시 기다린다.
+	// 이 변수가 true이 상황에서는 새로운 손님이 등장하지 않는다.
 	public bool isPlayingRefillAnim = false;
-    // 자동 매치가 이루어지고 있음(애니메이션 포함)을 나타내는 변수
-    // 이 변수가 true이면 새로운 자동 매치는 잠시 기다린다.
-    bool isTryingMatch = false;
+	// 자동 매치가 이루어지고 있음(애니메이션 포함)을 나타내는 변수
+	// 이 변수가 true이면 새로운 자동 매치는 잠시 기다린다.
+	bool isTryingMatch = false;
 
-    // 콤보 애니메이션을 위한 딜레이 시간값 미리 고정
-    // 시간에 의한 콤보 애니메이션용 딜레이
+	// 콤보 애니메이션을 위한 딜레이 시간값 미리 고정
+	// 시간에 의한 콤보 애니메이션용 딜레이
 	readonly float comboDelay = 2;
-    // 조작에 의한 콤보 애니메이션용 딜레이
+	// 조작에 의한 콤보 애니메이션용 딜레이
 	readonly float comboDelayByMoving = 5;
-    // 콤보 스택 카운팅 변수
+	// 콤보 스택 카운팅 변수
 	public int comboCount = 0;
-    // 마지막으로 콤보 스택을 쌓았을 때로부터 지나간 시간
+	// 마지막으로 콤보 스택을 쌓았을 때로부터 지나간 시간
 	float lastComboTime = 0;
-    // 마지막으로 매칭이 이루어진 이후 플레이어가 조작한 횟수
+	// 마지막으로 매칭이 이루어진 이후 플레이어가 조작한 횟수
 	int moveCountAfterMatching = 0;
 
-    // 쓰레기통 위에 마우스가 있는지 판별하는 변수: 쓰레기통 UI 위에 마우스오버하면 true, 떠나면 false가 된다.
-    public bool isOnBin;
+	// 쓰레기통 위에 마우스가 있는지 판별하는 변수: 쓰레기통 UI 위에 마우스오버하면 true, 떠나면 false가 된다.
+	public bool isOnBin;
 
-    // 콤보 텍스트 prefab
+	// 콤보 텍스트 prefab
 	public GameObject comboTextPrefab;
 
 	// 음식 맞춰지는 이펙트
 	public GameObject matchingEffect;
 
-    // 매니저들 미리 받아놓기
+	// 매니저들 미리 받아놓기
 	CustomerManager customerManager;
 	MissionManager missionManager;
 	GameManager gameManager;
@@ -180,29 +180,7 @@ public class TrayManager : MonoBehaviour {
 		// 다른쪽도 중복이라면, 나중에 체크한 쪽의 트레이 중 하나를 그냥 낸다
 		return filteredResult.First();
 	}
-	string ConvertListToString(List<FoodType> list){
-		string result = "";
-		for(int i = 0; i < list.Count; i++){
-			result += list[i].ToString();
-		}
-		return result;
-	}
-	List<FoodType> SortFoodTypes(List<FoodType> list){
-		for (int i = 0; i < 3; i++){
-			int min = 100;
-			int index = 100;
-			for (int j = 3; j > -1; j--){
-				if (min >= (int)list[j]){
-					min = (int)list[j];
-					index = j;
-				}
-			}
-			var temp = list[index];
-			list[index] = list[i];
-			list[i] = temp;
-		}
-		return list;
-	}
+
 	public GameObject FindSuperfoodTarget() {
 		// 제일 많은 종류의 음식 중 하나를 픽
 		Dictionary<FoodType, int> counter = new Dictionary<FoodType, int>();
@@ -538,49 +516,49 @@ public class TrayManager : MonoBehaviour {
 			Customer matchedCustomer = pair.customer;
 			List<FoodOnTray> matchedFoods = pair.foods;
 
-            // 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
-            // feverManager.AddFeverAmountByCustomer(matchedCustomer);
-            // 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
-            // List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
-            // 								.FindAll(customer => customer != null && !customer.isServed);
-            // remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
+			// 자신의 남은 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+			// feverManager.AddFeverAmountByCustomer(matchedCustomer);
+			// 남은 손님의 참을성에 비례해 피버게이지 오르는 부분 (쓰지 않음)
+			// List<Customer> remainCustomer = customerManager.currentWaitingCustomers.ToList()
+			// 								.FindAll(customer => customer != null && !customer.isServed);
+			// remainCustomer.ForEach(customer => feverManager.AddFeverAmountByCustomer(customer));
 
-            // 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
-            if (matchedCustomer.orderedFoods.Any(food => food.foundCorrespondent)) yield break;
+			// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
+			if (matchedCustomer.orderedFoods.Any(food => food.foundCorrespondent)) yield break;
 
-            // 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
-            foreach (var matchedFood in matchedFoods)
-            {
-                if (!matchedFood.isSuperfood)
-                {
-                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
-                        FoodInOrder.foodType == matchedFood.foodType &&
-                        !FoodInOrder.foundCorrespondent);
-                    // 완벽히 같은 손님과 매칭되지 않도록 함
-                    if (matchedFood.correspondent == null)
-                    {
-                        matchedFood.correspondent = corrFoodInOrder;
+			// 타입이 같은 음식의 correspondent를 대응시킨다. (일반음식)
+			foreach (var matchedFood in matchedFoods)
+			{
+				if (!matchedFood.isSuperfood)
+				{
+					var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+						FoodInOrder.foodType == matchedFood.foodType &&
+						!FoodInOrder.foundCorrespondent);
+					// 완벽히 같은 손님과 매칭되지 않도록 함
+					if (matchedFood.correspondent == null)
+					{
+						matchedFood.correspondent = corrFoodInOrder;
 
-                        // 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
-                        if (!corrFoodInOrder.foundCorrespondent)
-                            corrFoodInOrder.foundCorrespondent = true;
-                    }
-                }
-            }
-            // 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
-            foreach (var matchedFood in matchedFoods)
-            {
-                if (matchedFood.isSuperfood)
-                {
-                    var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
-                        !FoodInOrder.foundCorrespondent);
-                    matchedFood.correspondent = corrFoodInOrder;
+						// 트레이 음식 여럿이 주문판 음식 하나에 계속 대응되지 않도록 마킹.
+						if (!corrFoodInOrder.foundCorrespondent)
+							corrFoodInOrder.foundCorrespondent = true;
+					}
+				}
+			}
+			// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
+			foreach (var matchedFood in matchedFoods)
+			{
+				if (matchedFood.isSuperfood)
+				{
+					var corrFoodInOrder = matchedCustomer.orderedFoods.Find(FoodInOrder =>
+						!FoodInOrder.foundCorrespondent);
+					matchedFood.correspondent = corrFoodInOrder;
 
-                    corrFoodInOrder.foundCorrespondent = true;
-                }
-            }
+					corrFoodInOrder.foundCorrespondent = true;
+				}
+			}
 
-            ShowMatchingEffect(matchedFoods);
+			ShowMatchingEffect(matchedFoods);
 
 			if (IsComboCountUp()) {
 				comboCount++;
@@ -774,26 +752,26 @@ public class TrayManager : MonoBehaviour {
 		isPlayingMovingAnim = false;
 	}
 
-    IEnumerator EnlargePickedFood(GameObject food)
-    {
-        float mulFactor = 1f;
-        firstScaleX = food.transform.localScale.x;
-        firstScaleY = food.transform.localScale.y;
-        while (mulFactor < 1.4f)
-        {
-            mulFactor = Mathf.Lerp(mulFactor, 2f, 0.1f);
-            food.transform.localScale = new Vector3(firstScaleX*mulFactor, firstScaleY*mulFactor);
-            yield return null;
-        }
-    }
+	IEnumerator EnlargePickedFood(GameObject food)
+	{
+		float mulFactor = 1f;
+		firstScaleX = food.transform.localScale.x;
+		firstScaleY = food.transform.localScale.y;
+		while (mulFactor < 1.4f)
+		{
+			mulFactor = Mathf.Lerp(mulFactor, 2f, 0.1f);
+			food.transform.localScale = new Vector3(firstScaleX*mulFactor, firstScaleY*mulFactor);
+			yield return null;
+		}
+	}
 
 	void InitializeFoods() {
 		List<Transform> foodPosesList = new List<Transform>();
 		FindObjectsOfType<FoodPos>().ToList()
 									.ForEach(fp => foodPosesList.Add(fp.transform));
 		foodPosesList = foodPosesList.OrderBy(fp => fp.transform.position.y)
-									 .ThenBy(fp => fp.transform.position.x)
-									 .ToList();
+									.ThenBy(fp => fp.transform.position.x)
+									.ToList();
 
 		foodPosesList.ForEach(fp => fp.GetComponent<SpriteRenderer>().enabled = false);
 
@@ -870,10 +848,10 @@ public class TrayManager : MonoBehaviour {
 			// 유효이동일 경우에만 카운트 상승
 			SoundManager.Play(SoundType.Swap);
 			moveCountAfterMatching++;
-            // 이동 성공 시 터치카운트를 1 올림
-            missionManager.currentTouchCount++;
-            missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
-            StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
+			// 이동 성공 시 터치카운트를 1 올림
+			missionManager.currentTouchCount++;
+			missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+			StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
 			yield return StartCoroutine(ChangeFoodPosition(pickedFood1, pickedFood1Origin, pickedFood2));
 		}
 
@@ -883,11 +861,11 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	public void BinDrop() {
-        // 쓰레기통에 버려도 터치카운트를 1 올림
-        missionManager.currentTouchCount++;
-        missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
-        StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
-        Destroy(pickedFood1);
+		// 쓰레기통에 버려도 터치카운트를 1 올림
+		missionManager.currentTouchCount++;
+		missionManager.touchText.text = missionManager.currentTouchCount.ToString("N0") + "/" + missionManager.touchCount;
+		StartCoroutine(missionManager.TextAnimation(missionManager.touchText));
+		Destroy(pickedFood1);
 		int posX = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.x;
 		int posY = (int)pickedFood1.GetComponent<FoodOnTray>().foodCoord.y;
 		foods[posX, posY] = null;
@@ -945,8 +923,8 @@ public class TrayManager : MonoBehaviour {
 			Vector2 worldPoint = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.Raycast(worldPoint, Vector2.zero);
 
-            //If something was hit, the RaycastHit2D.collider will not be null.
-            if ((hit.collider != null) && (!isPlayingMovingAnim))
+			//If something was hit, the RaycastHit2D.collider will not be null.
+			if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
 				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
 			}
