@@ -6,6 +6,8 @@ using Enums;
 
 public class CustomerManager : MonoBehaviour {
 
+	Dictionary<int, Rabbit> openedRabbitDict;
+
 	public GameObject customerPrefab;
 	public List<Transform> customerSlot;
 	public float waitingTime;
@@ -99,7 +101,9 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 
-		Rabbit newRabbitData = RabbitData.GetRabbitData(1); // 임시로 윤성이만 나오게 함
+		// 해금된 토끼중 랜덤으로 나옴
+		List<int> indexList = openedRabbitDict.Keys.ToList();
+		Rabbit newRabbitData = RabbitData.GetRabbitData(Random.Range(1, indexList.Count));
 
 		customer.Initialize(indexInArray, newRabbitData);
 		customer.toleranceRate = toleranceRate;
@@ -149,6 +153,16 @@ public class CustomerManager : MonoBehaviour {
 		return -1;
 	}
 
+	void SetOpenedRabbitsIndexList() {
+		int currentStageIndex = MissionData.stageIndex;
+		openedRabbitDict = new Dictionary<int, Rabbit>();
+		for (int index = 1; index <= RabbitData.numberOfRabbitData; index++) {
+			Rabbit newRabbitData = RabbitData.GetRabbitData(index);
+			if (newRabbitData.releaseStageIndex <= currentStageIndex)
+				openedRabbitDict.Add(index, newRabbitData);
+		}
+	}
+
 	void Awake () {
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
@@ -157,6 +171,8 @@ public class CustomerManager : MonoBehaviour {
 		if (missionDataDict.ContainsKey(MissionDataType.customerCooldown)) {
 			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
 		}
+
+		SetOpenedRabbitsIndexList();
 	}
 
 	// Use this for initialization
