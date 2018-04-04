@@ -705,7 +705,7 @@ public class TrayManager : MonoBehaviour {
 	float moveSpeed = 0.2f;
 
 	IEnumerator ChangeFoodPosition(GameObject food1, Vector3 food1Origin, GameObject food2 = null ) {
-		FindObjectOfType<GameStateManager>().gameState = GameState.Change;
+		gameStateManager.gameState = GameState.Change;
 
 		isPlayingMovingAnim = true;
 
@@ -745,7 +745,7 @@ public class TrayManager : MonoBehaviour {
 		pickedFood1 = null;
 		pickedFood2 = null;
 
-		FindObjectOfType<GameStateManager>().gameState = GameState.Matching;
+		gameStateManager.gameState = GameState.Matching;
 
 		// yield return StartCoroutine(TryMatch());
 
@@ -901,15 +901,15 @@ public class TrayManager : MonoBehaviour {
 			//If something was hit, the RaycastHit2D.collider will not be null.
 			if(hit.Length>1)
 			{
-				FindObjectOfType<GameStateManager>().ValidTrigger(hit[1]);
+				gameStateManager.ValidTrigger(hit[1]);
 			}
 			else if(isOnBin)
 			{
-				FindObjectOfType<GameStateManager>().BinTrigger();
+				gameStateManager.BinTrigger();
 			}
 			else
 			{
-				// FindObjectOfType<GameStateManager>().InvalidTrigger();
+				// gameStateManager.InvalidTrigger();
 			}
 		}
 	}
@@ -926,7 +926,7 @@ public class TrayManager : MonoBehaviour {
 			//If something was hit, the RaycastHit2D.collider will not be null.
 			if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
-				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
+				gameStateManager.PickedTrigger(hit);
 			}
 		}
 		
@@ -936,7 +936,11 @@ public class TrayManager : MonoBehaviour {
 		}
 
 		if (Input.GetMouseButtonUp(0)) {
-			FindObjectOfType<GameStateManager>().DroppedTrigger();
+			gameStateManager.DroppedTrigger();
+		}
+
+		if (!Input.anyKey) {
+			gameStateManager.DroppedTrigger();	
 		}
 
 		if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked)

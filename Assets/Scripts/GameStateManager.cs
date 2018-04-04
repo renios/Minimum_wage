@@ -71,8 +71,6 @@ public class GameStateManager : MonoBehaviour {
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
-
-			yield return null;
 		}
 	}
 
