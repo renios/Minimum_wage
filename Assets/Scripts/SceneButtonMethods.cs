@@ -22,16 +22,19 @@ public class SceneButtonMethods : MonoBehaviour
             PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
             MissionData.gotTrayItem = false;
         }
+        SoundManager.Play(SoundType.Button);
         SceneManager.LoadScene("World");
     }
 
     public void GoToTutorial()
     {
+        SoundManager.Play(SoundType.Button);
         SceneManager.LoadScene("Tutorial");
     }
 
     public void GoIngame()
     {
+        SoundManager.Play(SoundType.Button);
         SceneManager.LoadScene("Ingame");
     }
 
@@ -100,6 +103,7 @@ public class SceneButtonMethods : MonoBehaviour
 
         else {
             index++;
+            SoundManager.Play(SoundType.Button);
             foreach (var tutorial in Tutorials)
                 tutorial.SetActive(false);
             Tutorials[index].SetActive(true);
@@ -114,6 +118,7 @@ public class SceneButtonMethods : MonoBehaviour
             return;
         }
         index--;
+        SoundManager.Play(SoundType.Button);
         foreach (var tutorial in Tutorials)
             tutorial.SetActive(false);
         Tutorials[index].SetActive(true);

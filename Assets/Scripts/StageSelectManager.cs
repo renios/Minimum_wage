@@ -12,6 +12,7 @@ public class StageSelectManager : MonoBehaviour {
 	public Image missionPanelBg;
 
 	public void ShowMissionPanel(int stageIndex) {
+		SoundManager.Play(SoundType.Button);
 		missionPanelBg.raycastTarget = true;
 		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
@@ -26,6 +27,7 @@ public class StageSelectManager : MonoBehaviour {
 	}
 
 	public void HideMissonPanel() {
+		SoundManager.Play(SoundType.Button);
 		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
 		float delay = 0.5f;
 		missionPanel.GetComponent<RectTransform>().DOMove(endPos, delay);

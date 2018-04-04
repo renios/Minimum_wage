@@ -213,4 +213,7 @@ public class SoundManager : MonoBehaviour{
         comboCount = combo;
         Play(SoundType.Combo);
     }
+    public void PlayButtonNonStatic(){
+        Play(SoundType.Button);
+    }
 }
