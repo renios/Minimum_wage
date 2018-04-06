@@ -75,6 +75,26 @@ public class TrayManager : MonoBehaviour {
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
+	List<List<FoodType>> allPossibleOrders;
+
+	void SetAllPossibleOrders() {
+		allPossibleOrders = new List<List<FoodType>>();
+		for(int i = 0; i < MissionData.foodTypeCount; i++){
+			for (int j = 0; j <= i; j++){
+				for(int k = 0; k <= j; k++){
+					for (int l = 0; l <= k; l++){
+						var foodTypes = new List<FoodType>();
+						foodTypes.Add((FoodType)l);
+						foodTypes.Add((FoodType)k);
+						foodTypes.Add((FoodType)j);
+						foodTypes.Add((FoodType)i);
+						allPossibleOrders.Add(foodTypes);
+					}
+				}
+			}
+		}
+	}
+
 	int CountVariableOfOrder(List<FoodType> order) {
 		List<FoodType> foodTypes = new List<FoodType>();
 		foreach (var foodType in order) {
@@ -88,57 +108,63 @@ public class TrayManager : MonoBehaviour {
 	public List<FoodType> GetRandomTray(List<int> variablesOfOrderFood){
 		int variableOfOrderFood = variablesOfOrderFood.OrderBy(a => Random.value).ToList().First();
 
-		var result = new List<List<FoodType>>();
-		for(int i = 0; i < MissionData.foodTypeCount; i++){
-			for (int j = 0; j <= i; j++){
-				for(int k = 0; k <= j; k++){
-					for (int l = 0; l <= k; l++){
-						var foodTypes = new List<FoodType>();
-						foodTypes.Add((FoodType)l);
-						foodTypes.Add((FoodType)k);
-						foodTypes.Add((FoodType)j);
-						foodTypes.Add((FoodType)i);
-						result.Add(foodTypes);
-					}
-				}
-			}
-		}
-		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		// var result = new List<List<FoodType>>();
+		// for(int i = 0; i < MissionData.foodTypeCount; i++){
+		// 	for (int j = 0; j <= i; j++){
+		// 		for(int k = 0; k <= j; k++){
+		// 			for (int l = 0; l <= k; l++){
+		// 				var foodTypes = new List<FoodType>();
+		// 				foodTypes.Add((FoodType)l);
+		// 				foodTypes.Add((FoodType)k);
+		// 				foodTypes.Add((FoodType)j);
+		// 				foodTypes.Add((FoodType)i);
+		// 				result.Add(foodTypes);
+		// 			}
+		// 		}
+		// 	}
+		// }
+		allPossibleOrders = allPossibleOrders.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
 
-		foreach(var order in result) {
+		foreach(var order in allPossibleOrders) {
 			if (CountVariableOfOrder(order) == variableOfOrderFood) {
-				return order;
+				List<FoodType> resultOrder = new List<FoodType>();
+				order.ForEach(food => resultOrder.Add(food));
+				return resultOrder;
 			}
 		}
 
 		// 여기까지 아마 안 올듯
 		Debug.LogWarning("In GetRandomTray");
-		return result.First();
+		List<FoodType> resultRandomOrder = new List<FoodType>();
+		allPossibleOrders.First().ForEach(food => resultRandomOrder.Add(food));
+		return resultRandomOrder;
+		// return allPossibleOrders.First();
 	}
 
 	public List<FoodType> GetTraysNotOnFoods(List<int> variablesOfOrderFood){
 		int variableOfOrderFood = variablesOfOrderFood.OrderBy(a => Random.value).ToList().First();
 
 		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
-		var result = new List<List<FoodType>>();
-		for(int i = 0; i < MissionData.foodTypeCount; i++){
-			for (int j = 0; j <= i; j++){
-				for(int k = 0; k <= j; k++){
-					for (int l = 0; l <= k; l++){
-						var foodTypes = new List<FoodType>();
-						foodTypes.Add((FoodType)l);
-						foodTypes.Add((FoodType)k);
-						foodTypes.Add((FoodType)j);
-						foodTypes.Add((FoodType)i);
-						result.Add(foodTypes);
-					}
-				}
-			}
-		}
-		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		// var result = new List<List<FoodType>>();
+		// for(int i = 0; i < MissionData.foodTypeCount; i++){
+		// 	for (int j = 0; j <= i; j++){
+		// 		for(int k = 0; k <= j; k++){
+		// 			for (int l = 0; l <= k; l++){
+		// 				var foodTypes = new List<FoodType>();
+		// 				foodTypes.Add((FoodType)l);
+		// 				foodTypes.Add((FoodType)k);
+		// 				foodTypes.Add((FoodType)j);
+		// 				foodTypes.Add((FoodType)i);
+		// 				result.Add(foodTypes);
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		allPossibleOrders = allPossibleOrders.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
 		
-		var filteredResult = result.FindAll(order => CountVariableOfOrder(order) == variableOfOrderFood);
-		foreach(var tray in filteredResult){
+		var filteredResult = allPossibleOrders.FindAll(order => CountVariableOfOrder(order) == variableOfOrderFood);
+		foreach(var order in filteredResult){
 			for (int row = 0; row < ROW-1; row++){
 				for(int col = 0; col < COL-1; col++){
 					var foodsOnTray = new List<FoodOnTray>();
@@ -149,18 +175,25 @@ public class TrayManager : MonoBehaviour {
 					foodsOnTray.Add(foods[row+1, col]);
 					foodsOnTray.Add(foods[row, col+1]);
 					foodsOnTray.Add(foods[row+1, col+1]);
-					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
-						return tray;
+					if(!MatchEachPartWithCustomer(foodsOnTray, order)) {
+						List<FoodType> resultOrder = new List<FoodType>();
+						order.ForEach(food => resultOrder.Add(food));
+						return resultOrder;
+					}
 				}
 			}
 		}
 
 		// 주문 음식 종류 수가 1 초과인 손님은 다른쪽도 체크한다
-		if (variablesOfOrderFood.Count == 1) return result.First();
+		if (variablesOfOrderFood.Count == 1) {
+			List<FoodType> resultRandomOrder = new List<FoodType>();
+			allPossibleOrders.First().ForEach(food => resultRandomOrder.Add(food));
+			return resultRandomOrder;
+		}
 
 		int anotherVariableOfOrderFood = variablesOfOrderFood.Find(num => num != variableOfOrderFood);
-		filteredResult = result.FindAll(order => CountVariableOfOrder(order) == anotherVariableOfOrderFood);
-		foreach(var tray in filteredResult){
+		filteredResult = allPossibleOrders.FindAll(order => CountVariableOfOrder(order) == anotherVariableOfOrderFood);
+		foreach(var order in filteredResult){
 			for (int row = 0; row < ROW-1; row++){
 				for(int col = 0; col < COL-1; col++){
 					var foodsOnTray = new List<FoodOnTray>();
@@ -171,14 +204,19 @@ public class TrayManager : MonoBehaviour {
 					foodsOnTray.Add(foods[row+1, col]);
 					foodsOnTray.Add(foods[row, col+1]);
 					foodsOnTray.Add(foods[row+1, col+1]);
-					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
-						return tray;
+					if(!MatchEachPartWithCustomer(foodsOnTray, order)) {
+						List<FoodType> resultOrder = new List<FoodType>();
+						order.ForEach(food => resultOrder.Add(food));
+						return resultOrder;
+					}
 				}
 			}
 		}
 
 		// 다른쪽도 중복이라면, 나중에 체크한 쪽의 트레이 중 하나를 그냥 낸다
-		return filteredResult.First();
+		List<FoodType> resultRandomOrderInFilteredOrder = new List<FoodType>();
+		filteredResult.First().ForEach(food => resultRandomOrderInFilteredOrder.Add(food));
+		return resultRandomOrderInFilteredOrder;
 	}
 
 	public GameObject FindSuperfoodTarget() {
@@ -801,6 +839,8 @@ public class TrayManager : MonoBehaviour {
 		missionManager = FindObjectOfType<MissionManager>();
 		// feverManager = FindObjectOfType<FeverManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+
+		SetAllPossibleOrders();
 
 		InitializeFoods();
 		
