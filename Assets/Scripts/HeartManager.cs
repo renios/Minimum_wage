@@ -15,6 +15,16 @@ public class HeartManager : MonoBehaviour {
 	GameManager gameManager;
 	GameStateManager gameStateManager;
 
+	public void ReduceAllHearts() {
+		while (hearts.Count > 0) {
+			GameObject lastHeart = hearts.Last();
+			GameObject particle = Instantiate(heartBrokenParticle, lastHeart.transform.position, Quaternion.identity);
+			hearts.Remove(lastHeart);
+			Destroy(particle, 1);
+			Destroy(lastHeart);
+		}
+	}
+
 	public void ReduceHeart(int amount) {
 		for (int i = 0; i < amount; i++) {
 			if (hearts.Count == 0) return;

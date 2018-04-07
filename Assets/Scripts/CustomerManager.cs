@@ -66,7 +66,12 @@ public class CustomerManager : MonoBehaviour {
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Customer customer = currentWaitingCustomers[indexInArray];
-		heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		if (customer.rabbitData.isVip) {
+			heartManager.ReduceAllHearts();
+		}
+		else {
+			heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		}
 		Destroy(customer.gameObject);
 		currentWaitingCustomers[indexInArray] = null;
 	}
