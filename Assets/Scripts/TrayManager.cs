@@ -641,6 +641,9 @@ public class TrayManager : MonoBehaviour {
 
 			if(matchedCustomer != null)
 			{
+				// vip 이미지 제거
+				matchedCustomer.vipImage.enabled = false;
+
 				// 주문판과 주문판에 있는 음식 제거
 				foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
 					orderAspect.SetActive(false);

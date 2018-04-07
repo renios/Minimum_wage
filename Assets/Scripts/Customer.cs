@@ -14,11 +14,13 @@ public class Customer : MonoBehaviour {
 	// newRabbit.gender = Gender.Male;
 	// newRabbit.imageName = "yoonsung";
 	// newRabbit.waitingTime = 40;
+	// newRabbit.isVip = false;
 	// newRabbit.reduceHeartsByFail = 1;
 	// newRabbit.variableOfOrderFood = new List<int> {3, 4};
 	// 토끼 기본 스탯
 	public Rabbit rabbitData;
 
+	public Image vipImage;
 	public float waitingTime;
 	public float remainWaitingTime;
 	public float toleranceRate;
@@ -82,6 +84,10 @@ public class Customer : MonoBehaviour {
 	public void Initialize (int indexInArray, Rabbit rabbitData) {
 		this.indexInArray = indexInArray;
 		this.rabbitData = rabbitData;
+
+		if (this.rabbitData.isVip) {
+			vipImage.enabled = true;
+		}
 
 		SetImage();
 		InitializeTimer();
