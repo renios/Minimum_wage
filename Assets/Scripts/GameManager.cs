@@ -148,19 +148,17 @@ public class GameManager : MonoBehaviour {
 	}
 
 	IEnumerator HideCanvas () {
-		starObjects.ToList().ForEach(star => {
-			if (star.GetComponent<Image>().enabled) {
-				star.GetComponent<Image>().DOColor(Color.black, delay);
-				star.GetComponentInChildren<ParticleSystem>().Stop();
-			}
-		});
-		Tween tw = mainPanel.DOColor(Color.black, delay);
-		yield return tw.WaitForCompletion();
-		isPlaying = false;
+		// starObjects.ToList().ForEach(star => {
+		// 	if (star.GetComponent<Image>().enabled) {
+		// 		star.GetComponent<Image>().DOColor(Color.black, delay);
+		// 		star.GetComponentInChildren<ParticleSystem>().Stop();
+		// 	}
+		// });
 		MissionData.gotSuperfood = false;
 		MissionData.gotTimeItem = false;
 		MissionData.gotTrayItem = false;
-		yield return new WaitForSeconds(1);
+		isPlaying = false;
+		yield return new WaitForSeconds(1f);
 		if (needsReward)
 		{
 			// 아이템 주는 패널 보여주기
@@ -168,5 +166,7 @@ public class GameManager : MonoBehaviour {
 		}
 		else
 			SceneManager.LoadScene("World");
+		// Tween tw = mainPanel.DOColor(Color.black, delay);
+		// yield return tw.WaitForCompletion();
 	}
 }
