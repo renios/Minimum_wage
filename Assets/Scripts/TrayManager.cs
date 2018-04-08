@@ -764,8 +764,6 @@ public class TrayManager : MonoBehaviour {
 
 		gameStateManager.gameState = GameState.Matching;
 
-		// yield return StartCoroutine(TryMatch());
-
 		isPlayingMovingAnim = false;
 	}
 
@@ -934,10 +932,6 @@ public class TrayManager : MonoBehaviour {
 			else if(isOnBin)
 			{
 				gameStateManager.BinTrigger();
-			}
-			else
-			{
-				// gameStateManager.InvalidTrigger();
 			}
 		}
 	}
