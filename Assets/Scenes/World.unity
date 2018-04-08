@@ -6575,6 +6575,7 @@ MonoBehaviour:
   missionPanel: {fileID: 1345770074}
   missionPanelBg: {fileID: 1073560687}
   openWorld2Button: {fileID: 1975594780}
+  openWorld2ButtonBg: {fileID: 1550639117}
   impossibleOpenWorld2PanelBg: {fileID: 1855090896}
   impossibleOpenWorld2Panel: {fileID: 1855090894}
   starCountTextAtImpossiblePanel: {fileID: 484343965}
@@ -6583,6 +6584,7 @@ MonoBehaviour:
   starCountTextAtPossiblePanel: {fileID: 84912491}
   openWorld2PanelBg: {fileID: 1134957668}
   openWorld2Panel: {fileID: 1134957667}
+  signToWorld2: {fileID: 260032057}
 --- !u!224 &1151364057
 RectTransform:
   m_ObjectHideFlags: 0
@@ -8292,7 +8294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
