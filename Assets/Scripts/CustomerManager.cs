@@ -77,15 +77,16 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
-	void AddCoinAmount(int amount) {
+	void AddCoinAmount(float waitingTime) {
 		int comboCount = trayManager.comboCount;
-		scoreManager.realScoreAmount += (amount + ((comboCount-1) * coinCoef));
+		scoreManager.AddScore(comboCount, waitingTime);
 		SoundManager.Play(SoundType.Cashier);
 		missionManager.coinText.text = scoreManager.realScoreAmount.ToString();
 		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
+		var currentWaitingTime = currentWaitingCustomers[indexInArray].GetRateOfWatingTime();
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
 
 		MakeCoinParticle(currentWaitingCustomers[indexInArray].transform.position, delay);
@@ -94,7 +95,7 @@ public class CustomerManager : MonoBehaviour {
 		currentWaitingCustomers[indexInArray] = null;
 		missionManager.successCustomerCount += 1;
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
-		AddCoinAmount(defaultCoin);
+		AddCoinAmount(currentWaitingTime);
 	}
 
 	bool IsThereSameIndexCustomer(int rabbitIndex) {
