@@ -136,6 +136,34 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TrayReset", 0);
 	}
 
+	public void BeforeOpenWorld2() {
+		Debug.Log("Progress reset to 10");
+		PlayerPrefs.SetInt("Progress", 10);
+		PlayerPrefs.SetInt("UnlockProgress", 10);
+		PlayerPrefs.SetInt("WorldOpenProgress", 1);
+		
+		int progress = PlayerPrefs.GetInt("Progress", 1);
+		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
+
+		for (int i = 1; i <= 10; i++) {
+			PlayerPrefs.SetInt("StarsOfStage" + i.ToString(), 2);
+		}
+
+		FindObjectOfType<StarManager>().UpdateTotalStars();
+
+		stageButtons.ForEach(button => button.Inactive());
+		stageButtons.ForEach(button => {
+			if (button.stageIndex <= progress) {
+				if (button.stageIndex > 10 && worldOpenProgress >= 2) {
+					button.Active();
+				}
+				else {
+					button.Active();
+				}
+			}
+		});
+	}
+
 	public void OpenWorld2() {
 		Debug.Log("Progress reset to 15");
 		PlayerPrefs.SetInt("Progress", 15);
@@ -145,13 +173,21 @@ public class StageSelectManager : MonoBehaviour {
 		int progress = PlayerPrefs.GetInt("Progress", 1);
 		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
 
+		for (int i = 1; i <= 10; i++) {
+			PlayerPrefs.SetInt("StarsOfStage" + i.ToString(), 2);
+		}
+
+		FindObjectOfType<StarManager>().UpdateTotalStars();
+
 		stageButtons.ForEach(button => button.Inactive());
 		stageButtons.ForEach(button => {
-			if (button.stageIndex > 10 && worldOpenProgress >= 2) {
-				button.Active();
-			}
-			else {
-				button.Active();
+			if (button.stageIndex <= progress) {
+				if (button.stageIndex > 10 && worldOpenProgress >= 2) {
+					button.Active();
+				}
+				else {
+					button.Active();
+				}
 			}
 		});
 	}

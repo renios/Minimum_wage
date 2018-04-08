@@ -9,17 +9,23 @@ public class StarManager : MonoBehaviour {
 
 	public Text text;
 
+	public void UpdateStarViewers() {
+		List<StarViewer> starViewers = FindObjectsOfType<StarViewer>().ToList();
+		starViewers.ForEach(image => image.Start());
+	}
+
+	public void UpdateTotalStars() {
+		Start();
+		UpdateStarViewers();
+	}
+
 	public void ResetTotalStars() {
 		for (int i = 0; i < 20; i++) {
 			string key = "StarsOfStage" + i;
 			PlayerPrefs.SetInt(key, 0);
 		}
 
-		Start();
-		List<StarViewer> starViewers = FindObjectsOfType<StarViewer>().ToList();
-		starViewers.ForEach(image => image.Start());
-		// List<StarText> starTexts = FindObjectsOfType<StarText>().ToList();
-		// starTexts.ForEach(text => text.Start());
+		UpdateTotalStars();
 	}
 
 	int GetTotalStars() {
