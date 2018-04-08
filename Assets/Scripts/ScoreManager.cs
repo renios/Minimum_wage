@@ -13,16 +13,29 @@ public class ScoreManager : MonoBehaviour {
 	public Sprite inactiveBunny;
 	public Sprite activeBunny;
 
+	public Transform leftPivot;
+	public Transform rightPivot;
+
 	int visualScoreAmount = 0;
 	public int realScoreAmount = 0;
 
 	public int numberOfStars = 0;
 
-	int starTrigger3 = 0;
+	Dictionary<int, int> starTriggers;
 
 	readonly int defaultCoin = 150;
 	readonly int comboCoef = 50;
 	readonly int customerCoef = 50;
+
+	void SetCheckPointPos() {
+		float deltaDist = rightPivot.position.x - leftPivot.position.x;
+		float checkPoint1PosX = leftPivot.position.x + 
+								(deltaDist * (starTriggers[1]/(float)starTriggers[3]));
+		checkPoint1.transform.position = new Vector3(checkPoint1PosX, checkPoint1.transform.position.y, checkPoint1.transform.position.z);
+		float checkPoint2PosX = leftPivot.position.x + 
+								(deltaDist * (starTriggers[2]/(float)starTriggers[3]));
+		checkPoint2.transform.position = new Vector3(checkPoint2PosX, checkPoint2.transform.position.y, checkPoint2.transform.position.z);
+	}
 
 	void ActivePoint(Image point) {
 		point.GetComponentInChildren<ParticleSystem>().Play();
@@ -61,26 +74,39 @@ public class ScoreManager : MonoBehaviour {
 		visualScoreAmount = 0;
 		numberOfStars = 0;
 		bar.fillAmount = 0;
-		InactiveAllPoints();
-
+		starTriggers = new Dictionary<int, int>();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 		if (missionDataDict.ContainsKey(MissionDataType.starTrigger3)) {
-			starTrigger3 = MissionData.GetMissionDataDict()[MissionDataType.starTrigger3];
+			starTriggers[3] = MissionData.GetMissionDataDict()[MissionDataType.starTrigger3];
 		}
+		if (missionDataDict.ContainsKey(MissionDataType.starTrigger2)) {
+			starTriggers[2] = MissionData.GetMissionDataDict()[MissionDataType.starTrigger2];
+		}
+		if (missionDataDict.ContainsKey(MissionDataType.starTrigger1)) {
+			starTriggers[1] = MissionData.GetMissionDataDict()[MissionDataType.starTrigger1];
+		}
+
+		// 임시변수 예외처리
+		if (starTriggers[2] > starTriggers[3]) starTriggers[2] = starTriggers[3];
+		if (starTriggers[1] > starTriggers[2]) starTriggers[1] = starTriggers[2];
+
+		SetCheckPointPos();
+		InactiveAllPoints();
+
 	}
 
 	int amount = 1;
 
 	public void CheckStarPoint() {
-		if (visualScoreAmount > starTrigger3/3f && numberOfStars < 1) {
+		if (visualScoreAmount > starTriggers[1] && numberOfStars < 1) {
 			ActivePoint(checkPoint1);
 		}
 
-		if (visualScoreAmount > (starTrigger3*2)/3f && numberOfStars < 2) {
+		if (visualScoreAmount > starTriggers[2] && numberOfStars < 2) {
 			ActivePoint(checkPoint2);
 		}
 
-		if (visualScoreAmount >= starTrigger3 && numberOfStars < 3) {
+		if (visualScoreAmount >= starTriggers[3] && numberOfStars < 3) {
 			ActivePoint(checkPoint3);
 		}
 	}
@@ -90,7 +116,7 @@ public class ScoreManager : MonoBehaviour {
 		for (int i = 0; i < 10; i++){
 			if (visualScoreAmount < realScoreAmount) {
 				visualScoreAmount += amount;
-				bar.fillAmount = visualScoreAmount / (float)starTrigger3;
+				bar.fillAmount = visualScoreAmount / (float)starTriggers[3];
 			}
 		}
 

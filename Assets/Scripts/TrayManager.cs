@@ -75,6 +75,32 @@ public class TrayManager : MonoBehaviour {
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 
+	List<List<FoodType>> allPossibleOrders;
+
+	List<FoodType> MakeSameOrderTray(List<FoodType> order) {
+		List<FoodType> newOrder = new List<FoodType>();
+		order.ForEach(food => newOrder.Add(food));
+		return newOrder;
+	}
+
+	void SetAllPossibleOrders() {
+		allPossibleOrders = new List<List<FoodType>>();
+		for(int i = 0; i < MissionData.foodTypeCount; i++){
+			for (int j = 0; j <= i; j++){
+				for(int k = 0; k <= j; k++){
+					for (int l = 0; l <= k; l++){
+						var foodTypes = new List<FoodType>();
+						foodTypes.Add((FoodType)l);
+						foodTypes.Add((FoodType)k);
+						foodTypes.Add((FoodType)j);
+						foodTypes.Add((FoodType)i);
+						allPossibleOrders.Add(foodTypes);
+					}
+				}
+			}
+		}
+	}
+
 	int CountVariableOfOrder(List<FoodType> order) {
 		List<FoodType> foodTypes = new List<FoodType>();
 		foreach (var foodType in order) {
@@ -85,60 +111,40 @@ public class TrayManager : MonoBehaviour {
 		return foodTypes.Count();
 	}
 
+	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {
+		int randNum = Random.Range(0, 100) + 1;
+		// Debug.Log(randNum + " / " + autoServedProb);
+		if (randNum < autoServedProb) {
+			return GetRandomTray(variablesOfOrderFood);
+		}
+		else {
+			return GetTraysNotOnFoods(variablesOfOrderFood);
+		}
+	}
+
 	public List<FoodType> GetRandomTray(List<int> variablesOfOrderFood){
 		int variableOfOrderFood = variablesOfOrderFood.OrderBy(a => Random.value).ToList().First();
 
-		var result = new List<List<FoodType>>();
-		for(int i = 0; i < MissionData.foodTypeCount; i++){
-			for (int j = 0; j <= i; j++){
-				for(int k = 0; k <= j; k++){
-					for (int l = 0; l <= k; l++){
-						var foodTypes = new List<FoodType>();
-						foodTypes.Add((FoodType)l);
-						foodTypes.Add((FoodType)k);
-						foodTypes.Add((FoodType)j);
-						foodTypes.Add((FoodType)i);
-						result.Add(foodTypes);
-					}
-				}
-			}
-		}
-		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		allPossibleOrders = allPossibleOrders.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
 
-		foreach(var order in result) {
+		foreach(var order in allPossibleOrders) {
 			if (CountVariableOfOrder(order) == variableOfOrderFood) {
-				return order;
+				return MakeSameOrderTray(order);
 			}
 		}
 
 		// 여기까지 아마 안 올듯
 		Debug.LogWarning("In GetRandomTray");
-		return result.First();
+		return MakeSameOrderTray(allPossibleOrders.First());
 	}
 
 	public List<FoodType> GetTraysNotOnFoods(List<int> variablesOfOrderFood){
 		int variableOfOrderFood = variablesOfOrderFood.OrderBy(a => Random.value).ToList().First();
 
-		//Debug.Log("TrayManager.GetTraysNotOnFoods : "+Time.time);
-		var result = new List<List<FoodType>>();
-		for(int i = 0; i < MissionData.foodTypeCount; i++){
-			for (int j = 0; j <= i; j++){
-				for(int k = 0; k <= j; k++){
-					for (int l = 0; l <= k; l++){
-						var foodTypes = new List<FoodType>();
-						foodTypes.Add((FoodType)l);
-						foodTypes.Add((FoodType)k);
-						foodTypes.Add((FoodType)j);
-						foodTypes.Add((FoodType)i);
-						result.Add(foodTypes);
-					}
-				}
-			}
-		}
-		result = result.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
+		allPossibleOrders = allPossibleOrders.OrderBy<List<FoodType>, float>(a => Random.value).ToList();
 		
-		var filteredResult = result.FindAll(order => CountVariableOfOrder(order) == variableOfOrderFood);
-		foreach(var tray in filteredResult){
+		var filteredResult = allPossibleOrders.FindAll(order => CountVariableOfOrder(order) == variableOfOrderFood);
+		foreach(var order in filteredResult){
 			for (int row = 0; row < ROW-1; row++){
 				for(int col = 0; col < COL-1; col++){
 					var foodsOnTray = new List<FoodOnTray>();
@@ -149,18 +155,21 @@ public class TrayManager : MonoBehaviour {
 					foodsOnTray.Add(foods[row+1, col]);
 					foodsOnTray.Add(foods[row, col+1]);
 					foodsOnTray.Add(foods[row+1, col+1]);
-					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
-						return tray;
+					if(!MatchEachPartWithCustomer(foodsOnTray, order)) {
+						return MakeSameOrderTray(order);
+					}
 				}
 			}
 		}
 
 		// 주문 음식 종류 수가 1 초과인 손님은 다른쪽도 체크한다
-		if (variablesOfOrderFood.Count == 1) return result.First();
+		if (variablesOfOrderFood.Count == 1) {
+			return MakeSameOrderTray(allPossibleOrders.First());
+		}
 
 		int anotherVariableOfOrderFood = variablesOfOrderFood.Find(num => num != variableOfOrderFood);
-		filteredResult = result.FindAll(order => CountVariableOfOrder(order) == anotherVariableOfOrderFood);
-		foreach(var tray in filteredResult){
+		filteredResult = allPossibleOrders.FindAll(order => CountVariableOfOrder(order) == anotherVariableOfOrderFood);
+		foreach(var order in filteredResult){
 			for (int row = 0; row < ROW-1; row++){
 				for(int col = 0; col < COL-1; col++){
 					var foodsOnTray = new List<FoodOnTray>();
@@ -171,14 +180,15 @@ public class TrayManager : MonoBehaviour {
 					foodsOnTray.Add(foods[row+1, col]);
 					foodsOnTray.Add(foods[row, col+1]);
 					foodsOnTray.Add(foods[row+1, col+1]);
-					if(!MatchEachPartWithCustomer(foodsOnTray, tray))
-						return tray;
+					if(!MatchEachPartWithCustomer(foodsOnTray, order)) {
+						return MakeSameOrderTray(order);
+					}
 				}
 			}
 		}
 
 		// 다른쪽도 중복이라면, 나중에 체크한 쪽의 트레이 중 하나를 그냥 낸다
-		return filteredResult.First();
+		return MakeSameOrderTray(filteredResult.First());
 	}
 
 	public GameObject FindSuperfoodTarget() {
@@ -622,8 +632,15 @@ public class TrayManager : MonoBehaviour {
 		{
 			SoundManager.PlayCustomerReaction(matchedCustomer.rabbitData.gender, true);
 
+			//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
+			matchedCustomer.isServeCompleted = true;
+			matchedCustomer.timerImage.fillMethod = Image.FillMethod.Vertical;
+			matchedCustomer.timerImage.fillAmount = 0f;
+			matchedCustomer.timerImage.DOFillAmount(1f, animDelay/2f);
+			Tween tw = matchedCustomer.timerImage.DOColor(Color.yellow, animDelay / 2f);
+			yield return tw.WaitForCompletion();
 			// 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
-			yield return new WaitForSeconds(animDelay / 2f);
+			// yield return new WaitForSeconds(animDelay / 2f);
 
 			// 날아간 음식 제거
 			foreach (var matchedFood in matchedFoods)
@@ -631,15 +648,15 @@ public class TrayManager : MonoBehaviour {
 
 			if(matchedCustomer != null)
 			{
+				// vip 이미지 제거
+				matchedCustomer.vipImage.enabled = false;
+
 				// 주문판과 주문판에 있는 음식 제거
 				foreach (var orderAspect in matchedCustomer.orderToBeDestroyed)
 					orderAspect.SetActive(false);
 				
 				if(matchedCustomer != null)
-				{
-					//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
-					matchedCustomer.isServeCompleted = true;
-					
+				{					
 					// 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
 					matchedCustomer.customerImage.transform.DOJump(
 						new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
@@ -705,7 +722,7 @@ public class TrayManager : MonoBehaviour {
 	float moveSpeed = 0.2f;
 
 	IEnumerator ChangeFoodPosition(GameObject food1, Vector3 food1Origin, GameObject food2 = null ) {
-		FindObjectOfType<GameStateManager>().gameState = GameState.Change;
+		gameStateManager.gameState = GameState.Change;
 
 		isPlayingMovingAnim = true;
 
@@ -745,7 +762,7 @@ public class TrayManager : MonoBehaviour {
 		pickedFood1 = null;
 		pickedFood2 = null;
 
-		FindObjectOfType<GameStateManager>().gameState = GameState.Matching;
+		gameStateManager.gameState = GameState.Matching;
 
 		// yield return StartCoroutine(TryMatch());
 
@@ -801,6 +818,8 @@ public class TrayManager : MonoBehaviour {
 		missionManager = FindObjectOfType<MissionManager>();
 		// feverManager = FindObjectOfType<FeverManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+
+		SetAllPossibleOrders();
 
 		InitializeFoods();
 		
@@ -901,15 +920,15 @@ public class TrayManager : MonoBehaviour {
 			//If something was hit, the RaycastHit2D.collider will not be null.
 			if(hit.Length>1)
 			{
-				FindObjectOfType<GameStateManager>().ValidTrigger(hit[1]);
+				gameStateManager.ValidTrigger(hit[1]);
 			}
 			else if(isOnBin)
 			{
-				FindObjectOfType<GameStateManager>().BinTrigger();
+				gameStateManager.BinTrigger();
 			}
 			else
 			{
-				// FindObjectOfType<GameStateManager>().InvalidTrigger();
+				// gameStateManager.InvalidTrigger();
 			}
 		}
 	}
@@ -926,17 +945,16 @@ public class TrayManager : MonoBehaviour {
 			//If something was hit, the RaycastHit2D.collider will not be null.
 			if ((hit.collider != null) && (!isPlayingMovingAnim))
 			{
-				FindObjectOfType<GameStateManager>().PickedTrigger(hit);
+				gameStateManager.PickedTrigger(hit);
 			}
-		}
-		
-		if(Input.GetMouseButton(0))
-		{
-
 		}
 
 		if (Input.GetMouseButtonUp(0)) {
-			FindObjectOfType<GameStateManager>().DroppedTrigger();
+			gameStateManager.DroppedTrigger();
+		}
+
+		if (!Input.anyKey) {
+			gameStateManager.DroppedTrigger();	
 		}
 
 		if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked)

@@ -17,6 +17,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "yoonsung";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -26,6 +27,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "hwangsoon";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -35,6 +37,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "ahyoung";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -44,6 +47,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "donghoon";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -53,6 +57,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "donghak";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -62,6 +67,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "hyunseok";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -71,6 +77,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "junghwa";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -80,6 +87,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "eq";
 				newRabbit.waitingTime = 40;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -89,6 +97,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "minjung";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -98,6 +107,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "haram";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -107,6 +117,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "orchid";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -116,6 +127,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "jaeyoung";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -125,6 +137,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "youngsang";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -134,6 +147,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "smz";
 				newRabbit.waitingTime = 30;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -143,6 +157,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "hongbeom";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -152,6 +167,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "normal";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -161,6 +177,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "jiho";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -170,6 +187,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "moon";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -179,6 +197,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "yj";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -188,6 +207,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "summer";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {2};
 				break;
@@ -197,6 +217,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "hyosang";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -206,6 +227,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "sungchan";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -215,6 +237,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "hyunjun";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -224,6 +247,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "naeri";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;
@@ -233,6 +257,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "king";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = true;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -242,6 +267,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Male;
 				newRabbit.imageName = "muscle";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = true;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -251,6 +277,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "vip";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = true;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -260,6 +287,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "bitsal";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = true;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variablesOfOrderFood = new List<int> {3, 4};
 				break;
@@ -269,6 +297,7 @@ public static class RabbitData {
 				newRabbit.gender = Gender.Female;
 				newRabbit.imageName = "fullLevel";
 				newRabbit.waitingTime = 20;
+				newRabbit.isVip = true;
 				newRabbit.reduceHeartsByFail = 3;
 				newRabbit.variablesOfOrderFood = new List<int> {1};
 				break;

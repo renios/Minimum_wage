@@ -66,7 +66,12 @@ public class CustomerManager : MonoBehaviour {
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
 		Customer customer = currentWaitingCustomers[indexInArray];
-		heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		if (customer.rabbitData.isVip) {
+			heartManager.ReduceAllHearts();
+		}
+		else {
+			heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		}
 		Destroy(customer.gameObject);
 		currentWaitingCustomers[indexInArray] = null;
 	}
@@ -127,10 +132,14 @@ public class CustomerManager : MonoBehaviour {
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
 		if(IsCustomerSlotEmpty()){
-			customer.SetOrder(trayManager.GetTraysNotOnFoods(customer.rabbitData.variablesOfOrderFood));
+			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, 0));
+			// customer.SetOrder(trayManager.GetTraysNotOnFoods(customer.rabbitData.variablesOfOrderFood));
 		}
 		else {
-			customer.SetOrder(trayManager.GetRandomTray(customer.rabbitData.variablesOfOrderFood));
+			int comboCount = trayManager.comboCount;
+			int autoServedProb = 100 - (comboCount * 20);
+			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, autoServedProb));
+			// customer.SetOrder(trayManager.GetRandomTray(customer.rabbitData.variablesOfOrderFood));
 		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;

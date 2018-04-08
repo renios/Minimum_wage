@@ -39,9 +39,10 @@ public class GameStateManager : MonoBehaviour {
 	}
 
 	public IEnumerator Idle() {
-		while (gameState == GameState.Idle || gameState == GameState.UseItem) {
+		while (gameState == GameState.Idle || gameState == GameState.UseItem
+		|| gameState == GameState.Paused) {
             // 아이템을 썼을 때 -> ItemManager에서 처리(대신 이 코루틴이 끝나버리지 않도록 홀드)
-            if (gameState == GameState.UseItem)
+            if (gameState == GameState.UseItem || gameState == GameState.Paused)
             {
                 yield return new WaitUntil(() => gameState == GameState.Idle);
             }
@@ -71,8 +72,6 @@ public class GameStateManager : MonoBehaviour {
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
-
-			yield return null;
 		}
 	}
 

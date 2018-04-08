@@ -5,9 +5,8 @@ using DG.Tweening;
 
 public class CoinMove : MonoBehaviour {
 
-	float duration1 = 0.7f;
-	float duration2 = 0.5f;
-	float duration3;
+	public float duration1;
+	public float duration2;
 	public float width;
 	public float yValue;
 	public float jumpPower;
@@ -30,7 +29,5 @@ public class CoinMove : MonoBehaviour {
 		tw = transform.DOMove(destPos, duration2 + Random.Range(-0.05f, 0.05f)).SetEase(Ease.InCirc);
 		float endScale = scale * 0.4f;
 		transform.DOScale(endScale, duration2).SetEase(Ease.InCirc);	
-
-		yield return tw.OnComplete(() => Destroy(gameObject)).WaitForCompletion();
 	}
 }
