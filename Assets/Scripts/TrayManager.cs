@@ -202,7 +202,7 @@ public class TrayManager : MonoBehaviour {
 				foodList.Add(foods[row, col]);
 			}
 		}
-		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+		foodList = foodList.FindAll(food => food != null && food.isFood && !food.isServed && !food.isSuperfood);
 		foodList.ForEach(food => {
 			FoodType type = food.foodType;
 			if (counter.ContainsKey(type))
@@ -251,8 +251,10 @@ public class TrayManager : MonoBehaviour {
 			{
 				if(!foods[row, col].gameObject.GetComponent<FoodOnTray>().isSuperfood)
 				{
-					Destroy(foods[row, col].gameObject);
-					foods[row, col] = null;
+					if (foods[row, col].isFood) {
+						Destroy(foods[row, col].gameObject);
+						foods[row, col] = null;
+					}
 				}
 			}
 		}
@@ -318,7 +320,7 @@ public class TrayManager : MonoBehaviour {
 			}
 
 			foreach (var orderedFood in customer.orderedFoods) {
-				var matchedFood = foodsList.Find(food => food.foodType == orderedFood.foodType);
+				var matchedFood = foodsList.Find(food => food.isFood && food.foodType == orderedFood.foodType);
 				if (matchedFood != null) {
 					foodsList.Remove(matchedFood);
 				}
@@ -405,8 +407,10 @@ public class TrayManager : MonoBehaviour {
 			{
 				for (int col = 0; col < COL; col++)
 				{
-					Destroy(foods[row, col].gameObject);
-					foods[row, col] = null;
+					if (foods[row, col].isFood) {
+						Destroy(foods[row, col].gameObject);
+						foods[row, col] = null;
+					}
 				}
 			}
 
@@ -441,7 +445,7 @@ public class TrayManager : MonoBehaviour {
 				foodList.Add(foods[row, col]);
 			}
 		}
-		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+		foodList = foodList.FindAll(food => food != null && food.isFood && !food.isServed && !food.isSuperfood);
 		foodList.ForEach(food => {
 			FoodType type = food.foodType;
 			if (counter.ContainsKey(type)) {
@@ -682,6 +686,9 @@ public class TrayManager : MonoBehaviour {
 		// 빈칸 등의 이유로 판에 있는 2*2 영역의 음식 갯수가 4보다 작을 경우에는 무조건 매칭 false 리턴
 		if (foodsInPart.Count < 4) return false;
 
+		// 판 막기 오브젝트가 있으면 무조건 매칭 false 리턴
+		if (foodsInPart.Any(food => !food.isFood)) return false;
+
 		// if (!corrFoodInOrder.foundCorrespondent) 부분의 null 에러를 막기 위해
 		// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
 		// if (foodsInOrder.Any(food => food.foundCorrespondent)) return false;
@@ -764,8 +771,6 @@ public class TrayManager : MonoBehaviour {
 
 		gameStateManager.gameState = GameState.Matching;
 
-		// yield return StartCoroutine(TryMatch());
-
 		isPlayingMovingAnim = false;
 	}
 
@@ -809,6 +814,44 @@ public class TrayManager : MonoBehaviour {
 				newFood.GetComponent<FoodOnTray>().Initialize();
 			}
 		}
+
+		// MakeBlockObject(44);
+	}
+
+	void MakeBlockObject(int rowCol) {
+		// 기본은 row=5 col=6
+		int enableRow = rowCol % 10;
+		int enableCol = rowCol / 10;
+
+		// col은 반드시 짝수여야 함
+		if (enableCol % 2 != 0) {
+			Debug.LogError("Cannot set odd columns");
+			return;
+		}
+
+		// 아래 n줄 막기
+		for (int row = 0; row < ROW-enableRow; row++) {
+			for (int col = 0; col < COL; col++) {
+				foods[row, col].GetComponent<FoodOnTray>().InitializeBlockObject();
+			}
+		}
+
+		// 양쪽 막기
+		if (enableCol < 6) {
+			// 양쪽 한줄씩
+			for (int row = 0; row < ROW; row++) {
+				foods[row, 0].GetComponent<FoodOnTray>().InitializeBlockObject();
+				foods[row, COL-1].GetComponent<FoodOnTray>().InitializeBlockObject();
+			}
+
+			// 양쪽 두줄씩
+			if (enableCol < 4) {
+				for (int row = 0; row < ROW; row++) {
+					foods[row, 1].GetComponent<FoodOnTray>().InitializeBlockObject();
+					foods[row, COL-2].GetComponent<FoodOnTray>().InitializeBlockObject();
+				}
+			}
+		}
 	}
 
 	// Use this for initialization
@@ -850,6 +893,8 @@ public class TrayManager : MonoBehaviour {
 			// 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
 			if (hit.Length > 1 && hit[1].collider != null)
 			{
+				// 음식이 아닌 경우 보여주지 않음
+				if (!hit[1].collider.GetComponent<FoodOnTray>().isFood) return;
 				toBeSwitched.SetActive(true);
 				toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
 				toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;
@@ -925,10 +970,6 @@ public class TrayManager : MonoBehaviour {
 			else if(isOnBin)
 			{
 				gameStateManager.BinTrigger();
-			}
-			else
-			{
-				// gameStateManager.InvalidTrigger();
 			}
 		}
 	}

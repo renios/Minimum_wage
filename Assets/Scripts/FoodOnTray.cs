@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class FoodOnTray : MonoBehaviour {
 
+	public bool isFood = true;
+
 	public FoodType foodType;
 	public Vector2 foodCoord;
     public bool isEnlarging;
@@ -45,6 +47,12 @@ public class FoodOnTray : MonoBehaviour {
 			default:
 				return Resources.Load(pathString + "food01", typeof(Sprite)) as Sprite;
 		}
+	}
+
+	public void InitializeBlockObject() {
+		isFood = false;
+		Sprite blockSprite  = Resources.Load("Foods/block", typeof(Sprite)) as Sprite;
+		GetComponent<SpriteRenderer>().sprite = blockSprite;
 	}
 
 	public void Initialize() {
