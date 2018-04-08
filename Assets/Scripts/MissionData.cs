@@ -322,7 +322,7 @@ public static class MissionData {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 15);
-			missionDataDict.Add(MissionDataType.maxheart, 1);
+			missionDataDict.Add(MissionDataType.maxHeart, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
             missionDataDict[MissionDataType.starTrigger1] = 3000; 			
