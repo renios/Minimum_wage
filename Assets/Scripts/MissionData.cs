@@ -145,10 +145,12 @@ public static class MissionData {
 
 		if (stageName == "1-1") {
 			// missionDataDict.Add(MissionDataType.remainTime, 90);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
+			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 
-			missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
+			missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13000;
 		}
 		else if (stageName == "1-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
@@ -156,57 +158,74 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 
             // 임의로 15 넣음
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 1200; 			
+			missionDataDict[MissionDataType.starTrigger2] = 1500; 			
+			missionDataDict[MissionDataType.starTrigger3] = 11200;
         }
 		else if (stageName == "1-3") {
-			missionDataDict.Add(MissionDataType.remainTime, 90);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
-
-            missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
-        }
-		else if (stageName == "1-4") {
-			// missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
-
-            missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
-        }
-		else if (stageName == "1-5") {
-			missionDataDict.Add(MissionDataType.remainTime, 100);
+			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13300;
+        }
+		else if (stageName == "1-4") {
+			// missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+
+            missionDataDict[MissionDataType.starTrigger1] = 2000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 2300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 12300;
+        }
+		else if (stageName == "1-5") {
+			//missionDataDict.Add(MissionDataType.remainTime, 100);
+			missionDataDict.Add(MissionDataType.customerCount, 25);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+
+            missionDataDict[MissionDataType.starTrigger1] = 5000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 5300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 15300;
         }
 		else if (stageName == "1-6") {
 			//missionDataDict.Add(MissionDataType.remainTime, 150);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
+			missionDataDict.Add(MissionDataType.customerCount, 30);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 6000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 6300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 16300;
         }
 		else if (stageName == "1-7") {
-			missionDataDict.Add(MissionDataType.remainTime, 60);
-			// missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.remainTime, 120);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
             // 임의로 15 넣음
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 4000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 4300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 14300;
         }
 		else if (stageName == "1-8") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
 			missionDataDict.Add(MissionDataType.customerCount, 20);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 4000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 4300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 14300;
         }
 		else if (stageName == "1-9") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.maxHeart, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13300;
         }
 		else if (stageName == "1-10") {
 			missionDataDict.Add(MissionDataType.remainTime, 120);
@@ -214,63 +233,79 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
             // 임의로 15 넣음
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 1800; 			
+			missionDataDict[MissionDataType.starTrigger2] = 2100; 			
+			missionDataDict[MissionDataType.starTrigger3] = 12100;
         }
 		else if (stageName == "2-1") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 10);
-			missionDataDict.Add(MissionDataType.touchCount, 20);
+			missionDataDict.Add(MissionDataType.touchCount, 15);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
 
-            missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 2000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 2300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 12300;
         }
 		else if (stageName == "2-2") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
-			missionDataDict.Add(MissionDataType.touchCount, 15);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
-
-            missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
-        }
-		else if (stageName == "2-3") {
-			missionDataDict.Add(MissionDataType.remainTime, 120);
 			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 20);
-			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
-
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
-        }
-		else if (stageName == "2-4") {
-			missionDataDict.Add(MissionDataType.remainTime, 150);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
-			missionDataDict.Add(MissionDataType.touchCount, 25);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13300;
+        }
+		else if (stageName == "2-3") {
+			missionDataDict.Add(MissionDataType.remainTime, 90);
+			//missionDataDict.Add(MissionDataType.customerCount, 15);
+			//missionDataDict.Add(MissionDataType.touchCount, 20);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
+
+            missionDataDict[MissionDataType.starTrigger1] = 1200; 			
+			missionDataDict[MissionDataType.starTrigger2] = 1500; 			
+			missionDataDict[MissionDataType.starTrigger3] = 11500;
+        }
+		else if (stageName == "2-4") {
+			//missionDataDict.Add(MissionDataType.remainTime, 150);
+			missionDataDict.Add(MissionDataType.customerCount, 20);
+			missionDataDict.Add(MissionDataType.touchCount, 30);
+			missionDataDict.Add(MissionDataType.foodTypeCount, 5);
+
+            missionDataDict[MissionDataType.starTrigger1] = 4000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 4300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 14300;
         }
 		else if (stageName == "2-5") {
 			//missionDataDict.Add(MissionDataType.remainTime, 60);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
-			missionDataDict.Add(MissionDataType.touchCount, 25);
+			missionDataDict.Add(MissionDataType.customerCount, 25);
+			missionDataDict.Add(MissionDataType.touchCount, 35);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 5000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 5300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 15300;
         }
 		else if (stageName == "2-6") {
 			missionDataDict.Add(MissionDataType.remainTime, 75);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
-			missionDataDict.Add(MissionDataType.touchCount, 20);
+			missionDataDict.Add(MissionDataType.customerCount, 25);
+			missionDataDict.Add(MissionDataType.touchCount, 25);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 4);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 5000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 5300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 15300;
         }
 		else if (stageName == "2-7") {
-			missionDataDict.Add(MissionDataType.remainTime, 150);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
+			missionDataDict.Add(MissionDataType.remainTime, 60);
+			missionDataDict.Add(MissionDataType.customerCount, 15);
 			missionDataDict.Add(MissionDataType.touchCount, 25);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13300;
         }
 		else if (stageName == "2-8") {
 			missionDataDict.Add(MissionDataType.remainTime, 90);
@@ -279,23 +314,30 @@ public static class MissionData {
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
             // 임의로 15 넣음
-            missionDataDict[MissionDataType.starTrigger3] = 15 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 1400; 			
+			missionDataDict[MissionDataType.starTrigger2] = 1700; 			
+			missionDataDict[MissionDataType.starTrigger3] = 11400;
         }
 		else if (stageName == "2-9") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 10);
-			missionDataDict.Add(MissionDataType.touchCount, 10);
+			missionDataDict.Add(MissionDataType.customerCount, 15);
+			missionDataDict.Add(MissionDataType.touchCount, 15);
+			missionDataDict.Add(MissionDataType.maxheart, 1);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 10 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 3000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 3300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 13300;
         }
 		else if (stageName == "2-10") {
 			// missionDataDict.Add(MissionDataType.remainTime, 120);
-			missionDataDict.Add(MissionDataType.customerCount, 20);
-			missionDataDict.Add(MissionDataType.touchCount, 25);
+			missionDataDict.Add(MissionDataType.customerCount, 30);
+			missionDataDict.Add(MissionDataType.touchCount, 35);
 			missionDataDict.Add(MissionDataType.foodTypeCount, 6);
 
-            missionDataDict[MissionDataType.starTrigger3] = 20 * 100 * 3 / 2;
+            missionDataDict[MissionDataType.starTrigger1] = 6000; 			
+			missionDataDict[MissionDataType.starTrigger2] = 6300; 			
+			missionDataDict[MissionDataType.starTrigger3] = 16300;
         }
 
 		return missionDataDict;
