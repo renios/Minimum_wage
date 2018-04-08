@@ -318,7 +318,7 @@ public class TrayManager : MonoBehaviour {
 			}
 
 			foreach (var orderedFood in customer.orderedFoods) {
-				var matchedFood = foodsList.Find(food => food.foodType == orderedFood.foodType);
+				var matchedFood = foodsList.Find(food => food.isFood && food.foodType == orderedFood.foodType);
 				if (matchedFood != null) {
 					foodsList.Remove(matchedFood);
 				}
@@ -681,6 +681,9 @@ public class TrayManager : MonoBehaviour {
 	bool MatchEachPartWithCustomer(List<FoodOnTray> foodsInPart, List<FoodType> orderedFood) {
 		// 빈칸 등의 이유로 판에 있는 2*2 영역의 음식 갯수가 4보다 작을 경우에는 무조건 매칭 false 리턴
 		if (foodsInPart.Count < 4) return false;
+
+		// 판 막기 오브젝트가 있으면 무조건 매칭 false 리턴
+		if (foodsInPart.Any(food => !food.isFood)) return false;
 
 		// if (!corrFoodInOrder.foundCorrespondent) 부분의 null 에러를 막기 위해
 		// 4개 중 이미 마킹된 음식이 있으면 무조건 매칭 false를 리턴한다
