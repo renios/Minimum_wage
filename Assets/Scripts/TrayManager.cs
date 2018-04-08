@@ -809,6 +809,13 @@ public class TrayManager : MonoBehaviour {
 				newFood.GetComponent<FoodOnTray>().Initialize();
 			}
 		}
+
+		// 맨 아랫줄 막기
+		for (int row = 0; row < 1; row++) {
+			for (int col = 0; col < COL; col++) {
+				foods[row, col].GetComponent<FoodOnTray>().InitializeBlockObject();
+			}
+		}
 	}
 
 	// Use this for initialization
