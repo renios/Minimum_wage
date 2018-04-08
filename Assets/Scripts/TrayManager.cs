@@ -632,8 +632,15 @@ public class TrayManager : MonoBehaviour {
 		{
 			SoundManager.PlayCustomerReaction(matchedCustomer.rabbitData.gender, true);
 
+			//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
+			matchedCustomer.isServeCompleted = true;
+			matchedCustomer.timerImage.fillMethod = Image.FillMethod.Vertical;
+			matchedCustomer.timerImage.fillAmount = 0f;
+			matchedCustomer.timerImage.DOFillAmount(1f, animDelay/2f);
+			Tween tw = matchedCustomer.timerImage.DOColor(Color.yellow, animDelay / 2f);
+			yield return tw.WaitForCompletion();
 			// 날아가는 동안 기다리도록: 연동이 되는 게 아니라 입력된 시간 그대로 기다리는 방식
-			yield return new WaitForSeconds(animDelay / 2f);
+			// yield return new WaitForSeconds(animDelay / 2f);
 
 			// 날아간 음식 제거
 			foreach (var matchedFood in matchedFoods)
@@ -649,10 +656,7 @@ public class TrayManager : MonoBehaviour {
 					orderAspect.SetActive(false);
 				
 				if(matchedCustomer != null)
-				{
-					//매칭되어 나가는 도중 분노 떨기를 시작하지 못하도록 함
-					matchedCustomer.isServeCompleted = true;
-					
+				{					
 					// 손님 보내고: 왼쪽 손님은 exitAmount만큼 왼쪽으로, 오른쪽 손님은 exitAmount만큼 오른쪽으로
 					matchedCustomer.customerImage.transform.DOJump(
 						new Vector3(matchedCustomer.transform.position.x > 0 ? matchedCustomer.transform.position.x + exitAmount :
