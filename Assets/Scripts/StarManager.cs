@@ -28,7 +28,7 @@ public class StarManager : MonoBehaviour {
 		UpdateTotalStars();
 	}
 
-	int GetTotalStars() {
+	public int GetTotalStars() {
 		int totalStars = 0;
 		for (int i = 0; i < 20; i++) {
 			string key = "StarsOfStage" + i;

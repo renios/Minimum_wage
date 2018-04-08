@@ -11,10 +11,24 @@ public class StageSelectManager : MonoBehaviour {
 	public GameObject missionPanel;
 	public Image missionPanelBg;
 	public Button openWorld2Button;
-	public Image requireStarsToOpenWorld2PanelBg;
-	public GameObject requireStarsToOpenWorld2Panel;
+	public Image impossibleOpenWorld2PanelBg;
+	public GameObject impossibleOpenWorld2Panel;
+	public Text starCountTextAtImpossiblePanel;
+	public Image possibleOpenWorld2PanelBg;
+	public GameObject possibleOpenWorld2Panel;
+	public Text starCountTextAtPossiblePanel;
 	public Image openWorld2PanelBg;
 	public GameObject openWorld2Panel;
+
+	public void CheckAndPopupPanel() {
+		int totalStars = FindObjectOfType<StarManager>().GetTotalStars();
+		if (totalStars < 20) {
+			ShowImpossibleOpenWorld2Panel();
+		}
+		else {
+			ShowPossibleOpenWorld2Panel();
+		}
+	}
 
 	public void ShowMissionPanel(int stageIndex) {
 		SoundManager.Play(SoundType.Button);
@@ -40,26 +54,52 @@ public class StageSelectManager : MonoBehaviour {
 		missionPanelBg.raycastTarget = false;
 	}
 
-	public void ShowRequireStarsToOpenWorld2Panel() {
+	public void ShowImpossibleOpenWorld2Panel() {
 		SoundManager.Play(SoundType.Button);
-		requireStarsToOpenWorld2PanelBg.raycastTarget = true;
+		impossibleOpenWorld2PanelBg.raycastTarget = true;
 		
 		// 현재 별 갯수 동기화
-		// 
+		starCountTextAtImpossiblePanel.text = FindObjectOfType<StarManager>().GetTotalStars().ToString() + " / 30"; 
 
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		float delay = 0.5f;
-		requireStarsToOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
-		requireStarsToOpenWorld2PanelBg.DOFade(0.4f, delay);
+		impossibleOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		impossibleOpenWorld2PanelBg.DOFade(0.4f, delay);
 	}
 
-	public void HideRequireStarsToOpenWorld2Panel() {
+	public void HideimpossibleOpenWorld2Panel() {
 		SoundManager.Play(SoundType.Button);
 		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
 		float delay = 0.5f;
-		requireStarsToOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
-		requireStarsToOpenWorld2PanelBg.DOFade(0, delay);
-		requireStarsToOpenWorld2PanelBg.raycastTarget = false;
+		impossibleOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		impossibleOpenWorld2PanelBg.DOFade(0, delay);
+		impossibleOpenWorld2PanelBg.raycastTarget = false;
+	}
+
+	public void ShowPossibleOpenWorld2Panel() {
+		SoundManager.Play(SoundType.Button);
+		possibleOpenWorld2PanelBg.raycastTarget = true;
+		
+		// 현재 별 갯수 동기화
+		starCountTextAtPossiblePanel.text = FindObjectOfType<StarManager>().GetTotalStars().ToString() + " / 30";
+
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		float delay = 0.5f;
+		possibleOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		possibleOpenWorld2PanelBg.DOFade(0.4f, delay);
+	}
+
+	public void HidePossibleOpenWorld2Panel() {
+		SoundManager.Play(SoundType.Button);
+		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
+		float delay = 0.5f;
+		possibleOpenWorld2Panel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		possibleOpenWorld2PanelBg.DOFade(0, delay);
+		possibleOpenWorld2PanelBg.raycastTarget = false;
+	}
+
+	public void OpenWorld2() {
+		
 	}
 
 	public void ShowOpenWorld2Panel() {
@@ -162,33 +202,37 @@ public class StageSelectManager : MonoBehaviour {
 				}
 			}
 		});
+
+		PlayerPrefs.SetInt("TimerReset", 2);
+		PlayerPrefs.SetInt("Superfood", 2);
+		PlayerPrefs.SetInt("TrayReset", 2);
 	}
 
-	public void OpenWorld2() {
-		Debug.Log("Progress reset to 15");
-		PlayerPrefs.SetInt("Progress", 15);
-		PlayerPrefs.SetInt("UnlockProgress", 15);
-		PlayerPrefs.SetInt("WorldOpenProgress", 2);
+	// public void OpenWorld2() {
+	// 	Debug.Log("Progress reset to 15");
+	// 	PlayerPrefs.SetInt("Progress", 15);
+	// 	PlayerPrefs.SetInt("UnlockProgress", 15);
+	// 	PlayerPrefs.SetInt("WorldOpenProgress", 2);
 		
-		int progress = PlayerPrefs.GetInt("Progress", 1);
-		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
+	// 	int progress = PlayerPrefs.GetInt("Progress", 1);
+	// 	int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
 
-		for (int i = 1; i <= 10; i++) {
-			PlayerPrefs.SetInt("StarsOfStage" + i.ToString(), 2);
-		}
+	// 	for (int i = 1; i <= 10; i++) {
+	// 		PlayerPrefs.SetInt("StarsOfStage" + i.ToString(), 2);
+	// 	}
 
-		FindObjectOfType<StarManager>().UpdateTotalStars();
+	// 	FindObjectOfType<StarManager>().UpdateTotalStars();
 
-		stageButtons.ForEach(button => button.Inactive());
-		stageButtons.ForEach(button => {
-			if (button.stageIndex <= progress) {
-				if (button.stageIndex > 10 && worldOpenProgress >= 2) {
-					button.Active();
-				}
-				else {
-					button.Active();
-				}
-			}
-		});
-	}
+	// 	stageButtons.ForEach(button => button.Inactive());
+	// 	stageButtons.ForEach(button => {
+	// 		if (button.stageIndex <= progress) {
+	// 			if (button.stageIndex > 10 && worldOpenProgress >= 2) {
+	// 				button.Active();
+	// 			}
+	// 			else {
+	// 				button.Active();
+	// 			}
+	// 		}
+	// 	});
+	// }
 }
