@@ -127,8 +127,6 @@ public class GameStateManager : MonoBehaviour {
 			if (validTrigger) {
 				yield return StartCoroutine(trayManager.ValidDrop(castedObj));
 				validTrigger = false;
-				// gameState = GameState.Change;
-				// yield return StartCoroutine(Change());
 				yield return StartCoroutine(Matching());
 			}
 
