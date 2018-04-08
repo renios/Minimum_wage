@@ -948,11 +948,6 @@ public class TrayManager : MonoBehaviour {
 				gameStateManager.PickedTrigger(hit);
 			}
 		}
-		
-		if(Input.GetMouseButton(0))
-		{
-
-		}
 
 		if (Input.GetMouseButtonUp(0)) {
 			gameStateManager.DroppedTrigger();
