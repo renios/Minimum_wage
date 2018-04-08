@@ -202,7 +202,7 @@ public class TrayManager : MonoBehaviour {
 				foodList.Add(foods[row, col]);
 			}
 		}
-		foodList = foodList.FindAll(food => food != null && !food.isServed && !food.isSuperfood);
+		foodList = foodList.FindAll(food => food != null && food.isFood && !food.isServed && !food.isSuperfood);
 		foodList.ForEach(food => {
 			FoodType type = food.foodType;
 			if (counter.ContainsKey(type))
