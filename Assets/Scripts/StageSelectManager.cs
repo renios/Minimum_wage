@@ -177,18 +177,7 @@ public class StageSelectManager : MonoBehaviour {
 
 		// Debug.Log("Current Progress : " + progress);
 
-		stageButtons.ForEach(button => {
-			if (button.stageIndex <= progress) {
-				if (button.stageIndex > 10) {
-					if (worldOpenProgress >= 2) {
-						button.Active();
-					}
-				}
-				else {
-					button.Active();
-				}
-			}
-		});
+		UpdateStageButtonInteractive();
 		
 		SoundManager.Play(MusicType.Main);
 	}
@@ -213,19 +202,7 @@ public class StageSelectManager : MonoBehaviour {
 		
 		FindObjectOfType<StarManager>().ResetTotalStars();
 
-		stageButtons.ForEach(button => button.Inactive());
-		stageButtons.ForEach(button => {
-			if (button.stageIndex <= progress) {
-				if (button.stageIndex > 10) {
-					if (worldOpenProgress >= 2) {
-						button.Active();
-					}
-				}
-				else {
-					button.Active();
-				}
-			}
-		});
+		UpdateStageButtonInteractive();
 
 		PlayerPrefs.SetInt("TimerReset", 0);
 		PlayerPrefs.SetInt("Superfood", 0);
@@ -249,19 +226,7 @@ public class StageSelectManager : MonoBehaviour {
 
 		FindObjectOfType<StarManager>().UpdateTotalStars();
 
-		stageButtons.ForEach(button => button.Inactive());
-		stageButtons.ForEach(button => {
-			if (button.stageIndex <= progress) {
-				if (button.stageIndex > 10) {
-					if (worldOpenProgress >= 2) {
-						button.Active();
-					}
-				}
-				else {
-					button.Active();
-				}
-			}
-		});
+		UpdateStageButtonInteractive();
 
 		PlayerPrefs.SetInt("TimerReset", 2);
 		PlayerPrefs.SetInt("Superfood", 2);
