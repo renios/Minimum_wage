@@ -857,6 +857,8 @@ public class TrayManager : MonoBehaviour {
 			// 다른 음식과 겹치게 움직이면 겹쳐진 음식을 교체 예정으로 보고 미리 반투명하게 예상 결과를 보여준다.
 			if (hit.Length > 1 && hit[1].collider != null)
 			{
+				// 음식이 아닌 경우 보여주지 않음
+				if (!hit[1].collider.GetComponent<FoodOnTray>().isFood) return;
 				toBeSwitched.SetActive(true);
 				toBeSwitched.GetComponent<SpriteRenderer>().sprite = hit[1].collider.gameObject.GetComponent<SpriteRenderer>().sprite;
 				toBeSwitched.transform.localScale = hit[1].collider.gameObject.transform.localScale;

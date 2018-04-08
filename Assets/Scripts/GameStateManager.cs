@@ -27,7 +27,9 @@ public class GameStateManager : MonoBehaviour {
 
 	public void PickedTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Idle && !pickedTrigger) {
-            pickedFood = hit;
+			// 음식이 아닌 경우 집지 않음
+			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
+			pickedFood = hit;
 			pickedTrigger = true;
 		}
 	}
@@ -106,6 +108,8 @@ public class GameStateManager : MonoBehaviour {
 
 	public void ValidTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Picked && !validTrigger) {
+			// 음식이 아닌 경우 유효이동 처리 안함
+			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
 			castedObj = hit;
 			validTrigger = true;
 		}
@@ -114,12 +118,6 @@ public class GameStateManager : MonoBehaviour {
 	public void BinTrigger() {
 		if (gameState == GameState.Picked && !binTrigger) {
 			binTrigger = true;
-		}
-	}
-
-	public void InvalidTrigger() {
-		if (gameState == GameState.Picked && !invalidTrigger) {
-			invalidTrigger = true;
 		}
 	}
 
@@ -145,7 +143,6 @@ public class GameStateManager : MonoBehaviour {
 			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
 			// 음식 원위치
 			yield return StartCoroutine(trayManager.InvalidDrop());
-			invalidTrigger = false;
 			gameState = GameState.Idle;
 			yield break;
 		}
