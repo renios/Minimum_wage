@@ -251,8 +251,10 @@ public class TrayManager : MonoBehaviour {
 			{
 				if(!foods[row, col].gameObject.GetComponent<FoodOnTray>().isSuperfood)
 				{
-					Destroy(foods[row, col].gameObject);
-					foods[row, col] = null;
+					if (foods[row, col].isFood) {
+						Destroy(foods[row, col].gameObject);
+						foods[row, col] = null;
+					}
 				}
 			}
 		}
@@ -405,8 +407,10 @@ public class TrayManager : MonoBehaviour {
 			{
 				for (int col = 0; col < COL; col++)
 				{
-					Destroy(foods[row, col].gameObject);
-					foods[row, col] = null;
+					if (foods[row, col].isFood) {
+						Destroy(foods[row, col].gameObject);
+						foods[row, col] = null;
+					}
 				}
 			}
 
