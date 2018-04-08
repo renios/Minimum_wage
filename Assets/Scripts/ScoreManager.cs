@@ -23,8 +23,9 @@ public class ScoreManager : MonoBehaviour {
 
 	Dictionary<int, int> starTriggers;
 
-	readonly int comboCoef = 5;
-	readonly int customerCoef = 2;
+	readonly int defaultCoin = 150;
+	readonly int comboCoef = 50;
+	readonly int customerCoef = 50;
 
 	void SetCheckPointPos() {
 		float deltaDist = rightPivot.position.x - leftPivot.position.x;
@@ -53,20 +54,18 @@ public class ScoreManager : MonoBehaviour {
 		numberOfStars = 0;
 	}
 
-	public void AddScoreAmountByCustomer(Customer customer) {
-		int amount = 0;
-		amount = (int)(customer.remainWaitingTime / (float)starTriggers[3]);
-		amount *= customerCoef;
-		AddScoreAmount(amount);
-	}
-
-	public void AddScoreAmountByCombo(int comboCount) {
-		int amount = comboCount * comboCoef;
-		AddScoreAmount(amount);
-	}
-
-	public void AddScoreAmount(int amount) {
+	public void AddScoreAmount(int amount){
 		realScoreAmount += amount;
+		Debug.Log("Score : " + visualScoreAmount + " -> " + realScoreAmount);
+	}
+	public void AddScore(int comboCount = -1, float waitingTime = -1) {
+		realScoreAmount += defaultCoin;
+		if(comboCount >= 0){
+			realScoreAmount += comboCount * comboCoef;
+		}
+		if(waitingTime >= 0){
+			realScoreAmount += (int)(waitingTime * customerCoef + 0.999f);
+		}
 		Debug.Log("Score : " + visualScoreAmount + " -> " + realScoreAmount);
 	}
 

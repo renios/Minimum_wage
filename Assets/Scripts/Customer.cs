@@ -45,18 +45,22 @@ public class Customer : MonoBehaviour {
 	GameManager gameManager;
 	GameStateManager gameStateManager;
 
+	public float GetRateOfWatingTime(){
+		return remainWaitingTime / waitingTime;
+	}
+
 	void InitializeTimer() {
 		waitingTime = rabbitData.waitingTime;
 		remainWaitingTime = waitingTime;
 		timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
-		timerImage.fillAmount = remainWaitingTime / waitingTime;
+		timerImage.fillAmount = GetRateOfWatingTime();
 	}
 
 	void UpdateTimer() {
 		if(!isServeCompleted && (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked))
 		{
 			remainWaitingTime -= Time.deltaTime;
-			timerImage.fillAmount = remainWaitingTime / waitingTime;
+			timerImage.fillAmount = GetRateOfWatingTime();
 		}
 	}
 
