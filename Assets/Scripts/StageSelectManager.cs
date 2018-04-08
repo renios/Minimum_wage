@@ -22,6 +22,8 @@ public class StageSelectManager : MonoBehaviour {
 	public GameObject openWorld2Panel;
 	public GameObject signToWorld2;
 
+	StarManager starManager;
+
 	public void CheckAndPopupPanel() {
 		int totalStars = FindObjectOfType<StarManager>().GetTotalStars();
 		if (totalStars < 20) {
@@ -148,7 +150,7 @@ public class StageSelectManager : MonoBehaviour {
 		int progress = PlayerPrefs.GetInt("Progress", 1);
 		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
 
-		FindObjectOfType<StarManager>().UpdateTotalStars();
+		starManager.UpdateTotalStars();
 
 		stageButtons.ForEach(button => button.Inactive());
 		stageButtons.ForEach(button => {
@@ -166,6 +168,8 @@ public class StageSelectManager : MonoBehaviour {
 	}
 
 	void Awake () {
+		starManager = FindObjectOfType<StarManager>();
+
 		stageButtons = FindObjectsOfType<StageButton>().ToList();
 		stageButtons.ForEach(button => button.Initialize());
 		stageButtons.OrderBy(button => button.stageIndex);
@@ -195,7 +199,7 @@ public class StageSelectManager : MonoBehaviour {
 
 		UpdateSignToWorld2Panel();
 		
-		FindObjectOfType<StarManager>().ResetTotalStars();
+		starManager.ResetTotalStars();
 
 		UpdateStageButtonInteractive();
 
@@ -216,7 +220,7 @@ public class StageSelectManager : MonoBehaviour {
 			PlayerPrefs.SetInt("StarsOfStage" + i.ToString(), 2);
 		}
 
-		FindObjectOfType<StarManager>().UpdateTotalStars();
+		starManager.UpdateTotalStars();
 
 		UpdateStageButtonInteractive();
 
