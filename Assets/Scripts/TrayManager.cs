@@ -815,10 +815,41 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		// 맨 아랫줄 막기
-		for (int row = 0; row < 1; row++) {
+		// MakeBlockObject(44);
+	}
+
+	void MakeBlockObject(int rowCol) {
+		// 기본은 row=5 col=6
+		int enableRow = rowCol % 10;
+		int enableCol = rowCol / 10;
+
+		// col은 반드시 짝수여야 함
+		if (enableCol % 2 != 0) {
+			Debug.LogError("Cannot set odd columns");
+			return;
+		}
+
+		// 아래 n줄 막기
+		for (int row = 0; row < ROW-enableRow; row++) {
 			for (int col = 0; col < COL; col++) {
 				foods[row, col].GetComponent<FoodOnTray>().InitializeBlockObject();
+			}
+		}
+
+		// 양쪽 막기
+		if (enableCol < 6) {
+			// 양쪽 한줄씩
+			for (int row = 0; row < ROW; row++) {
+				foods[row, 0].GetComponent<FoodOnTray>().InitializeBlockObject();
+				foods[row, COL-1].GetComponent<FoodOnTray>().InitializeBlockObject();
+			}
+
+			// 양쪽 두줄씩
+			if (enableCol < 4) {
+				for (int row = 0; row < ROW; row++) {
+					foods[row, 1].GetComponent<FoodOnTray>().InitializeBlockObject();
+					foods[row, COL-2].GetComponent<FoodOnTray>().InitializeBlockObject();
+				}
 			}
 		}
 	}
