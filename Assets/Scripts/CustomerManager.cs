@@ -6,6 +6,8 @@ using Enums;
 
 public class CustomerManager : MonoBehaviour {
 
+	Dictionary<int, Rabbit> openedRabbitDict;
+
 	public GameObject customerPrefab;
 	public List<Transform> customerSlot;
 	public float waitingTime;
@@ -21,6 +23,10 @@ public class CustomerManager : MonoBehaviour {
 	public Customer[] currentWaitingCustomers;
 
 	public bool isPlayingCustomerAnim = false;
+
+	// 코인 관련 수치
+	int defaultCoin = 100;
+	int coinCoef = 20;
 
 	GameManager gameManager;
 	GameStateManager gameStateManager;
@@ -59,9 +65,15 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		Destroy(currentWaitingCustomers[indexInArray].gameObject);
+		Customer customer = currentWaitingCustomers[indexInArray];
+		if (customer.rabbitData.isVip) {
+			heartManager.ReduceAllHearts();
+		}
+		else {
+			heartManager.ReduceHeart(customer.rabbitData.reduceHeartsByFail);
+		}
+		Destroy(customer.gameObject);
 		currentWaitingCustomers[indexInArray] = null;
-		heartManager.ReduceHeart(1);
 	}
 
 	void MakeCoinParticle(Vector3 pos, float delay) {
@@ -70,18 +82,16 @@ public class CustomerManager : MonoBehaviour {
 		Instantiate(coinPrefab, prefabPos, Quaternion.identity);
 	}
 
-	int defaultCoin = 100;
-	int coinCoef = 20;
-
-	void AddCoinAmount(int amount) {
+	void AddCoinAmount(float waitingTime) {
 		int comboCount = trayManager.comboCount;
-		scoreManager.realScoreAmount += (amount + ((comboCount-1) * coinCoef));
+		scoreManager.AddScore(comboCount, waitingTime);
 		SoundManager.Play(SoundType.Cashier);
 		missionManager.coinText.text = scoreManager.realScoreAmount.ToString();
 		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
+		var currentWaitingTime = currentWaitingCustomers[indexInArray].GetRateOfWatingTime();
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
 
 		MakeCoinParticle(currentWaitingCustomers[indexInArray].transform.position, delay);
@@ -90,7 +100,18 @@ public class CustomerManager : MonoBehaviour {
 		currentWaitingCustomers[indexInArray] = null;
 		missionManager.successCustomerCount += 1;
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
-		AddCoinAmount(defaultCoin);
+		AddCoinAmount(currentWaitingTime);
+	}
+
+	bool IsThereSameIndexCustomer(int rabbitIndex) {
+		bool isThere = false;
+		currentWaitingCustomers.ToList().ForEach(customer => {
+			if (customer != null) {
+				if (customer.rabbitData.index == rabbitIndex)
+					isThere = true;
+			}
+		});
+		return isThere;
 	}
 
 	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
@@ -99,13 +120,26 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 
-		Rabbit newRabbitData = RabbitData.GetRabbitData(1); // 임시로 윤성이만 나오게 함
+		// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
+		List<int> indexList = openedRabbitDict.Keys.ToList();
+		int newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		while (IsThereSameIndexCustomer(newRabbitIndex)) {
+			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		}
+		Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
 
 		customer.Initialize(indexInArray, newRabbitData);
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
 		if(IsCustomerSlotEmpty()){
-			customer.SetOrder(trayManager.GetTraysNotOnFoods());
+			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, 0));
+			// customer.SetOrder(trayManager.GetTraysNotOnFoods(customer.rabbitData.variablesOfOrderFood));
+		}
+		else {
+			int comboCount = trayManager.comboCount;
+			int autoServedProb = 100 - (comboCount * 20);
+			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, autoServedProb));
+			// customer.SetOrder(trayManager.GetRandomTray(customer.rabbitData.variablesOfOrderFood));
 		}
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
@@ -149,6 +183,16 @@ public class CustomerManager : MonoBehaviour {
 		return -1;
 	}
 
+	void SetOpenedRabbitsIndexList() {
+		int currentStageIndex = MissionData.stageIndex;
+		openedRabbitDict = new Dictionary<int, Rabbit>();
+		for (int index = 1; index <= RabbitData.numberOfRabbitData; index++) {
+			Rabbit newRabbitData = RabbitData.GetRabbitData(index);
+			if (newRabbitData.releaseStageIndex <= currentStageIndex)
+				openedRabbitDict.Add(index, newRabbitData);
+		}
+	}
+
 	void Awake () {
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 		if (missionDataDict.ContainsKey(MissionDataType.waitingTime)) {
@@ -157,6 +201,8 @@ public class CustomerManager : MonoBehaviour {
 		if (missionDataDict.ContainsKey(MissionDataType.customerCooldown)) {
 			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
 		}
+
+		SetOpenedRabbitsIndexList();
 	}
 
 	// Use this for initialization
@@ -180,22 +226,12 @@ public class CustomerManager : MonoBehaviour {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
 			lastCustomerMakeTime += Time.deltaTime; 
 
-			// 손으로 음식을 집어든 도중에는 손님이 오지 않는다 -> 손님은 오지만, 매칭은 idle 상태가 아니면 하지 않는다
-			// if (trayManager.pickedFood1 != null) return;
-
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			// 손님 추가는 항상 된다
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
 			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
 			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-
-			// 손님 추가는 Idle, Picked 상태일 때만 된다
-			// if (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked) {
-			// 	int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			// 	MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
-			// 	FindObjectOfType<GameStateManager>().NewCustomerTrigger();
-			// }
 		}
 	}
 }

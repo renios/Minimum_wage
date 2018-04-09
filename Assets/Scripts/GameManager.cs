@@ -28,23 +28,23 @@ public class GameManager : MonoBehaviour {
 	GameStateManager gameStateManager;
 
 	public IEnumerator ShowGameoverCanvas() {
-        // 가지고 들어온 아이템을 사용하지 않았다면 소지 아이템으로 다시 돌려 준다
-        if (MissionData.gotTimeItem)
-        {
-            PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
-            MissionData.gotTimeItem = false;
-        }
-        if (MissionData.gotSuperfood)
-        {
-            PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
-            MissionData.gotSuperfood = false;
-        }
-        if (MissionData.gotTrayItem)
-        {
-            PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
-            MissionData.gotTrayItem = false;
-        }
-        isPlaying = false;
+		// 가지고 들어온 아이템을 사용하지 않았다면 소지 아이템으로 다시 돌려 준다
+		if (MissionData.gotTimeItem)
+		{
+			PlayerPrefs.SetInt("TimerReset", PlayerPrefs.GetInt("TimerReset", 0) + 1);
+			MissionData.gotTimeItem = false;
+		}
+		if (MissionData.gotSuperfood)
+		{
+			PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+			MissionData.gotSuperfood = false;
+		}
+		if (MissionData.gotTrayItem)
+		{
+			PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 0) + 1);
+			MissionData.gotTrayItem = false;
+		}
+		isPlaying = false;
 		SoundManager.Play(MusicType.StageOver);
 		gameEndCanvas.SetActive(true);
 		Vector3 startPos = new Vector3(0, 19.2f, 0);
@@ -92,7 +92,7 @@ public class GameManager : MonoBehaviour {
 			GameObject star = starObjects[i];
 			star.GetComponent<Image>().enabled = true;
 			star.GetComponent<Image>().sprite = starSprite;
-            star.GetComponent<Image>().color = Color.white;
+			star.GetComponent<Image>().color = Color.white;
 			star.GetComponentInChildren<ParticleSystem>().Play();
 			
 			Vector3 originPos = star.transform.position;
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour {
 			star.GetComponent<Image>().color = new Color(0.8f, 0.8f, 0.8f, 1);
 			star.GetComponent<Image>().enabled = false;
 		});
-        rewardCanvas.SetActive(false);
+		rewardCanvas.SetActive(false);
 	}
 
 	// Use this for initialization
@@ -142,33 +142,31 @@ public class GameManager : MonoBehaviour {
 		if (gameStateManager.gameState != GameState.End) return;
 
 		if (gameEndCanvas.activeInHierarchy) {
-            if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
-                print("start hide canvas coroutine on end");
-                StartCoroutine(HideCanvas());
+			if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
+				StartCoroutine(HideCanvas());
 		}
 	}
 
 	IEnumerator HideCanvas () {
-        print("Hide Canvas");
-        starObjects.ToList().ForEach(star => {
-			if (star.GetComponent<Image>().enabled) {
-				star.GetComponent<Image>().DOColor(Color.black, delay);
-				star.GetComponentInChildren<ParticleSystem>().Stop();
-			}
-		});
-		Tween tw = mainPanel.DOColor(Color.black, delay);
-		yield return tw.WaitForCompletion();
-		isPlaying = false;
+		// starObjects.ToList().ForEach(star => {
+		// 	if (star.GetComponent<Image>().enabled) {
+		// 		star.GetComponent<Image>().DOColor(Color.black, delay);
+		// 		star.GetComponentInChildren<ParticleSystem>().Stop();
+		// 	}
+		// });
 		MissionData.gotSuperfood = false;
 		MissionData.gotTimeItem = false;
 		MissionData.gotTrayItem = false;
-		yield return new WaitForSeconds(1);
-        if(needsReward)
-        {
-            // 아이템 주는 패널 보여주기
-            rewardCanvas.SetActive(true);
-        }
-        else
-    		SceneManager.LoadScene("World");
+		isPlaying = false;
+		yield return new WaitForSeconds(1f);
+		if (needsReward)
+		{
+			// 아이템 주는 패널 보여주기
+			rewardCanvas.SetActive(true);
+		}
+		else
+			SceneManager.LoadScene("World");
+		// Tween tw = mainPanel.DOColor(Color.black, delay);
+		// yield return tw.WaitForCompletion();
 	}
 }

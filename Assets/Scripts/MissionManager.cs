@@ -191,7 +191,8 @@ public class MissionManager : MonoBehaviour {
 		if (!gameManager.isPlaying) return;
 
 		if (isUsedTime) {
-			remainTime -= Time.deltaTime;	
+			remainTime -= Time.deltaTime;
+			if (remainTime < 0) remainTime = 0;	
 			timeText.text = ((int)(remainTime / 60)).ToString("D2") + ":" + ((int)(remainTime % 60)).ToString("D2");
 		}
 		if (isUsedCustomerCount) {

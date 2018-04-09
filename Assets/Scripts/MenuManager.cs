@@ -25,15 +25,18 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	IEnumerator ActiveMenuPanelCoroutine() {
+		Debug.Log("ActiveMenuPanel");
 		Time.timeScale = 0;
 		SoundManager.PauseSoundPlayers();
 		panelBg.GetComponent<Image>().raycastTarget = true;
 		panelBg.DOFade(0.7f, delay).SetUpdate(UpdateType.Normal, true);
 		panel.GetComponent<RectTransform>().DOMove(Vector3.zero, delay).SetUpdate(UpdateType.Normal, true);
 		yield return null;
+		SoundManager.Play(SoundType.Button);
 	}
 
 	public void InactiveMenuPanel() {
+		SoundManager.Play(SoundType.Button);
 		StartCoroutine(InactiveMenuPanelCoroutine());
 	}
 
@@ -49,6 +52,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
 	public void GoToWorld() {
+		SoundManager.Play(SoundType.Button);
 		StartCoroutine(GoToWorldCoroutine());
 	}
 

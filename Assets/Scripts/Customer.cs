@@ -14,11 +14,13 @@ public class Customer : MonoBehaviour {
 	// newRabbit.gender = Gender.Male;
 	// newRabbit.imageName = "yoonsung";
 	// newRabbit.waitingTime = 40;
+	// newRabbit.isVip = false;
 	// newRabbit.reduceHeartsByFail = 1;
 	// newRabbit.variableOfOrderFood = new List<int> {3, 4};
 	// 토끼 기본 스탯
 	public Rabbit rabbitData;
 
+	public Image vipImage;
 	public float waitingTime;
 	public float remainWaitingTime;
 	public float toleranceRate;
@@ -43,18 +45,22 @@ public class Customer : MonoBehaviour {
 	GameManager gameManager;
 	GameStateManager gameStateManager;
 
+	public float GetRateOfWatingTime(){
+		return remainWaitingTime / waitingTime;
+	}
+
 	void InitializeTimer() {
 		waitingTime = rabbitData.waitingTime;
 		remainWaitingTime = waitingTime;
 		timerImage.color = new Color(131f / 255f, 193f / 255f, 193f / 255f, 1f);
-		timerImage.fillAmount = remainWaitingTime / waitingTime;
+		timerImage.fillAmount = GetRateOfWatingTime();
 	}
 
 	void UpdateTimer() {
 		if(!isServeCompleted && (gameStateManager.gameState == GameState.Idle || gameStateManager.gameState == GameState.Picked))
 		{
 			remainWaitingTime -= Time.deltaTime;
-			timerImage.fillAmount = remainWaitingTime / waitingTime;
+			timerImage.fillAmount = GetRateOfWatingTime();
 		}
 	}
 
@@ -82,6 +88,10 @@ public class Customer : MonoBehaviour {
 	public void Initialize (int indexInArray, Rabbit rabbitData) {
 		this.indexInArray = indexInArray;
 		this.rabbitData = rabbitData;
+
+		if (this.rabbitData.isVip) {
+			vipImage.enabled = true;
+		}
 
 		SetImage();
 		InitializeTimer();

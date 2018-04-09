@@ -27,7 +27,9 @@ public class GameStateManager : MonoBehaviour {
 
 	public void PickedTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Idle && !pickedTrigger) {
-            pickedFood = hit;
+			// 음식이 아닌 경우 집지 않음
+			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
+			pickedFood = hit;
 			pickedTrigger = true;
 		}
 	}
@@ -39,9 +41,10 @@ public class GameStateManager : MonoBehaviour {
 	}
 
 	public IEnumerator Idle() {
-		while (gameState == GameState.Idle || gameState == GameState.UseItem) {
+		while (gameState == GameState.Idle || gameState == GameState.UseItem
+		|| gameState == GameState.Paused) {
             // 아이템을 썼을 때 -> ItemManager에서 처리(대신 이 코루틴이 끝나버리지 않도록 홀드)
-            if (gameState == GameState.UseItem)
+            if (gameState == GameState.UseItem || gameState == GameState.Paused)
             {
                 yield return new WaitUntil(() => gameState == GameState.Idle);
             }
@@ -71,8 +74,6 @@ public class GameStateManager : MonoBehaviour {
 				gameState = GameState.Matching;
 				yield return StartCoroutine(Matching());
 			}
-
-			yield return null;
 		}
 	}
 
@@ -107,6 +108,8 @@ public class GameStateManager : MonoBehaviour {
 
 	public void ValidTrigger(RaycastHit2D hit) {
 		if (gameState == GameState.Picked && !validTrigger) {
+			// 음식이 아닌 경우 유효이동 처리 안함
+			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
 			castedObj = hit;
 			validTrigger = true;
 		}
@@ -118,20 +121,12 @@ public class GameStateManager : MonoBehaviour {
 		}
 	}
 
-	public void InvalidTrigger() {
-		if (gameState == GameState.Picked && !invalidTrigger) {
-			invalidTrigger = true;
-		}
-	}
-
 	IEnumerator Dropped() {
 		while (gameState == GameState.Dropped) {
 			// 유효한 이동일 경우 -> Change -> Matching
 			if (validTrigger) {
 				yield return StartCoroutine(trayManager.ValidDrop(castedObj));
 				validTrigger = false;
-				// gameState = GameState.Change;
-				// yield return StartCoroutine(Change());
 				yield return StartCoroutine(Matching());
 			}
 
@@ -146,7 +141,6 @@ public class GameStateManager : MonoBehaviour {
 			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
 			// 음식 원위치
 			yield return StartCoroutine(trayManager.InvalidDrop());
-			invalidTrigger = false;
 			gameState = GameState.Idle;
 			yield break;
 		}
