@@ -113,14 +113,26 @@ public class TrayManager : MonoBehaviour {
 	}
 
 	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {		
-		int randNum = Random.Range(0, 100) + 1;
-		// Debug.Log(randNum + " / " + autoServedProb);
-		if (randNum < autoServedProb) {
-			return GetRandomTray(variablesOfOrderFood);
+		if(testManager != null && !testManager.randomizeCustomer
+		&& testManager.nextOrders.Count > 0)
+		{
+			// 테스트 중이고, 입력된 오더가 있으면 입력된 오더를 내오기
+			List<FoodType> nextOrder = MakeSameOrderTray(testManager.nextOrders.First());
+			testManager.nextOrders.RemoveAt(0);
+			return nextOrder;
 		}
-		else {
-			return GetTraysNotOnFoods(variablesOfOrderFood);
+		else
+		{
+			int randNum = Random.Range(0, 100) + 1;
+			// Debug.Log(randNum + " / " + autoServedProb);
+			if (randNum < autoServedProb) {
+				return GetRandomTray(variablesOfOrderFood);
+			}
+			else {
+				return GetTraysNotOnFoods(variablesOfOrderFood);
+			}
 		}
+
 	}
 
 	public List<FoodType> GetRandomTray(List<int> variablesOfOrderFood){
