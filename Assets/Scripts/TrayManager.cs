@@ -74,6 +74,7 @@ public class TrayManager : MonoBehaviour {
 	GameManager gameManager;
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
+	public TestManager testManager;
 
 	List<List<FoodType>> allPossibleOrders;
 
@@ -111,7 +112,7 @@ public class TrayManager : MonoBehaviour {
 		return foodTypes.Count();
 	}
 
-	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {
+	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {		
 		int randNum = Random.Range(0, 100) + 1;
 		// Debug.Log(randNum + " / " + autoServedProb);
 		if (randNum < autoServedProb) {
