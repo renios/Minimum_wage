@@ -34,6 +34,7 @@ public class CustomerManager : MonoBehaviour {
 	TrayManager trayManager;
 	MissionManager missionManager;
 	ScoreManager scoreManager;
+	public TestManager testManager;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -120,12 +121,23 @@ public class CustomerManager : MonoBehaviour {
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 
-		// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
-		List<int> indexList = openedRabbitDict.Keys.ToList();
-		int newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
-		while (IsThereSameIndexCustomer(newRabbitIndex)) {
-			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+		int newRabbitIndex;
+		if(testManager != null && !testManager.randomizeCustomer 
+			&& testManager.nextCustomers.Count > 0)
+		{
+			// 테스트 중이고 입력된 손님이 있다면 입력된대로
+			newRabbitIndex = testManager.nextCustomers.First();
+			testManager.nextCustomers.Remove(newRabbitIndex);
 		}
+		else{
+			// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
+			List<int> indexList = openedRabbitDict.Keys.ToList();
+			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			while (IsThereSameIndexCustomer(newRabbitIndex)) {
+				newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			}
+		}
+
 		Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
 
 		customer.Initialize(indexInArray, newRabbitData);
@@ -224,6 +236,12 @@ public class CustomerManager : MonoBehaviour {
 
 		if (IsEmptyPosInCustomerSlot()) {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
+			// Test 씬의 경우에는 입력 손님 대기열에 손님이 있거나 랜덤 토글이 눌려 있을 때에만 돌아간다
+			if(testManager != null)
+			{
+				if(!testManager.randomizeCustomer && testManager.nextCustomers.Count == 0) return;
+			}
+
 			lastCustomerMakeTime += Time.deltaTime; 
 
 			if (lastCustomerMakeTime < customerCooldown) return;
