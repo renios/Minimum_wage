@@ -123,14 +123,16 @@ public class TrayManager : MonoBehaviour {
 		}
 		else
 		{
-			int randNum = Random.Range(0, 100) + 1;
-			// Debug.Log(randNum + " / " + autoServedProb);
-			if (randNum < autoServedProb) {
-				return GetRandomTray(variablesOfOrderFood);
-			}
-			else {
+			// 무조건 자동서빙을 최우선으로 막도록 코드 수정
+
+			// int randNum = Random.Range(0, 100) + 1;
+			// // Debug.Log(randNum + " / " + autoServedProb);
+			// if (randNum < autoServedProb) {
+			// 	return GetRandomTray(variablesOfOrderFood);
+			// }
+			// else {
 				return GetTraysNotOnFoods(variablesOfOrderFood);
-			}
+			// }
 		}
 
 	}
@@ -864,7 +866,12 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		// MakeBlockObject(44);
+		if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
+			MakeBlockObject(44);
+		}
+		else {
+			MakeBlockObject(65);
+		}
 	}
 
 	void MakeBlockObject(int rowCol) {
