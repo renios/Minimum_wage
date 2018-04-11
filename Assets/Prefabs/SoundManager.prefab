@@ -110,6 +110,18 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: b773f41b019b8514e9aabed8dcde8264, type: 3}
   - type: 9
     clip: {fileID: 8300000, guid: 7b4ce3d558407144db6bb3d23dd6f367, type: 3}
+  - type: 11
+    clip: {fileID: 8300000, guid: d882311c6e898d44896bf67731f4b268, type: 3}
+  - type: 12
+    clip: {fileID: 8300000, guid: 83559a4a887340c47b80a8f89667cd03, type: 3}
+  - type: 13
+    clip: {fileID: 8300000, guid: 8a22a8368bbec7d44aa0b2d31972fa8a, type: 3}
+  - type: 14
+    clip: {fileID: 8300000, guid: 34fe0f0b4f7a92c4d8dd2b04bcb30585, type: 3}
+  - type: 15
+    clip: {fileID: 8300000, guid: f53c9dab99ca90e43a24e68afdad7012, type: 3}
+  - type: 16
+    clip: {fileID: 8300000, guid: 5f8ff8991ba1f5f45a174fde347c616b, type: 3}
   worldSoundData:
   - start: {fileID: 8300000, guid: c21a537a4b2b58b408efb69d5a901fb9, type: 3}
     ambient: {fileID: 8300000, guid: fca7ac06b6df28148a1c73b01c7656f0, type: 3}

@@ -3,7 +3,7 @@ using System.Linq;
 using UnityEngine;
 
 public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Swap, Tap, 
-    Star1, Star2, Star3, ItemSuperFood, ItemTime, ItemTray, UnlockNewCustomer }
+    Star1, Star2, Star3, ItemTime, ItemSuperFood, ItemTray, UnlockNewCustomer }
 public enum MusicType { Ambient, Main, Start, StageClear, StageOver }
 
 [System.Serializable]
