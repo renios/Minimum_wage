@@ -25,7 +25,7 @@ public class TrayManager : MonoBehaviour {
 	public GameObject pickedFood1;
 	// 첫 음식과 자리 맞바꿀 음식 오브젝트
 	public GameObject pickedFood2;
-	// 처음 지정한 음식 오브젝트의 초기 위치 ////////////////////////////////////수정할 것(영상)////////////////////////////////////////
+	// 처음 지정한 음식 오브젝트의 초기 위치
 	Vector3 pickedFood1Origin;
 
 	// 조작하는 음식 크기 변환한 후 되돌아갈 수 있도록 초기 스케일값 저장
@@ -504,37 +504,67 @@ public class TrayManager : MonoBehaviour {
 
 		// float animDelay = 1;
 
-		// 하나씩 맞춰보고 (위 > 아래, 왼쪽 > 오른쪽)
-		for (int row = ROW-2; row >= 0; row--) {
-			for (int col = 0; col < COL-1; col++) {
-				List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
-				foodsInPart.Add(foods[row, col]);
-				foodsInPart.Add(foods[row+1, col]);
-				foodsInPart.Add(foods[row, col+1]);
-				foodsInPart.Add(foods[row+1, col+1]);
-				// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
-				if (pickedFood1 != null)
-					foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
-						&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
-				else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
+		foreach(var customer in customers){
+			// 반복문 넣어서 foodsInPart 만들고
+			for (int row = ROW-2; row >= 0; row--) {
+				for (int col = 0; col < COL-1; col++) {
+					List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
+					foodsInPart.Add(foods[row, col]);
+					foodsInPart.Add(foods[row+1, col]);
+					foodsInPart.Add(foods[row, col+1]);
+					foodsInPart.Add(foods[row+1, col+1]);
+					// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
+					if (pickedFood1 != null)
+						foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
+							&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
+					else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
 			
-				List<Customer> matchedCustomers = customers.FindAll(customer => 
-					!customer.isServed 
-					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
-				
-				// 서빙받을 손님과 서빙할 음식을 미리 마킹
-				if (matchedCustomers.Count > 0) {
-					Customer matchedCustomer = matchedCustomers.First();
-					List<FoodOnTray> matchedFoods = foodsInPart;
+					if(!customer.isServed
+					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList())){
+						Customer matchedCustomer = customer;
+						List<FoodOnTray> matchedFoods = foodsInPart;
 
-					matchedCustomer.isServed = true;
-					matchedFoods.ForEach(food => food.isServed = true);
+						matchedCustomer.isServed = true;
+						matchedFoods.ForEach(food => food.isServed = true);
 
-					ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
-					pairs.Add(newPair);
+						ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
+						pairs.Add(newPair);
+					}
 				}
 			}
 		}
+
+		// 하나씩 맞춰보고 (위 > 아래, 왼쪽 > 오른쪽)
+		// for (int row = ROW-2; row >= 0; row--) {
+		// 	for (int col = 0; col < COL-1; col++) {
+		// 		List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
+		// 		foodsInPart.Add(foods[row, col]);
+		// 		foodsInPart.Add(foods[row+1, col]);
+		// 		foodsInPart.Add(foods[row, col+1]);
+		// 		foodsInPart.Add(foods[row+1, col+1]);
+		// 		// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
+		// 		if (pickedFood1 != null)
+		// 			foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
+		// 				&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
+		// 		else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
+			
+		// 		List<Customer> matchedCustomers = customers.FindAll(customer => 
+		// 			!customer.isServed 
+		// 			&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
+				
+		// 		// 서빙받을 손님과 서빙할 음식을 미리 마킹
+		// 		if (matchedCustomers.Count > 0) {
+		// 			Customer matchedCustomer = matchedCustomers.First();
+		// 			List<FoodOnTray> matchedFoods = foodsInPart;
+
+		// 			matchedCustomer.isServed = true;
+		// 			matchedFoods.ForEach(food => food.isServed = true);
+
+		// 			ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
+		// 			pairs.Add(newPair);
+		// 		}
+		// 	}
+		// }
 
 		return pairs;
 	}
