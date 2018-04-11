@@ -2,7 +2,8 @@
 using System.Linq;
 using UnityEngine;
 
-public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Swap, Tap }
+public enum SoundType { Button, Cashier, Coin, Combo, FemaleDisappoint, FemaleSatisfy, MaleSatisfy, MaleDisappoint, Raspberry, Swap, Tap, 
+    Star1, Star2, Star3, ItemSuperFood, ItemTime, ItemTray, UnlockNewCustomer }
 public enum MusicType { Ambient, Main, Start, StageClear, StageOver }
 
 [System.Serializable]
@@ -212,6 +213,17 @@ public class SoundManager : MonoBehaviour{
     public static void PlayCombo(int combo){
         comboCount = combo;
         Play(SoundType.Combo);
+    }
+    public static void PlayStar(int n){
+        if(n == 1){
+            Play(SoundType.Star1);
+        } else if (n == 2){
+            Play(SoundType.Star2);
+        } else if (n == 3){
+            Play(SoundType.Star3);
+        } else {
+            Debug.LogWarning("StarSoundOutOfIndexException : Star sound does not contain this index("+n+")");
+        }
     }
     public void PlayButtonNonStatic(){
         Play(SoundType.Button);
