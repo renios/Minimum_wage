@@ -111,6 +111,7 @@ public class ItemManager : MonoBehaviour {
             Vector3 endPos = newSuperfood.transform.position;
             GameObject makeSuperfoodEffect = 
                 Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
+            SoundManager.Play(SoundType.ItemSuperFood);
             yield return StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
         }
 
@@ -125,6 +126,7 @@ public class ItemManager : MonoBehaviour {
         if (FindObjectOfType<GameStateManager>().gameState == GameState.Idle) {
             FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;
             customerManager.ResetWaitingTime();
+            SoundManager.Play(SoundType.ItemTime);
             TimeItemButton.GetComponent<Image>().material = grayScale;
             FindObjectOfType<GameStateManager>().gameState = GameState.Idle;
         }
@@ -137,7 +139,8 @@ public class ItemManager : MonoBehaviour {
     }
 
     IEnumerator UseResetTrayItemCoroutine() {
-        FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;    
+        FindObjectOfType<GameStateManager>().gameState = GameState.UseItem;   
+        SoundManager.Play(SoundType.ItemTray); 
         yield return StartCoroutine(trayManager.RenewTray());
         MissionData.gotTrayItem = false;
         ResetTrayItemButton.GetComponent<Image>().material = grayScale;

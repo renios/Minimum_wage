@@ -97,6 +97,7 @@ public class GameManager : MonoBehaviour {
 			
 			Vector3 originPos = star.transform.position;
 			star.transform.DOJump(originPos, jumpPower, 1, duration);
+			SoundManager.PlayStar(i+1);
 			yield return new WaitForSeconds(duration*0.5f);
 		}
 		yield return new WaitForSeconds(duration*0.5f);

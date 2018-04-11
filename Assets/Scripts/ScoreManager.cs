@@ -41,6 +41,7 @@ public class ScoreManager : MonoBehaviour {
 		point.GetComponentInChildren<ParticleSystem>().Play();
 		point.sprite = activeBunny;
 		numberOfStars += 1;
+		SoundManager.PlayStar(numberOfStars);
 	}
 
 	void InactiveAllPoints() {
