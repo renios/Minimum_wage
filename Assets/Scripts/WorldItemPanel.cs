@@ -56,5 +56,15 @@ public class WorldItemPanel : MonoBehaviour {
     private void Update()
     {
         SetAmountText();
+        //테스트용 치트
+        if (Input.GetKeyDown(KeyCode.I)){
+            Cheat();
+            Debug.Log("** You've got a lot of items, so have a good luck! **");
+        }
+    }
+    void Cheat(){
+        PlayerPrefs.SetInt("TimerReset", maxItemAmount);
+        PlayerPrefs.SetInt("Superfood", maxItemAmount);
+        PlayerPrefs.SetInt("TrayReset", maxItemAmount);
     }
 }

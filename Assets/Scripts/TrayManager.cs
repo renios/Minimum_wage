@@ -25,7 +25,7 @@ public class TrayManager : MonoBehaviour {
 	public GameObject pickedFood1;
 	// 첫 음식과 자리 맞바꿀 음식 오브젝트
 	public GameObject pickedFood2;
-	// 처음 지정한 음식 오브젝트의 초기 위치 ////////////////////////////////////수정할 것(영상)////////////////////////////////////////
+	// 처음 지정한 음식 오브젝트의 초기 위치
 	Vector3 pickedFood1Origin;
 
 	// 조작하는 음식 크기 변환한 후 되돌아갈 수 있도록 초기 스케일값 저장
@@ -74,6 +74,7 @@ public class TrayManager : MonoBehaviour {
 	GameManager gameManager;
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
+	public TestManager testManager;
 
 	List<List<FoodType>> allPossibleOrders;
 
@@ -111,15 +112,29 @@ public class TrayManager : MonoBehaviour {
 		return foodTypes.Count();
 	}
 
-	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {
-		int randNum = Random.Range(0, 100) + 1;
-		// Debug.Log(randNum + " / " + autoServedProb);
-		if (randNum < autoServedProb) {
-			return GetRandomTray(variablesOfOrderFood);
+	public List<FoodType> MakeOrderTray(List<int> variablesOfOrderFood, int autoServedProb = 100) {		
+		if(testManager != null && !testManager.randomizeCustomer
+		&& testManager.nextOrders.Count > 0)
+		{
+			// 테스트 중이고, 입력된 오더가 있으면 입력된 오더를 내오기
+			List<FoodType> nextOrder = MakeSameOrderTray(testManager.nextOrders.First());
+			testManager.nextOrders.RemoveAt(0);
+			return nextOrder;
 		}
-		else {
-			return GetTraysNotOnFoods(variablesOfOrderFood);
+		else
+		{
+			// 무조건 자동서빙을 최우선으로 막도록 코드 수정
+
+			// int randNum = Random.Range(0, 100) + 1;
+			// // Debug.Log(randNum + " / " + autoServedProb);
+			// if (randNum < autoServedProb) {
+			// 	return GetRandomTray(variablesOfOrderFood);
+			// }
+			// else {
+				return GetTraysNotOnFoods(variablesOfOrderFood);
+			// }
 		}
+
 	}
 
 	public List<FoodType> GetRandomTray(List<int> variablesOfOrderFood){
@@ -353,8 +368,14 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
+				if(testManager != null && testManager.nextTrayFood.Count > 0)
+				{
+					// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
+					newFood.GetComponent<FoodOnTray>().Initialize(testManager.nextTrayFood.First());
+					testManager.nextTrayFood.RemoveAt(0);
+				}
 				// 가장 적은 음식을 생성해야 하는 보정이 있으면 그 음식을 지정해서 생성
-				if (specialCountAtRefill > 0) {
+				else if (specialCountAtRefill > 0) {
 					FoodType leastType = FindLeastFoodType();
 					newFood.GetComponent<FoodOnTray>().Initialize(leastType);
 				}
@@ -485,37 +506,67 @@ public class TrayManager : MonoBehaviour {
 
 		// float animDelay = 1;
 
-		// 하나씩 맞춰보고 (위 > 아래, 왼쪽 > 오른쪽)
-		for (int row = ROW-2; row >= 0; row--) {
-			for (int col = 0; col < COL-1; col++) {
-				List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
-				foodsInPart.Add(foods[row, col]);
-				foodsInPart.Add(foods[row+1, col]);
-				foodsInPart.Add(foods[row, col+1]);
-				foodsInPart.Add(foods[row+1, col+1]);
-				// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
-				if (pickedFood1 != null)
-					foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
-						&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
-				else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
+		foreach(var customer in customers){
+			// 반복문 넣어서 foodsInPart 만들고
+			for (int row = ROW-2; row >= 0; row--) {
+				for (int col = 0; col < COL-1; col++) {
+					List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
+					foodsInPart.Add(foods[row, col]);
+					foodsInPart.Add(foods[row+1, col]);
+					foodsInPart.Add(foods[row, col+1]);
+					foodsInPart.Add(foods[row+1, col+1]);
+					// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
+					if (pickedFood1 != null)
+						foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
+							&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
+					else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
 			
-				List<Customer> matchedCustomers = customers.FindAll(customer => 
-					!customer.isServed 
-					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
-				
-				// 서빙받을 손님과 서빙할 음식을 미리 마킹
-				if (matchedCustomers.Count > 0) {
-					Customer matchedCustomer = matchedCustomers.First();
-					List<FoodOnTray> matchedFoods = foodsInPart;
+					if(!customer.isServed
+					&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList())){
+						Customer matchedCustomer = customer;
+						List<FoodOnTray> matchedFoods = foodsInPart;
 
-					matchedCustomer.isServed = true;
-					matchedFoods.ForEach(food => food.isServed = true);
+						matchedCustomer.isServed = true;
+						matchedFoods.ForEach(food => food.isServed = true);
 
-					ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
-					pairs.Add(newPair);
+						ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
+						pairs.Add(newPair);
+					}
 				}
 			}
 		}
+
+		// 하나씩 맞춰보고 (위 > 아래, 왼쪽 > 오른쪽)
+		// for (int row = ROW-2; row >= 0; row--) {
+		// 	for (int col = 0; col < COL-1; col++) {
+		// 		List<FoodOnTray> foodsInPart = new List<FoodOnTray>();
+		// 		foodsInPart.Add(foods[row, col]);
+		// 		foodsInPart.Add(foods[row+1, col]);
+		// 		foodsInPart.Add(foods[row, col+1]);
+		// 		foodsInPart.Add(foods[row+1, col+1]);
+		// 		// null인 음식과 served인 음식(=다른 손님에게 서빙될 예정), 플레이어가 집고 있는 음식을 제외
+		// 		if (pickedFood1 != null)
+		// 			foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed
+		// 				&& food.foodCoord != pickedFood1.GetComponent<FoodOnTray>().foodCoord);
+		// 		else foodsInPart = foodsInPart.FindAll(food => food != null && !food.isServed);
+			
+		// 		List<Customer> matchedCustomers = customers.FindAll(customer => 
+		// 			!customer.isServed 
+		// 			&& MatchEachPartWithCustomer(foodsInPart, customer.orderedFoods.Select(orderedFood => orderedFood.foodType).ToList()));
+				
+		// 		// 서빙받을 손님과 서빙할 음식을 미리 마킹
+		// 		if (matchedCustomers.Count > 0) {
+		// 			Customer matchedCustomer = matchedCustomers.First();
+		// 			List<FoodOnTray> matchedFoods = foodsInPart;
+
+		// 			matchedCustomer.isServed = true;
+		// 			matchedFoods.ForEach(food => food.isServed = true);
+
+		// 			ServedPair newPair = new ServedPair(matchedCustomer, matchedFoods);
+		// 			pairs.Add(newPair);
+		// 		}
+		// 	}
+		// }
 
 		return pairs;
 	}
@@ -815,7 +866,12 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		// MakeBlockObject(44);
+		if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
+			MakeBlockObject(44);
+		}
+		else {
+			MakeBlockObject(65);
+		}
 	}
 
 	void MakeBlockObject(int rowCol) {
