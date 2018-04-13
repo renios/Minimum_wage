@@ -307,4 +307,42 @@ public static class RabbitData {
 
 		return newRabbit;
 	}
+
+	public static int[] GetRabbitGroup(bool isVip, int orderFood, int waitingTime = 20){
+		if(isVip){
+			if (orderFood == 1) {
+				return new int[] { 29 };
+			} else if (orderFood == 3){
+				return new int[] { 25, 26, 27, 28 };
+			}
+		} else {
+			if (waitingTime == 40){
+				if (orderFood == 1) {
+					return new int[] { 8 };
+				} else if (orderFood == 2){
+					return new int[] { 5,6,7 };
+				} else if (orderFood == 3){
+					return new int[] { 1,2,3,4 };
+				}
+			} else if (waitingTime == 30){
+				if (orderFood == 1) {
+					return new int[] { 13 };
+				} else if (orderFood == 2){
+					return new int[] { 11,12,13 };
+				} else if (orderFood == 3){
+					return new int[] { 9,10 };
+				}
+			} else if (waitingTime == 20){
+				if (orderFood == 1) {
+					return new int[] { 21,22,23,24 };
+				} else if (orderFood == 2){
+					return new int[] { 19,20 };
+				} else if (orderFood == 3){
+					return new int[] { 15,16,17,18 };
+				}
+			} 
+		}
+		Debug.LogWarning("NullRabbitDataException : DB dosen't have the data of given condition (isVip="+isVip+", orderFood="+orderFood+", waitingTime="+waitingTime+")");
+		return null;
+	}
 }
