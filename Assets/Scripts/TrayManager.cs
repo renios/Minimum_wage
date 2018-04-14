@@ -15,7 +15,7 @@ public class TrayManager : MonoBehaviour {
 	// 미리 트레이 내 좌표 별 트랜스폼 받아둠
 	Transform[,] foodPoses;
 	// 트레이 내 좌표 별 음식 추적
-	FoodOnTray[,] foods;
+	public FoodOnTray[,] foods;
 	// 음식 prefab
 	public GameObject foodObj;
 	// 교환될 음식 미리 보여주는 오브젝트
@@ -867,7 +867,7 @@ public class TrayManager : MonoBehaviour {
 		}
 
 		if (FindObjectOfType<TutorialManager>() != null) {
-			MakeBlockObject(44);
+			FindObjectOfType<TutorialManager>().MakeTutorialTray();
 		}
 		else if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
 			MakeBlockObject(44);
@@ -877,7 +877,7 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-	void MakeBlockObject(int rowCol) {
+	public void MakeBlockObject(int rowCol) {
 		// 기본은 row=5 col=6
 		int enableRow = rowCol % 10;
 		int enableCol = rowCol / 10;

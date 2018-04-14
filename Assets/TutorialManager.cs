@@ -9,6 +9,10 @@ public class TutorialManager : MonoBehaviour {
 	bool customerTrigger = true;
 	Customer currentCustomer;
 
+	public List<FoodType> refillList = 
+		new List<FoodType> {FoodType.A, FoodType.C, FoodType.A, FoodType.D,
+							FoodType.C, FoodType.B, FoodType.B, FoodType.C};
+
 	public void MakeCustomer(Customer customer) {
 		customerTrigger = false;
 
@@ -71,13 +75,39 @@ public class TutorialManager : MonoBehaviour {
 		customer.SetOrder(newFoodList);
 	}
 
+	public void MakeTutorialTray() {
+		trayManager.MakeBlockObject(44);
+
+		trayManager.foods[1, 1].Initialize(FoodType.C);
+		trayManager.foods[1, 2].Initialize(FoodType.B);
+		trayManager.foods[1, 3].Initialize(FoodType.B);
+		trayManager.foods[1, 4].Initialize(FoodType.D);
+
+		trayManager.foods[2, 1].Initialize(FoodType.B);
+		trayManager.foods[2, 2].Initialize(FoodType.D);
+		trayManager.foods[2, 3].Initialize(FoodType.C);
+		trayManager.foods[2, 4].Initialize(FoodType.D);
+
+		trayManager.foods[3, 1].Initialize(FoodType.C);
+		trayManager.foods[3, 2].Initialize(FoodType.D);
+		trayManager.foods[3, 3].Initialize(FoodType.C);
+		trayManager.foods[3, 4].Initialize(FoodType.A);
+
+		trayManager.foods[4, 1].Initialize(FoodType.A);
+		trayManager.foods[4, 2].Initialize(FoodType.B);
+		trayManager.foods[4, 3].Initialize(FoodType.A);
+		trayManager.foods[4, 4].Initialize(FoodType.A);
+	}
+
 	GameStateManager gameStateManager;
 	CustomerManager customerManager;
+	TrayManager trayManager;
 
 	// Use this for initialization
 	void Start () {
 		gameStateManager = FindObjectOfType<GameStateManager>();
 		customerManager = FindObjectOfType<CustomerManager>();
+		trayManager = FindObjectOfType<TrayManager>();
 	}
 	
 	// Update is called once per frame
