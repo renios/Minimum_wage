@@ -133,8 +133,11 @@ public class CustomerManager : MonoBehaviour {
 		else if (true){
 			List<int> indexList = RabbitData.GetRabbitGroup(groupOrder.GetNext());
 
-			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
-			while (IsThereSameIndexCustomer(newRabbitIndex)) {
+			var availableIndex = indexList.Where(index => !IsThereSameIndexCustomer(index)).ToList();
+			if(availableIndex.Count > 0){
+				newRabbitIndex = availableIndex[Random.Range(0, availableIndex.Count)];
+			}
+			else{
 				newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
 			}
 		}
