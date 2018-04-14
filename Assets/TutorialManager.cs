@@ -10,7 +10,7 @@ public class TutorialManager : MonoBehaviour {
 	Customer currentCustomer;
 
 	public List<FoodType> refillList = 
-		new List<FoodType> {FoodType.A, FoodType.C, FoodType.A, FoodType.D,
+		new List<FoodType> {FoodType.A, FoodType.B, FoodType.A, FoodType.D,
 							FoodType.C, FoodType.B, FoodType.B, FoodType.C};
 
 	public void MakeCustomer(Customer customer) {

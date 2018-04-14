@@ -368,9 +368,14 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
-				if(testManager != null && testManager.nextTrayFood.Count > 0)
+				// 튜토리얼에서는 지정된 음식을 생성
+				if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().refillList.Count > 0) {
+					newFood.GetComponent<FoodOnTray>().Initialize(FindObjectOfType<TutorialManager>().refillList.First());
+					FindObjectOfType<TutorialManager>().refillList.RemoveAt(0);
+				}
+				// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
+				else if(testManager != null && testManager.nextTrayFood.Count > 0)
 				{
-					// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
 					newFood.GetComponent<FoodOnTray>().Initialize(testManager.nextTrayFood.First());
 					testManager.nextTrayFood.RemoveAt(0);
 				}
@@ -610,6 +615,7 @@ public class TrayManager : MonoBehaviour {
 					}
 				}
 			}
+
 			// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
 			foreach (var matchedFood in matchedFoods)
 			{
@@ -721,9 +727,7 @@ public class TrayManager : MonoBehaviour {
 					// 이미지 사용중이라는 정보 제거
 					// RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
-
 			}
-
 		}
 		else
 		{
