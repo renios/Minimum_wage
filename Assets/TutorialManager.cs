@@ -7,6 +7,7 @@ public class TutorialManager : MonoBehaviour {
 
 	int index = 0;
 	bool customerTrigger = true;
+	Customer currentCustomer;
 
 	public void MakeCustomer(Customer customer) {
 		customerTrigger = false;
@@ -81,9 +82,16 @@ public class TutorialManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (index > 3) return;
+
 		if (gameStateManager.gameState != GameState.Idle) return;
 
-		if (customerTrigger)
-			customerManager.MakeNewCustomer(index % 2);	
+		if (currentCustomer == null && customerTrigger == false) {
+			customerTrigger = true;
+		}
+
+		if (customerTrigger) {
+			currentCustomer = customerManager.MakeNewCustomer(index % 2);
+		}
 	}
 }

@@ -116,7 +116,7 @@ public class CustomerManager : MonoBehaviour {
 		return isThere;
 	}
 
-	public void MakeNewCustomer(int indexInArray) {
+	public Customer MakeNewCustomer(int indexInArray) {
 		Transform parentTransform = customerSlot[indexInArray];
 		GameObject customerObj = Instantiate(customerPrefab, parentTransform.position, Quaternion.identity);
 		customerObj.transform.parent = parentTransform;
@@ -174,16 +174,25 @@ public class CustomerManager : MonoBehaviour {
 
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
+
+		return customer;
 	}
 
 	void AddCustomerInEmptySlot(Customer newCustomer) {
-		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
-			if (currentWaitingCustomers[i] == null) {
-				currentWaitingCustomers[i] = newCustomer;
-				return;
-			}
+		int index = newCustomer.indexInArray;
+		if (currentWaitingCustomers[index] != null) {
+			Debug.LogError("Cannot add new customer in slot");
+			return;
 		}
-		Debug.LogError("Cannot add new customer in slot");
+		else {
+			currentWaitingCustomers[index] = newCustomer;
+		}
+		// for (int i = 0; i < currentWaitingCustomers.Length; i++) {
+		// 	if (currentWaitingCustomers[i] == null) {
+		// 		currentWaitingCustomers[i] = newCustomer;
+		// 		return;
+		// 	}
+		// }
 	}
 	bool IsCustomerSlotEmpty(){
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
