@@ -35,6 +35,7 @@ public class CustomerManager : MonoBehaviour {
 	MissionManager missionManager;
 	ScoreManager scoreManager;
 	public TestManager testManager;
+	RabbitGroupOrder groupOrder;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -129,7 +130,15 @@ public class CustomerManager : MonoBehaviour {
 			newRabbitIndex = testManager.nextCustomers.First();
 			testManager.nextCustomers.Remove(newRabbitIndex);
 		}
-		else{
+		else if (true){
+			List<int> indexList = RabbitData.GetRabbitGroup(groupOrder.GetNext());
+
+			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			while (IsThereSameIndexCustomer(newRabbitIndex)) {
+				newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			}
+		}
+		else {
 			// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
 			List<int> indexList = openedRabbitDict.Keys.ToList();
 			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
@@ -214,6 +223,7 @@ public class CustomerManager : MonoBehaviour {
 			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
 		}
 
+		groupOrder = RabbitGroupOrder.GetOrderData(MissionData.stageIndex);
 		SetOpenedRabbitsIndexList();
 	}
 

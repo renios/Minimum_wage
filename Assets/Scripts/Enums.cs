@@ -25,7 +25,19 @@ namespace Enums {
 			this.foods = foods;
 		}
 	}
-
+	public enum RabbitGroup {
+		LeisurelyMore, 
+		LeisurelyDouble, 
+		LeisurelySingle, 
+		NormalMore, 
+		NormalDouble, 
+		NormalSingle, 
+		HastyMore, 
+		HastyDouble, 
+		HastySingle, 
+		VIP, 
+		FullLevel
+	}
 	public enum FoodType {
 		A,
 		B,
