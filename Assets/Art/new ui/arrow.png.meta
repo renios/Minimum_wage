@@ -1,18 +1,8 @@
 fileFormatVersion: 2
-<<<<<<< HEAD
 guid: 04c24bcee3aabac40a36b9e04e8bebac
-timeCreated: 1523298498
-licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
   externalObjects: {}
-=======
-guid: 14f2288f4dbe84f489eae5ad7b98a683
-timeCreated: 1523359230
-licenseType: Free
-TextureImporter:
-  fileIDToRecycleName: {}
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
   serializedVersion: 4
   mipmaps:
     mipMapMode: 0
@@ -21,11 +11,8 @@ TextureImporter:
     linearTexture: 0
     fadeOut: 0
     borderMipMap: 0
-<<<<<<< HEAD
     mipMapsPreserveCoverage: 0
     alphaTestReferenceValue: 0.5
-=======
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
     mipMapFadeDistanceStart: 1
     mipMapFadeDistanceEnd: 3
   bumpmap:
@@ -41,20 +28,13 @@ TextureImporter:
   textureFormat: 1
   maxTextureSize: 2048
   textureSettings:
-<<<<<<< HEAD
     serializedVersion: 2
     filterMode: -1
     aniso: -1
     mipBias: -1
     wrapU: 1
     wrapV: 1
-    wrapW: 1
-=======
-    filterMode: -1
-    aniso: -1
-    mipBias: -1
-    wrapMode: 1
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
+    wrapW: -1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -76,28 +56,49 @@ TextureImporter:
   platformSettings:
   - buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
-<<<<<<< HEAD
     resizeAlgorithm: 0
-=======
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
     textureFormat: -1
     textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
-<<<<<<< HEAD
     androidETC2FallbackOverride: 0
-=======
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
-<<<<<<< HEAD
     physicsShape: []
-=======
->>>>>>> 3a2bc8de3e0d3cc455db76c6ba76f1bc1755db45
   spritePackingTag: 
   userData: 
   assetBundleName: 
