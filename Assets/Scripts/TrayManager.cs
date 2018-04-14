@@ -866,7 +866,10 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
+		if (FindObjectOfType<TutorialManager>() != null) {
+			MakeBlockObject(44);
+		}
+		else if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
 			MakeBlockObject(44);
 		}
 		else {
