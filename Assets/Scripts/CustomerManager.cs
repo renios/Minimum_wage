@@ -67,6 +67,10 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
+		if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().currentTutorialPanel != null) {
+			FindObjectOfType<TutorialManager>().tutorialStep += 1;
+		}
+
 		Customer customer = currentWaitingCustomers[indexInArray];
 		if (customer.rabbitData.isVip) {
 			heartManager.ReduceAllHearts();

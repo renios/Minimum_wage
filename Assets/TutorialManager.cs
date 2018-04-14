@@ -9,6 +9,11 @@ public class TutorialManager : MonoBehaviour {
 	bool customerTrigger = true;
 	Customer currentCustomer;
 
+	public List<GameObject> tutorialList;
+	public GameObject currentTutorialPanel;
+	public int tutorialStep = 0;
+	public int beforeTutorialStep = -1;
+
 	public List<FoodType> refillList = 
 		new List<FoodType> {FoodType.A, FoodType.B, FoodType.A, FoodType.D,
 							FoodType.C, FoodType.B, FoodType.B, FoodType.C};
@@ -40,6 +45,9 @@ public class TutorialManager : MonoBehaviour {
 		customer.Initialize(index % 2, newRabbitData);
 		List<FoodType> newFoodList = new List<FoodType> {FoodType.A, FoodType.A, FoodType.B, FoodType.A};
 		customer.SetOrder(newFoodList);
+
+		UpdateTutorialPanel();
+		tutorialStep += 1;
 	}
 
 	public void Make2ndCustomer(Customer customer) {
@@ -51,6 +59,9 @@ public class TutorialManager : MonoBehaviour {
 		customer.Initialize(index % 2, newRabbitData);
 		List<FoodType> newFoodList = new List<FoodType> {FoodType.C, FoodType.A, FoodType.B, FoodType.C};
 		customer.SetOrder(newFoodList);
+
+		UpdateTutorialPanel();
+		tutorialStep += 1;
 	}
 
 	public void Make3rdCustomer(Customer customer) {
@@ -62,6 +73,9 @@ public class TutorialManager : MonoBehaviour {
 		customer.Initialize(index % 2, newRabbitData);
 		List<FoodType> newFoodList = new List<FoodType> {FoodType.D, FoodType.C, FoodType.C, FoodType.C};
 		customer.SetOrder(newFoodList);
+
+		UpdateTutorialPanel();
+		tutorialStep += 1;
 	}
 
 	public void Make4thCustomer(Customer customer) {
@@ -73,6 +87,9 @@ public class TutorialManager : MonoBehaviour {
 		customer.Initialize(index % 2, newRabbitData);
 		List<FoodType> newFoodList = new List<FoodType> {FoodType.A, FoodType.C, FoodType.A, FoodType.B};
 		customer.SetOrder(newFoodList);
+
+		UpdateTutorialPanel();
+		tutorialStep += 1;
 	}
 
 	public void MakeTutorialTray() {
@@ -104,12 +121,18 @@ public class TutorialManager : MonoBehaviour {
 	TrayManager trayManager;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
 		gameStateManager = FindObjectOfType<GameStateManager>();
 		customerManager = FindObjectOfType<CustomerManager>();
 		trayManager = FindObjectOfType<TrayManager>();
 	}
 	
+	float customerCooldown = 2;
+	float remainCooldown = 2;
+
+	float stepDelay = 4;
+	float remainStepDelay = 2;
+
 	// Update is called once per frame
 	void Update () {
 		if (index > 3) return;
@@ -117,11 +140,77 @@ public class TutorialManager : MonoBehaviour {
 		if (gameStateManager.gameState != GameState.Idle) return;
 
 		if (currentCustomer == null && customerTrigger == false) {
-			customerTrigger = true;
+			if (remainCooldown < 0) {
+				customerTrigger = true;
+				remainCooldown = customerCooldown;
+			}
+			else {
+				remainCooldown -= Time.deltaTime;
+			}
 		}
 
 		if (customerTrigger) {
 			currentCustomer = customerManager.MakeNewCustomer(index % 2);
+		}
+
+		if (tutorialStep == 4 || tutorialStep == 12) {
+			if (remainStepDelay > 0) {
+				remainStepDelay -= Time.deltaTime;
+			}
+			else {
+				tutorialStep += 1;
+				remainStepDelay = stepDelay;
+			}
+		}
+
+		UpdateTutorialPanel();
+	}
+
+	void UpdateTutorialPanel() {
+		if (beforeTutorialStep < tutorialStep) {
+			if (tutorialStep == 0) {
+				currentTutorialPanel = tutorialList[0];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 3) {
+				currentTutorialPanel.SetActive(false);
+			}
+			else if (tutorialStep == 4) {
+				currentTutorialPanel = tutorialList[1];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 5) {
+				currentTutorialPanel.SetActive(false);
+				currentTutorialPanel = tutorialList[2];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 7) {
+				currentTutorialPanel.SetActive(false);
+				currentTutorialPanel = tutorialList[3];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 9) {
+				currentTutorialPanel.SetActive(false);
+			}
+			else if (tutorialStep == 10) {
+				currentTutorialPanel = tutorialList[4];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 11) {
+				currentTutorialPanel.SetActive(false);
+				currentTutorialPanel = tutorialList[5];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 12) {
+				currentTutorialPanel.SetActive(false);
+				currentTutorialPanel = tutorialList[6];
+				currentTutorialPanel.SetActive(true);
+			}
+			else if (tutorialStep == 13) {
+				currentTutorialPanel.SetActive(false);
+			}
+
+			beforeTutorialStep += 1;
 		}
 	}
 }
