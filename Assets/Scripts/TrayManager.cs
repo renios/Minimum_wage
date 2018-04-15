@@ -15,7 +15,7 @@ public class TrayManager : MonoBehaviour {
 	// 미리 트레이 내 좌표 별 트랜스폼 받아둠
 	Transform[,] foodPoses;
 	// 트레이 내 좌표 별 음식 추적
-	FoodOnTray[,] foods;
+	public FoodOnTray[,] foods;
 	// 음식 prefab
 	public GameObject foodObj;
 	// 교환될 음식 미리 보여주는 오브젝트
@@ -368,9 +368,14 @@ public class TrayManager : MonoBehaviour {
 				GameObject newFood = Instantiate(foodObj, foodPoses[row, col].position, Quaternion.identity);
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
-				if(testManager != null && testManager.nextTrayFood.Count > 0)
+				// 튜토리얼에서는 지정된 음식을 생성
+				if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().refillList.Count > 0) {
+					newFood.GetComponent<FoodOnTray>().Initialize(FindObjectOfType<TutorialManager>().refillList.First());
+					FindObjectOfType<TutorialManager>().refillList.RemoveAt(0);
+				}
+				// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
+				else if(testManager != null && testManager.nextTrayFood.Count > 0)
 				{
-					// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
 					newFood.GetComponent<FoodOnTray>().Initialize(testManager.nextTrayFood.First());
 					testManager.nextTrayFood.RemoveAt(0);
 				}
@@ -610,6 +615,7 @@ public class TrayManager : MonoBehaviour {
 					}
 				}
 			}
+
 			// 만능음식은 그냥 남아있는 아무 음식의 correspondent를 대응시킨다.
 			foreach (var matchedFood in matchedFoods)
 			{
@@ -721,9 +727,7 @@ public class TrayManager : MonoBehaviour {
 					// 이미지 사용중이라는 정보 제거
 					// RabbitInformation.RemoveRabbitIndex(matchedCustomer.rabbitIndex);
 				}
-
 			}
-
 		}
 		else
 		{
@@ -866,7 +870,10 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
+		if (FindObjectOfType<TutorialManager>() != null) {
+			FindObjectOfType<TutorialManager>().MakeTutorialTray();
+		}
+		else if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
 			MakeBlockObject(44);
 		}
 		else {
@@ -874,7 +881,7 @@ public class TrayManager : MonoBehaviour {
 		}
 	}
 
-	void MakeBlockObject(int rowCol) {
+	public void MakeBlockObject(int rowCol) {
 		// 기본은 row=5 col=6
 		int enableRow = rowCol % 10;
 		int enableCol = rowCol / 10;
