@@ -41,7 +41,7 @@ public RabbitCatalogManager rabbitCatalogManager;
 			prevPanel.SetRabbitInfo(unlockedIndexList[index - 1]);
 			nextPanel.SetRabbitInfo(unlockedIndexList[index + 1]);
 		}
-		// rabbitCatalogManager.ShowMatchingRabbit(index);
+		rabbitCatalogManager.ShowMatchingRabbit(index);
 	}
 
 	public void SlideToPrevPanel()

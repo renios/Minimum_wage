@@ -9,7 +9,7 @@ public class RabbitCatalogManager : MonoBehaviour {
 	public GameObject catalogPanel;
 	public RabbitInfoScrollView rabbitInfoScrollView;
 	public RabbitTableScrollView rabbitTableScrollView;
-	public List<RectTransform> tableRabbitRectTransform;
+	public RectTransform[] tableRabbitRectTransform;
 
 	public void ShowCatalog()
 	{
@@ -41,20 +41,26 @@ public class RabbitCatalogManager : MonoBehaviour {
 
 	public void ShowMatchingRabbit(int index)
 	{
+		string wallName = tableRabbitRectTransform[index].parent.name;
+		print("wallName: " + wallName);
+		int wallNumber = 0;
+		int padding = (index < 2 ) ? 0 : 540;
+		if(wallName.Length == 12)
+		{
+			wallNumber = wallName[11] - 48;
+		}
+		else if(wallName.Length == 13)
+		{
+			wallNumber = (wallName[11] - 48)*10 + wallName[12] - 48;
+		}
 		rabbitTableScrollView.scrollContent.anchoredPosition
-			= new Vector2(tableRabbitRectTransform[index].parent.gameObject.GetComponent<RectTransform>().anchoredPosition.x, 0);
+			= new Vector2(-(wallNumber - 1) * 2160 - tableRabbitRectTransform[index].anchoredPosition.x + padding, 0);
 	}
 
 	// Use this for initialization
 	void Start () {
 		rabbitInfoScrollView = FindObjectOfType<RabbitInfoScrollView>();
 		rabbitTableScrollView = FindObjectOfType<RabbitTableScrollView>();
-		tableRabbitRectTransform = new List<RectTransform>();
-		GameObject[] catalogRabbitList = GameObject.FindGameObjectsWithTag("CatalogRabbit");
-		foreach(var rabbit in catalogRabbitList)
-		{
-			tableRabbitRectTransform.Add(rabbit.GetComponent<RectTransform>());
-		}
 	}
 	
 	// Update is called once per frame
