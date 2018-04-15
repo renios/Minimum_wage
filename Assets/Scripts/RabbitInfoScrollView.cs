@@ -41,7 +41,6 @@ public RabbitCatalogManager rabbitCatalogManager;
 			prevPanel.SetRabbitInfo(unlockedIndexList[index - 1]);
 			nextPanel.SetRabbitInfo(unlockedIndexList[index + 1]);
 		}
-		rabbitCatalogManager.ShowMatchingRabbit(index);
 	}
 
 	public void SlideToPrevPanel()
@@ -123,6 +122,7 @@ public RabbitCatalogManager rabbitCatalogManager;
 				// currentPanel의 정보가 prevPanel과 같도록 패널들의 정보를 바꾸고
 				currentPanelIndex--;
 				SetAllInfoPanels(currentPanelIndex);
+				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
 				// currentPanel이 보이도록 위치를 조정한다
 				StopCoroutine("SlidingToPrevPanel");
 				scrollContent.anchoredPosition = new Vector2();
@@ -139,6 +139,7 @@ public RabbitCatalogManager rabbitCatalogManager;
 				// currentPanel의 정보가 nextPanel과 같도록 바꾸고
 				currentPanelIndex++;
 				SetAllInfoPanels(currentPanelIndex);
+				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
 				// currentPanel이 보이도록 위치를 조정한다
 				StopCoroutine("SlidingToNextPanel");
 				scrollContent.anchoredPosition = new Vector2();
