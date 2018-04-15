@@ -10,6 +10,7 @@ using System.Linq;
 public class GameManager : MonoBehaviour {
 
 	public GameObject gameEndCanvas;
+	public Image gameEndBGPanel;
 	public GameObject[] starObjects;
 	public Sprite starSprite;
 	public GameObject startCanvas;
@@ -22,6 +23,7 @@ public class GameManager : MonoBehaviour {
     // 아이템 보상 주어야 하는지 체크(MissionManager에서 true로 바꿈)
     public bool needsReward = false;
     public GameObject rewardCanvas;
+	public bool isAllEnd = false;
 
 	float delay = 0.5f;
 
@@ -47,18 +49,21 @@ public class GameManager : MonoBehaviour {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageOver);
 		gameEndCanvas.SetActive(true);
+		gameEndBGPanel.raycastTarget = true;
 		Vector3 startPos = new Vector3(0, 19.2f, 0);
 		mainPanel.transform.DOMove(startPos, 0);
 		mainPanel.sprite = gameoverSprite;
 		Tween tw = mainPanel.transform.DOMove(Vector3.zero, delay);
 		mainPanel.DOFade(1, delay);
 		yield return tw.WaitForCompletion();
+		isAllEnd = true;
 	}
 
 	public IEnumerator ShowClearCanvas() {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageClear);
 		gameEndCanvas.SetActive(true);
+		gameEndBGPanel.raycastTarget = true;
 		starObjects.ToList().ForEach(star => {
 			star.GetComponent<Image>().enabled = true;
 			star.GetComponent<Image>().DOFade(0, 0);
@@ -71,6 +76,7 @@ public class GameManager : MonoBehaviour {
 		starObjects.ToList().ForEach(star => star.GetComponent<Image>().DOFade(1, delay));
 		yield return tw.WaitForCompletion();
 		yield return StartCoroutine(ShowStars());
+		isAllEnd = true;
 	}
 
 	void UpdateStarsOfStage(int numberOfStars) {
@@ -97,6 +103,7 @@ public class GameManager : MonoBehaviour {
 			
 			Vector3 originPos = star.transform.position;
 			star.transform.DOJump(originPos, jumpPower, 1, duration);
+			SoundManager.PlayStar(i+1);
 			yield return new WaitForSeconds(duration*0.5f);
 		}
 		yield return new WaitForSeconds(duration*0.5f);
@@ -139,12 +146,22 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (gameStateManager.gameState != GameState.End) return;
-
-		if (gameEndCanvas.activeInHierarchy) {
-			if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
-				StartCoroutine(HideCanvas());
+		if(!isAllEnd) return;
+		else
+		{
+			if(Input.anyKeyDown)
+			{
+			StartCoroutine(HideCanvas());
+			isAllEnd = false;
+			}
 		}
+		
+		// if (gameStateManager.gameState != GameState.End) return;
+
+		// if (gameEndCanvas.activeInHierarchy) {
+		// 	if (Input.anyKeyDown && gameStateManager.gameState == GameState.End)
+		// 		StartCoroutine(HideCanvas());
+		// }
 	}
 
 	IEnumerator HideCanvas () {
@@ -168,5 +185,6 @@ public class GameManager : MonoBehaviour {
 			SceneManager.LoadScene("World");
 		// Tween tw = mainPanel.DOColor(Color.black, delay);
 		// yield return tw.WaitForCompletion();
+		gameEndBGPanel.raycastTarget = false;
 	}
 }

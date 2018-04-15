@@ -307,4 +307,63 @@ public static class RabbitData {
 
 		return newRabbit;
 	}
+
+	public static List<int> GetRabbitGroup(bool isVip, int orderFood, int waitingTime = 20){
+		if(isVip){
+			if (orderFood == 1) {
+				return new List<int> { 29 };
+			} else if (orderFood == 3){
+				return new List<int> { 25, 26, 27, 28 };
+			}
+		} else {
+			if (waitingTime == 40){
+				if (orderFood == 1) {
+					return new List<int> { 8 };
+				} else if (orderFood == 2){
+					return new List<int> { 5,6,7 };
+				} else if (orderFood == 3){
+					return new List<int> { 1,2,3,4 };
+				}
+			} else if (waitingTime == 30){
+				if (orderFood == 1) {
+					return new List<int> { 13 };
+				} else if (orderFood == 2){
+					return new List<int> { 11,12,13 };
+				} else if (orderFood == 3){
+					return new List<int> { 9,10 };
+				}
+			} else if (waitingTime == 20){
+				if (orderFood == 1) {
+					return new List<int> { 21,22,23,24 };
+				} else if (orderFood == 2){
+					return new List<int> { 19,20 };
+				} else if (orderFood == 3){
+					return new List<int> { 15,16,17,18 };
+				}
+			} 
+		}
+		Debug.LogWarning("NullRabbitDataException : DB doesn't have the data of given condition (isVip="+isVip+", orderFood="+orderFood+", waitingTime="+waitingTime+")");
+		return null;
+	}
+	
+	public static List<int> GetRabbitGroup(RabbitGroup group){
+		switch(group){
+			case RabbitGroup.LeisurelyMore: return new List<int> { 1, 2, 3, 4 };
+			case RabbitGroup.LeisurelyDouble: return new List<int> { 5, 6, 7 };
+			case RabbitGroup.LeisurelySingle: return new List<int> { 8 };
+			case RabbitGroup.NormalMore: return new List<int> { 9, 10 };
+			case RabbitGroup.NormalDouble: return new List<int> { 11, 12, 13 };
+			case RabbitGroup.NormalSingle: return new List<int> { 14 };
+			case RabbitGroup.HastyMore: return new List<int> { 15, 16, 17, 18 };
+			case RabbitGroup.HastyDouble: return new List<int> { 19, 20 };
+			case RabbitGroup.HastySingle: return new List<int> { 21, 22, 23, 24 };
+			case RabbitGroup.VIP: return new List<int> { 25, 26, 27, 28 };
+			case RabbitGroup.FullLevel: return new List<int> { 1, 2, 3, 4 };
+			default:
+			{
+				Debug.LogWarning("NullRabbitGroupException : DB doesn't have the rabbit data of given group name ("+group.ToString()+")");
+				return null;
+			}
+		}
+	}
 }

@@ -29,6 +29,25 @@ public class GameStateManager : MonoBehaviour {
 		if (gameState == GameState.Idle && !pickedTrigger) {
 			// 음식이 아닌 경우 집지 않음
 			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
+
+			// 튜토리얼 스텝에 따라 집을지 결정
+			if (FindObjectOfType<TutorialManager>() != null) {
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 1 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 3)) 
+					return;
+
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 5 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(4, 3)) 
+					return;
+
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 7 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 1)) 
+					return;
+
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 10)
+					return;
+			}
+
 			pickedFood = hit;
 			pickedTrigger = true;
 		}
@@ -43,7 +62,7 @@ public class GameStateManager : MonoBehaviour {
 	public IEnumerator Idle() {
 		while (gameState == GameState.Idle || gameState == GameState.UseItem
 		|| gameState == GameState.Paused) {
-            // 아이템을 썼을 때 -> ItemManager에서 처리(대신 이 코루틴이 끝나버리지 않도록 홀드)
+            // 아이템을 썼거나 옵션 버튼을 누르면 GSM이 아닌 바깥에서 state 통제(대신 이 코루틴이 끝나버리지 않도록 홀드)
             if (gameState == GameState.UseItem || gameState == GameState.Paused)
             {
                 yield return new WaitUntil(() => gameState == GameState.Idle);
@@ -87,6 +106,16 @@ public class GameStateManager : MonoBehaviour {
 
 	IEnumerator Picked() {
 		while (gameState == GameState.Picked) {
+			// 유효픽일 경우 튜토리얼 진행도 올림
+			if (FindObjectOfType<TutorialManager>() != null) {
+				if ((FindObjectOfType<TutorialManager>().tutorialStep == 1) ||
+					(FindObjectOfType<TutorialManager>().tutorialStep == 5) ||
+					(FindObjectOfType<TutorialManager>().tutorialStep == 7))
+				{
+					FindObjectOfType<TutorialManager>().tutorialStep += 1;
+				}
+			}
+
 			trayManager.ViewPickedFood();
 
 			// 음식을 놓았을 때 -> Dropped
@@ -110,6 +139,22 @@ public class GameStateManager : MonoBehaviour {
 		if (gameState == GameState.Picked && !validTrigger) {
 			// 음식이 아닌 경우 유효이동 처리 안함
 			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
+
+			// 튜토리얼 스텝에 따라 유효이동이 아닌 경우가 있음
+			if (FindObjectOfType<TutorialManager>() != null) {
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 2 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(3, 3)) 
+					return;
+
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 6 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 4)) 
+					return;
+
+				if (FindObjectOfType<TutorialManager>().tutorialStep == 8 && 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 4)) 
+					return;
+			}
+
 			castedObj = hit;
 			validTrigger = true;
 		}
@@ -117,6 +162,9 @@ public class GameStateManager : MonoBehaviour {
 
 	public void BinTrigger() {
 		if (gameState == GameState.Picked && !binTrigger) {
+			// 튜토리얼에서는 쓰레기통 비활성화
+			if (FindObjectOfType<TutorialManager>() != null) return;
+
 			binTrigger = true;
 		}
 	}
@@ -125,6 +173,16 @@ public class GameStateManager : MonoBehaviour {
 		while (gameState == GameState.Dropped) {
 			// 유효한 이동일 경우 -> Change -> Matching
 			if (validTrigger) {
+				// 유효드랍일 경우 튜토리얼 진행도 올림
+				if (FindObjectOfType<TutorialManager>() != null) {
+					if ((FindObjectOfType<TutorialManager>().tutorialStep == 2) ||
+						(FindObjectOfType<TutorialManager>().tutorialStep == 6) ||
+						(FindObjectOfType<TutorialManager>().tutorialStep == 8))
+					{
+						FindObjectOfType<TutorialManager>().tutorialStep += 1;
+					}
+				}
+
 				yield return StartCoroutine(trayManager.ValidDrop(castedObj));
 				validTrigger = false;
 				yield return StartCoroutine(Matching());
@@ -139,6 +197,15 @@ public class GameStateManager : MonoBehaviour {
 			}
 
 			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
+			// 무효 드랍일 경우 튜토리얼 진행도 내림
+			if (FindObjectOfType<TutorialManager>() != null) {
+				if ((FindObjectOfType<TutorialManager>().tutorialStep == 2) ||
+					(FindObjectOfType<TutorialManager>().tutorialStep == 6) ||
+					(FindObjectOfType<TutorialManager>().tutorialStep == 8))
+				{
+					FindObjectOfType<TutorialManager>().tutorialStep -= 1;
+				}
+			}
 			// 음식 원위치
 			yield return StartCoroutine(trayManager.InvalidDrop());
 			gameState = GameState.Idle;

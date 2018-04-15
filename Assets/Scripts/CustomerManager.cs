@@ -34,6 +34,8 @@ public class CustomerManager : MonoBehaviour {
 	TrayManager trayManager;
 	MissionManager missionManager;
 	ScoreManager scoreManager;
+	public TestManager testManager;
+	RabbitGroupOrder groupOrder;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -65,6 +67,10 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
+		if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().currentTutorialPanel != null) {
+			FindObjectOfType<TutorialManager>().tutorialStep += 1;
+		}
+
 		Customer customer = currentWaitingCustomers[indexInArray];
 		if (customer.rabbitData.isVip) {
 			heartManager.ReduceAllHearts();
@@ -114,45 +120,83 @@ public class CustomerManager : MonoBehaviour {
 		return isThere;
 	}
 
-	void MakeNewCustomer(int indexInArray, Transform parentTransform) {
+	public Customer MakeNewCustomer(int indexInArray) {
+		Transform parentTransform = customerSlot[indexInArray];
 		GameObject customerObj = Instantiate(customerPrefab, parentTransform.position, Quaternion.identity);
 		customerObj.transform.parent = parentTransform;
 		customerObj.transform.localScale = Vector3.one;
 		Customer customer = customerObj.GetComponent<Customer>();
 
-		// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
-		List<int> indexList = openedRabbitDict.Keys.ToList();
-		int newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
-		while (IsThereSameIndexCustomer(newRabbitIndex)) {
-			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
-		}
-		Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
-
-		customer.Initialize(indexInArray, newRabbitData);
 		customer.toleranceRate = toleranceRate;
 		customer.maxFuryRate = maxFuryRate;
-		if(IsCustomerSlotEmpty()){
-			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, 0));
-			// customer.SetOrder(trayManager.GetTraysNotOnFoods(customer.rabbitData.variablesOfOrderFood));
+
+		int newRabbitIndex;
+		if(testManager != null && !testManager.randomizeCustomer 
+			&& testManager.nextCustomers.Count > 0)
+		{
+			// 테스트 중이고 입력된 손님이 있다면 입력된대로
+			newRabbitIndex = testManager.nextCustomers.First();
+			testManager.nextCustomers.Remove(newRabbitIndex);
+		}
+		else if (true){
+			List<int> indexList = RabbitData.GetRabbitGroup(groupOrder.GetNext());
+
+			var availableIndex = indexList.Where(index => !IsThereSameIndexCustomer(index)).ToList();
+			if(availableIndex.Count > 0){
+				newRabbitIndex = availableIndex[Random.Range(0, availableIndex.Count)];
+			}
+			else{
+				newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			}
 		}
 		else {
-			int comboCount = trayManager.comboCount;
-			int autoServedProb = 100 - (comboCount * 20);
-			customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, autoServedProb));
-			// customer.SetOrder(trayManager.GetRandomTray(customer.rabbitData.variablesOfOrderFood));
+			// 해금된 토끼중 랜덤으로 나옴 / 이미지 중복 체크
+			List<int> indexList = openedRabbitDict.Keys.ToList();
+			newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			while (IsThereSameIndexCustomer(newRabbitIndex)) {
+				newRabbitIndex = indexList[Random.Range(0, indexList.Count)];
+			}
 		}
+
+		if (FindObjectOfType<TutorialManager>() != null) {
+			TutorialManager tutorialManager = FindObjectOfType<TutorialManager>();
+			// initialize & setorder 한꺼번에
+			tutorialManager.MakeCustomer(customer);
+		}
+		else {
+			Rabbit newRabbitData = RabbitData.GetRabbitData(newRabbitIndex);
+			customer.Initialize(indexInArray, newRabbitData);
+			if (IsCustomerSlotEmpty()) {
+				customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, 0));
+			}
+			else {
+				int comboCount = trayManager.comboCount;
+				int autoServedProb = 100 - (comboCount * 20);
+				customer.SetOrder(trayManager.MakeOrderTray(customer.rabbitData.variablesOfOrderFood, autoServedProb));
+			}
+		}
+
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
+
+		return customer;
 	}
 
 	void AddCustomerInEmptySlot(Customer newCustomer) {
-		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
-			if (currentWaitingCustomers[i] == null) {
-				currentWaitingCustomers[i] = newCustomer;
-				return;
-			}
+		int index = newCustomer.indexInArray;
+		if (currentWaitingCustomers[index] != null) {
+			Debug.LogError("Cannot add new customer in slot");
+			return;
 		}
-		Debug.LogError("Cannot add new customer in slot");
+		else {
+			currentWaitingCustomers[index] = newCustomer;
+		}
+		// for (int i = 0; i < currentWaitingCustomers.Length; i++) {
+		// 	if (currentWaitingCustomers[i] == null) {
+		// 		currentWaitingCustomers[i] = newCustomer;
+		// 		return;
+		// 	}
+		// }
 	}
 	bool IsCustomerSlotEmpty(){
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
@@ -202,6 +246,7 @@ public class CustomerManager : MonoBehaviour {
 			customerCooldown = missionDataDict[MissionDataType.customerCooldown];
 		}
 
+		groupOrder = RabbitGroupOrder.GetOrderData(MissionData.stageIndex);
 		SetOpenedRabbitsIndexList();
 	}
 
@@ -222,15 +267,24 @@ public class CustomerManager : MonoBehaviour {
 	void Update () {
 		if (!gameManager.isPlaying) return;
 
+		// 튜토리얼 씬의 손님 추가는 별도의 로직으로 이루어진다
+		if (FindObjectOfType<TutorialManager>() != null) return;
+
 		if (IsEmptyPosInCustomerSlot()) {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
+			// Test 씬의 경우에는 입력 손님 대기열에 손님이 있거나 랜덤 토글이 눌려 있을 때에만 돌아간다
+			if(testManager != null)
+			{
+				if(!testManager.randomizeCustomer && testManager.nextCustomers.Count == 0) return;
+			}
+
 			lastCustomerMakeTime += Time.deltaTime; 
 
 			if (lastCustomerMakeTime < customerCooldown) return;
 
 			// 손님 추가는 항상 된다
 			int emptySlotIndex = GetFirstEmptyPosInCustomerSlot();
-			MakeNewCustomer(emptySlotIndex, customerSlot[emptySlotIndex]);
+			MakeNewCustomer(emptySlotIndex);
 			FindObjectOfType<GameStateManager>().NewCustomerTrigger();
 		}
 	}
