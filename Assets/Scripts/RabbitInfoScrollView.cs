@@ -3,16 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using Enums;
 
 public class RabbitInfoScrollView : MonoBehaviour {
 public RabbitInfoPanel prevPanel;
 public RabbitInfoPanel currentPanel;
 public RabbitInfoPanel nextPanel;
 public RectTransform scrollContent;
-int currentRabbitIndex = 1;
-int unlockedMaxIndex;
-bool atCenter = false;
+public int currentPanelIndex = 0;
+public bool atCenter = false;
 public float slideSpeedByButton;
+public List<int> unlockedIndexList;
+public RabbitCatalogManager rabbitCatalogManager;
 
 	public void InertiaOn()
 	{
@@ -21,9 +23,24 @@ public float slideSpeedByButton;
 
 	public void SetAllInfoPanels(int index)
 	{
-		currentPanel.SetRabbitInfo(currentRabbitIndex);
-		prevPanel.SetRabbitInfo(currentRabbitIndex - 1);
-		nextPanel.SetRabbitInfo(currentRabbitIndex + 1);
+		if(index == 0)
+		{
+			currentPanel.SetRabbitInfo(unlockedIndexList[index]);
+			nextPanel.SetRabbitInfo(unlockedIndexList[index + 1]);
+			prevPanel.idImage.enabled = false;
+		}
+		else if(index == unlockedIndexList.Count - 1)
+		{
+			currentPanel.SetRabbitInfo(unlockedIndexList[index]);
+			prevPanel.SetRabbitInfo(unlockedIndexList[index - 1]);
+			nextPanel.idImage.enabled = false;
+		}
+		else
+		{
+			currentPanel.SetRabbitInfo(unlockedIndexList[index]);
+			prevPanel.SetRabbitInfo(unlockedIndexList[index - 1]);
+			nextPanel.SetRabbitInfo(unlockedIndexList[index + 1]);
+		}
 	}
 
 	public void SlideToPrevPanel()
@@ -56,20 +73,39 @@ public float slideSpeedByButton;
 		}
 	}
 
+	public void Initialize()
+	{
+		int unlockProgress = PlayerPrefs.GetInt("UnlockProgress", 1);
+		unlockedIndexList = new List<int>();
+		for(int j = 0; j < unlockProgress; j++)
+		{
+			for(int i = 0; i < RabbitData.numberOfRabbitData; i++)
+			{
+				Rabbit rabbitData = RabbitData.GetRabbitData(i + 1);
+				if(rabbitData.releaseStageIndex == j + 1)
+				{
+					unlockedIndexList.Add(rabbitData.index);
+				}
+			}
+		}
+
+		currentPanelIndex = 0;
+		SetAllInfoPanels(currentPanelIndex);
+		scrollContent.anchoredPosition = new Vector2(1080, 0);
+		atCenter = false;
+	}
+
 	// Use this for initialization
 	void Start () {
 		scrollContent = GetComponent<ScrollRect>().content;
-		currentRabbitIndex = 1;
-		SetAllInfoPanels(currentRabbitIndex);
-		scrollContent.anchoredPosition = new Vector2(1080, 0);
-		atCenter = false;
+		rabbitCatalogManager = FindObjectOfType<RabbitCatalogManager>();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if( !atCenter &&
-			((currentRabbitIndex == 1 && scrollContent.anchoredPosition.x < 0) 
-			|| (currentRabbitIndex == 29 && scrollContent.anchoredPosition.x > 0)) )
+			((currentPanelIndex == 0 && scrollContent.anchoredPosition.x < 0) 
+			|| (currentPanelIndex == unlockedIndexList.Count - 1 && scrollContent.anchoredPosition.x > 0)) )
 		{
 			StopCoroutine("SlidingToPrevPanel");
 			StopCoroutine("SlidingToNextPanel");
@@ -77,15 +113,16 @@ public float slideSpeedByButton;
 			GetComponent<ScrollRect>().inertia = false;
 			atCenter = true;
 		}
-		if(scrollContent.anchoredPosition.x >= 1080)
+		if(scrollContent.anchoredPosition.x >= 1080 - 1)
 		{
 			atCenter = false;
-			if(currentRabbitIndex > 1)
+			if(currentPanelIndex > 0)
 			{
 				// prevPanel이 보이도록 슬라이딩된 경우
 				// currentPanel의 정보가 prevPanel과 같도록 패널들의 정보를 바꾸고
-				currentRabbitIndex--;
-				SetAllInfoPanels(currentRabbitIndex);
+				currentPanelIndex--;
+				SetAllInfoPanels(currentPanelIndex);
+				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
 				// currentPanel이 보이도록 위치를 조정한다
 				StopCoroutine("SlidingToPrevPanel");
 				scrollContent.anchoredPosition = new Vector2();
@@ -93,15 +130,16 @@ public float slideSpeedByButton;
 				GetComponent<ScrollRect>().inertia = false;
 			}
 		}
-		if(scrollContent.anchoredPosition.x <= - 1080)
+		if(scrollContent.anchoredPosition.x <= - 1080 + 1)
 		{
 			atCenter = false;
-			if(currentRabbitIndex < 29)
+			if(currentPanelIndex < unlockedIndexList.Count - 1)
 			{
 				//nextPanel이 보이도록 슬라이딩된 경우
 				// currentPanel의 정보가 nextPanel과 같도록 바꾸고
-				currentRabbitIndex++;
-				SetAllInfoPanels(currentRabbitIndex);
+				currentPanelIndex++;
+				SetAllInfoPanels(currentPanelIndex);
+				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
 				// currentPanel이 보이도록 위치를 조정한다
 				StopCoroutine("SlidingToNextPanel");
 				scrollContent.anchoredPosition = new Vector2();

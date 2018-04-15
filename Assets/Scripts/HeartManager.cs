@@ -58,7 +58,7 @@ public class HeartManager : MonoBehaviour {
 	public IEnumerator CheckGameEnd() {
 		if (gameStateManager.gameState != GameState.Idle) yield break;
 
-		if (hearts.Count <= 0 && !gameManager.gameEndCanvas.activeInHierarchy) {
+		if (hearts.Count <= 0 && !gameManager.gameEndCanvas.activeInHierarchy && gameStateManager.gameState != GameState.Result) {
 			gameStateManager.gameState = GameState.Result;
 			yield return StartCoroutine(gameManager.ShowGameoverCanvas());
 			gameStateManager.gameState = GameState.End;
