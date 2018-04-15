@@ -9,6 +9,7 @@ public class RabbitCatalogManager : MonoBehaviour {
 	public GameObject catalogPanel;
 	public RabbitInfoScrollView rabbitInfoScrollView;
 	public RabbitTableScrollView rabbitTableScrollView;
+	public List<RectTransform> tableRabbitRectTransform;
 
 	public void ShowCatalog()
 	{
@@ -28,10 +29,32 @@ public class RabbitCatalogManager : MonoBehaviour {
 		catalogPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
 	}
 
+	public void ShowMatchingInfo(int index)
+	{
+		// currentPanel로 content 이동
+		rabbitInfoScrollView.scrollContent.anchoredPosition = new Vector2();
+		// currentPanel에 index 값으로 값 바꾸기
+		rabbitInfoScrollView.currentPanelIndex = index;
+		rabbitInfoScrollView.SetAllInfoPanels(rabbitInfoScrollView.currentPanelIndex);
+		rabbitInfoScrollView.atCenter = true;
+	}
+
+	public void ShowMatchingRabbit(int index)
+	{
+		rabbitTableScrollView.scrollContent.anchoredPosition
+			= new Vector2(tableRabbitRectTransform[index].parent.gameObject.GetComponent<RectTransform>().anchoredPosition.x, 0);
+	}
+
 	// Use this for initialization
 	void Start () {
 		rabbitInfoScrollView = FindObjectOfType<RabbitInfoScrollView>();
 		rabbitTableScrollView = FindObjectOfType<RabbitTableScrollView>();
+		tableRabbitRectTransform = new List<RectTransform>();
+		GameObject[] catalogRabbitList = GameObject.FindGameObjectsWithTag("CatalogRabbit");
+		foreach(var rabbit in catalogRabbitList)
+		{
+			tableRabbitRectTransform.Add(rabbit.GetComponent<RectTransform>());
+		}
 	}
 	
 	// Update is called once per frame

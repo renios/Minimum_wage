@@ -9,6 +9,7 @@ TagManager:
   - Customer
   - FoodPos
   - Bin
+  - CatalogRabbit
   layers:
   - Default
   - TransparentFX

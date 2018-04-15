@@ -10,10 +10,11 @@ public RabbitInfoPanel prevPanel;
 public RabbitInfoPanel currentPanel;
 public RabbitInfoPanel nextPanel;
 public RectTransform scrollContent;
-int currentPanelIndex = 0;
-bool atCenter = false;
+public int currentPanelIndex = 0;
+public bool atCenter = false;
 public float slideSpeedByButton;
-public List<int> unlockedIndexList; 
+public List<int> unlockedIndexList;
+public RabbitCatalogManager rabbitCatalogManager;
 
 	public void InertiaOn()
 	{
@@ -40,6 +41,7 @@ public List<int> unlockedIndexList;
 			prevPanel.SetRabbitInfo(unlockedIndexList[index - 1]);
 			nextPanel.SetRabbitInfo(unlockedIndexList[index + 1]);
 		}
+		// rabbitCatalogManager.ShowMatchingRabbit(index);
 	}
 
 	public void SlideToPrevPanel()
@@ -97,6 +99,7 @@ public List<int> unlockedIndexList;
 	// Use this for initialization
 	void Start () {
 		scrollContent = GetComponent<ScrollRect>().content;
+		rabbitCatalogManager = FindObjectOfType<RabbitCatalogManager>();
 	}
 	
 	// Update is called once per frame
