@@ -8,7 +8,6 @@ public class RabbitInfoPanel : MonoBehaviour {
 
 public Rabbit rabbitInfo;
 public Image idImage;
-public RabbitInfoScrollView rabbitInfoScrollView;
 
 	public void SetRabbitInfo(int index)
 	{
@@ -21,7 +20,7 @@ public RabbitInfoScrollView rabbitInfoScrollView;
 
 	// Use this for initialization
 	void Start () {
-		rabbitInfoScrollView = FindObjectOfType<RabbitInfoScrollView>();	
+	
 	}
 	
 	// Update is called once per frame

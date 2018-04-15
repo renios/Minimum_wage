@@ -72,10 +72,8 @@ public List<int> unlockedIndexList;
 		}
 	}
 
-	// Use this for initialization
-	void Start () {
-		scrollContent = GetComponent<ScrollRect>().content;
-
+	public void Initialize()
+	{
 		int unlockProgress = PlayerPrefs.GetInt("UnlockProgress", 1);
 		unlockedIndexList = new List<int>();
 		for(int j = 0; j < unlockProgress; j++)
@@ -95,6 +93,11 @@ public List<int> unlockedIndexList;
 		scrollContent.anchoredPosition = new Vector2(1080, 0);
 		atCenter = false;
 	}
+
+	// Use this for initialization
+	void Start () {
+		scrollContent = GetComponent<ScrollRect>().content;
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -108,10 +111,10 @@ public List<int> unlockedIndexList;
 			GetComponent<ScrollRect>().inertia = false;
 			atCenter = true;
 		}
-		if(scrollContent.anchoredPosition.x >= 1080)
+		if(scrollContent.anchoredPosition.x >= 1080 - 1)
 		{
 			atCenter = false;
-			if(currentPanelIndex > 1)
+			if(currentPanelIndex > 0)
 			{
 				// prevPanel이 보이도록 슬라이딩된 경우
 				// currentPanel의 정보가 prevPanel과 같도록 패널들의 정보를 바꾸고
@@ -124,12 +127,11 @@ public List<int> unlockedIndexList;
 				GetComponent<ScrollRect>().inertia = false;
 			}
 		}
-		if(scrollContent.anchoredPosition.x <= - 1080)
+		if(scrollContent.anchoredPosition.x <= - 1080 + 1)
 		{
 			atCenter = false;
 			if(currentPanelIndex < unlockedIndexList.Count - 1)
 			{
-				print("saw next, index: " + currentPanelIndex);
 				//nextPanel이 보이도록 슬라이딩된 경우
 				// currentPanel의 정보가 nextPanel과 같도록 바꾸고
 				currentPanelIndex++;
