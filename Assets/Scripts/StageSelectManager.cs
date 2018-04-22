@@ -37,12 +37,17 @@ public class StageSelectManager : MonoBehaviour {
 
 	public void UpdateSignToWorld2Panel() {
 		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
+		int progress = PlayerPrefs.GetInt("Progress", 1);
 
 		if (worldOpenProgress > 1) {
 			signToWorld2.SetActive(false);
 		}
 		else {
 			signToWorld2.SetActive(true);
+			if (progress < 10) {
+				openWorld2Button.GetComponent<Button>().enabled = false;
+				openWorld2Button.GetComponent<Animator>().enabled = false;
+			}
 			openWorld2ButtonBg.GetComponent<Image>().enabled = true;
 			openWorld2Button.transform.DOLocalMove(new Vector3(0, 0, 0), 0);
 		}
