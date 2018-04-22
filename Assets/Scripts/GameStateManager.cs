@@ -66,13 +66,13 @@ public class GameStateManager : MonoBehaviour {
 	public IEnumerator Idle() {
 		while (gameState == GameState.Idle || gameState == GameState.UseItem
 		|| gameState == GameState.Paused) {
-            // 아이템을 썼거나 옵션 버튼을 누르면 GSM이 아닌 바깥에서 state 통제(대신 이 코루틴이 끝나버리지 않도록 홀드)
-            if (gameState == GameState.UseItem || gameState == GameState.Paused)
-            {
-                yield return new WaitUntil(() => gameState == GameState.Idle);
-            }
+			// 아이템을 썼거나 옵션 버튼을 누르면 GSM이 아닌 바깥에서 state 통제(대신 이 코루틴이 끝나버리지 않도록 홀드)
+			if (gameState == GameState.UseItem || gameState == GameState.Paused)
+			{
+				yield return new WaitUntil(() => gameState == GameState.Idle);
+			}
 
-            // 게임 종료 조건 체크
+			// 게임 종료 조건 체크
 			yield return StartCoroutine(missionManager.CheckGameEnd());
 			yield return StartCoroutine(heartManager.CheckGameEnd());
 
@@ -85,8 +85,8 @@ public class GameStateManager : MonoBehaviour {
 
 			// 음식을 집었을 때 -> Picked
 			if (pickedTrigger) {
-                yield return StartCoroutine(trayManager.PickFood(pickedFood));
-                pickedTrigger = false;
+				yield return StartCoroutine(trayManager.PickFood(pickedFood));
+				pickedTrigger = false;
 				gameState = GameState.Picked;
 				yield return StartCoroutine(Picked());
 			}
@@ -287,7 +287,7 @@ public class GameStateManager : MonoBehaviour {
 		gameState = GameState.Start;
 		StartCoroutine(StartGame());
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		

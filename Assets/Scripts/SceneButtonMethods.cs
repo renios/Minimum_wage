@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneButtonMethods : MonoBehaviour
-{
+public class SceneButtonMethods : MonoBehaviour {
     public void GoToWorld()
     {
         if (MissionData.gotTimeItem)
