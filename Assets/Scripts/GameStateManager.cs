@@ -13,6 +13,7 @@ public class GameStateManager : MonoBehaviour {
 	MissionManager missionManager;
 	HeartManager heartManager;
 	CustomerManager customerManager;
+	TutorialManager tutorialManager;
 
 	IEnumerator StartGame() {
 		// 카운트다운을 세고 게임을 시작한다
@@ -31,23 +32,23 @@ public class GameStateManager : MonoBehaviour {
 			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
 
 			// 튜토리얼 스텝에 따라 집을지 결정
-			if (FindObjectOfType<TutorialManager>() != null) {
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 1 && 
+			if (tutorialManager != null) {
+				if (tutorialManager.tutorialStep == 1 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 3)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 5 && 
+				if (tutorialManager.tutorialStep == 5 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(4, 3)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 7 && 
+				if (tutorialManager.tutorialStep == 7 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 1)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep != 1 &&
-					FindObjectOfType<TutorialManager>().tutorialStep != 5 &&
-					FindObjectOfType<TutorialManager>().tutorialStep != 7 &&
-					FindObjectOfType<TutorialManager>().tutorialStep < 12)
+				if (tutorialManager.tutorialStep != 1 &&
+					tutorialManager.tutorialStep != 5 &&
+					tutorialManager.tutorialStep != 7 &&
+					tutorialManager.tutorialStep < 12)
 					return;
 			}
 
@@ -110,12 +111,12 @@ public class GameStateManager : MonoBehaviour {
 	IEnumerator Picked() {
 		while (gameState == GameState.Picked) {
 			// 유효픽일 경우 튜토리얼 진행도 올림
-			if (FindObjectOfType<TutorialManager>() != null) {
-				if ((FindObjectOfType<TutorialManager>().tutorialStep == 1) ||
-					(FindObjectOfType<TutorialManager>().tutorialStep == 5) ||
-					(FindObjectOfType<TutorialManager>().tutorialStep == 7))
+			if (tutorialManager != null) {
+				if ((tutorialManager.tutorialStep == 1) ||
+					(tutorialManager.tutorialStep == 5) ||
+					(tutorialManager.tutorialStep == 7))
 				{
-					FindObjectOfType<TutorialManager>().tutorialStep += 1;
+					tutorialManager.tutorialStep += 1;
 				}
 			}
 
@@ -144,16 +145,16 @@ public class GameStateManager : MonoBehaviour {
 			if (!hit.collider.GetComponent<FoodOnTray>().isFood) return;
 
 			// 튜토리얼 스텝에 따라 유효이동이 아닌 경우가 있음
-			if (FindObjectOfType<TutorialManager>() != null) {
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 2 && 
+			if (tutorialManager != null) {
+				if (tutorialManager.tutorialStep == 2 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(3, 3)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 6 && 
+				if (tutorialManager.tutorialStep == 6 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 4)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 8 && 
+				if (tutorialManager.tutorialStep == 8 && 
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 4)) 
 					return;
 			}
@@ -166,7 +167,7 @@ public class GameStateManager : MonoBehaviour {
 	public void BinTrigger() {
 		if (gameState == GameState.Picked && !binTrigger) {
 			// 튜토리얼에서는 쓰레기통 비활성화
-			if (FindObjectOfType<TutorialManager>() != null) return;
+			if (tutorialManager != null) return;
 
 			binTrigger = true;
 		}
@@ -177,12 +178,12 @@ public class GameStateManager : MonoBehaviour {
 			// 유효한 이동일 경우 -> Change -> Matching
 			if (validTrigger) {
 				// 유효드랍일 경우 튜토리얼 진행도 올림
-				if (FindObjectOfType<TutorialManager>() != null) {
-					if ((FindObjectOfType<TutorialManager>().tutorialStep == 2) ||
-						(FindObjectOfType<TutorialManager>().tutorialStep == 6) ||
-						(FindObjectOfType<TutorialManager>().tutorialStep == 8))
+				if (tutorialManager != null) {
+					if ((tutorialManager.tutorialStep == 2) ||
+						(tutorialManager.tutorialStep == 6) ||
+						(tutorialManager.tutorialStep == 8))
 					{
-						FindObjectOfType<TutorialManager>().tutorialStep += 1;
+						tutorialManager.tutorialStep += 1;
 					}
 				}
 
@@ -201,12 +202,12 @@ public class GameStateManager : MonoBehaviour {
 
 			// 유효하지 않은 이동일 경우 -> 음식을 원위치시키고 Idle로
 			// 무효 드랍일 경우 튜토리얼 진행도 내림
-			if (FindObjectOfType<TutorialManager>() != null) {
-				if ((FindObjectOfType<TutorialManager>().tutorialStep == 2) ||
-					(FindObjectOfType<TutorialManager>().tutorialStep == 6) ||
-					(FindObjectOfType<TutorialManager>().tutorialStep == 8))
+			if (tutorialManager != null) {
+				if ((tutorialManager.tutorialStep == 2) ||
+					(tutorialManager.tutorialStep == 6) ||
+					(tutorialManager.tutorialStep == 8))
 				{
-					FindObjectOfType<TutorialManager>().tutorialStep -= 1;
+					tutorialManager.tutorialStep -= 1;
 				}
 			}
 			// 음식 원위치
@@ -281,6 +282,7 @@ public class GameStateManager : MonoBehaviour {
 		missionManager = FindObjectOfType<MissionManager>();
 		heartManager = FindObjectOfType<HeartManager>();
 		customerManager = FindObjectOfType<CustomerManager>();
+		tutorialManager = FindObjectOfType<TutorialManager>();
 
 		gameState = GameState.Start;
 		StartCoroutine(StartGame());

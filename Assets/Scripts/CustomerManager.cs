@@ -36,6 +36,7 @@ public class CustomerManager : MonoBehaviour {
 	ScoreManager scoreManager;
 	public TestManager testManager;
 	RabbitGroupOrder groupOrder;
+	TutorialManager tutorialManager;
 
 	public void ResetFoundCorrespondentEachOrder() {
 		var customers = currentWaitingCustomers.ToList().FindAll(customer => customer != null);
@@ -67,12 +68,12 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		if (FindObjectOfType<TutorialManager>() != null) {
-			if (FindObjectOfType<TutorialManager>().tutorialStep == 10) {
-				FindObjectOfType<TutorialManager>().tutorialStep += 1;
+		if (tutorialManager != null) {
+			if (tutorialManager.tutorialStep == 10) {
+				tutorialManager.tutorialStep += 1;
 			}
-			else if (FindObjectOfType<TutorialManager>().tutorialStep == 12 || FindObjectOfType<TutorialManager>().tutorialStep == 13) {
-				FindObjectOfType<TutorialManager>().tutorialStep = 14;
+			else if (tutorialManager.tutorialStep == 12 || tutorialManager.tutorialStep == 13) {
+				tutorialManager.tutorialStep = 14;
 			}
 		}
 
@@ -102,7 +103,7 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void TutorialEnd() {
-		FindObjectOfType<TutorialManager>().tutorialStep = 14;
+		tutorialManager.tutorialStep = 14;
 	}
 
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
@@ -117,7 +118,7 @@ public class CustomerManager : MonoBehaviour {
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
 		AddCoinAmount(currentWaitingTime);
 
-		if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().tutorialStep >= 12) {
+		if (tutorialManager != null && tutorialManager.tutorialStep >= 12) {
 			TutorialEnd();
 		}
 	}
@@ -171,8 +172,7 @@ public class CustomerManager : MonoBehaviour {
 			}
 		}
 
-		if (FindObjectOfType<TutorialManager>() != null) {
-			TutorialManager tutorialManager = FindObjectOfType<TutorialManager>();
+		if (tutorialManager != null) {
 			// initialize & setorder 한꺼번에
 			tutorialManager.MakeCustomer(customer);
 		}
@@ -204,12 +204,6 @@ public class CustomerManager : MonoBehaviour {
 		else {
 			currentWaitingCustomers[index] = newCustomer;
 		}
-		// for (int i = 0; i < currentWaitingCustomers.Length; i++) {
-		// 	if (currentWaitingCustomers[i] == null) {
-		// 		currentWaitingCustomers[i] = newCustomer;
-		// 		return;
-		// 	}
-		// }
 	}
 	bool IsCustomerSlotEmpty(){
 		for (int i = 0; i < currentWaitingCustomers.Length; i++) {
@@ -271,6 +265,7 @@ public class CustomerManager : MonoBehaviour {
 		missionManager = FindObjectOfType<MissionManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
 		scoreManager = FindObjectOfType<ScoreManager>();
+		tutorialManager = FindObjectOfType<TutorialManager>();
 
 		lastCustomerMakeTime = customerCooldown - 0.5f;
 		isPlayingCustomerAnim = false;
@@ -281,7 +276,7 @@ public class CustomerManager : MonoBehaviour {
 		if (!gameManager.isPlaying) return;
 
 		// 튜토리얼 씬의 손님 추가는 별도의 로직으로 이루어진다
-		if (FindObjectOfType<TutorialManager>() != null) return;
+		if (tutorialManager != null) return;
 
 		if (IsEmptyPosInCustomerSlot()) {
 			// 손님 리필 쿨타임은 자리가 비어있을 때만 돌아간다
