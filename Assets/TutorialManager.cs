@@ -83,7 +83,7 @@ public class TutorialManager : MonoBehaviour {
 		Rabbit newRabbitData = new Rabbit();
 		newRabbitData.gender = Gender.Male;
 		newRabbitData.imageName = "youngsang";
-		newRabbitData.waitingTime = 40;
+		newRabbitData.waitingTime = 100000;
 		customer.Initialize(index % 2, newRabbitData);
 		List<FoodType> newFoodList = new List<FoodType> {FoodType.A, FoodType.C, FoodType.A, FoodType.B};
 		customer.SetOrder(newFoodList);
@@ -127,15 +127,21 @@ public class TutorialManager : MonoBehaviour {
 		trayManager = FindObjectOfType<TrayManager>();
 	}
 	
-	float customerCooldown = 2;
-	float remainCooldown = 2;
+	float customerCooldown = 1;
+	float remainCooldown = 1;
 
 	float stepDelay = 4;
-	float remainStepDelay = 2;
+	float remainStepDelay = 2.4f*2; // 하람토끼 처음 들어왔을때 적용
 
 	// Update is called once per frame
 	void Update () {
-		if (index > 3) return;
+		if (tutorialStep > 14) return;
+
+		if (tutorialStep == 14) {
+			FindObjectOfType<GameStateManager>().gameState = GameState.End;
+			StartCoroutine(FindObjectOfType<GameManager>().ShowClearCanvas());
+			tutorialStep = 15;
+		}
 
 		if (gameStateManager.gameState != GameState.Idle) return;
 
@@ -208,6 +214,8 @@ public class TutorialManager : MonoBehaviour {
 			}
 			else if (tutorialStep == 13) {
 				currentTutorialPanel.SetActive(false);
+				currentCustomer.waitingTime = 40;
+				currentCustomer.remainWaitingTime = 40;
 			}
 
 			beforeTutorialStep += 1;

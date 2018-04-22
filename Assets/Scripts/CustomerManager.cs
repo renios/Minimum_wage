@@ -67,8 +67,13 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().currentTutorialPanel != null) {
-			FindObjectOfType<TutorialManager>().tutorialStep += 1;
+		if (FindObjectOfType<TutorialManager>() != null) {
+			if (FindObjectOfType<TutorialManager>().tutorialStep == 10) {
+				FindObjectOfType<TutorialManager>().tutorialStep += 1;
+			}
+			else if (FindObjectOfType<TutorialManager>().tutorialStep == 12 || FindObjectOfType<TutorialManager>().tutorialStep == 13) {
+				FindObjectOfType<TutorialManager>().tutorialStep = 14;
+			}
 		}
 
 		Customer customer = currentWaitingCustomers[indexInArray];
@@ -96,6 +101,10 @@ public class CustomerManager : MonoBehaviour {
 		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
 	}
 
+	public void TutorialEnd() {
+		FindObjectOfType<TutorialManager>().tutorialStep = 14;
+	}
+
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
 		var currentWaitingTime = currentWaitingCustomers[indexInArray].GetRateOfWatingTime();
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
@@ -107,6 +116,10 @@ public class CustomerManager : MonoBehaviour {
 		missionManager.successCustomerCount += 1;
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
 		AddCoinAmount(currentWaitingTime);
+
+		if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().tutorialStep >= 12) {
+			TutorialEnd();
+		}
 	}
 
 	bool IsThereSameIndexCustomer(int rabbitIndex) {

@@ -93,7 +93,12 @@ public class GameManager : MonoBehaviour {
 	public IEnumerator ShowStars() {
 		ScoreManager scoreManager = FindObjectOfType<ScoreManager>();
 		int numberOfStars = scoreManager.numberOfStars;
-		UpdateStarsOfStage(numberOfStars);
+		if (FindObjectOfType<TutorialManager>() != null) {
+			PlayerPrefs.SetInt("TutorialFinished", 1);
+		}
+		else {
+			UpdateStarsOfStage(numberOfStars);
+		}
 		for (int i = 0; i < numberOfStars; i++) {
 			GameObject star = starObjects[i];
 			star.GetComponent<Image>().enabled = true;

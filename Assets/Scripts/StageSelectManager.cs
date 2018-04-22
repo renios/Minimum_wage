@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class StageSelectManager : MonoBehaviour {
 
@@ -206,6 +207,10 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TimerReset", 0);
 		PlayerPrefs.SetInt("Superfood", 0);
 		PlayerPrefs.SetInt("TrayReset", 0);
+
+		PlayerPrefs.SetInt("TutorialFinished", 0);
+
+		SceneManager.LoadScene("World_tutorial");
 	}
 
 	public void BeforeOpenWorld2() {

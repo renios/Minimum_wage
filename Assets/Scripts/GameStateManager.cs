@@ -44,7 +44,10 @@ public class GameStateManager : MonoBehaviour {
 					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 1)) 
 					return;
 
-				if (FindObjectOfType<TutorialManager>().tutorialStep == 10)
+				if (FindObjectOfType<TutorialManager>().tutorialStep != 1 &&
+					FindObjectOfType<TutorialManager>().tutorialStep != 5 &&
+					FindObjectOfType<TutorialManager>().tutorialStep != 7 &&
+					FindObjectOfType<TutorialManager>().tutorialStep < 12)
 					return;
 			}
 
