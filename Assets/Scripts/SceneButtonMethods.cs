@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SceneButtonMethods : MonoBehaviour
-{
+public class SceneButtonMethods : MonoBehaviour {
     public void GoToWorld()
     {
         if (MissionData.gotTimeItem)
@@ -23,13 +22,19 @@ public class SceneButtonMethods : MonoBehaviour
             MissionData.gotTrayItem = false;
         }
         SoundManager.Play(SoundType.Button);
-        SceneManager.LoadScene("World");
+
+        if (PlayerPrefs.GetInt("TutorialFinished", 0) == 0) {
+            SceneManager.LoadScene("World_tutorial");
+        }
+        else {
+            SceneManager.LoadScene("World");
+        }
     }
 
     public void GoToTutorial()
     {
         SoundManager.Play(SoundType.Button);
-        SceneManager.LoadScene("Tutorial");
+        SceneManager.LoadScene("Tutorial_new");
     }
 
     public void GoIngame()

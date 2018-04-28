@@ -75,6 +75,7 @@ public class TrayManager : MonoBehaviour {
 	// FeverManager feverManager;
 	GameStateManager gameStateManager;
 	public TestManager testManager;
+	TutorialManager tutorialManager;
 
 	List<List<FoodType>> allPossibleOrders;
 
@@ -369,9 +370,9 @@ public class TrayManager : MonoBehaviour {
 				newFood.GetComponent<FoodOnTray>().foodCoord = new Vector2(row, col);
 				foods[row, col] = newFood.GetComponent<FoodOnTray>();
 				// 튜토리얼에서는 지정된 음식을 생성
-				if (FindObjectOfType<TutorialManager>() != null && FindObjectOfType<TutorialManager>().refillList.Count > 0) {
-					newFood.GetComponent<FoodOnTray>().Initialize(FindObjectOfType<TutorialManager>().refillList.First());
-					FindObjectOfType<TutorialManager>().refillList.RemoveAt(0);
+				if (tutorialManager != null && tutorialManager.refillList.Count > 0) {
+					newFood.GetComponent<FoodOnTray>().Initialize(tutorialManager.refillList.First());
+					tutorialManager.refillList.RemoveAt(0);
 				}
 				// 테스트 중이고 입력한 트레이 음식이 있다면 그것을 생성
 				else if(testManager != null && testManager.nextTrayFood.Count > 0)
@@ -870,8 +871,8 @@ public class TrayManager : MonoBehaviour {
 			}
 		}
 
-		if (FindObjectOfType<TutorialManager>() != null) {
-			FindObjectOfType<TutorialManager>().MakeTutorialTray();
+		if (tutorialManager != null) {
+			tutorialManager.MakeTutorialTray();
 		}
 		else if (MissionData.stageIndex == 1 || MissionData.stageIndex == 2) {
 			MakeBlockObject(44);
@@ -924,6 +925,7 @@ public class TrayManager : MonoBehaviour {
 		missionManager = FindObjectOfType<MissionManager>();
 		// feverManager = FindObjectOfType<FeverManager>();
 		gameStateManager = FindObjectOfType<GameStateManager>();
+		tutorialManager = FindObjectOfType<TutorialManager>();
 
 		SetAllPossibleOrders();
 

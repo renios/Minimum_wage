@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Linq;
 using UnityEngine.EventSystems;
+using UnityEngine.SceneManagement;
 
 public class StageSelectManager : MonoBehaviour {
 
@@ -36,12 +37,17 @@ public class StageSelectManager : MonoBehaviour {
 
 	public void UpdateSignToWorld2Panel() {
 		int worldOpenProgress = PlayerPrefs.GetInt("WorldOpenProgress", 1);
+		int progress = PlayerPrefs.GetInt("Progress", 1);
 
 		if (worldOpenProgress > 1) {
 			signToWorld2.SetActive(false);
 		}
 		else {
 			signToWorld2.SetActive(true);
+			if (progress < 10) {
+				openWorld2Button.GetComponent<Button>().enabled = false;
+				openWorld2Button.GetComponent<Animator>().enabled = false;
+			}
 			openWorld2ButtonBg.GetComponent<Image>().enabled = true;
 			openWorld2Button.transform.DOLocalMove(new Vector3(0, 0, 0), 0);
 		}
@@ -206,6 +212,10 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TimerReset", 0);
 		PlayerPrefs.SetInt("Superfood", 0);
 		PlayerPrefs.SetInt("TrayReset", 0);
+
+		PlayerPrefs.SetInt("TutorialFinished", 0);
+
+		SceneManager.LoadScene("World_tutorial");
 	}
 
 	public void BeforeOpenWorld2() {
