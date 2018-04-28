@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="$USER_HOME$/Library/Caches/Rider2017.3/resharper-host/local/Transient/ReSharperHost/v11/SolutionCaches/_Minimum_wage.-1073370648.00" t="ExcludeRecursive" />
+    <e p="$PROJECT_DIR$" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor-firstpass.csproj" t="IncludeRecursive" />
+      <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
+      <e p="Assets" t="Include">
+        <e p="Demigiant" t="Include">
+          <e p="DOTween" t="Include">
+            <e p="DOTween43.xml" t="Include" />
+            <e p="DOTween46.xml" t="Include" />
+            <e p="DOTween50.xml" t="Include" />
+            <e p="Examples" t="Include">
+              <e p="Basics.cs" t="Include" />
+              <e p="Sequences.cs" t="Include" />
+            </e>
+            <e p="readme.txt" t="Include" />
+          </e>
+        </e>
+        <e p="Effect" t="Include">
+          <e p="grayscale.shader" t="Include" />
+        </e>
+        <e p="KY_effects" t="Include">
+          <e p="MagicEffectsPackFree" t="Include">
+            <e p="readme.txt" t="Include" />
+          </e>
+          <e p="Script" t="Include">
+            <e p="ConGUI.cs" t="Include" />
+            <e p="Lighting.cs" t="Include" />
+          </e>
+        </e>
+        <e p="Plugins" t="Include">
+          <e p="Editor" t="Include">
+            <e p="JetBrains" t="Include">
+              <e p="Unity3DRider.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Scripts" t="Include">
+          <e p="BgSetter.cs" t="Include" />
+          <e p="CoinAnim.cs" t="Include" />
+          <e p="CoinEffect.cs" t="Include" />
+          <e p="CoinMove.cs" t="Include" />
+          <e p="Customer.cs" t="Include" />
+          <e p="CustomerManager.cs" t="Include" />
+          <e p="Enums.cs" t="Include" />
+          <e p="FeverManager.cs" t="Include" />
+          <e p="FoodInOrder.cs" t="Include" />
+          <e p="FoodOnTray.cs" t="Include" />
+          <e p="FoodPos.cs" t="Include" />
+          <e p="GameManager.cs" t="Include" />
+          <e p="GameStateManager.cs" t="Include" />
+          <e p="HeartManager.cs" t="Include" />
+          <e p="HighlightBorder.cs" t="Include" />
+          <e p="ItemManager.cs" t="Include" />
+          <e p="MakeSuperfoodAnim.cs" t="Include" />
+          <e p="MenuManager.cs" t="Include" />
+          <e p="MissionData.cs" t="Include" />
+          <e p="MissionManager.cs" t="Include" />
+          <e p="MissionPanel.cs" t="Include" />
+          <e p="PreTutorialManager.cs" t="Include" />
+          <e p="RabbitCatalogManager.cs" t="Include" />
+          <e p="RabbitData.cs" t="Include" />
+          <e p="RabbitGroupOrder.cs" t="Include" />
+          <e p="RabbitInfoPanel.cs" t="Include" />
+          <e p="RabbitInformation.cs" t="Include" />
+          <e p="RabbitInfoScrollView.cs" t="Include" />
+          <e p="RabbitTableScrollView.cs" t="Include" />
+          <e p="RewardPanel.cs" t="Include" />
+          <e p="SceneButtonMethods.cs" t="Include" />
+          <e p="ScoreManager.cs" t="Include" />
+          <e p="SoundManager.cs" t="Include" />
+          <e p="SoundPlayer.cs" t="Include" />
+          <e p="StageButton.cs" t="Include" />
+          <e p="StageSelectManager.cs" t="Include" />
+          <e p="StarManager.cs" t="Include" />
+          <e p="StarText.cs" t="Include" />
+          <e p="StarViewer.cs" t="Include" />
+          <e p="SuperfoodTray.cs" t="Include" />
+          <e p="TestManager.cs" t="Include" />
+          <e p="Tray.cs" t="Include" />
+          <e p="TrayManager.cs" t="Include" />
+          <e p="TutorialManager.cs" t="Include" />
+          <e p="UnlockedRabbitPanel.cs" t="Include" />
+          <e p="VolumeOfSoundChanger.cs" t="Include" />
+          <e p="WorldItemPanel.cs" t="Include" />
+        </e>
+        <e p="Shader" t="Include">
+          <e p="HighlightBorder.shader" t="Include" />
+        </e>
+        <e p="Sounds" t="Include">
+          <e p="attribution.txt" t="Include" />
+        </e>
+        <e p="UETools" t="Include">
+          <e p="Magic_Particle_Effects" t="Include">
+            <e p="readme.txt" t="Include" />
+            <e p="Scripts" t="Include">
+              <e p="CameraMovement.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+      </e>
+      <e p="Library" t="ExcludeRecursive" />
+      <e p="Minimum_wage.sln" t="IncludeFlat" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Temp" t="ExcludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>
