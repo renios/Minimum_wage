@@ -46,3 +46,4 @@ ehthumbs.db
 
 # etc
 *.numbers*
+*workspace.xml
