@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
@@ -10,7 +11,8 @@ public class PreTutorialManager : MonoBehaviour {
 	public GameObject bgPanel;
 	public Image managerImage;
 	public GameObject balloonObject;
-
+	public Button button;
+	
 	public void GoToTutorial() {
 		SceneManager.LoadScene("Tutorial_new");
 	}
@@ -22,10 +24,9 @@ public class PreTutorialManager : MonoBehaviour {
 		tw = managerImage.transform.DOLocalMove(new Vector3(-250, -600, 0), 1);
 		yield return tw.WaitForCompletion();
 		balloonObject.SetActive(true);
-	}
-	
-	// Update is called once per frame
-	void Update () {
 		
+		yield return new WaitForSeconds(0.5f);
+
+		button.interactable = true;
 	}
 }

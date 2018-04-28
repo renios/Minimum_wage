@@ -22,9 +22,9 @@ public class SceneButtonMethods : MonoBehaviour {
             MissionData.gotTrayItem = false;
         }
         SoundManager.Play(SoundType.Button);
-
+       
         if (PlayerPrefs.GetInt("TutorialFinished", 0) == 0) {
-            SceneManager.LoadScene("World_tutorial");
+            SceneManager.LoadScene("World_tutorial"); 
         }
         else {
             SceneManager.LoadScene("World");
@@ -62,14 +62,16 @@ public class SceneButtonMethods : MonoBehaviour {
             MissionData.gotTrayItem = true;
             PlayerPrefs.SetInt("TrayReset", PlayerPrefs.GetInt("TrayReset", 1) - 1);
         }
-        int progress = PlayerPrefs.GetInt("Progress", -1);
-        if (progress < 2)
+
+        if (PlayerPrefs.GetInt("TutorialFinished", 0) == 0)
         {
             MissionData.fromStage = true;
             GoToTutorial();
-            return;
         }
-        GoIngame();
+        else {
+            MissionData.fromStage = true;
+            GoIngame();
+        }
     }
 
     public GameObject[] Tutorials;
