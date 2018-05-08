@@ -48,6 +48,11 @@ public class StageSelectManager : MonoBehaviour {
 				openWorld2Button.GetComponent<Button>().enabled = false;
 				openWorld2Button.GetComponent<Animator>().enabled = false;
 			}
+			else
+			{
+				openWorld2Button.GetComponent<Button>().enabled = true;
+				openWorld2Button.GetComponent<Animator>().enabled = true;
+			}
 			openWorld2ButtonBg.GetComponent<Image>().enabled = true;
 			openWorld2Button.transform.DOLocalMove(new Vector3(0, 0, 0), 0);
 		}
@@ -214,7 +219,6 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TrayReset", 0);
 
 		PlayerPrefs.SetInt("TutorialFinished", 0);
-
 		SceneManager.LoadScene("World_tutorial");
 	}
 
