@@ -25,7 +25,7 @@ public static class RabbitData {
 				newRabbit.index = 2;
 				newRabbit.releaseStageIndex = 1;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "hwangsoon";
+				newRabbit.imageName = "hyunjun";
 				newRabbit.waitingTime = 40;
 				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
@@ -235,7 +235,7 @@ public static class RabbitData {
 				newRabbit.index = 23;
 				newRabbit.releaseStageIndex = 9;
 				newRabbit.gender = Gender.Male;
-				newRabbit.imageName = "hyunjun";
+				newRabbit.imageName = "hwangsoon";
 				newRabbit.waitingTime = 20;
 				newRabbit.isVip = false;
 				newRabbit.reduceHeartsByFail = 1;
