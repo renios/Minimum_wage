@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BgSetter : MonoBehaviour {
 
-	public SpriteRenderer spriteRender;
+	public Image spriteRender;
 
 	public Sprite world1;
 	public Sprite world2;
