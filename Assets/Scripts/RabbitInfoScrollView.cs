@@ -89,8 +89,9 @@ public RabbitCatalogManager rabbitCatalogManager;
 			}
 		}
 
-		currentPanelIndex = 0;
-		SetAllInfoPanels(currentPanelIndex);
+		// 슬라이드 기능 막아놓음
+//		currentPanelIndex = 0;
+//		SetAllInfoPanels(currentPanelIndex);
 		scrollContent.anchoredPosition = new Vector2(1080, 0);
 		atCenter = false;
 	}
@@ -103,49 +104,50 @@ public RabbitCatalogManager rabbitCatalogManager;
 	
 	// Update is called once per frame
 	void Update () {
-		if( !atCenter &&
-			((currentPanelIndex == 0 && scrollContent.anchoredPosition.x < 0) 
-			|| (currentPanelIndex == unlockedIndexList.Count - 1 && scrollContent.anchoredPosition.x > 0)) )
-		{
-			StopCoroutine("SlidingToPrevPanel");
-			StopCoroutine("SlidingToNextPanel");
-			scrollContent.anchoredPosition = new Vector2();
-			GetComponent<ScrollRect>().inertia = false;
-			atCenter = true;
-		}
-		if(scrollContent.anchoredPosition.x >= 1080 - 1)
-		{
-			atCenter = false;
-			if(currentPanelIndex > 0)
-			{
-				// prevPanel이 보이도록 슬라이딩된 경우
-				// currentPanel의 정보가 prevPanel과 같도록 패널들의 정보를 바꾸고
-				currentPanelIndex--;
-				SetAllInfoPanels(currentPanelIndex);
-				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
-				// currentPanel이 보이도록 위치를 조정한다
-				StopCoroutine("SlidingToPrevPanel");
-				scrollContent.anchoredPosition = new Vector2();
-				// 평생 슬라이딩되지 않도록 관성 적용 해제(다시 클릭할 때 활성화)
-				GetComponent<ScrollRect>().inertia = false;
-			}
-		}
-		if(scrollContent.anchoredPosition.x <= - 1080 + 1)
-		{
-			atCenter = false;
-			if(currentPanelIndex < unlockedIndexList.Count - 1)
-			{
-				//nextPanel이 보이도록 슬라이딩된 경우
-				// currentPanel의 정보가 nextPanel과 같도록 바꾸고
-				currentPanelIndex++;
-				SetAllInfoPanels(currentPanelIndex);
-				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
-				// currentPanel이 보이도록 위치를 조정한다
-				StopCoroutine("SlidingToNextPanel");
-				scrollContent.anchoredPosition = new Vector2();
-				// 평생 슬라이딩되지 않도록 관성 적용 해제(다시 클릭할 때 활성화)
-				GetComponent<ScrollRect>().inertia = false;
-			}
-		}
+		// 하단부 슬라이드 기능 임시 제거.
+//		if( !atCenter &&
+//			((currentPanelIndex == 0 && scrollContent.anchoredPosition.x < 0) 
+//			|| (currentPanelIndex == unlockedIndexList.Count - 1 && scrollContent.anchoredPosition.x > 0)) )
+//		{
+//			StopCoroutine("SlidingToPrevPanel");
+//			StopCoroutine("SlidingToNextPanel");
+//			scrollContent.anchoredPosition = new Vector2();
+//			GetComponent<ScrollRect>().inertia = false;
+//			atCenter = true;
+//		}
+//		if(scrollContent.anchoredPosition.x >= 1080 - 1)
+//		{
+//			atCenter = false;
+//			if(currentPanelIndex > 0)
+//			{
+//				// prevPanel이 보이도록 슬라이딩된 경우
+//				// currentPanel의 정보가 prevPanel과 같도록 패널들의 정보를 바꾸고
+//				currentPanelIndex--;
+//				SetAllInfoPanels(currentPanelIndex);
+//				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
+//				// currentPanel이 보이도록 위치를 조정한다
+//				StopCoroutine("SlidingToPrevPanel");
+//				scrollContent.anchoredPosition = new Vector2();
+//				// 평생 슬라이딩되지 않도록 관성 적용 해제(다시 클릭할 때 활성화)
+//				GetComponent<ScrollRect>().inertia = false;
+//			}
+//		}
+//		if(scrollContent.anchoredPosition.x <= - 1080 + 1)
+//		{
+//			atCenter = false;
+//			if(currentPanelIndex < unlockedIndexList.Count - 1)
+//			{
+//				//nextPanel이 보이도록 슬라이딩된 경우
+//				// currentPanel의 정보가 nextPanel과 같도록 바꾸고
+//				currentPanelIndex++;
+//				SetAllInfoPanels(currentPanelIndex);
+//				rabbitCatalogManager.ShowMatchingRabbit(currentPanelIndex);
+//				// currentPanel이 보이도록 위치를 조정한다
+//				StopCoroutine("SlidingToNextPanel");
+//				scrollContent.anchoredPosition = new Vector2();
+//				// 평생 슬라이딩되지 않도록 관성 적용 해제(다시 클릭할 때 활성화)
+//				GetComponent<ScrollRect>().inertia = false;
+//			}
+//		}
 	}
 }
