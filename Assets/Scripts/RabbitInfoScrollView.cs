@@ -92,6 +92,7 @@ public RabbitCatalogManager rabbitCatalogManager;
 		// 슬라이드 기능 막아놓음
 //		currentPanelIndex = 0;
 //		SetAllInfoPanels(currentPanelIndex);
+		currentPanel.Initialize();
 		scrollContent.anchoredPosition = new Vector2(1080, 0);
 		atCenter = false;
 	}

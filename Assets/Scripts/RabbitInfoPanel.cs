@@ -6,9 +6,15 @@ using Enums;
 
 public class RabbitInfoPanel : MonoBehaviour {
 
-public Rabbit rabbitInfo;
-public Image idImage;
+	public Rabbit rabbitInfo;
+	public Image idImage;
+	public Sprite transparentSprite; 
 
+	public void Initialize()
+	{
+		idImage.sprite = transparentSprite;
+	}
+	
 	public void SetRabbitInfo(int index)
 	{
 		idImage.enabled = true;
