@@ -16,7 +16,7 @@ public class RabbitCatalogManager : MonoBehaviour {
 		SoundManager.Play(SoundType.Button);
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		float delay = 0.5f;
-		catalogPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		catalogPanel.GetComponent<RectTransform>().DOMove(endPos, delay).SetEase(Ease.OutBack);
 		rabbitInfoScrollView.Initialize();
 		rabbitTableScrollView.Initialize();
 	}
