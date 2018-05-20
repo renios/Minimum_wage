@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Enums;
+using UnityEngine.UI;
 
 public class CustomerManager : MonoBehaviour {
 
@@ -191,6 +192,11 @@ public class CustomerManager : MonoBehaviour {
 
 		AddCustomerInEmptySlot(customer);
 		lastCustomerMakeTime = 0;
+		Canvas[] customerCanvases = customer.GetComponentsInChildren<Canvas>();
+		foreach(var canvas in customerCanvases)
+		{
+			canvas.overrideSorting = true;
+		}
 
 		return customer;
 	}
