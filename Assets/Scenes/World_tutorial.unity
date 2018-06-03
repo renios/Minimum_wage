@@ -1044,7 +1044,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &100824495
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5334,21 +5334,6 @@ Prefab:
     - target: {fileID: 1985331011702116, guid: 91f24524fbe024d66854ee499a9f8e25, type: 2}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 224942930778166204, guid: 91f24524fbe024d66854ee499a9f8e25,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 951.8551
-      objectReference: {fileID: 0}
-    - target: {fileID: 224942930778166204, guid: 91f24524fbe024d66854ee499a9f8e25,
-        type: 2}
-      propertyPath: m_SizeDelta.y
-      value: 831.3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114719749136078864, guid: 91f24524fbe024d66854ee499a9f8e25,
-        type: 2}
-      propertyPath: m_FontData.m_Alignment
-      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91f24524fbe024d66854ee499a9f8e25, type: 2}
@@ -10047,7 +10032,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 23/30
+  m_Text: 0/30
 --- !u!222 &1039621327
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11300,7 +11285,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   catalogPanel: {fileID: 1166124703}
   rabbitInfoScrollView: {fileID: 0}
-  rabbitTableScrollView: {fileID: 0}
   tableRabbitRectTransform:
   - {fileID: 1603609244}
   - {fileID: 240703990}
@@ -11331,6 +11315,7 @@ MonoBehaviour:
   - {fileID: 1930275350}
   - {fileID: 70197537}
   - {fileID: 1391602553}
+  catalogCells: []
 --- !u!1 &1185832915
 GameObject:
   m_ObjectHideFlags: 0
@@ -12894,7 +12879,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 1859796269}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.6225965
+  m_Size: 0.5547527
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19600,7 +19585,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2142974441
 RectTransform:
   m_ObjectHideFlags: 0
