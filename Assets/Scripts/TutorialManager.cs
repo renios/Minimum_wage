@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using Enums;
 
@@ -9,6 +10,9 @@ public class TutorialManager : MonoBehaviour {
 	bool customerTrigger = true;
 	Customer currentCustomer;
 
+	// 강조용 화살표
+	public GameObject arrowObj;
+	
 	public List<GameObject> tutorialList;
 	public GameObject currentTutorialPanel;
 	public int tutorialStep = 0;
@@ -143,6 +147,9 @@ public class TutorialManager : MonoBehaviour {
 			tutorialStep = 15;
 		}
 
+		UpdateTrayHighlight();
+		UpdateTutorialPanel();
+		
 		if (gameStateManager.gameState != GameState.Idle) return;
 
 		if (currentCustomer == null && customerTrigger == false) {
@@ -168,8 +175,63 @@ public class TutorialManager : MonoBehaviour {
 				remainStepDelay = stepDelay;
 			}
 		}
+	}
 
-		UpdateTutorialPanel();
+	void UpdateTrayHighlight()
+	{
+		if (beforeTutorialStep == tutorialStep) return;
+		
+		arrowObj.SetActive(false);
+		for (int col = 1; col < 5; col++)
+		{
+			for (int row = 1; row < 5; row++)
+			{
+				trayManager.foods[row, col].GetComponent<SpriteRenderer>().color = Color.white;
+			}
+		}
+
+		if (tutorialStep == 1)
+		{
+			HighlightTargetFood(3, 1);
+		}
+		else if (tutorialStep == 2)
+		{
+			HighlightTargetFood(3, 3);
+		}
+		else if (tutorialStep == 5)
+		{
+			HighlightTargetFood(3, 4);
+		}
+		else if (tutorialStep == 6)
+		{
+			HighlightTargetFood(4, 2);
+		}
+		else if (tutorialStep == 7)
+		{
+			HighlightTargetFood(1, 2);
+		}
+		else if (tutorialStep == 8)
+		{
+			HighlightTargetFood(4, 1);
+		}
+
+		if (beforeTutorialStep > tutorialStep) 
+			beforeTutorialStep -= 1;
+	}
+
+	void HighlightTargetFood(int colIndex, int rowIndex)
+	{
+		var targetFood = trayManager.foods[rowIndex, colIndex];
+		arrowObj.transform.position = trayManager.foodPoses[rowIndex, colIndex].position;
+		arrowObj.SetActive(true);
+		for (int col = 1; col < 5; col++)
+		{
+			for (int row = 1; row < 5; row++)
+			{
+				if (trayManager.foods[row, col] == targetFood) continue;
+				trayManager.foods[row, col].GetComponent<SpriteRenderer>().color = Color.gray;
+			}
+		}
 	}
 
 	void UpdateTutorialPanel() {

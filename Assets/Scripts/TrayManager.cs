@@ -13,7 +13,7 @@ public class TrayManager : MonoBehaviour {
 	readonly int COL = 6;
 
 	// 미리 트레이 내 좌표 별 트랜스폼 받아둠
-	Transform[,] foodPoses;
+	public Transform[,] foodPoses;
 	// 트레이 내 좌표 별 음식 추적
 	public FoodOnTray[,] foods;
 	// 음식 prefab
