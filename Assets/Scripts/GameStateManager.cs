@@ -151,11 +151,11 @@ public class GameStateManager : MonoBehaviour {
 					return;
 
 				if (tutorialManager.tutorialStep == 6 && 
-					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 4)) 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 4)) 
 					return;
 
 				if (tutorialManager.tutorialStep == 8 && 
-					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(2, 4)) 
+					hit.collider.GetComponent<FoodOnTray>().foodCoord != new Vector2(1, 4)) 
 					return;
 			}
 
