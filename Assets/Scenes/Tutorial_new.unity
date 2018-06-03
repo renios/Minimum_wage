@@ -9244,6 +9244,30 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 1863074828915318, guid: 4bc9e0a3d59e848808acc73b67857402, type: 2}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1273499615364746, guid: 4bc9e0a3d59e848808acc73b67857402, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114263312168115052, guid: 4bc9e0a3d59e848808acc73b67857402,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114819572114526490, guid: 4bc9e0a3d59e848808acc73b67857402,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114263312168115052, guid: 4bc9e0a3d59e848808acc73b67857402,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0fa4c5d3677d142918645ca8820858a3,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4bc9e0a3d59e848808acc73b67857402, type: 2}
   m_IsPrefabParent: 0
@@ -9919,7 +9943,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 74ef5afab1edf45b49418d8b408f8777, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arrowObj: {fileID: 1715375042668470, guid: a9eac11b3af2f499caeee32b4dc45090, type: 2}
+  arrowObj: {fileID: 1533240883}
   tutorialList:
   - {fileID: 926435380}
   - {fileID: 1522709121}
@@ -10066,6 +10090,12 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 114056937977131412, guid: 062079207193c410787ff0d8119cc76d,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: faab9edf75b1846958efe30720eaa1c3,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 062079207193c410787ff0d8119cc76d, type: 2}
   m_IsPrefabParent: 0
@@ -11043,6 +11073,14 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 1487257301483528, guid: a672c4ce155f24197b90125e3dddca07, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1343072812386726, guid: a672c4ce155f24197b90125e3dddca07, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a672c4ce155f24197b90125e3dddca07, type: 2}
   m_IsPrefabParent: 0
@@ -11302,6 +11340,10 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1715375042668470, guid: a9eac11b3af2f499caeee32b4dc45090, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a9eac11b3af2f499caeee32b4dc45090, type: 2}
   m_IsPrefabParent: 0
@@ -11431,6 +11473,16 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 1129938884027982, guid: d7890a844cb944e2d97ab27525feaaa9, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114114041362374934, guid: d7890a844cb944e2d97ab27525feaaa9,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 800bfc6850c6a40ed896c3ff4767c2e0,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: d7890a844cb944e2d97ab27525feaaa9, type: 2}
   m_IsPrefabParent: 0
@@ -11439,6 +11491,11 @@ GameObject:
   m_PrefabParentObject: {fileID: 1684008233869768, guid: d7890a844cb944e2d97ab27525feaaa9,
     type: 2}
   m_PrefabInternal: {fileID: 1522709120}
+--- !u!1 &1533240883 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1715375042668470, guid: a9eac11b3af2f499caeee32b4dc45090,
+    type: 2}
+  m_PrefabInternal: {fileID: 1475033260}
 --- !u!1001 &1588078891
 Prefab:
   m_ObjectHideFlags: 0
@@ -11565,6 +11622,14 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 1898646576952688, guid: f940e5126f82f4060b63d218fbd5b00d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1033571928820512, guid: f940e5126f82f4060b63d218fbd5b00d, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f940e5126f82f4060b63d218fbd5b00d, type: 2}
   m_IsPrefabParent: 0
@@ -12279,6 +12344,21 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 114914531841373310, guid: 7f24d83dec1004074b766d69d283a659,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bf84df4eb3c0c433f891e9b869840f48,
+        type: 3}
+    - target: {fileID: 114127926653318860, guid: 7f24d83dec1004074b766d69d283a659,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1146522742415602, guid: 7f24d83dec1004074b766d69d283a659, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7f24d83dec1004074b766d69d283a659, type: 2}
   m_IsPrefabParent: 0
@@ -12647,6 +12727,17 @@ Prefab:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 17952525}
+    - target: {fileID: 114534378257281112, guid: 3b23e59aa64e24fd8a67091d751b46eb,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114201944108124664, guid: 3b23e59aa64e24fd8a67091d751b46eb,
+        type: 2}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f728f322fbd74127b556f772308a062,
+        type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 3b23e59aa64e24fd8a67091d751b46eb, type: 2}
   m_IsPrefabParent: 0

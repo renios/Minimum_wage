@@ -179,6 +179,7 @@ public class TutorialManager : MonoBehaviour {
 
 	void UpdateTrayHighlight()
 	{
+		if (tutorialStep == 14) return;
 		if (beforeTutorialStep == tutorialStep) return;
 		
 		arrowObj.SetActive(false);
@@ -240,7 +241,7 @@ public class TutorialManager : MonoBehaviour {
 				currentTutorialPanel = tutorialList[0];
 				currentTutorialPanel.SetActive(true);
 			}
-			else if (tutorialStep == 3) {
+			else if (tutorialStep == 1) {
 				currentTutorialPanel.SetActive(false);
 			}
 			else if (tutorialStep == 4) {
