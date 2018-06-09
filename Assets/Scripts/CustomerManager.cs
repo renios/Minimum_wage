@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using Enums;
+using UnityEngine.Analytics;
 using UnityEngine.UI;
 
 public class CustomerManager : MonoBehaviour {
@@ -69,13 +70,9 @@ public class CustomerManager : MonoBehaviour {
 	}
 
 	public void RemoveCustomerByTimeout(int indexInArray) {
-		if (tutorialManager != null) {
-			if (tutorialManager.tutorialStep == 10) {
-				tutorialManager.tutorialStep += 1;
-			}
-			else if (tutorialManager.tutorialStep == 12 || tutorialManager.tutorialStep == 13) {
-				tutorialManager.tutorialStep = 14;
-			}
+		if (tutorialManager != null && 
+		    (tutorialManager.tutorialStep == 14 || tutorialManager.tutorialStep == 18)) {
+			tutorialManager.tutorialStep += 1;
 		}
 
 		Customer customer = currentWaitingCustomers[indexInArray];
@@ -103,10 +100,6 @@ public class CustomerManager : MonoBehaviour {
 		StartCoroutine(missionManager.TextAnimation(missionManager.coinText));
 	}
 
-	public void TutorialEnd() {
-		tutorialManager.tutorialStep = 14;
-	}
-
 	public void RemoveCustomerByMatching(int indexInArray, float delay) {
 		var currentWaitingTime = currentWaitingCustomers[indexInArray].GetRateOfWatingTime();
 		currentWaitingCustomers[indexInArray].isServeCompleted = true;
@@ -119,8 +112,8 @@ public class CustomerManager : MonoBehaviour {
 		StartCoroutine(missionManager.TextAnimation(missionManager.customerText));
 		AddCoinAmount(currentWaitingTime);
 
-		if (tutorialManager != null && tutorialManager.tutorialStep >= 12) {
-			TutorialEnd();
+		if (tutorialManager != null && tutorialManager.tutorialStep == 18) {
+			tutorialManager.tutorialStep += 1;
 		}
 	}
 
