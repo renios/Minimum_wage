@@ -7,6 +7,7 @@ using DG.Tweening;
 public class RabbitCatalogManager : MonoBehaviour {
 
 	public GameObject catalogPanel;
+	public GameObject catalogButton;
 	public RabbitInfoScrollView rabbitInfoScrollView;
 	public RectTransform[] tableRabbitRectTransform;
 	public List<GameObject> catalogCells;
@@ -58,6 +59,11 @@ public class RabbitCatalogManager : MonoBehaviour {
 	void Initialize()
 	{
 		int unlockProgress = PlayerPrefs.GetInt("UnlockProgress", 1);
+		
+		if (unlockProgress < 2)
+			catalogButton.SetActive(false);
+		else
+			catalogButton.SetActive(true);
 
 		catalogCells.ForEach(cell => cell.SetActive(false));
 		

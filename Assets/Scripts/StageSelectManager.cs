@@ -21,6 +21,8 @@ public class StageSelectManager : MonoBehaviour {
 	public Text starCountTextAtPossiblePanel;
 	public Image openWorld2PanelBg;
 	public GameObject openWorld2Panel;
+	public Image menuPanelBg;
+	public GameObject menuPanel;
 	public GameObject signToWorld2;
 
 	StarManager starManager;
@@ -58,6 +60,25 @@ public class StageSelectManager : MonoBehaviour {
 		}
 	}
 
+	public void ShowMenuPanel() {
+		SoundManager.Play(SoundType.Button);
+		menuPanelBg.raycastTarget = true;
+		
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		float delay = 0.5f;
+		menuPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		menuPanelBg.DOFade(0.4f, delay);
+	}
+
+	public void HideMenuPanel() {
+		SoundManager.Play(SoundType.Button);
+		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
+		float delay = 0.5f;
+		menuPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		menuPanelBg.DOFade(0, delay);
+		menuPanelBg.raycastTarget = false;
+	}
+	
 	public void ShowMissionPanel(int stageIndex) {
 		SoundManager.Play(SoundType.Button);
 		missionPanelBg.raycastTarget = true;
