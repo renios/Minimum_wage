@@ -82,6 +82,9 @@ public class StageSelectManager : MonoBehaviour {
 	public void ShowMissionPanel(int stageIndex) {
 		SoundManager.Play(SoundType.Button);
 		missionPanelBg.raycastTarget = true;
+
+		StartCoroutine(FindObjectOfType<WorldTutorial>().ShowMissionPanelTutorial());
+		
 		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
 		MissionData.SetMissionData(stageIndex, missionDataDict);

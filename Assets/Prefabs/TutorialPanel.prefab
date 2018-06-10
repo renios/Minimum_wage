@@ -141,6 +141,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: ed8967e73137543b5af8c9d4fb56a2c2, type: 3}
   currentImage: {fileID: 114491721282177486}
   bgImage: {fileID: 114500102782469026}
+  catalogBlockPanel: {fileID: 0}
+  catalogArrow: {fileID: 0}
+  catalogOpenedInTutorial: 0
 --- !u!222 &222372134272478090
 CanvasRenderer:
   m_ObjectHideFlags: 1

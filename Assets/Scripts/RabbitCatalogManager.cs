@@ -15,6 +15,12 @@ public class RabbitCatalogManager : MonoBehaviour {
 	public void ShowCatalog()
 	{
 		SoundManager.Play(SoundType.Button);
+
+		if (FindObjectOfType<WorldTutorial>() != null)
+		{
+			FindObjectOfType<WorldTutorial>().catalogOpenedInTutorial = true;
+		}
+		
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		float delay = 0.5f;
 		catalogPanel.GetComponent<RectTransform>().DOMove(endPos, delay);

@@ -1,7 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +12,11 @@ public class WorldTutorial : MonoBehaviour
 	public Image currentImage;
 	public Image bgImage;
 
+	public Image catalogBlockPanel;
+	public Image catalogArrow;
+
+	public bool catalogOpenedInTutorial;
+
 	IEnumerator ShowWorldTutorial()
 	{
 		currentImage.enabled = true;
@@ -22,7 +25,7 @@ public class WorldTutorial : MonoBehaviour
 		foreach (var image in WorldTutorialImages)
 		{
 			currentImage.sprite = image;
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(3);
 		}
 
 		PlayerPrefs.SetInt("WorldTutorialFinished", 1);
@@ -30,15 +33,15 @@ public class WorldTutorial : MonoBehaviour
 		currentImage.enabled = false;
 	}
 
-	IEnumerator ShowMissionPanelTutorial()
+	public IEnumerator ShowMissionPanelTutorial()
 	{
 		currentImage.enabled = true;
 		bgImage.enabled = true;
-		
+
 		foreach (var image in MissionPanelTutorialImages)
 		{
 			currentImage.sprite = image;
-			yield return new WaitForSeconds(2);
+			yield return new WaitForSeconds(3);
 		}
 
 		PlayerPrefs.SetInt("MissionPanelTutorialFinished", 1);
@@ -48,13 +51,31 @@ public class WorldTutorial : MonoBehaviour
 	
 	IEnumerator ShowCatalogTutorial()
 	{
+		catalogOpenedInTutorial = false;
 		currentImage.enabled = true;
 		bgImage.enabled = true;
-		
-		foreach (var image in CatalogTutorialImages)
+
+		var images = CatalogTutorialImages.Count;
+		for (int index = 0; index < images; index++)
 		{
-			currentImage.sprite = image;
-			yield return new WaitForSeconds(2);
+			if (index == 1)
+			{
+				currentImage.enabled = false;
+				bgImage.enabled = false;
+				catalogBlockPanel.enabled = true;
+				catalogArrow.enabled = true;
+				while (!catalogOpenedInTutorial)
+				{
+					yield return null;
+				}
+				catalogArrow.enabled = false;
+				catalogBlockPanel.enabled = false;
+				bgImage.enabled = true;
+				currentImage.enabled = true;
+			}
+
+			currentImage.sprite = CatalogTutorialImages[index];
+			yield return new WaitForSeconds(3);
 		}
 
 		PlayerPrefs.SetInt("CatalogTutorialFinished", 1);
@@ -70,22 +91,11 @@ public class WorldTutorial : MonoBehaviour
 			StartCoroutine(ShowWorldTutorial());
 			return;
 		}
-
-//		if (PlayerPrefs.GetInt("MissionPanelTutorialFinished", 0) == 0)
-//		{
-//			StartCoroutine(ShowMissionPanelTutorial());
-//			return;	
-//		}
 		
 		if (PlayerPrefs.GetInt("CatalogTutorialFinished", 0) == 0)
 		{
 			StartCoroutine(ShowCatalogTutorial());
 			return;	
 		}
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
 	}
 }
