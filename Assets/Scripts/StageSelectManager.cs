@@ -240,6 +240,9 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TrayReset", 0);
 
 		PlayerPrefs.SetInt("TutorialFinished", 0);
+		PlayerPrefs.SetInt("WorldTutorialFinished", 0);
+		PlayerPrefs.SetInt("MissionPanelTutorialFinished", 0);
+		PlayerPrefs.SetInt("CatalogTutorialFinished", 0);
 		SceneManager.LoadScene("World_tutorial");
 	}
 

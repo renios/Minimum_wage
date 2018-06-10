@@ -185,7 +185,7 @@ public class TutorialManager : MonoBehaviour {
 
 	void UpdateTrayHighlight()
 	{
-		if (tutorialStep > 19) return;
+		if (tutorialStep > 18) return;
 		if (beforeTutorialStep == tutorialStep) return;
 		
 		arrowObj.SetActive(false);
