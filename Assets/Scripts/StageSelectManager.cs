@@ -225,6 +225,10 @@ public class StageSelectManager : MonoBehaviour {
 		{
 			Application.Quit();
 		}
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+			PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+		}
 	}
 
 	public void ResetProgress() {
