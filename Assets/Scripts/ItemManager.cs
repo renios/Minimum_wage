@@ -17,6 +17,7 @@ public class ItemManager : MonoBehaviour {
     public ParticleSystem ResetTrayItemEffect;
     public GameObject OpenBin;
     public GameObject ClosedBin;
+    public GameObject makeSuperfoodEffectPrefab;
 
     public Material grayScale;
 
@@ -28,7 +29,6 @@ public class ItemManager : MonoBehaviour {
 
     void Start () {
         trayManager = FindObjectOfType<TrayManager>();
-        feverManager = FindObjectOfType<FeverManager>();
         customerManager = FindObjectOfType<CustomerManager>();
         gameStateManager = FindObjectOfType<GameStateManager>();
 
@@ -110,7 +110,7 @@ public class ItemManager : MonoBehaviour {
         {
             Vector3 endPos = newSuperfood.transform.position;
             GameObject makeSuperfoodEffect = 
-                Instantiate(feverManager.makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
+                Instantiate(makeSuperfoodEffectPrefab, MakeSuperfoodItemButton.transform.position, Quaternion.identity);
             SoundManager.Play(SoundType.ItemSuperFood);
             yield return StartCoroutine(makeSuperfoodEffect.GetComponent<MakeSuperfoodAnim>().StartAnim(MakeSuperfoodItemButton.transform.position, endPos));
         }
