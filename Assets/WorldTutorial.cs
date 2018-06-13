@@ -92,7 +92,8 @@ public class WorldTutorial : MonoBehaviour
 			return;
 		}
 		
-		if (PlayerPrefs.GetInt("CatalogTutorialFinished", 0) == 0)
+		if (PlayerPrefs.GetInt("PlayProgress", 0) > 0 && 
+		    PlayerPrefs.GetInt("CatalogTutorialFinished", 0) == 0)
 		{
 			StartCoroutine(ShowCatalogTutorial());
 			return;	

@@ -83,7 +83,8 @@ public class StageSelectManager : MonoBehaviour {
 		SoundManager.Play(SoundType.Button);
 		missionPanelBg.raycastTarget = true;
 
-		StartCoroutine(FindObjectOfType<WorldTutorial>().ShowMissionPanelTutorial());
+		if (PlayerPrefs.GetInt("MissionPanelTutorialFinished", 0) != 1)
+			StartCoroutine(FindObjectOfType<WorldTutorial>().ShowMissionPanelTutorial());
 		
 		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
@@ -230,6 +231,7 @@ public class StageSelectManager : MonoBehaviour {
 		Debug.Log("Progress reset to 1");
 		PlayerPrefs.SetInt("Progress", 1);
 		PlayerPrefs.SetInt("UnlockProgress", 1);
+		PlayerPrefs.SetInt("PlayProgress", 0);
 		PlayerPrefs.SetInt("WorldOpenProgress", 1);
 
 		UpdateSignToWorld2Panel();
@@ -252,6 +254,7 @@ public class StageSelectManager : MonoBehaviour {
 	public void BeforeOpenWorld2() {
 		Debug.Log("Progress reset to 10");
 		PlayerPrefs.SetInt("Progress", 11);
+		PlayerPrefs.SetInt("PlayProgress", 10);
 		PlayerPrefs.SetInt("UnlockProgress", 10);
 		PlayerPrefs.SetInt("WorldOpenProgress", 1);
 

@@ -64,36 +64,36 @@ public class RabbitCatalogManager : MonoBehaviour {
 
 	void Initialize()
 	{
-		int unlockProgress = PlayerPrefs.GetInt("UnlockProgress", 1);
+		int playProgress = PlayerPrefs.GetInt("PlayProgress", 0);
 		
-		if (unlockProgress < 2)
+		if (playProgress < 1)
 			catalogButton.SetActive(false);
 		else
 			catalogButton.SetActive(true);
 
 		catalogCells.ForEach(cell => cell.SetActive(false));
 		
-		if (unlockProgress >= 1)
+		if (playProgress >= 1)
 			catalogCells[0].SetActive(true);
-		if (unlockProgress >= 2)
+		if (playProgress >= 2)
 			catalogCells[1].SetActive(true);
-		if (unlockProgress >= 3)
+		if (playProgress >= 3)
 			catalogCells[2].SetActive(true);
-		if (unlockProgress >= 4)
+		if (playProgress >= 4)
 			catalogCells[3].SetActive(true);
-		if (unlockProgress >= 5)
+		if (playProgress >= 5)
 			catalogCells[4].SetActive(true);
-		if (unlockProgress >= 7)
+		if (playProgress >= 7)
 			catalogCells[5].SetActive(true);
-		if (unlockProgress >= 9)
+		if (playProgress >= 9)
 			catalogCells[6].SetActive(true);
-		if (unlockProgress >= 12)
+		if (playProgress >= 12)
 			catalogCells[7].SetActive(true);
-		if (unlockProgress >= 13)
+		if (playProgress >= 13)
 			catalogCells[8].SetActive(true);
-		if (unlockProgress >= 14)
+		if (playProgress >= 14)
 			catalogCells[9].SetActive(true);
-		if (unlockProgress >= 16)
+		if (playProgress >= 16)
 			catalogCells[10].SetActive(true);
 	}
 

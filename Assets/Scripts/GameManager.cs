@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
 		}
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageOver);
+		UpdatePlayProgress();
 		gameEndCanvas.SetActive(true);
 		gameEndBGPanel.raycastTarget = true;
 		Vector3 startPos = new Vector3(0, 19.2f, 0);
@@ -62,6 +63,7 @@ public class GameManager : MonoBehaviour {
 	public IEnumerator ShowClearCanvas() {
 		isPlaying = false;
 		SoundManager.Play(MusicType.StageClear);
+		UpdatePlayProgress();
 		gameEndCanvas.SetActive(true);
 		gameEndBGPanel.raycastTarget = true;
 		starObjects.ToList().ForEach(star => {
@@ -77,6 +79,15 @@ public class GameManager : MonoBehaviour {
 		yield return tw.WaitForCompletion();
 		yield return StartCoroutine(ShowStars());
 		isAllEnd = true;
+	}
+
+	void UpdatePlayProgress()
+	{
+		if (FindObjectOfType<TutorialManager>() != null) return;
+
+		var currentPlayProgress = PlayerPrefs.GetInt("PlayProgress", 0);
+		if (currentPlayProgress < MissionData.stageIndex)
+			PlayerPrefs.SetInt("PlayProgress", MissionData.stageIndex);
 	}
 
 	void UpdateStarsOfStage(int numberOfStars) {
