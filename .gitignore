@@ -1,5 +1,4 @@
 # =============== #
-#
 # Unity generated #
 # =============== #
 Temp/
@@ -46,4 +45,6 @@ ehthumbs.db
 
 # etc
 *.numbers*
-*workspace.xml
+*.xml*
+.idea/
+.idea/.idea.Minimum_wage/.idea/workspace.xml

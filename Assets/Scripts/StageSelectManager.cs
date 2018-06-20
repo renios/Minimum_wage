@@ -21,6 +21,8 @@ public class StageSelectManager : MonoBehaviour {
 	public Text starCountTextAtPossiblePanel;
 	public Image openWorld2PanelBg;
 	public GameObject openWorld2Panel;
+	public Image menuPanelBg;
+	public GameObject menuPanel;
 	public GameObject signToWorld2;
 
 	StarManager starManager;
@@ -48,14 +50,42 @@ public class StageSelectManager : MonoBehaviour {
 				openWorld2Button.GetComponent<Button>().enabled = false;
 				openWorld2Button.GetComponent<Animator>().enabled = false;
 			}
+			else
+			{
+				openWorld2Button.GetComponent<Button>().enabled = true;
+				openWorld2Button.GetComponent<Animator>().enabled = true;
+			}
 			openWorld2ButtonBg.GetComponent<Image>().enabled = true;
 			openWorld2Button.transform.DOLocalMove(new Vector3(0, 0, 0), 0);
 		}
 	}
 
+	public void ShowMenuPanel() {
+		SoundManager.Play(SoundType.Button);
+		menuPanelBg.raycastTarget = true;
+		
+		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
+		float delay = 0.5f;
+		menuPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		menuPanelBg.DOFade(0.4f, delay);
+	}
+
+	public void HideMenuPanel() {
+		SoundManager.Play(SoundType.Button);
+		Vector3 endPos = new Vector3(Screen.width/2, -Screen.height/2, 0);
+		float delay = 0.5f;
+		menuPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
+		menuPanelBg.DOFade(0, delay);
+		menuPanelBg.raycastTarget = false;
+	}
+	
 	public void ShowMissionPanel(int stageIndex) {
 		SoundManager.Play(SoundType.Button);
 		missionPanelBg.raycastTarget = true;
+
+		if (PlayerPrefs.GetInt("MissionPanelTutorialFinished", 0) != 1)
+			StartCoroutine(FindObjectOfType<WorldTutorial>().ShowMissionPanelTutorial());
+		
 		MissionData.Initialize();
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.LoadMissionDataDict(stageIndex);
 		MissionData.SetMissionData(stageIndex, missionDataDict);
@@ -195,12 +225,17 @@ public class StageSelectManager : MonoBehaviour {
 		{
 			Application.Quit();
 		}
+		if(Input.GetKeyDown(KeyCode.S))
+		{
+			PlayerPrefs.SetInt("Superfood", PlayerPrefs.GetInt("Superfood", 0) + 1);
+		}
 	}
 
 	public void ResetProgress() {
 		Debug.Log("Progress reset to 1");
 		PlayerPrefs.SetInt("Progress", 1);
 		PlayerPrefs.SetInt("UnlockProgress", 1);
+		PlayerPrefs.SetInt("PlayProgress", 0);
 		PlayerPrefs.SetInt("WorldOpenProgress", 1);
 
 		UpdateSignToWorld2Panel();
@@ -214,13 +249,16 @@ public class StageSelectManager : MonoBehaviour {
 		PlayerPrefs.SetInt("TrayReset", 0);
 
 		PlayerPrefs.SetInt("TutorialFinished", 0);
-
+		PlayerPrefs.SetInt("WorldTutorialFinished", 0);
+		PlayerPrefs.SetInt("MissionPanelTutorialFinished", 0);
+		PlayerPrefs.SetInt("CatalogTutorialFinished", 0);
 		SceneManager.LoadScene("World_tutorial");
 	}
 
 	public void BeforeOpenWorld2() {
 		Debug.Log("Progress reset to 10");
 		PlayerPrefs.SetInt("Progress", 11);
+		PlayerPrefs.SetInt("PlayProgress", 10);
 		PlayerPrefs.SetInt("UnlockProgress", 10);
 		PlayerPrefs.SetInt("WorldOpenProgress", 1);
 

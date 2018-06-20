@@ -7,18 +7,25 @@ using DG.Tweening;
 public class RabbitCatalogManager : MonoBehaviour {
 
 	public GameObject catalogPanel;
+	public GameObject catalogButton;
 	public RabbitInfoScrollView rabbitInfoScrollView;
-	public RabbitTableScrollView rabbitTableScrollView;
 	public RectTransform[] tableRabbitRectTransform;
+	public List<GameObject> catalogCells;
 
 	public void ShowCatalog()
 	{
 		SoundManager.Play(SoundType.Button);
+
+		if (FindObjectOfType<WorldTutorial>() != null)
+		{
+			FindObjectOfType<WorldTutorial>().catalogOpenedInTutorial = true;
+		}
+		
 		Vector3 endPos = new Vector3(Screen.width/2, Screen.height/2, 0);
 		float delay = 0.5f;
 		catalogPanel.GetComponent<RectTransform>().DOMove(endPos, delay);
 		rabbitInfoScrollView.Initialize();
-		rabbitTableScrollView.Initialize();
+		Initialize();
 	}
 
 	public void HideCatalog()
@@ -53,14 +60,47 @@ public class RabbitCatalogManager : MonoBehaviour {
 		{
 			wallNumber = (wallName[11] - 48)*10 + wallName[12] - 48;
 		}
-		rabbitTableScrollView.scrollContent.anchoredPosition
-			= new Vector2(-(wallNumber - 1) * 2160 - tableRabbitRectTransform[index].anchoredPosition.x + padding, 0);
+	}
+
+	void Initialize()
+	{
+		int playProgress = PlayerPrefs.GetInt("PlayProgress", 0);
+		
+		if (playProgress < 1)
+			catalogButton.SetActive(false);
+		else
+			catalogButton.SetActive(true);
+
+		catalogCells.ForEach(cell => cell.SetActive(false));
+		
+		if (playProgress >= 1)
+			catalogCells[0].SetActive(true);
+		if (playProgress >= 2)
+			catalogCells[1].SetActive(true);
+		if (playProgress >= 3)
+			catalogCells[2].SetActive(true);
+		if (playProgress >= 4)
+			catalogCells[3].SetActive(true);
+		if (playProgress >= 5)
+			catalogCells[4].SetActive(true);
+		if (playProgress >= 7)
+			catalogCells[5].SetActive(true);
+		if (playProgress >= 9)
+			catalogCells[6].SetActive(true);
+		if (playProgress >= 12)
+			catalogCells[7].SetActive(true);
+		if (playProgress >= 13)
+			catalogCells[8].SetActive(true);
+		if (playProgress >= 14)
+			catalogCells[9].SetActive(true);
+		if (playProgress >= 16)
+			catalogCells[10].SetActive(true);
 	}
 
 	// Use this for initialization
 	void Start () {
 		rabbitInfoScrollView = FindObjectOfType<RabbitInfoScrollView>();
-		rabbitTableScrollView = FindObjectOfType<RabbitTableScrollView>();
+		Initialize();
 	}
 	
 	// Update is called once per frame

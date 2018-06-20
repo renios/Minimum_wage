@@ -22,6 +22,7 @@ public class VolumeOfSoundChanger : MonoBehaviour {
 		if (isForMusic) SoundManager.SetVolumeOfMusicPlayer(value);
 		else SoundManager.SetVolumeOfSoundPlayer(value);
 	}
+
 	bool InitialValue(){
 		if(isForMusic){
 			if (SoundPlayer.musicVolume > 0.5f) return true;
