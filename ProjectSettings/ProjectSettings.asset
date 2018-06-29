@@ -244,8 +244,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: 
-  AndroidKeyaliasName: 
+  AndroidKeystoreName: /Users/Reny/Downloads/myandroid.keystore
+  AndroidKeyaliasName: mykeystore
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   AndroidEnableTango: 0
@@ -261,7 +261,7 @@ PlayerSettings:
   - m_BuildTarget: 
     m_Icons:
     - serializedVersion: 2
-      m_Icon: {fileID: 2800000, guid: 793c51db6f68c9e4d8be2a43fc37237a, type: 3}
+      m_Icon: {fileID: 2800000, guid: 51b0db5c112969d468b0673db3d45690, type: 3}
       m_Width: 128
       m_Height: 128
       m_Kind: 0
