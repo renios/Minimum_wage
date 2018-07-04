@@ -15,6 +15,10 @@ public class BgSetter : MonoBehaviour {
 		Dictionary<MissionDataType, int> missionDataDict = MissionData.GetMissionDataDict();
 		int stageIndex = missionDataDict[MissionDataType.StageIndex];
 
+		if(FindObjectOfType<TutorialManager>() != null) {
+			spriteRender.sprite = world1;
+		}
+
 		if (stageIndex < 11) {
 			spriteRender.sprite = world1;
 		}
