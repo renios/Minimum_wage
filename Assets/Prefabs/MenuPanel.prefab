@@ -56,7 +56,6 @@ GameObject:
   - component: {fileID: 224630595502430108}
   - component: {fileID: 114394434007808024}
   - component: {fileID: 114557080851600312}
-  - component: {fileID: 114169979285177018}
   m_Layer: 5
   m_Name: Toggle
   m_TagString: Untagged
@@ -703,18 +702,6 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: "\uB9CC\uB4E0 \uC0AC\uB78C\uB4E4"
---- !u!114 &114169979285177018
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1114088428729524}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b110420e32420d742ab0c96592dfa44f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isForMusic: 0
 --- !u!114 &114197192054952122
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -784,8 +771,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114023227982792588}
-        m_MethodName: SetSound
+      - m_Target: {fileID: 114211271316386424}
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -830,7 +817,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: b666516fb6b70a84580baca31cc49382, type: 3}
-  m_Type: 1
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1061,8 +1048,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 114169979285177018}
-        m_MethodName: SetMusic
+      - m_Target: {fileID: 114557080851600312}
+        m_MethodName: SetVolume
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1239,7 +1226,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b110420e32420d742ab0c96592dfa44f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isForMusic: 0
+  isForMusic: 1
 --- !u!114 &114595754657810894
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2040,7 +2027,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000030517578, y: -2308.505}
+  m_AnchoredPosition: {x: 0, y: -2308.505}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224331376972044626
@@ -2213,8 +2200,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: -300}
+  m_AnchoredPosition: {x: 0, y: -0.00012207031}
+  m_SizeDelta: {x: 0, y: 0.00024414}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224551987680120850
 RectTransform:
